@@ -25,7 +25,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'nameProduct' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
@@ -33,7 +33,7 @@ class ProductController extends Controller
         ]);
 
         $product = new Product();
-        $product->name = $request->name;
+        $product->nameProduct = $request->nameProduct;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->quantity = $request->quantity;
@@ -58,14 +58,13 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'nameProduct' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
-            'quantity' => 'required|integer',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $product->name = $request->name;
+        $product->nameProduct = $request->nameProduct;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->quantity = $request->quantity;

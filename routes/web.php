@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\AdminPointController;
+
 use App\Http\Controllers\Admin\ProductController;
 
 /*
@@ -13,10 +16,16 @@ use App\Http\Controllers\Admin\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+// Route::prefix('admin')->name('admin.')->group(function () {
+//     Route::resource('points', AdminPointController::class);
+// });
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class);
+    Route::resource('points', AdminPointController::class);
 });
+
+Route::resource('promotions', PromotionController::class);

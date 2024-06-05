@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BlockController;
+use App\Http\Controllers\BlogController;
 
 
 /*
@@ -19,12 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::prefix('admin')->group(function(){
-    Route::get('block/show',[BlockController::class,'show'])->name('show-block');
-    Route::get('block/add',[BlockController::class,'add'])->name('add-block');
-    Route::post('block/add',[BlockController::class,'handleAdd'])->name('handleAdd-block');
-    Route::get('block/edit/{id}',[BlockController::class,'edit'])->name('edit-block');
-    Route::post('block/edit/{id}',[BlockController::class,'handleEdit'])->name('handleEdit-block');
-    Route::get('block/delete/{id}',[BlockController::class,'delete'])->name('delete-block');
+    Route::get('blog/show',[BlogController::class,'show'])->name('show-blog');
+    Route::get('blog/add',[BlogController::class,'add'])->name('add-blog');
+    Route::post('blog/add',[BlogController::class,'handleAdd'])->name('handleAdd-blog');
+    Route::get('blog/edit/{id}',[BlogController::class,'edit'])->name('edit-blog');
+    Route::post('blog/edit/{id}',[BlogController::class,'handleEdit'])->name('handleEdit-blog');
+    Route::get('blog/delete/{id}',[BlogController::class,'delete'])->name('delete-blog');
 
 });
 

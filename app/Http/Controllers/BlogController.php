@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\BlockRequest;
-use App\Models\Block;
+use App\Http\Requests\BlogRequest;
+use App\Models\Blog;
 
-class BlockController extends Controller
+class BlogController extends Controller
 {
     public function show(){
-        $block = DB::table('block')->select('id', 'image', 'title', 'content')->get();
-        return view('admin.block.show', compact('block'));
+        $blog = DB::table('blog')->select('id', 'image', 'title', 'content')->get();
+        return view('admin.blog.show', compact('blog'));
     }
 
     public function add(){
-        return view('admin.block.add');
+        return view('admin.blog.add');
     }
 
     public function handleAdd(Request $request){
@@ -28,7 +28,7 @@ class BlockController extends Controller
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('uploads'), $imageName);
 
-                Block::create([
+                Blog::create([
                     'image' => 'uploads/' . $imageName,
                     'title' => $title,
                     'content' => $content
@@ -36,16 +36,16 @@ class BlockController extends Controller
             }
         }
 
-        return redirect()->route('show-block');
+        return redirect()->route('show-blog');
     }
 
     public function edit($id){
-        $block = Block::findOrFail($id);
-        return view('admin.block.edit', compact('block'));
+        $blog = Blog::findOrFail($id);
+        return view('admin.blog.edit', compact('blog'));
     }
 
     public function handleEdit(Request $request, $id){
-        $block = Block::findOrFail($id);
+        $blog = Blog::findOrFail($id);
 
         if($request->isMethod('POST')){
             $data = $request->only(['title', 'content']);
@@ -57,16 +57,16 @@ class BlockController extends Controller
                 $data['image'] = 'uploads/' . $imageName;
             }
 
-            $block->update($data);
+            $blog->update($data);
         }
 
-        return redirect()->route('show-block');
+        return redirect()->route('show-blog');
     }
 
     public function delete($id){
-        $block = Block::findOrFail($id);
-        $block->delete();
-        return redirect()->route('show-block');
+        $blog = Blog::findOrFail($id);
+        $blog->delete();
+        return redirect()->route('show-blog');
     }
 }
 

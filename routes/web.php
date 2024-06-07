@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\AdminPointController;
 
 use App\Http\Controllers\Admin\ProductController;
+
 use App\Http\Controllers\BlogController;
 
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +24,18 @@ use App\Http\Controllers\BlogController;
 // Route::prefix('admin')->name('admin.')->group(function () {
 //     Route::resource('points', AdminPointController::class);
 // });
+
 Route::get('/', function () {
     return view('welcome');
 });
 
+// crud product
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('points', AdminPointController::class);
 });
 
+// crud voucher and point
 Route::resource('promotions', PromotionController::class);
 Route::prefix('admin')->group(function(){
     Route::get('blog/show',[BlogController::class,'show'])->name('show-blog');
@@ -42,6 +47,5 @@ Route::prefix('admin')->group(function(){
 
 });
 
-
-
+// crud category
 Route::resource('categories', CategoryController::class);

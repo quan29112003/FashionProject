@@ -9,13 +9,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('product_images', function (Blueprint $table) {
-            $table->id();
-            $table->string('url');
-            $table->unsignedBigInteger('productID');
-            $table->timestamps();
+            $table->id(); // Primary key 'id'
+            $table->string('url'); // Image URL
+            $table->unsignedBigInteger('productID'); // Foreign key to 'products' table
+            $table->timestamps(); // Timestamps: 'created_at' and 'updated_at'
 
-            // Thiết lập khóa ngoại
-            $table->foreign('productID')->references('id')->on('products')->onDelete('cascade');
+            // Set up foreign key constraint
+            $table->foreign('productID')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade'); // Cascade delete
+
         });
     }
 

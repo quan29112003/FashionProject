@@ -1,28 +1,41 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateProductImagesTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('categoryID');
-            $table->string('nameProduct');
-            $table->text('description')->nullable();
-            $table->decimal('price', 8, 2);
-            $table->timestamps();
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->id(); // Primary key 'id'
+            $table->string('url'); // Image URL
+            $table->unsignedBigInteger('productID'); // Foreign key to 'products' table
+            $table->timestamps(); // Timestamps: 'created_at' and 'updated_at'
 
-            // Thiết lập khóa ngoại
-            $table->foreign('categoryID')->references('id')->on('categories')->onDelete('cascade');
+            // Set up foreign key constraint
+            $table->foreign('productID')
+                  ->references('id')
+                  ->on('products')
+                  ->onDelete('cascade'); // Cascade delete
+
+            // Optionally add an index for performance
+            $table->index('productID');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('product_images');
     }
-};
+}

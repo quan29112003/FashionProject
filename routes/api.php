@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +11,9 @@ use App\Http\Controllers\Api\ProductImageController;
 use App\Http\Controllers\Api\ProductColorController;
 use App\Http\Controllers\Api\ProductSizeController;
 use App\Http\Controllers\Api\BlogController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CartItemController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoucherController;
 
 /*
@@ -52,3 +54,7 @@ Route::post('addvouchers', [VoucherController::class, 'store']); // Tạo mới 
 Route::get('vouchers/{id}', [VoucherController::class, 'show']); // Lấy thông tin voucher theo id
 Route::put('vouchers/{id}', [VoucherController::class, 'update']); // Cập nhật thông tin voucher theo id
 Route::delete('vouchers/{id}', [VoucherController::class, 'destroy']); // Xóa voucher theo id
+
+// cart
+Route::get('/carts/{cartId}/items', [CartItemController::class, 'showByCart']);
+Route::resource('carts', CartController::class);

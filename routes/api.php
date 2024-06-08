@@ -34,12 +34,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // user
 Route::resource('users', UserController::class);
 
+// blog
 Route::apiResource('categories', CategoryController::class);
+
 Route::apiResource('products', ProductController::class);
-Route::apiResource('product-variants', ProductVariantController::class);
-Route::apiResource('product-images', ProductImageController::class);
-Route::apiResource('product-colors', ProductColorController::class);
-Route::apiResource('product-sizes', ProductSizeController::class);
+
+Route::prefix('products/{product}')->group(function () {
+    Route::apiResource('variants', ProductVariantController::class);
+});
+
+Route::apiResource('images', ProductImageController::class);
+Route::apiResource('colors', ProductColorController::class);
+Route::apiResource('sizes', ProductSizeController::class);
+
 
 // Route::apiResource('blog', BlogController::class);
 

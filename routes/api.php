@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoryController;
@@ -24,6 +26,10 @@ use App\Http\Controllers\Api\BlogController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// user
+Route::resource('users', UserController::class);
+
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('product-variants', ProductVariantController::class);
@@ -38,3 +44,4 @@ Route::post('blog', [BlogController::class, 'store']);
 Route::get('blog/{id}', [BlogController::class, 'show']);
 Route::put('blog/{id}', [BlogController::class, 'update']);
 Route::delete('blog/{id}', [BlogController::class, 'destroy']);
+

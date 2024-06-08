@@ -12,6 +12,17 @@ class Product extends Model
         'nameProduct',
         'description',
         'price',
-        'image'
+        'quantity'
+
     ];
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class, 'productID');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'productID');
+    }
 }

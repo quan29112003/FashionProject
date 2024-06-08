@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\ProductSizeController;
 use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CartItemController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoucherController;
 
@@ -61,4 +63,11 @@ Route::delete('vouchers/{id}', [VoucherController::class, 'destroy']); // Xóa v
 
 // cart
 Route::get('/carts/{cartId}/items', [CartItemController::class, 'showByCart']);
-Route::resource('carts', CartController::class);
+
+Route::apiresource('carts', CartController::class);
+
+Route::apiresource('orders', OrderController::class);
+
+Route::prefix('orders/{orderID}')->group(function () {
+    Route::apiResource('order-items', OrderItemController::class);
+});

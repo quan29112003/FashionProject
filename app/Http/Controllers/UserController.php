@@ -33,15 +33,20 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Tìm người dùng theo ID
         $user = User::findOrFail($id);
-
+    
+        // Xác thực yêu cầu, chỉ cho phép các trường 'role' và 'type'
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'role' => 'required|string',
+            'type' => 'required|string',
         ]);
-
-        $user->update($request->all());
-
+    
+        // Cập nhật trường 'role' và 'type'
+        $user->update($request->only(['role', 'type']));
+    
+        // Trả về phản hồi JSON với dữ liệu người dùng được cập nhật
         return response()->json($user, 200);
     }
+
 }

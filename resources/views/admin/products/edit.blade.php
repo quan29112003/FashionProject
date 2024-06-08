@@ -7,7 +7,7 @@
         @method('PUT')
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" class="form-control" value="{{ $product->name }}" required>
+            <input type="text" id="nameProduct" name="nameProduct" class="form-control" value="{{ $product->name }}" required>
         </div>
         <div class="form-group">
             <label for="description">Description:</label>

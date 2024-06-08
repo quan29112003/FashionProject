@@ -6,7 +6,7 @@
         @csrf
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" class="form-control" required>
+            <input type="text" id="nameProduct" name="nameProduct" class="form-control" required>
         </div>
         <div class="form-group">
             <label for="description">Description:</label>

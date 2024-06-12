@@ -24,6 +24,7 @@ function ProductDetail({ match }) {
             <p>{product.description}</p>
             <p>Price: {product.price}</p>
             <p>Category: {product.categoryID}</p>
+            <Link to={`/products/${id}/variants/new`}>Add Variant</Link>
         </div>
     );
 }

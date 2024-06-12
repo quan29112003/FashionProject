@@ -70,9 +70,9 @@ class ProductVariantController extends Controller
         //     'price' => 'required|numeric',
         //     'type' => 'required|string|max:255'
         // ]);
-        foreach($data as $item){
-            ProductVariant::create($item);
-        }
+        // foreach($data as $item){
+            ProductVariant::create($data);
+
 
         return response()->json(['message' => 'Product variant created'],201);
     }

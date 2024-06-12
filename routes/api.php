@@ -50,7 +50,7 @@ Route::apiResource('product-sizes', ProductSizeController::class);
 // Route::apiResource('blog', BlogController::class);
 
 Route::get('blog', [BlogController::class, 'index']);
-Route::post('blog', [BlogController::class, 'store']);
+Route::post('blog', [BlogController::class, 'storeMultiple']);
 Route::get('blog/{id}', [BlogController::class, 'show']);
 Route::put('blog/{id}', [BlogController::class, 'update']);
 Route::delete('blog/{id}', [BlogController::class, 'destroy']);

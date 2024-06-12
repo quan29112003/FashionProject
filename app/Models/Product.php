@@ -19,7 +19,7 @@ class Product extends Model
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class, 'productID');
+        return $this->hasMany(ProductVariant::class, 'product_id');
     }
 
     public function images()
@@ -29,6 +29,6 @@ class Product extends Model
 
     public function image()
     {
-        return $this->hasOne(ProductImage::class, 'productID')->where('is_primary', true);
+        return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
     }
 }

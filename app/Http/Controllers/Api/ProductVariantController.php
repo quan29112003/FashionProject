@@ -14,7 +14,7 @@ class ProductVariantController extends Controller
     public function index(Request $request)
     {
         // Lấy productID từ request
-        $productID = $request->query('productID');
+        $productID = $request->query('product_id');
 
         // Kiểm tra xem productID có tồn tại trong request không
         if (!$productID) {
@@ -24,7 +24,7 @@ class ProductVariantController extends Controller
         }
 
         // Lấy danh sách ProductVariant theo productID
-        $productVariants = ProductVariant::where('productID', $productID)
+        $productVariants = ProductVariant::where('product_id', $productID)
             ->with('color', 'size')
             ->get();
 
@@ -37,29 +37,44 @@ class ProductVariantController extends Controller
     public function store(Request $request, $productID)
     {
         // Xác thực dữ liệu request
-        $validatedData = $request->validate([
-            'colorID' => 'required|exists:product_colors,id',
-            'sizeID' => 'required|exists:product_sizes,id',
-            'quantity' => 'required|integer',
-            'price' => 'required|numeric',
-            'type' => 'required|string|max:255',
-        ]);
+        // $validatedData = $request->validate([
+        //     'colorID' => 'required|exists:product_colors,id',
+        //     'sizeID' => 'required|exists:product_sizes,id',
+        //     'quantity' => 'required|integer',
+        //     'price' => 'required|numeric',
+        //     'type' => 'required|string|max:255',
+        // ]);
 
-        // Tạo mới ProductVariant và gán productID từ đường dẫn
-        $productVariant = new ProductVariant([
-            'productID' => $productID,
-            'colorID' => $validatedData['colorID'],
-            'sizeID' => $validatedData['sizeID'],
-            'quantity' => $validatedData['quantity'],
-            'price' => $validatedData['price'],
-            'type' => $validatedData['type'],
-        ]);
+        // // Tạo mới ProductVariant và gán productID từ đường dẫn
+        // $productVariant = new ProductVariant([
+        //     'productID' => $productID,
+        //     'colorID' => $validatedData['colorID'],
+        //     'sizeID' => $validatedData['sizeID'],
+        //     'quantity' => $validatedData['quantity'],
+        //     'price' => $validatedData['price'],
+        //     'type' => $validatedData['type'],
+        // ]);
 
-        // Lưu bản ghi vào cơ sở dữ liệu
-        $productVariant->save();
+        // // Lưu bản ghi vào cơ sở dữ liệu
+        // $productVariant->save();
 
-        // Trả về JSON response
-        return response()->json($productVariant, 201);
+        // // Trả về JSON response
+        // return response()->json($productVariant, 201);
+
+        $data = $request->all();
+
+        // $validatedData = $request->validate([
+        //     'colorID' => 'required|exists:product_colors,id',
+        //     'sizeID' => 'required|exists:product_sizes,id',
+        //     'quantity' => 'required|integer',
+        //     'price' => 'required|numeric',
+        //     'type' => 'required|string|max:255'
+        // ]);
+        foreach($data as $item){
+            ProductVariant::create($item);
+        }
+
+        return response()->json(['message' => 'Product variant created'],201);
     }
 
     /**
@@ -68,7 +83,7 @@ class ProductVariantController extends Controller
     public function show($product, $variant)
     {
         // Lấy ProductVariant theo productID và variantID
-        $productVariant = ProductVariant::where('productID', $product)
+        $productVariant = ProductVariant::where('product_id', $product)
             ->findOrFail($variant);
 
         return response()->json($productVariant);
@@ -80,7 +95,7 @@ class ProductVariantController extends Controller
     public function update(Request $request, ProductVariant $productVariant)
     {
         $request->validate([
-            'productID' => 'required|exists:products,id',
+            'product_id' => 'required|exists:products,id',
             'colorID' => 'required|exists:product_colors,id',
             'sizeID' => 'required|exists:product_sizes,id',
             'quantity' => 'required|integer',

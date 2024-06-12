@@ -43,9 +43,6 @@ Route::prefix('products/{product}')->group(function () {
     Route::apiResource('variants', ProductVariantController::class);
 });
 
-Route::get('products/{productId}/variants', [ProductVariantController::class, 'index']);
-Route::post('products/{productId}/variants', [ProductVariantController::class, 'store']);
-
 Route::apiResource('product-images', ProductImageController::class);
 Route::apiResource('product-colors', ProductColorController::class);
 Route::apiResource('product-sizes', ProductSizeController::class);

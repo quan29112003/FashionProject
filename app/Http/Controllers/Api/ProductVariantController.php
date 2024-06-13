@@ -88,36 +88,33 @@ class ProductVariantController extends Controller
         // Lấy ProductVariant theo productID và variantID
         $productVariant = ProductVariant::where('product_id', $product)
             ->findOrFail($variant);
-
         return response()->json($productVariant);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $productID)
+    public function update(Request $request, $product,$variant)
     {
+        // Validate the incoming request data
         $validatedData = $request->validate([
-            'variants' => 'required|array',
-            'variants.*.id' => 'required|exists:product_variants,id',
-            'variants.*.color_id' => 'required|exists:product_colors,id',
-            'variants.*.size_id' => 'required|exists:product_sizes,id',
-            'variants.*.quantity' => 'required|integer',
-            'variants.*.price' => 'required|numeric',
-            'variants.*.price_sale' => 'required|numeric',
-            'variants.*.SKU' => 'required|string|max:255',
-            'variants.*.is_active' => 'required|string|max:255',
-            'variants.*.type' => 'required|string|max:255'
+            'color_id' => 'required|exists:product_colors,id',
+            'size_id' => 'required|exists:product_sizes,id',
+            'quantity' => 'required|integer',
+            'price' => 'required|numeric',
+            'price_sale' => 'required|numeric',
+            'SKU' => 'required|string|max:255',
+            'is_active' => 'required|string|max:255',
+            'type' => 'required|string|max:255'
         ]);
 
-        // Lặp qua từng biến thể và cập nhật thông tin
-        foreach ($validatedData['variants'] as $variant) {
-            $productVariant = ProductVariant::find($variant['id']);
-            if ($productVariant && $productVariant->product_id == $productID) {
-                $productVariant->update($variant);
-            } else {
-                return response()->json(['message' => 'Product variant not found or does not belong to this product'], 404);
-            }
+        // Find the product variant and update its information
+        $productVariant = ProductVariant::find($variant);
+
+        if ($productVariant && $productVariant->product_id == $product) {
+            $productVariant->update($validatedData);
+        } else {
+            return response()->json(['message' => 'Product variant not found or does not belong to this product'], 404);
         }
 
         return response()->json(['message' => 'Product variants updated'], 200);

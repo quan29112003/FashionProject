@@ -11,19 +11,14 @@ class ProductVariantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,$productID)
     {
-        // Lấy productID từ request
-        $productID = $request->query('product_id');
-
-        // Kiểm tra xem productID có tồn tại trong request không
         if (!$productID) {
             return response()->json([
                 'error' => 'productID is required'
             ], 400);
         }
 
-        // Lấy danh sách ProductVariant theo productID
         $productVariants = ProductVariant::where('product_id', $productID)
             ->with('color', 'size')
             ->get();

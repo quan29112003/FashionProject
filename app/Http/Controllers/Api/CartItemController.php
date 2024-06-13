@@ -10,7 +10,7 @@ class CartItemController extends Controller
 {
     public function showByCart($cartId)
     {
-        $cartItems = CartItem::where('cartID', $cartId)->with('variant.product.image')->get();
+        $cartItems = CartItem::where('cart_id', $cartId)->with('variant.product.image')->get();
 
         return response()->json($cartItems);
     }

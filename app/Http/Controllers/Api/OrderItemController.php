@@ -10,11 +10,11 @@ class OrderItemController extends Controller
 {
     public function index(Request $request)
     {
-        $orderID = $request->query('orderID');
+        $orderID = $request->query('order_id');
 
         if (!$orderID) {
             return response()->json([
-                'error' => 'orderID is required'
+                'error' => 'order_id is required'
             ]);
         }
 

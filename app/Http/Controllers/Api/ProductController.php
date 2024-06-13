@@ -23,8 +23,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'categoryID' => 'required|exists:categories,id',
-            'nameProduct' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'name_product' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
         ]);
@@ -46,8 +46,8 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'categoryID' => 'required|exists:categories,id',
-            'nameProduct' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'nameP_poduct' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
         ]);

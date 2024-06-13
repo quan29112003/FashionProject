@@ -14,13 +14,13 @@ return new class extends Migration
             $table->string('name_product');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
-            $table->text('thumbnail');
+            $table->text('thumbnail')->nullable();
             $table->timestamps();
-            $table->integer('views');
-            $table->boolean('is_active');
-            $table->boolean('is_hot');
-            $table->boolean('is_good_deal');
-            $table->boolean('is_show_home');
+            $table->integer('views')->default(0);
+            $table->boolean('is_active')->nullable();
+            $table->boolean('is_hot')->nullable();
+            $table->boolean('is_good_deal')->nullable();
+            $table->boolean('is_show_home')->nullable();
 
             // Thiết lập khóa ngoại
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

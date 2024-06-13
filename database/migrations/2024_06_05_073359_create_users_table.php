@@ -19,10 +19,10 @@ return new class extends Migration
             $table->date('birthday');
             $table->integer('age');
             $table->string('email')->unique();
-            $table->string('address');
+            $table->text('address');
             $table->string('password');
-            $table->string('role');
-            $table->string('type');
+            $table->integer('role')->default(0);
+            $table->integer('is_active')->default(0);
             $table->timestamps();
         });
     }

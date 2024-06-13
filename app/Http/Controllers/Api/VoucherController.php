@@ -18,11 +18,11 @@ class VoucherController extends Controller
     {
         $request->validate([
             'code' => 'required|string|max:255|unique:vouchers',
-            'discountType' => 'required|string',
-            'discountValue' => 'required|numeric',
-            'expiryDate' => 'required|date',
-            'minPurchaseAmount' => 'required|numeric',
-            'pointRequired' => 'required|integer',
+            'discount_type' => 'required|string',
+            'discount_value' => 'required|numeric',
+            'expiry_date' => 'required|date',
+            'min_purchaseAmount' => 'required|numeric',
+            'point_required' => 'required|integer',
         ]);
 
         $voucher = Voucher::create($request->all());
@@ -39,11 +39,11 @@ class VoucherController extends Controller
     {
         $request->validate([
             'code' => 'string|max:255|unique:vouchers,code,' . $id,
-            'discountType' => 'string',
-            'discountValue' => 'numeric',
-            'expiryDate' => 'date',
-            'minPurchaseAmount' => 'numeric',
-            'pointRequired' => 'integer',
+            'discount_type' => 'string',
+            'discount_value' => 'numeric',
+            'expiry_date' => 'date',
+            'min_purchase_amount' => 'numeric',
+            'point_required' => 'integer',
         ]);
 
         $voucher = Voucher::findOrFail($id);

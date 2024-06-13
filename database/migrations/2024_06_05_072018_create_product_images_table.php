@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->string('url');
-            $table->unsignedBigInteger('productID');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
             // Thiết lập khóa ngoại
-            $table->foreign('productID')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

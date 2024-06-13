@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('userID');
+            $table->unsignedBigInteger('user_id');
             $table->string('status');
-            $table->decimal('totalAmount', 8, 2);
+            $table->decimal('total_amount', 8, 2);
             $table->timestamps();
-            $table->unsignedBigInteger('voucherID')->nullable();
-            $table->integer('addPoints');
+            $table->unsignedBigInteger('voucher_id')->nullable();
+            $table->integer('add_points');
 
             // Thiết lập khóa ngoại
-            $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('voucherID')->references('id')->on('vouchers')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('voucher_id')->references('id')->on('vouchers')->onDelete('set null');
         });
     }
 

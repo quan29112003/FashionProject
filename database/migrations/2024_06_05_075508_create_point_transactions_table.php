@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('point_transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('userID');
+            $table->unsignedBigInteger('user_id');
             $table->integer('points');
             $table->text('description')->unique();
-            $table->integer('transactionType');
+            $table->integer('transaction_type');
             $table->timestamps();
 
-            $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

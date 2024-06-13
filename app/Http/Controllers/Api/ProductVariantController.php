@@ -34,7 +34,7 @@ class ProductVariantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $productID)
+    public function store(Request $request, $product_id)
     {
         // Xác thực dữ liệu request
         // $validatedData = $request->validate([
@@ -71,10 +71,13 @@ class ProductVariantController extends Controller
         //     'type' => 'required|string|max:255'
         // ]);
         // foreach($data as $item){
-            ProductVariant::create($data);
+        var_dump($product_id);
+        $data['product_id'] = $product_id;
+
+        ProductVariant::create($data);
 
 
-        return response()->json(['message' => 'Product variant created'],201);
+        return response()->json(['message' => 'Product variant created'], 201);
     }
 
     /**

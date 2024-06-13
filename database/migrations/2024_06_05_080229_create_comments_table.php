@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('userID');
-            $table->unsignedBigInteger('productID');
-            $table->integer('parentCommentID');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('parentComment_id');
             $table->text('comment');
             $table->text('rating');
             $table->timestamps();
 
-            $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('productID')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

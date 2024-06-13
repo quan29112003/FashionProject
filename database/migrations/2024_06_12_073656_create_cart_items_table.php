@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cartID');
-            $table->unsignedBigInteger('variantID');
+            $table->unsignedBigInteger('cart_id');
+            $table->unsignedBigInteger('variant_id');
             $table->integer('quantity');
             $table->timestamps();
 
             // Thiết lập khóa ngoại
-            $table->foreign('cartID')->references('id')->on('carts')->onDelete('cascade');
-            $table->foreign('variantID')->references('id')->on('product_variants')->onDelete('cascade');
+            $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
+            $table->foreign('variant_id')->references('id')->on('product_variants')->onDelete('cascade');
         });
     }
 

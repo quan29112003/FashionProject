@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('orderID');
-            $table->unsignedBigInteger('variantID');
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('variant_id');
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
             $table->timestamps();
 
             // Thiết lập khóa ngoại
-            $table->foreign('orderID')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('variantID')->references('id')->on('product_variants')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('variant_id')->references('id')->on('product_variants')->onDelete('cascade');
         });
     }
 

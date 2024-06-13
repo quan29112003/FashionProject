@@ -14,17 +14,17 @@ class Cart extends Model
      *
      * @var array
      */
-    protected $fillable = ['userID'];
+    protected $fillable = ['user_id'];
 
     /**
      * Get the user that owns the cart.
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'userID');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function items(){
-        return $this->hasMany(CartItem::class, 'CartID');
+        return $this->hasMany(CartItem::class, 'Cart_id');
     }
 }

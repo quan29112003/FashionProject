@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('discountType');
-            $table->decimal('discountValue', 8, 2);
+            $table->string('discount_type');
+            $table->decimal('discount_value', 8, 2);
             $table->date('expiryDate');
-            $table->decimal('minPurchaseAmount', 8, 2);
-            $table->integer('pointRequired');
+            $table->decimal('min_purchase_amount', 8, 2);
+            $table->integer('point_required');
             $table->timestamps();
         });
     }

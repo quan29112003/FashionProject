@@ -10,10 +10,10 @@ class Voucher extends Model
     use HasFactory;
     protected $fillable = [
         'code',
-        'discountType',
-        'discountValue',
+        'discount_type',
+        'discount_value',
         'expiryDate',
-        'minPurchaseAmount',
-        'pointRequired'
+        'min_purchase_amount',
+        'point_required'
     ];
 }

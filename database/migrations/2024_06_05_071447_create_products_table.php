@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('categoryID');
-            $table->string('nameProduct');
+            $table->unsignedBigInteger('category_id');
+            $table->string('name_product');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
             $table->text('thumbnail');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_show_home');
 
             // Thiết lập khóa ngoại
-            $table->foreign('categoryID')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

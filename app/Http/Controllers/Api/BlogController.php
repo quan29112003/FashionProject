@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
@@ -20,11 +21,27 @@ class BlogController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function store(Request $request)
+    public function storeMultiple(Request $request)
     {
-        //
-        $blog = Blog::create($request->all());
-        return response()->json($blog,201);
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            '*.content' => 'required|string',
+            '*.title' => 'required|string|max:255',
+            '*.image' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        foreach ($data as $item) {
+            $item['created_at'] = now();
+            $item['updated_at'] = now();
+            Blog::create($item);
+        }
+
+        return response()->json(['message' => 'Blogs created successfully'], 201);
     }
 
     /**

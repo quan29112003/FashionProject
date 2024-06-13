@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'categoryID',
         'nameProduct',
         'description',
         'price',
@@ -18,11 +19,16 @@ class Product extends Model
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class, 'productID');
+        return $this->hasMany(ProductVariant::class, 'product_id');
     }
 
     public function images()
     {
         return $this->hasMany(ProductImage::class, 'productID');
+    }
+
+    public function image()
+    {
+        return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
     }
 }

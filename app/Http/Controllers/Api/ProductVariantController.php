@@ -35,7 +35,7 @@ class ProductVariantController extends Controller
         }
 
         $productVariants = ProductVariant::where('product_id', $productID)
-            ->with('product_colors', 'product_sizes')
+            ->with('color', 'size')
             ->get();
 
         return response()->json($productVariants);

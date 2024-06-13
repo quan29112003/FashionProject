@@ -9,7 +9,7 @@ class ProductVariant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'color_id', 'size_id', 'quantity', 'price','price_sale','SKU','is_active', 'type'];
+    protected $fillable = ['productID', 'colorID', 'sizeID', 'quantity', 'price', 'type'];
 
     public function color()
     {
@@ -19,10 +19,5 @@ class ProductVariant extends Model
     public function size()
     {
         return $this->belongsTo(ProductSize::class, 'sizeID');
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'productID');
     }
 }

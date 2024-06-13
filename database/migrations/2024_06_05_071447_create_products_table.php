@@ -14,13 +14,7 @@ return new class extends Migration
             $table->string('nameProduct');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
-            $table->text('thumbnail');
             $table->timestamps();
-            $table->integer('views');
-            $table->boolean('is_active');
-            $table->boolean('is_hot');
-            $table->boolean('is_good_deal');
-            $table->boolean('is_show_home');
 
             // Thiết lập khóa ngoại
             $table->foreign('categoryID')->references('id')->on('categories')->onDelete('cascade');

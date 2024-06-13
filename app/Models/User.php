@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'role', 'type',
+        'name',
     
     ];
     public function points()
@@ -45,11 +45,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'birthday' => 'date',
     ];
-
-    public function getAgeAttribute()
-    {
-        return now()->diffInYears($this->birthday);
-    }
 }

@@ -36,40 +36,19 @@ class ProductVariantController extends Controller
      */
     public function store(Request $request, $productID)
     {
-        // Xác thực dữ liệu request
-        // $validatedData = $request->validate([
-        //     'colorID' => 'required|exists:product_colors,id',
-        //     'sizeID' => 'required|exists:product_sizes,id',
-        //     'quantity' => 'required|integer',
-        //     'price' => 'required|numeric',
-        //     'type' => 'required|string|max:255',
-        // ]);
-
-        // // Tạo mới ProductVariant và gán productID từ đường dẫn
-        // $productVariant = new ProductVariant([
-        //     'productID' => $productID,
-        //     'colorID' => $validatedData['colorID'],
-        //     'sizeID' => $validatedData['sizeID'],
-        //     'quantity' => $validatedData['quantity'],
-        //     'price' => $validatedData['price'],
-        //     'type' => $validatedData['type'],
-        // ]);
-
-        // // Lưu bản ghi vào cơ sở dữ liệu
-        // $productVariant->save();
-
-        // // Trả về JSON response
-        // return response()->json($productVariant, 201);
 
         $data = $request->all();
 
-        // $validatedData = $request->validate([
-        //     'colorID' => 'required|exists:product_colors,id',
-        //     'sizeID' => 'required|exists:product_sizes,id',
-        //     'quantity' => 'required|integer',
-        //     'price' => 'required|numeric',
-        //     'type' => 'required|string|max:255'
-        // ]);
+        $data = $request->validate([
+            'color_id' => 'required|exists:product_colors,id',
+            'size_id' => 'required|exists:product_sizes,id',
+            'quantity' => 'required|integer',
+            'price' => 'required|numeric',
+            'price_sale' => 'required|numeric',
+            'SKU' => 'required|string|max:255',
+            'is_active' => 'required|string|max:255',
+            'type' => 'required|string|max:255'
+        ]);
         foreach($data as $item){
             ProductVariant::create($item);
         }
@@ -92,20 +71,32 @@ class ProductVariantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductVariant $productVariant)
+    public function update(Request $request, $productID)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'colorID' => 'required|exists:product_colors,id',
-            'sizeID' => 'required|exists:product_sizes,id',
-            'quantity' => 'required|integer',
-            'price' => 'required|numeric',
-            'type' => 'required|string|max:255',
+        $validatedData = $request->validate([
+            'variants' => 'required|array',
+            'variants.*.id' => 'required|exists:product_variants,id',
+            'variants.*.color_id' => 'required|exists:product_colors,id',
+            'variants.*.size_id' => 'required|exists:product_sizes,id',
+            'variants.*.quantity' => 'required|integer',
+            'variants.*.price' => 'required|numeric',
+            'variants.*.price_sale' => 'required|numeric',
+            'variants.*.SKU' => 'required|string|max:255',
+            'variants.*.is_active' => 'required|string|max:255',
+            'variants.*.type' => 'required|string|max:255'
         ]);
 
-        $productVariant->update($request->all());
+        // Lặp qua từng biến thể và cập nhật thông tin
+        foreach ($validatedData['variants'] as $variant) {
+            $productVariant = ProductVariant::find($variant['id']);
+            if ($productVariant && $productVariant->product_id == $productID) {
+                $productVariant->update($variant);
+            } else {
+                return response()->json(['message' => 'Product variant not found or does not belong to this product'], 404);
+            }
+        }
 
-        return $productVariant;
+        return response()->json(['message' => 'Product variants updated'], 200);
     }
 
     /**

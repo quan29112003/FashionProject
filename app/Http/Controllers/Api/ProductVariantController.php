@@ -5,9 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductVariant;
+use Illuminate\Support\Facades\DB;
 
 class ProductVariantController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function getAll(Request $request)
+    {
+        // Lấy danh sách ProductVariant theo productID
+        $productVariants = DB::select('select * from product_variants pv
+        left join product_images pi on pi.product_id = pv.product_id
+        left join products p on p.id = pv.product_id
+        left join categories c on c.id = p.category_id');
+
+        return response()->json($productVariants);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -25,7 +40,7 @@ class ProductVariantController extends Controller
 
         // Lấy danh sách ProductVariant theo productID
         $productVariants = ProductVariant::where('product_id', $productID)
-            ->with('color', 'size')
+            ->with('product_colors', 'product_sizes')
             ->get();
 
         return response()->json($productVariants);

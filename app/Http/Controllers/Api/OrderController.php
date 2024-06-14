@@ -10,7 +10,9 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $order = Order::all();
+        $order = Order::all()
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json($order);
     }

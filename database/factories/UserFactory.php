@@ -23,12 +23,20 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $birthday = $this->faker->dateTimeBetween('-50 years', '-18 years');
+        $age = now()->diffInYears($birthday);
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'name_user' => $this->faker->name,
+            'birthday' => $birthday,
+            'age' => $age,
+            'email' => $this->faker->unique()->safeEmail,
+            'address' => $this->faker->address,
+            'password' => Hash::make('password'), // Đặt mật khẩu mặc định là 'password'
+            'role' => 0, // Mặc định role là 0
+            'is_active' => 0, // Mặc định is_active là 0
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 

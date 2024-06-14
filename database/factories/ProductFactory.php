@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,13 +15,12 @@ class ProductFactory extends Factory
 
     public function definition()
     {
-        $categoryIds = [1, 2, 3]; // Các category_id mong muốn
+        $categoryIds = Category::pluck('id')->toArray();
 
         return [
             'category_id' => $this->faker->randomElement($categoryIds),
             'name_product' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'price' => $this->faker->randomFloat(2, 10, 200),
             'thumbnail' => 'https://routine.vn/media/amasty/webp/catalog/product/cache/5de180fdba0e830d350bd2803a0413e8/a/o/ao-polo-nam-27-10s24pol002p_bright_white_1__1_jpg.webp',
             'views' => 0,
             'is_active' => true,

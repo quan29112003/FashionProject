@@ -28,9 +28,9 @@ class ProductVariantController extends Controller
 
     public function getAllVariant()
     {
-        return ProductVariant::all()
-        ->orderBy('created_at', 'desc')
-        ->get();
+        return ProductVariant::all();
+        // ->orderBy('created_at', 'desc')
+        // ->get();
     
     }
 

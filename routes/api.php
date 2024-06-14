@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // user
-Route::resource('users', UserController::class);
+Route::apiresource('users', UserController::class);
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);

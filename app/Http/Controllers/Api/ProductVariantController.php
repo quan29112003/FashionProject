@@ -26,6 +26,14 @@ class ProductVariantController extends Controller
         return response()->json($productVariants);
     }
 
+    public function getAllVariant()
+    {
+        return ProductVariant::all()
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+    }
+
     /**
      * Store a newly created resource in storage.
      */

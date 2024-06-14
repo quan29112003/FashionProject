@@ -28,7 +28,6 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'name_product' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
         ]);
 
         return Product::create($request->all());

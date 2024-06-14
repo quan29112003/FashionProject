@@ -13,7 +13,6 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->string('name_product');
             $table->text('description')->nullable();
-            $table->decimal('price', 8, 2);
             $table->text('thumbnail')->nullable();
             $table->timestamps();
             $table->integer('views')->default(0);

@@ -66,8 +66,6 @@ class ProductVariantController extends Controller
         //     'type' => 'required|string|max:255'
         // ]);
         // foreach($data as $item){
-        var_dump($product_id);
-        $data['product_id'] = $product_id;
 
         ProductVariant::create($data);
 

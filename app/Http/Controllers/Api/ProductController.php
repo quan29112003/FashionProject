@@ -14,7 +14,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::with('variants', 'images')->get();
+        return Product::with('variants', 'images')
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     /**
@@ -49,7 +51,6 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'name_product' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
         ]);
 
         $product->update($request->all());

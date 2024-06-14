@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->decimal('price_sale', 8,2);
             $table->string('type');
-            $table->string('SKU');
+            $table->string('SKU')->unique();
             $table->string('is_active');
             $table->timestamps();
 

@@ -15,6 +15,20 @@ class UserController extends Controller
         return response()->json($users);
     }
 
+    public function showHeader()
+    {
+        // Assuming $userInfo is fetched from somewhere, like the authenticated user
+        $userInfo = auth()->user(); // Example of fetching authenticated user information
+        
+        // Assuming $productData is also available
+        $productData = []; // Example of product data array
+
+        return view('header', [
+            'userInfo' => $userInfo,
+            'productData' => $productData,
+        ]);
+    }
+
     public function show($id)
     {
         $users = User::find($id);

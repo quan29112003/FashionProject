@@ -31,4 +31,9 @@ class Product extends Model
     {
         return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, '');
+    }
 }

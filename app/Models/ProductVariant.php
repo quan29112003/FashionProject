@@ -18,7 +18,6 @@ class ProductVariant extends Model
         'price_sale',
         'SKU',
         'is_active',
-        'type'
     ];
 
     public function color()

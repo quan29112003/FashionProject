@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 
 /*
@@ -19,3 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('index',[ProductController::class, 'index']);
+Route::get('create',[ProductController::class, 'create'])->name('store-product');
+Route::post('create',[ProductController::class,'store'])->name('handleStore-product');
+

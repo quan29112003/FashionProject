@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
 
 
 /*
@@ -16,6 +17,4 @@ use Illuminate\Support\Facades\Route;
 // Route::prefix('admin')->name('admin.')->group(function () {
 //     Route::resource('points', AdminPointController::class);
 // });
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Controller::class, 'dasboard']);

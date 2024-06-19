@@ -5,7 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SearchController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\WishlistController;
 
 
 /*
@@ -52,6 +55,10 @@ Route::get('/blog-detail', function () {
 Route::get('/contact', function () {
     return view('client.layouts.contact');
 })->name('contact');
+Route::resource('users', UserController::class);
+Route::resource('vouchers', VoucherController::class);
+Route::resource('comments', CommentController::class);
+Route::resource('wishlists', WishlistController::class);
 
 Route::get('/blog', function(){
     return view('client.layouts.home');

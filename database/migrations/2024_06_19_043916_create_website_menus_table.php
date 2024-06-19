@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('website_menus', function (Blueprint $table) {
             $table->id();
+            $table->string('menu_item');
+            $table->string('url');
             $table->timestamps();
         });
     }

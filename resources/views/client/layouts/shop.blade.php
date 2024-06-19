@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-lg-9 col-md-9">
                 <div class="row" id="product-list">
                     @php
@@ -105,7 +105,11 @@
                     @endphp
                     @foreach ($products as $product)
                         @foreach ($product->variants as $variant)
-                            <div class="col-lg-4 col-md-6 product-item  @if ($productCount >= 12) d-none @endif">
+                            <div
+                                class="col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 12) d-none @endif">
+                                @include('client.partials.product')
+                            </div>
+                            {{-- <div class="col-lg-4 col-md-6 product-item  @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg"
                                         data-setbg="{{ asset('storage/' . $product->images->first()->url) }}">
@@ -128,7 +132,8 @@
                                         <div class="product__price">$ {{ $variant->price }}</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
+
                             @php
                                 $productCount++;
                             @endphp

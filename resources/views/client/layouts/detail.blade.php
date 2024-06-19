@@ -24,14 +24,14 @@
                     <div class="product__details__pic__left product__thumb nice-scroll">
                         @foreach($images as $image)
                             <a class="pt" href="#product-{{ $loop->iteration }}">
-                                <img src="{{ asset('storage/' . $image->url) }}">
+                                <img src="{{ asset('uploads/' . $image->first()->url) }}">
                             </a>
                         @endforeach
                     </div>
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
                             @foreach($images as $image)
-                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img" src="{{ asset('storage/' . $image->url) }}" alt="{{ $product->name_product }}">
+                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img" src="{{ asset('uploads/' . $image->first()->url) }}" alt="{{ $product->name_product }}">
                             @endforeach
                         </div>
                     </div>
@@ -153,9 +153,9 @@
             @foreach($relatedProducts as $relatedProduct)
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/' . $relatedProduct->images->first()->url) }}">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}">
                             <ul class="product__hover">
-                                <li><a href="{{ asset('storage/' . $relatedProduct->images->first()->url) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>

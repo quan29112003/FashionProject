@@ -3689,6 +3689,11 @@ ol {
 .header__search button i {
     color: #333;
 }
+.search {
+    position: relative;
+    left: 900px;
+    top: -30px
+}
 .search-popup {
 	position: fixed;
 	top: 50%;

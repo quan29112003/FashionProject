@@ -30,97 +30,74 @@ class ProductController extends Controller
         return $cleanedArray;
     }
     //
-    public function index(){
-        $products = Product::with(['variants.color', 'variants.size','categories', 'images'])->get();
-        dd($products);
-        return view('admin.products.index',compact('products'));
+    public function index()
+    {
+        $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->get();
+
+        return view('admin.products.index', compact('products'));
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
-        $category = Category::query()->pluck('name','id')->all();
-        $product_color = ProductColor::query()->pluck('color','id');
-        $product_size = ProductSize::query()->pluck('size','id');
+        $category = Category::query()->pluck('name', 'id')->all();
+        $product_color = ProductColor::query()->pluck('color', 'id');
+        $product_size = ProductSize::query()->pluck('size', 'id');
 
-        return view('admin.products.create', compact('category','product_color','product_size'));
+        return view('admin.products.create', compact('category', 'product_color', 'product_size'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         // $data = $request->productVariant;
         // dd($data);
 
-        $dataProduct = $request->except('productVariant','product_images');
+        $dataProduct = $request->except('productVariant', 'product_images');
 
         $dataProductVariant = $request->productVariant;
 
-        $dataProductImage = $request->product_images ? : [];
+        $dataProductImage = $request->product_images ?: [];
 
+        $img = $dataProduct['thumbnail'];
+        $thumbnailName = time() . '_' . $img->getClientOriginalName();
+        $img->move(public_path('uploads'), $thumbnailName);
 
-        // try{
+        $product = Product::query()->create([
+            'name_product' => $dataProduct['name_product'],
+            'category_id' => $dataProduct['category_id'],
+            'description' => $dataProduct['description'],
+            'thumbnail' => $thumbnailName,
+            "is_active" => $dataProduct['is_active'],
+            "is_hot" => $dataProduct['is_hot'],
+            "is_good_deal" => $dataProduct['is_good_deal'],
+            "is_show_home" => $dataProduct['is_show_home']
+        ]);
 
-        //     DB::beginTransaction();
-        //     $product = Product::query()->create($dataProduct);
-        //     foreach($dataProductVariant as $variant){
-        //         $variant['product_id'] = $product->id;
-        //         $variant = $this->cleanArrayKeys($variant);
-        //         ProductVariant::query()->create([
-        //             'product_id' => $product->id,
-        //             'color_id' => $variant['color'],
-        //             'size_id' => $variant['size'],
-        //             'quantity' => $variant['quantity'],
-        //             'price' => $variant['price'],
-        //             'price_sale' => $variant['price_sale'],
-        //             'SKU' => $variant['SKU'],
-        //             'is_active' => $variant['is_active']
-        //         ]);
-        //     }
+        foreach ($dataProductVariant as $variant) {
+            $variant['product_id'] = $product->id;
+            $variant = $this->cleanArrayKeys($variant);
+            ProductVariant::query()->create([
+                'product_id' => $product->id,
+                'color_id' => $variant['color'],
+                'size_id' => $variant['size'],
+                'quantity' => $variant['quantity'],
+                'price' => $variant['price'],
+                'price_sale' => $variant['price_sale'],
+                'SKU' => $variant['SKU'],
+                'is_active' => $variant['is_active']
+            ]);
+        }
 
-        //     foreach($dataProductImage as $img){
-        //         $imageName = time(). '_' .$img->getClientOriginalName();
-        //         $img->move(public_path('uploads'), $imageName);
+        foreach ($dataProductImage as $img) {
+            $imageName = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('uploads'), $imageName);
 
-        //         ProductImage::query()->create([
-        //             'product_id' => $product->id,
-        //             'url' => $imageName,
-        //         ]);
-        //     }
+            ProductImage::query()->create([
+                'product_id' => $product->id,
+                'url' => $imageName,
+            ]);
+        }
 
-        //         DB::commit();
-        //         return redirect()->view('admin.product.index');
-
-        // }catch(\Exception $exception){
-        //     DB::rollBack();
-        //     return back();
-        // }
-
-        $product = Product::query()->create($dataProduct);
-            foreach($dataProductVariant as $variant){
-                $variant['product_id'] = $product->id;
-                $variant = $this->cleanArrayKeys($variant);
-                ProductVariant::query()->create([
-                    'product_id' => $product->id,
-                    'color_id' => $variant['color'],
-                    'size_id' => $variant['size'],
-                    'quantity' => $variant['quantity'],
-                    'price' => $variant['price'],
-                    'price_sale' => $variant['price_sale'],
-                    'SKU' => $variant['SKU'],
-                    'is_active' => $variant['is_active']
-                ]);
-            }
-
-            foreach($dataProductImage as $img){
-                $imageName = time(). '_' .$img->getClientOriginalName();
-                $img->move(public_path('uploads'), $imageName);
-
-                ProductImage::query()->create([
-                    'product_id' => $product->id,
-                    'url' => $imageName,
-                ]);
-            }
-
-
+        return redirect()->route('product');
     }
-
-
 }

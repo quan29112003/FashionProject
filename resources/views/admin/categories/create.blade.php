@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.catelogues.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('handleStore-category') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -38,14 +38,21 @@
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" class="form-control" name="name" id="name">
                                     </div>
-                                    <div class="mt-3">
-                                        <label for="cover" class="form-label">Img Cover</label>
-                                        <input type="file" class="form-control" name="cover" id="cover">
+                                </div>
+                                <div class="col-md-4">
+                                    <div>
+                                        <label for="name" class="form-label">Description</label>
+                                        <input type="text" class="form-control" name="description" id="name">
                                     </div>
-                                    <div class="form-check form-switch form-switch-primary mt-3">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                               name="is_active" id="is_active" checked value="1">
-                                        <label class="form-check-label" for="is_active">Is Active</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div>
+                                        <label for="name" class="form-label">Active</label>
+                                        <select class="form-select rounded-pill mb-3" name="is_active" aria-label="Default select example">
+                                            <option selected>Select Active</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">In Active</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

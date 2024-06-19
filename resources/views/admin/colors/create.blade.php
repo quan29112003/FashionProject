@@ -21,9 +21,9 @@
         </div>
     </div>
 
-    <form action="{{ route('handleEdit-category',['id'=>$category->id]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('handleStore-color') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -33,25 +33,16 @@
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" name="name" value="{{ $category->name }}" id="name">
+                                        <input type="text" class="form-control" name="color" id="name">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div>
-                                        <label for="name" class="form-label">Description</label>
-                                        <input type="text" class="form-control" name="description" value="{{ $category->description }}" id="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div>
-                                        <label for="name" class="form-label">Active</label>
-                                        <select class="form-select rounded-pill mb-3" name="is_active" aria-label="Default select example">
-                                            <option value="0">Active</option>
-                                            <option value="1">In Active</option>
-                                        </select>
+                                        <label for="name" class="form-label">Color Code</label>
+                                        <input type="text" class="form-control" name="color_code" id="name">
                                     </div>
                                 </div>
                             </div>

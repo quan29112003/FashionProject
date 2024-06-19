@@ -264,7 +264,7 @@
 
                                     <div class="col-xxl-3 col-md-6">
                                         <label for="basiInput" class="form-label">SKU</label>
-                                        <input type="number" class="form-control" name="productVariant[${index}]['SKU']" id="basiInput">
+                                        <input type="text" class="form-control" name="productVariant[${index}]['SKU']" id="basiInput">
                                     </div>
 
                                     <div class="col-xxl-3 col-md-6">

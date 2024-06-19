@@ -29,7 +29,7 @@
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách</h5>
 
-                    <a href="{{ route('store-category') }}" class="btn btn-primary mb-3">Thêm mới</a>
+                    <a href="{{ route('store-color') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
                     <table id="example"
@@ -40,8 +40,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Description</th>
-                            <th>Active</th>
+                            <th>Color Code</th>
                             <th>Created at</th>
                             <th>Updated at</th>
                             <th>Action</th>
@@ -49,15 +48,11 @@
                         </thead>
 
                         <tbody>
-                        @foreach($category as $item)
+                        @foreach($color as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>
-                                    {!! $item->is_active ? '<span class="badge bg-primary">YES</span>'
-                                                            : '<span class="badge bg-danger">NO</span>' !!}
-                                    </td>
+                                <td>{{ $item->color }}</td>
+                                <td>{{ $item->color_code }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->updated_at }}</td>
 
@@ -67,7 +62,7 @@
                                             <i class="ri-more-fill align-middle"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a href="{{ route('edit-category',$item->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                            <li><a href="{{ route('edit-color',$item->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
                                         </ul>
                                     </div>
                                 </td>

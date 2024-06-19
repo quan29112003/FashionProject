@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <form action="{{ route('handleEdit-category',['id'=>$category->id]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('handleEdit-size',['id'=>$size->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">
@@ -33,25 +33,10 @@
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" name="name" value="{{ $category->name }}" id="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div>
-                                        <label for="name" class="form-label">Description</label>
-                                        <input type="text" class="form-control" name="description" value="{{ $category->description }}" id="name">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div>
-                                        <label for="name" class="form-label">Active</label>
-                                        <select class="form-select rounded-pill mb-3" name="is_active" aria-label="Default select example">
-                                            <option value="0">Active</option>
-                                            <option value="1">In Active</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="size" value="{{ $size->size }}" id="name">
                                     </div>
                                 </div>
                             </div>

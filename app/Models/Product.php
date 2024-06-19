@@ -12,28 +12,39 @@ class Product extends Model
         'category_id',
         'name_product',
         'description',
-        'price',
+        'thumbnail',
         'quantity'
 
     ];
 
+    // public function variants()
+    // {
+    //     return $this->hasMany(ProductVariant::class, 'product_id');
+    // }
+
+    // public function images()
+    // {
+    //     return $this->hasMany(ProductImage::class, 'product_id');
+    // }
+
+    // public function image()
+    // {
+    //     return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
+    // }
+
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class, 'product_id');
+        return $this->hasMany(ProductVariant::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function images()
     {
-        return $this->hasMany(ProductImage::class, 'product_id');
+        return $this->hasMany(ProductImage::class);
     }
 
-    public function image()
-    {
-        return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
-    }
-
-    public function categories()
-    {
-        return $this->hasMany(Category::class, '');
-    }
 }

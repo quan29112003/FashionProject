@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Models\ProductVariant;
+use App\Http\Controllers\Controller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,7 @@ use App\Models\ProductVariant;
 // Route::prefix('admin')->name('admin.')->group(function () {
 //     Route::resource('points', AdminPointController::class);
 // });
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Controller::class, 'dasboard']);
 
 
 Route::get('show-product',[ProductController::class, 'index'])->name('product');
@@ -52,4 +52,3 @@ Route::get('create-size',[SizeController::class, 'create'])->name('store-size');
 Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
 Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
 Route::put('edit-size/{id}',[SizeController::class, 'handleEdit'])->name('handleEdit-size');
-

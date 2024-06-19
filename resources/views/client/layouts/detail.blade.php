@@ -24,14 +24,14 @@
                     <div class="product__details__pic__left product__thumb nice-scroll">
                         @foreach($images as $image)
                             <a class="pt" href="#product-{{ $loop->iteration }}">
-                                <img src="{{ asset('uploads/' . $image->first()->url) }}">
+                                <img src="{{ asset('uploads/' . $image->url) }}">
                             </a>
                         @endforeach
                     </div>
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
                             @foreach($images as $image)
-                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img" src="{{ asset('uploads/' . $image->first()->url) }}" alt="{{ $product->name_product }}">
+                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img" src="{{ asset('uploads/' . $image->url) }}" alt="{{ $product->name_product }}">
                             @endforeach
                         </div>
                     </div>

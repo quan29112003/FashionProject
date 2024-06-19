@@ -121,7 +121,7 @@
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
 
                     <div
-                        class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 12) d-none @endif">
+                        class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 8) d-none @endif">
                         <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
                         <div class="product__item">
 
@@ -206,7 +206,7 @@
 
         <!-- Nút Xem Thêm -->
         <div class="col-lg-12 text-center">
-            <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">
+            <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 8) d-none @endif">
                 Xem thêm
             </button>
             <!-- Nút Xem Thêm, ẩn nếu số sản phẩm là 12 hoặc ít hơn -->
@@ -259,7 +259,7 @@
         let currentCount = 0;
 
         loadMoreBtn.addEventListener('click', function() {
-            for (let i = currentCount; i < currentCount + 12; i++) {
+            for (let i = currentCount; i < currentCount + 8; i++) {
                 if (hiddenProducts[i]) {
                     hiddenProducts[i].classList.remove('d-none');
                 } else {
@@ -268,7 +268,7 @@
                     break;
                 }
             }
-            currentCount += 12;
+            currentCount += 8;
         });
     });
 </script>

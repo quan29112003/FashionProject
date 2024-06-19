@@ -74,10 +74,10 @@
 
                         {{-- menus --}}
                         <ul>
-                            <li>
+                                <li>
                                  {{-- categories --}}
                                 @foreach ($CategoryGenders as $CategoryGender)
-                                    <li>
+                                    <li class="gender_cateogry">
                                         <a href="#">{{ $CategoryGender->name }}</a>
                                     </li>
                                 @endforeach

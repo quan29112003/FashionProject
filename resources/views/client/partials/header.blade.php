@@ -60,20 +60,25 @@
     <header class="header">
         <div class="container-fluid">
             <div class="row">
+
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
                         <a href="{{ route('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
                     </div>
                 </div>
+
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
+                        {{-- menus --}}
                         <ul>
-                            <li class="active"><a href="{{ route('/') }}">Home</a></li>
+                            @foreach ($menus as $menu)
+                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a href="{{ url( $menu->url ) }}">{{ $menu->menu_item }}</a></li>
+                            @endforeach
+                        </ul>
+
+                        <ul>
                             <li><a href="#">Women’s</a></li>
                             <li><a href="#">Men’s</a></li>
-                            <li><a href="{{ route('shop') }}">Shop</a></li>
-                            <li><a href="{{ route('blog') }}">Blog</a></li>
-                            <li><a href="{{ route('contact') }}">Contact</a></li>
                             <li>
                                 <div class="header__search">
                                     <form id="searchForm" action="{{ route('product.search') }}" method="GET">
@@ -83,8 +88,10 @@
                                 </div>
                             </li>
                         </ul>
+
                     </nav>
                 </div>
+                
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
@@ -161,7 +168,7 @@
             }
         });
     </script>
-    
+
 </body>
 
 </html>

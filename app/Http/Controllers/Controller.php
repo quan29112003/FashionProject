@@ -27,6 +27,6 @@ class Controller extends BaseController
         $data->views = [20,40,40];
 
         // dd($entries);
-        return view('welcome', ['data' => $data]);
+        return view('admin.dashboard', ['data' => $data]);
     }
 }

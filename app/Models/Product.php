@@ -17,18 +17,32 @@ class Product extends Model
 
     ];
 
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class, 'product_id');
-    }
+    // public function variants()
+    // {
+    //     return $this->hasMany(ProductVariant::class, 'product_id');
+    // }
 
+    // public function images()
+    // {
+    //     return $this->hasMany(ProductImage::class, 'product_id');
+    // }
+
+    // public function image()
+    // {
+    //     return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
+    // }
     public function images()
     {
-        return $this->hasMany(ProductImage::class, 'product_id');
+        return $this->hasMany(ProductImage::class);
     }
 
-    public function image()
+    // Relationship with categories
+    public function category()
     {
-        return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
+        return $this->belongsTo(Category::class);
+    }
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 }

@@ -89,16 +89,16 @@
                             <li>
                                 <span>Color:</span>
                                 <select name="color" id="color">
-                                    @foreach($variants->unique('color') as $variant)
-                                        <option value="{{ $variant->color }}">{{ $variant->color }}</option>
+                                    @foreach($colors as $color)
+                                        <option value="{{ $color->id }}">{{ $color->color }}</option>
                                     @endforeach
                                 </select>
                             </li>
                             <li>
                                 <span>Size:</span>
                                 <select name="size" id="size">
-                                    @foreach($variants->unique('size') as $variant)
-                                        <option value="{{ $variant->size }}">{{ $variant->size }}</option>
+                                    @foreach($sizes as $size)
+                                        <option value="{{ $size->id }}">{{ $size->size }}</option>
                                     @endforeach
                                 </select>
                             </li>
@@ -150,8 +150,11 @@
                     <h5>RELATED PRODUCTS</h5>
                 </div>
             </div>
+            @php
+                $productCount = 0;
+            @endphp
             @foreach($relatedProducts as $relatedProduct)
-                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6 product-item @if ($productCount >= 8) d-none @endif">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}">
                             <ul class="product__hover">
@@ -179,10 +182,39 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    $productCount++;
+                @endphp
             @endforeach
         </div>
-    </div>
+        <div class="col-lg-12 text-center">
+            <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 8) d-none @endif">
+                Xem thêm
+            </button>
+        </div>        
 </section>
+
 <!-- Product Details Section End -->
 
 @include('client.partials.footer')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const hiddenProducts = document.querySelectorAll('.product-item.d-none');
+        let currentCount = 0;
+
+        loadMoreBtn.addEventListener('click', function() {
+            const maxToShow = 8;
+            for (let i = currentCount; i < currentCount + maxToShow; i++) {
+                if (hiddenProducts[i]) {
+                    hiddenProducts[i].classList.remove('d-none');
+                } else {
+                    loadMoreBtn.style.display = 'none'; // Hide button when no more products to show
+                    break;
+                }
+            }
+            currentCount += maxToShow;
+        });
+    });
+</script>
+

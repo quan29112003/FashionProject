@@ -64,7 +64,8 @@
                 {{-- logo --}}
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="{{ route('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/logo.png') }}"
+                                alt=""></a>
                     </div>
                 </div>
 
@@ -74,14 +75,18 @@
                         {{-- menus --}}
                         <ul>
                             @foreach ($menus as $menu)
-                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a href="{{ url( $menu->url ) }}">{{ $menu->menu_item }}</a></li>
+                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a
+                                        href="{{ url($menu->url) }}">{{ $menu->menu_item }}</a></li>
                             @endforeach
                         </ul>
 
                         {{-- categories --}}
                         <ul>
-                            <li><a href="#">Women’s</a></li>
-                            <li><a href="#">Men’s</a></li>
+                            @foreach ($CategoryGenders as $CategoryGender)
+                                <li>
+                                    <a href="#">{{ $CategoryGender->name }}</a>
+                                </li>
+                            @endforeach
 
                             {{-- search --}}
                             <li>

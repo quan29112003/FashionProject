@@ -81,63 +81,101 @@
 
 <!-- Bắt đầu phần sản phẩm -->
 <section class="product spad">
+
     <div class="container">
         <!-- Container cho sản phẩm -->
         <div class="row">
             <!-- Tiêu đề phần -->
+
             <div class="col-lg-4 col-md-4">
                 <div class="section-title">
                     <h4>Sản phẩm mới</h4>
                     <!-- Tiêu đề của phần sản phẩm -->
                 </div>
             </div>
+
             <div class="col-lg-8 col-md-8">
                 <ul class="filter__controls">
                     <!-- Bộ lọc danh mục sản phẩm -->
                     <li class="active" data-filter="*">Tất cả</li>
                     @foreach ($categories as $category)
                         <!-- Lặp qua các danh mục và tạo các nút bộ lọc -->
-                        <li data-filter=".{{ $category->slug }}">{{ $category->name }}</li>
+                        <li data-filter=".{{ $category->slug }}" value="{{ $category->id }}">{{ $category->name }}</li>
                     @endforeach
                 </ul>
             </div>
+
         </div>
         <!-- Khởi tạo biến đếm sản phẩm -->
+
         @php
             $productCount = 0;
         @endphp
+
         <div class="row property__gallery" id="product-gallery">
             <!-- Thư viện sản phẩm -->
             @foreach ($products as $product)
                 <!-- Lặp qua các sản phẩm -->
+
                 @foreach ($product->variants as $variant)
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
+
                     <div
                         class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 12) d-none @endif">
                         <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
                         <div class="product__item">
+
                             @if ($product->images->isNotEmpty())
                                 <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
                                 <div class="product__item__pic set-bg"
                                     data-setbg="{{ asset('storage/' . $product->images->first()->url) }}">
+
+                                    <a href="{{ route('detail', $product->id) }}">
+                                        <img src="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                            alt="img product">
+                                    </a>
+
                                     <!-- Hình ảnh sản phẩm -->
                                     <ul class="product__hover">
                                         <!-- Các hành động khi hover -->
-                                        <li><a href="{{ asset('storage/' . $product->images->first()->url) }}"
-                                                class="image-popup"><span class="arrow_expand"></span></a></li>
+
+                                        <li>
+                                            <a href="{{ asset('storage/' . $product->images->first()->url) }}"
+                                                class="image-popup">
+                                                <span class="arrow_expand"></span>
+                                            </a>
+                                        </li>
                                         <!-- Popup hình ảnh -->
-                                        <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+
+                                        <li>
+                                            <a href="#">
+                                                <span class="icon_heart_alt">
+                                                </span>
+                                            </a>
+                                        </li>
                                         <!-- Thêm vào danh sách yêu thích -->
-                                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+
+                                        <li>
+                                            <a href="#">
+                                                <span class="icon_bag_alt">
+                                                </span>
+                                            </a>
+                                        </li>
                                         <!-- Thêm vào giỏ hàng -->
+
                                     </ul>
+
                                 </div>
                             @endif
+
                             <div class="product__item__text">
                                 <!-- Chi tiết sản phẩm -->
-                                <h6><a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
+
+                                <h6>
+                                    <a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
                                 </h6>
                                 <!-- Tên sản phẩm -->
+
                                 <div class="rating">
                                     <!-- Đánh giá sản phẩm -->
                                     @for ($i = 0; $i < 5; $i++)
@@ -151,11 +189,13 @@
                                         @endif
                                     @endfor
                                 </div>
+
                                 <div class="product__price">${{ $variant->price }}</div>
                                 <!-- Giá sản phẩm -->
                             </div>
                         </div>
                     </div>
+
                     <!-- Tăng biến đếm sản phẩm -->
                     @php
                         $productCount++;
@@ -163,13 +203,17 @@
                 @endforeach
             @endforeach
         </div>
+
         <!-- Nút Xem Thêm -->
         <div class="col-lg-12 text-center">
-            <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem
-                thêm</button>
+            <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">
+                Xem thêm
+            </button>
             <!-- Nút Xem Thêm, ẩn nếu số sản phẩm là 12 hoặc ít hơn -->
         </div>
+
     </div>
+
 </section>
 
 <!-- Phần còn lại của template -->

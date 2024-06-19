@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -30,16 +31,16 @@ class DetailController extends Controller
 
         // Lấy danh sách sản phẩm liên quan theo category_id
         $relatedProducts = Product::where('category_id', $product->category_id)
-                                   ->where('id', '!=', $id)
-                                   ->get()
-                                   ->map(function ($relatedProduct) {
-                                       $variant = ProductVariant::where('product_id', $relatedProduct->id)->first();
-                                       $relatedProduct->price = $variant ? $variant->price : $relatedProduct->price;
-                                       $relatedProduct->price_sale = $variant ? $variant->price_sale : null;
-                                       return $relatedProduct;
-                                   });
+            ->where('id', '!=', $id)
+            ->get()
+            ->map(function ($relatedProduct) {
+                $variant = ProductVariant::where('product_id', $relatedProduct->id)->first();
+                $relatedProduct->price = $variant ? $variant->price : $relatedProduct->price;
+                $relatedProduct->price_sale = $variant ? $variant->price_sale : null;
+                return $relatedProduct;
+            });
 
         // Trả về view chi tiết sản phẩm với dữ liệu sản phẩm tương ứng
-        return view('client.layouts.detail', compact('product', 'price', 'price_sale', 'images', 'category', 'variants', 'relatedProducts'));
+        return view('client.layouts.detail', compact('product', 'price', 'price_sale', 'images', 'category', 'variants', 'relatedProducts', 'variant'));
     }
 }

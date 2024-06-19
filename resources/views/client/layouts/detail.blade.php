@@ -22,7 +22,7 @@
             <div class="col-lg-6">
                 <div class="product__details__pic">
                     <div class="product__details__pic__left product__thumb nice-scroll">
-                        @foreach($images as $image)
+                        @foreach ($images as $image)
                             <a class="pt" href="#product-{{ $loop->iteration }}">
                                 <img src="{{ asset('storage/' . $image->url) }}">
                             </a>
@@ -30,8 +30,9 @@
                     </div>
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
-                            @foreach($images as $image)
-                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img" src="{{ asset('storage/' . $image->url) }}" alt="{{ $product->name_product }}">
+                            @foreach ($images as $image)
+                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img"
+                                    src="{{ asset('storage/' . $image->url) }}" alt="{{ $product->name_product }}">
                             @endforeach
                         </div>
                     </div>
@@ -53,18 +54,26 @@
                     <p>{{ $product->description }}</p>
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
-                        <div class="quantity">
-                            <span>Quantity:</span>
-                            <div class="pro-qty">
-                                <input type="text" value="1">
+                        <form action="{{ route('cart.add') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="variant_id" value="{{ $variant->id }}">
+
+                            <div class="quantity">
+                                <span>Quantity:</span>
+                                <div class="pro-qty">
+                                    <input type="text" name="quantity" value="1">
+                                </div>
                             </div>
-                        </div>
-                        <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> Add to
+                                cart</button>
+                        </form>
                         <ul>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                         </ul>
                     </div>
+
                     <!-- Widget chi tiết sản phẩm -->
                     <div class="product__details__widget">
                         <ul>
@@ -72,12 +81,13 @@
                                 <span>Availability:</span>
                                 <div class="stock__checkbox">
                                     <label for="stockin">
-                                        @if($product->is_in_stock)
+                                        @if ($product->is_in_stock)
                                             In Stock
                                         @else
                                             Out of Stock
                                         @endif
-                                        <input type="checkbox" id="stockin" {{ $product->is_in_stock ? 'checked' : '' }}>
+                                        <input type="checkbox" id="stockin"
+                                            {{ $product->is_in_stock ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -89,7 +99,7 @@
                             <li>
                                 <span>Color:</span>
                                 <select name="color" id="color">
-                                    @foreach($variants->unique('color') as $variant)
+                                    @foreach ($variants->unique('color') as $variant)
                                         <option value="{{ $variant->color }}">{{ $variant->color }}</option>
                                     @endforeach
                                 </select>
@@ -97,7 +107,7 @@
                             <li>
                                 <span>Size:</span>
                                 <select name="size" id="size">
-                                    @foreach($variants->unique('size') as $variant)
+                                    @foreach ($variants->unique('size') as $variant)
                                         <option value="{{ $variant->size }}">{{ $variant->size }}</option>
                                     @endforeach
                                 </select>
@@ -130,7 +140,7 @@
                         </div>
                         <div class="tab-pane" id="tabs-3" role="tabpanel">
                             {{-- <h6>Reviews ({{ $product->reviews->count() }})</h6>
-                            @foreach($product->reviews as $review)
+                            @foreach ($product->reviews as $review)
                                 <div class="review">
                                     <div class="review__author">
                                         <h6>{{ $review->user->name }}</h6>
@@ -150,18 +160,22 @@
                     <h5>RELATED PRODUCTS</h5>
                 </div>
             </div>
-            @foreach($relatedProducts as $relatedProduct)
+            @foreach ($relatedProducts as $relatedProduct)
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/' . $relatedProduct->images->first()->url) }}">
+                        <div class="product__item__pic set-bg"
+                            data-setbg="{{ asset('storage/' . $relatedProduct->images->first()->url) }}">
                             <ul class="product__hover">
-                                <li><a href="{{ asset('storage/' . $relatedProduct->images->first()->url) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="{{ asset('storage/' . $relatedProduct->images->first()->url) }}"
+                                        class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="{{ route('detail', $relatedProduct->id) }}">{{ $relatedProduct->name_product }}</a></h6>
+                            <h6><a
+                                    href="{{ route('detail', $relatedProduct->id) }}">{{ $relatedProduct->name_product }}</a>
+                            </h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -170,7 +184,7 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product__price">
-                                @if($relatedProduct->price_sale)
+                                @if ($relatedProduct->price_sale)
                                     <span>${{ $relatedProduct->price }}</span> ${{ $relatedProduct->price_sale }}
                                 @else
                                     ${{ $relatedProduct->price }}

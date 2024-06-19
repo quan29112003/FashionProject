@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SearchController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 
 /*
@@ -53,6 +54,12 @@ Route::get('/contact', function () {
     return view('client.layouts.contact');
 })->name('contact');
 
-Route::get('/blog', function(){
+Route::get('/blog', function () {
     return view('client.layouts.home');
 })->name('blog');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+Route::get('/cart/remove/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/', [HomeController::class, 'index'])->name('home');

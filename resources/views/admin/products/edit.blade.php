@@ -20,8 +20,8 @@
             </div>
         </div>
     </div>
-    @foreach ($productVariant as $pr )
-    <form action="{{ route('handleEdit-productVariant',['id'=>$pr->id]) }}" method="POST" enctype="multipart/form-data">
+    @foreach ($product as $pr )
+    <form action="{{ route('handleEdit-product',['id'=>$pr->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">
@@ -35,50 +35,31 @@
                             <div class="row gy-4">
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Color</label>
-                                            <select class="form-select rounded-pill mb-3" name="color_id" aria-label="Default select example">
-                                                <option value="{{ $pr->color->id }}">{{ $pr->color->color }}</option>
-                                                @foreach ($productColor as $pc )
-                                                <option value="{{ $pc->id }}">{{ $pc->color }}</option>
+                                            <label for="name" class="form-label">Category</label>
+                                            <select class="form-select rounded-pill mb-3" name="category_id" aria-label="Default select example">
+                                                <option value="{{ $pr->category->id }}">{{ $pr->category->name }}</option>
+                                                @foreach ($category as $ct )
+                                                <option value="{{ $ct->id }}">{{ $ct->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Size</label>
-                                            <select class="form-select rounded-pill mb-3" name="size_id" aria-label="Default select example">
-                                                <option value="{{ $pr->size->id }}">{{ $pr->size->size }}</option>
-                                                @foreach ($productSize as $pz )
-                                                <option value="{{ $pz->id }}">{{ $pz->size }}</option>
-                                                @endforeach
-                                            </select>
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" class="form-control" name="name_product" value="{{ $pr->name_product }}" id="name">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Quantity</label>
-                                            <input type="text" class="form-control" name="quantity" value="{{ $pr->quantity }}" id="name">
+                                            <label for="name" class="form-label">Thumbnail</label>
+                                            @php
+                                                $url = $pr->thumbnail;
+                                            @endphp
+                                            <input type="file" class="form-control" name="thumbnail" value="{{ $url }}" id="name">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div>
-                                            <label for="name" class="form-label">Price Regular</label>
-                                            <input type="text" class="form-control" name="price" value="{{ $pr->price }}" id="name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div>
-                                            <label for="name" class="form-label">Price Sale</label>
-                                            <input type="text" class="form-control" name="price_sale" value="{{ $pr->price_sale }}" id="name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div>
-                                            <label for="name" class="form-label">SKU</label>
-                                            <input type="text" class="form-control" name="SKU" value="{{ $pr->SKU }}" id="name">
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-4">
                                         <div>
                                             <label for="name" class="form-label">Active</label>
@@ -87,6 +68,13 @@
                                                 <option value="0">In Active</option>
                                             </select>
                                         </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <h1>Description</h1>
+                                        <textarea name="description" value="{{ $pr->description }}" id="editor">
+                                            <p>This is some sample content.</p>
+                                        </textarea>
                                     </div>
                             </div>
 
@@ -108,5 +96,13 @@
         </div>
 
     </form>
+
+    <script>
+        ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+    </script>
     @endforeach
 @endsection

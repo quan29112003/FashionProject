@@ -22,6 +22,9 @@
                                     <div>
                                         <label for="basiInput" class="form-label">Name</label>
                                         <input type="text" class="form-control" name="name_product" id="basiInput">
+                                        @error('name_product')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -84,7 +87,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <select class="form-select" id="colorSelect" multiple aria-label="multiple select example">
-                                        <option selected>Open this select menu (multiple select option)</option>
+                                        <option selected>Chọn màu</option>
                                         @foreach ($product_color as $id => $color )
                                             <option value="{{ $id }}">{{ $color }}</option>
                                         @endforeach
@@ -93,7 +96,7 @@
 
                                 <div class="col-lg-6">
                                     <select class="form-select" id="sizeSelect"  multiple aria-label="multiple select example">
-                                        <option selected>Open this select menu (multiple select option)</option>
+                                        <option selected>Chọn kích thước</option>
                                         @foreach ($product_size as $id => $size )
                                             <option value="{{ $id }}">{{ $size }}</option>
                                         @endforeach
@@ -237,14 +240,12 @@
                                 <div id="output"  class="row gy-4">
                                     <div class="col-xxl-3 col-md-6">
                                         <div>
-                                            <label for="disabledInput" class="form-label">Disabled Input</label>
-                                            <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size}">
+                                            <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size}" hidden>
                                         </div>
                                     </div>
                                     <div class="col-xxl-3 col-md-6">
                                         <div>
-                                            <label for="disabledInput" class="form-label">Disabled Input</label>
-                                            <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color}">
+                                            <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color}" hidden>
                                         </div>
                                     </div>
                                     <div class="col-xxl-3 col-md-6">

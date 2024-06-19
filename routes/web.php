@@ -30,6 +30,8 @@ Route::get('/', [Controller::class, 'dasboard']);
 Route::get('show-product',[ProductController::class, 'index'])->name('product');
 Route::get('create-product',[ProductController::class, 'create'])->name('store-product');
 Route::post('create-product',[ProductController::class,'store'])->name('handleStore-product');
+Route::get('edit-product/{id}',[ProductController::class, 'edit'])->name('edit-product');
+Route::put('edit-product/{id}',[ProductController::class, 'handleEdit'])->name('handleEdit-product');
 
 Route::get('product-variant/{id}',[ProductVariantController::class, 'show'])->name('product-variant');
 Route::get('edit-product-variant/{id}',[ProductVariantController::class, 'edit'])->name('edit-productVariant');

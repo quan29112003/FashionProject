@@ -13,6 +13,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Http\Requests\ProductRequest;
 
 
 
@@ -37,6 +38,18 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
+    public function edit($id){
+        $category = Category::all();
+        $product = Product::with(['category'])->where('id',$id)->get();
+        return view('admin.products.edit',compact('category','product'));
+    }
+
+    public function handleEdit(Request $request, $id){
+        $data = $request->except('_token','_method');
+        Product::where('id',$id)->update($data);
+        return redirect()->route('product');
+    }
+
     public function create(Request $request)
     {
 
@@ -47,10 +60,8 @@ class ProductController extends Controller
         return view('admin.products.create', compact('category', 'product_color', 'product_size'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        // $data = $request->productVariant;
-        // dd($data);
 
         $dataProduct = $request->except('productVariant', 'product_images');
 
@@ -61,7 +72,10 @@ class ProductController extends Controller
         $img = $dataProduct['thumbnail'];
         $thumbnailName = time() . '_' . $img->getClientOriginalName();
         $img->move(public_path('uploads'), $thumbnailName);
-
+        $dataProduct['is_active']  ??= 0;
+        $dataProduct['is_hot']  ??= 0;
+        $dataProduct['is_good_deal']  ??= 0;
+        $dataProduct['is_show_home']  ??= 0;
         $product = Product::query()->create([
             'name_product' => $dataProduct['name_product'],
             'category_id' => $dataProduct['category_id'],
@@ -76,6 +90,7 @@ class ProductController extends Controller
         foreach ($dataProductVariant as $variant) {
             $variant['product_id'] = $product->id;
             $variant = $this->cleanArrayKeys($variant);
+            $variant['is_active']  ??= 0;
             ProductVariant::query()->create([
                 'product_id' => $product->id,
                 'color_id' => $variant['color'],

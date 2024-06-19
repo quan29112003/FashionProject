@@ -42,13 +42,13 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCatalogues" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarCatalogues">
+                    <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
+                       aria-expanded="false" aria-controls="sidebarProduct">
                         <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Danh mục sản phẩm</span>
+                        <span data-key="t-layouts">Sản phẩm</span>
 
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarCatalogues">
+                    <div class="collapse menu-dropdown" id="sidebarProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="" class="nav-link"
@@ -63,13 +63,55 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarProduct">
+                    <a class="nav-link menu-link" href="#sidebarColor" data-bs-toggle="collapse" role="button"
+                       aria-expanded="false" aria-controls="sidebarColor">
                         <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Sản phẩm</span>
+                        <span data-key="t-layouts">Màu</span>
 
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarProduct">
+                    <div class="collapse menu-dropdown" id="sidebarColor">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="" class="nav-link"
+                                   data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="" class="nav-link"
+                                   data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarSize" data-bs-toggle="collapse" role="button"
+                       aria-expanded="false" aria-controls="sidebarSize">
+                        <i class="ri-layout-3-line"></i>
+                        <span data-key="t-layouts">Kích cỡ</span>
+
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarSize">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="" class="nav-link"
+                                   data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="" class="nav-link"
+                                   data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
+                       aria-expanded="false" aria-controls="sidebarCategory">
+                        <i class="ri-layout-3-line"></i>
+                        <span data-key="t-layouts">Danh mục</span>
+
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarCategory">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="" class="nav-link"

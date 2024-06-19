@@ -12,11 +12,19 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     // return Product::with('variants', 'images')
+    //     //     ->orderBy('created_at', 'desc')
+    //     //     ->get();
+    //     $products = Product::all(); // Fetch all products, adjust query as per your needs
+    //     return view('client.layouts.home', compact('products'));
+    // }
+
     public function index()
     {
-        return Product::with('variants', 'images')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $products = Product::all(); // Example query to fetch all products
+        return view('client.layouts.home', compact('products'));
     }
 
     /**

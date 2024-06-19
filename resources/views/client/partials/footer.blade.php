@@ -92,6 +92,7 @@
 <script src="{{ asset('theme-cli/js/owl.carousel.min.js')}}"></script>
 <script src="{{ asset('theme-cli/js/jquery.nicescroll.min.js')}}"></script>
 <script src="{{ asset('theme-cli/js/main.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
 </body>
 
 </html>

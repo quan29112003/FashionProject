@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\DetailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SearchController;
+
 
 
 /*
@@ -16,26 +21,31 @@ use Illuminate\Support\Facades\Route;
 // Route::prefix('admin')->name('admin.')->group(function () {
 //     Route::resource('points', AdminPointController::class);
 // });
-Route::get('/', function () {
-    return view('client.layouts.home');
-})->name('/');
+// Route::get('/', function () {
+//     return view('client.layouts.home');
+// })->name('/');
 // routes/web.php
+Route::get('/', [HomeController::class, 'index'])->name('/');
+Route::get('/search', [SearchController::class, 'search'])->name('product.search');
 
-Route::get('/detail', function () {
-    return view('client.layouts.detail');
-})->name('detail');
+
+Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+
 Route::get('/cart', function () {
     return view('client.layouts.cart');
 })->name('cart');
 Route::get('/checkout', function () {
     return view('client.layouts.checkout');
 })->name('checkout');
-Route::get('/shop', function () {
-    return view('client.layouts.shop');
-})->name('shop');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
+
 Route::get('/blog', function () {
     return view('client.layouts.blog');
 })->name('blog');
 Route::get('/blog-detail', function () {
     return view('client.layouts.blog-detail');
 })->name('blog-detail');
+Route::get('/contact', function () {
+    return view('client.layouts.contact');
+})->name('contact');

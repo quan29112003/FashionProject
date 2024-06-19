@@ -61,24 +61,34 @@
         <div class="container-fluid">
             <div class="row">
 
+                {{-- logo --}}
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="{{ route('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/logo.png') }}"
+                                alt=""></a>
                     </div>
                 </div>
 
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
+
                         {{-- menus --}}
                         <ul>
                             @foreach ($menus as $menu)
-                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a href="{{ url( $menu->url ) }}">{{ $menu->menu_item }}</a></li>
+                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a
+                                        href="{{ url($menu->url) }}">{{ $menu->menu_item }}</a></li>
                             @endforeach
                         </ul>
 
+                        {{-- categories --}}
                         <ul>
-                            <li><a href="#">Women’s</a></li>
-                            <li><a href="#">Men’s</a></li>
+                            @foreach ($CategoryGenders as $CategoryGender)
+                                <li>
+                                    <a href="#">{{ $CategoryGender->name }}</a>
+                                </li>
+                            @endforeach
+
+                            {{-- search --}}
                             <li>
                                 <div class="header__search">
                                     <form id="searchForm" action="{{ route('product.search') }}" method="GET">
@@ -87,11 +97,13 @@
                                     </form>
                                 </div>
                             </li>
+
                         </ul>
 
                     </nav>
                 </div>
-                
+
+                {{-- login, cart, wishlist --}}
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">

@@ -25,7 +25,10 @@ use App\Http\Controllers\SearchController;
 //     return view('client.layouts.home');
 // })->name('/');
 // routes/web.php
-Route::get('/', [HomeController::class, 'index'])->name('/');
+Route::resource('/', HomeController::class);
+
+
+
 Route::get('/search', [SearchController::class, 'search'])->name('product.search');
 
 

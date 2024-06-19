@@ -14,7 +14,7 @@ class ProductImageSeeder extends Seeder
     public function run()
     {
         $productIds = Product::pluck('id')->toArray();
-        $image = [
+        $images = [
             'product01.jpg',
             'product02.jpg',
             'product03.jpg',
@@ -33,10 +33,10 @@ class ProductImageSeeder extends Seeder
             'product16.jpg',
         ];
 
-        foreach ($productIds as $productId) {
+        foreach ($images as $image) {
             foreach ($productIds as $productId) {
                 ProductImage::create([
-                    'url' => 'type /đường_dẫn_đến_file_chứa_đường_dẫn_ảnh > filenames.txt', // Điều chỉnh đường dẫn ảnh tương ứng
+                    'url' => $image, // Điều chỉnh đường dẫn ảnh tương ứng
                     'product_id' => $productId,
                 ]);
             }

@@ -34,13 +34,18 @@
                                         @foreach ($category as $id => $name )
                                             <option value="{{ $id }}">{{ $name }}</option>
                                         @endforeach
-
                                     </select>
+                                    @error('category_id')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="img_thumbnail" class="form-label">Img Thumbnail</label>
                                     <input type="file" class="form-control" name="thumbnail" id="img_thumbnail">
                                 </div>
+                                @error('thumbnail')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 <div class="row">
                                     @php
                                         $is = [
@@ -67,6 +72,9 @@
                                     <textarea name="description" id="editor">
                                         <p>This is some sample content.</p>
                                     </textarea>
+                                    @error('description')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
 
                             </div>
@@ -130,6 +138,9 @@
                                         <input type="file" class="form-control" name="product_images[]"
                                             id="gallery_default">
                                     </div>
+                                    @error('product_images')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
                             </div>
                         </div>
@@ -198,18 +209,33 @@
             // Xóa các biến thể cũ
             productVariants = [];
 
-            // Lấy các giá trị đã chọn từ colorSelect
-            const selectedColors = Array.from(colorSelect.selectedOptions).map(option => option.value);
+            // Lấy các giá trị đã chọn từ colorSelect và sizeSelect
+            const selectedColors = Array.from(colorSelect.selectedOptions).map(option => ({
+                id: option.value,
+                value: option.value,
+                text: option.textContent.trim()
+            }));
 
-            // Lấy các giá trị đã chọn từ sizeSelect
-            const selectedSizes = Array.from(sizeSelect.selectedOptions).map(option => option.value);
+            const selectedSizes = Array.from(sizeSelect.selectedOptions).map(option => ({
+                id: option.value,
+                value: option.value,
+                text: option.textContent.trim()
+            }));
 
             // Tạo các biến thể sản phẩm dựa trên các giá trị đã chọn
             selectedColors.forEach(color => {
                 selectedSizes.forEach(size => {
                     const variant = {
-                        color: color,
-                        size: size
+                        color: {
+                            id: color.id,
+                            value: color.value,
+                            text: color.text
+                        },
+                        size: {
+                            id: size.id,
+                            value: size.value,
+                            text: size.text
+                        }
                     };
                     // Thêm biến thể vào mảng productVariants
                     productVariants.push(variant);
@@ -231,7 +257,7 @@
                 variantElement.classList.add('variant-item');
                 variantElement.innerHTML = `
                 <div class="card-header align-items-center d-flex">
-                <h5>Biến thể ${index+1}</h5>
+                <h5>Biến thể ${variant.color.text} và ${variant.size.text}</h5>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
@@ -240,12 +266,12 @@
                                 <div id="output"  class="row gy-4">
                                     <div class="col-xxl-3 col-md-6">
                                         <div>
-                                            <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size}" hidden>
+                                            <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size.value}" hidden>
                                         </div>
                                     </div>
                                     <div class="col-xxl-3 col-md-6">
                                         <div>
-                                            <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color}" hidden>
+                                            <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color.value}" hidden>
                                         </div>
                                     </div>
                                     <div class="col-xxl-3 col-md-6">

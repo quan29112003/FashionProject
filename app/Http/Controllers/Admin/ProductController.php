@@ -44,7 +44,7 @@ class ProductController extends Controller
         return view('admin.products.edit',compact('category','product'));
     }
 
-    public function handleEdit(Request $request, $id){
+    public function handleEdit(ProductRequest $request, $id){
         $data = $request->except('_token','_method');
         Product::where('id',$id)->update($data);
         return redirect()->route('product');

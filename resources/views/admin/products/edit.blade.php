@@ -42,6 +42,9 @@
                                                 <option value="{{ $ct->id }}">{{ $ct->name }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('category_id')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -49,6 +52,9 @@
                                             <label for="name" class="form-label">Name</label>
                                             <input type="text" class="form-control" name="name_product" value="{{ $pr->name_product }}" id="name">
                                         </div>
+                                        @error('name_product')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <div>
@@ -75,6 +81,9 @@
                                         <textarea name="description" value="{{ $pr->description }}" id="editor">
                                             <p>This is some sample content.</p>
                                         </textarea>
+                                        @error('description')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                             </div>
 

@@ -38,6 +38,9 @@
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" class="form-control" name="size" value="{{ $size->size }}" id="name">
                                     </div>
+                                    @error('name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
                             </div>
 

@@ -51,11 +51,11 @@
                     <div class="collapse menu-dropdown" id="sidebarProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('product') }}" class="nav-link"
                                    data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('store-product') }}" class="nav-link"
                                    data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -72,11 +72,11 @@
                     <div class="collapse menu-dropdown" id="sidebarColor">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('color') }}" class="nav-link"
                                    data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('store-color') }}" class="nav-link"
                                    data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -93,11 +93,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSize">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('size') }}" class="nav-link"
                                    data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('store-size') }}" class="nav-link"
                                    data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -114,12 +114,12 @@
                     <div class="collapse menu-dropdown" id="sidebarCategory">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('category') }}" class="nav-link"
                                    data-key="t-horizontal">Danh sách</a>
 
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link"
+                                <a href="{{ route('store-category') }}" class="nav-link"
                                    data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>

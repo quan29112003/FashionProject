@@ -35,6 +35,11 @@ class DetailController extends Controller
         $colors = $variants->pluck('color')->unique();
         $sizes = $variants->pluck('size')->unique();
 
+        // Assume logic to determine selected color and size
+        $selectedColorId = $variants->first() ? $variants->first()->color->id : null;
+        $selectedSizeId = $variants->first() ? $variants->first()->size->id : null;
+
+
         // Get related products by the same category, excluding the current product
         $relatedProducts = Product::with('images')
             ->where('category_id', $product->category_id)
@@ -48,6 +53,6 @@ class DetailController extends Controller
             });
 
         // Return the product detail view with the necessary data
-        return view('client.layouts.detail', compact('product', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts'));
+        return view('client.layouts.detail', compact('product', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
     }
 }

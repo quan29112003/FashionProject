@@ -87,20 +87,26 @@
                             </li>
                             <!-- Các lựa chọn khác (màu sắc, kích cỡ, khuyến mãi, ...) -->
                             <li>
-                                <span>Color:</span>
-                                <select name="color" id="color">
+                                <span>Available color:</span>
+                                <div class="color__checkbox">
                                     @foreach($colors as $color)
-                                        <option value="{{ $color->id }}">{{ $color->color }}</option>
+                                        <label for="color_{{ $color->id }}">
+                                            <input type="radio" name="color__radio" id="color_{{ $color->id }}" value="{{ $color->id }}" {{ $color->id == $selectedColorId ? 'checked' : '' }}>
+                                            <span class="checkmark" style="background-color: {{ $color->color_code }}; border:1px solid black;"></span>
+                                        </label>
                                     @endforeach
-                                </select>
+                                </div>
                             </li>
                             <li>
-                                <span>Size:</span>
-                                <select name="size" id="size">
+                                <span>Available size:</span>
+                                <div class="size__btn">
                                     @foreach($sizes as $size)
-                                        <option value="{{ $size->id }}">{{ $size->size }}</option>
+                                        <label for="size_{{ $size->id }}">
+                                            <input type="radio" name="size__radio" id="size_{{ $size->id }}" value="{{ $size->id }}" {{ $size->id == $selectedSizeId ? 'checked' : '' }}>
+                                            {{ $size->size }}
+                                        </label>
                                     @endforeach
-                                </select>
+                                </div>
                             </li>
                         </ul>
                     </div>

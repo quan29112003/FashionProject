@@ -128,7 +128,7 @@
                             @if ($product->images->isNotEmpty())
                                 <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
                                 <div class="product__item__pic set-bg"
-                                    data-setbg="{{ asset('storage/' . $product->images->first()->url) }}">
+                                    data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
 
                                     <a href="{{ route('detail', $product->id) }}">
                                         <img src="{{ asset('uploads/' . $product->images->first()->url) }}"
@@ -140,7 +140,7 @@
                                         <!-- Các hành động khi hover -->
 
                                         <li>
-                                            <a href="{{ asset('storage/' . $product->images->first()->url) }}"
+                                            <a href="{{ asset('uploads/' . $product->images->first()->url) }}"
                                                 class="image-popup">
                                                 <span class="arrow_expand"></span>
                                             </a>
@@ -190,8 +190,13 @@
                                     @endfor
                                 </div>
 
-                                <div class="product__price">${{ $variant->price }}</div>
-                                <!-- Giá sản phẩm -->
+                                @if ($variant)
+                                    <div class="product__price">${{ $variant->price }}</div>
+                                    <!-- Giá sản phẩm -->
+                                @else
+                                    <div class="product__price">Giá chưa cập nhật</div>
+                                    <!-- Handle case where variant is null -->
+                                @endif
                             </div>
                         </div>
                     </div>

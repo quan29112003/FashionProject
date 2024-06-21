@@ -20,8 +20,10 @@
 <section class="shop spad">
     <div class="container">
         <div class="row">
+            <!-- Sidebar Begin -->
             <div class="col-lg-3 col-md-3">
                 <div class="shop__sidebar">
+                    <!-- Categories Section -->
                     <div class="sidebar__categories">
                         <div class="section-title">
                             <h4>Categories</h4>
@@ -36,7 +38,8 @@
                                                 {{ $category->name }}
                                             </a>
                                         </div>
-                                        {{-- <div id="category-{{ $category->id }}" class="collapse" data-parent="#accordionExample">
+                                        {{-- Uncomment to enable subcategories
+                                        <div id="category-{{ $category->id }}" class="collapse" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
                                                     @foreach ($category->subcategories as $subcategory)
@@ -50,6 +53,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Price Filter Section -->
                     <div class="sidebar__filter">
                         <div class="section-title">
                             <h4>Shop by price</h4>
@@ -67,6 +71,7 @@
                         </div>
                         <button id="filter-btn" class="site-btn">Filter</button>
                     </div>
+                    <!-- Size Filter Section -->
                     <div class="sidebar__sizes">
                         <div class="section-title">
                             <h4>Shop by size</h4>
@@ -81,6 +86,7 @@
                             @endforeach
                         </div>
                     </div>
+                    <!-- Color Filter Section -->
                     <div class="sidebar__color">
                         <div class="section-title">
                             <h4>Shop by color</h4>
@@ -97,21 +103,33 @@
                     </div>
                 </div>
             </div>
+            <!-- Sidebar End -->
 
+            <!-- Products Section Begin -->
             <div class="col-lg-9 col-md-9">
+                <!-- Sorting Filter -->
+                <div class="shop__sorting">
+                    <select id="sort-by" class="form-control">
+                        <option value="newest">Newest to Oldest</option>
+                        <option value="oldest">Oldest to Newest</option>
+                        <option value="price_high_low">Price: High to Low</option>
+                        <option value="price_low_high">Price: Low to High</option>
+                        <option value="name_asc">Name: A to Z</option>
+                        <option value="name_desc">Name: Z to A</option>
+                    </select>
+                </div>
+
                 <div class="row" id="product-list">
                     @php
                         $productCount = 0;
                     @endphp
                     @foreach ($products as $product)
                         @foreach ($product->variants as $variant)
-                            <div class="col-lg-4 col-md-6 product-item  @if ($productCount >= 12) d-none @endif">
+                            <div class="col-lg-4 col-md-6 product-item @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg"
-                                        data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
                                         <ul class="product__hover">
-                                            <li><a href="{{ asset('uploads/' . $product->images->first()->url) }}"
-                                                    class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li><a href="{{ asset('uploads/' . $product->images->first()->url) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>
@@ -125,7 +143,7 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">$ {{ $variant->price }}</div>
+                                        <div class="product__price">${{ $variant->price ?? 'Price not available' }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -135,13 +153,12 @@
                         @endforeach
                     @endforeach
                 </div>
-                <!-- Nút Xem thêm -->
+                <!-- Load More Button -->
                 <div class="col-lg-12 text-center">
-                    <button id="load-more-btn"
-                        class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem
-                        thêm</button>
+                    <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">Load more</button>
                 </div>
             </div>
+            <!-- Products Section End -->
         </div>
     </div>
 </section>
@@ -190,6 +207,14 @@
             url.searchParams.set('max_price', max);
             window.location.href = url.toString();
         });
+
+        // Sorting filter
+        $('#sort-by').on('change', function() {
+            var sortBy = $(this).val();
+            var url = new URL(window.location.href);
+            url.searchParams.set('sort_by', sortBy);
+            window.location.href = url.toString();
+        });
     });
 </script>
 
@@ -204,7 +229,7 @@
                 if (hiddenProducts[i]) {
                     hiddenProducts[i].classList.remove('d-none');
                 } else {
-                    loadMoreBtn.style.display = 'none'; // Ẩn nút khi hết sản phẩm để hiển thị
+                    loadMoreBtn.style.display = 'none'; // Hide button when no more products to show
                     break;
                 }
             }

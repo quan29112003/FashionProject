@@ -33,6 +33,7 @@ Route::get('/search', [SearchController::class, 'search'])->name('product.search
 
 
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
 
 Route::get('/cart', function () {
     return view('client.layouts.cart');

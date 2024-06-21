@@ -12,13 +12,35 @@ use App\Models\ProductVariant;
 
 class HomeController extends Controller
 {
+    // public function index()
+    // {
+    //     // Lấy 8 sản phẩm và sắp xếp theo product_id giảm dần
+    //     $products = Product::with(['variants', 'images', 'category'])
+    //     ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
+    //     ->get();
+
+
+    //     // Fetch all categories separately
+    //     $categories = Category::all();
+
+    //     return view('client.layouts.home', compact('products', 'categories'));
+    // }
+
+
     public function index()
     {
-        // Lấy 8 sản phẩm và sắp xếp theo product_id giảm dần
-        $products = Product::with(['variants', 'images', 'category'])
-        ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
-        ->get();
         
+        $products = Product::with(['variants', 'images', 'category'])
+            ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
+            ->get();
+
+        // Attach the first variant to each product
+        $products->each(function ($product) {
+            // Order variants by price and attach the first one (you can adjust the criteria)
+            $product->variant = $product->variants()->orderBy('price')->first();
+            // Clear the variants collection to only include the selected one
+            $product->setRelation('variants', collect([$product->variant]));
+        });
 
         // Fetch all categories separately
         $categories = Category::all();

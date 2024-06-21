@@ -55,4 +55,22 @@ class DetailController extends Controller
         // Return the product detail view with the necessary data
         return view('client.layouts.detail', compact('product', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
     }
+
+    public function getProductPrice(Request $request)
+    {
+        $productId = $request->query('product_id');
+        $colorId = $request->query('color');
+        $sizeId = $request->query('size');
+
+        $variant = ProductVariant::where('product_id', $productId)
+            ->where('color_id', $colorId)
+            ->where('size_id', $sizeId)
+            ->first();
+
+        if ($variant) {
+            return response()->json(['price' => $variant->price, 'price_sale' => $variant->price_sale]);
+        } else {
+            return response()->json(['error' => 'Invalid variant selected.'], 404);
+        }
+    }
 }

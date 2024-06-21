@@ -74,7 +74,7 @@ Route::get('vouchers/category/{categoryId}', [VoucherController::class, 'getByCa
 Route::get('/blog', function(){
     return view('client.layouts.home');
 })->name('blog');
-Route::get('/', [Controller::class, 'dasboard']);
+// Route::get('/', [Controller::class, 'dasboard']);
 
 Route::prefix('admin')->group(function(){
     Route::get('show-product',[ProductController::class, 'index'])->name('product');

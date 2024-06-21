@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="/"><i class="fa fa-home"></i> Home</a>
-                    <span>{{ $product->name_product }}</span> <!-- Tên sản phẩm -->
+                    <span>{{ $product->name_product }}</span>
                 </div>
             </div>
         </div>
@@ -22,23 +22,24 @@
             <div class="col-lg-6">
                 <div class="product__details__pic">
                     <div class="product__details__pic__left product__thumb nice-scroll">
-                        @foreach($images as $image)
+                        @foreach ($images as $image)
                             <a class="pt" href="#product-{{ $loop->iteration }}">
-                                <img src="{{ asset('storage/' . $image->url) }}">
+                                <img src="{{ asset('uploads/' . $image->url) }}" alt="Product Thumbnail">
                             </a>
                         @endforeach
                     </div>
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
-                            @foreach($images as $image)
-                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img" src="{{ asset('storage/' . $image->url) }}" alt="{{ $product->name_product }}">
+                            @foreach ($images as $image)
+                                <img data-hash="product-{{ $loop->iteration }}" class="product__big__img"
+                                    src="{{ asset('uploads/' . $image->url) }}" alt="{{ $product->name_product }}">
                             @endforeach
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="product__details__text">
+                <div class="product__details__text" data-product-id="{{ $product->id }}">
                     <h3>{{ $product->name_product }} <span>Brand: {{ $product->brand }}</span></h3>
                     <!-- Đánh giá sản phẩm -->
                     <div class="rating">
@@ -47,9 +48,10 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
-                        <span>( 138 reviews )</span>
+                        <span>(138 reviews)</span>
                     </div>
-                    <div class="product__details__price">${{ $price }} <span>${{ $price_sale }}</span></div>
+                    <div class="product__details__price" id="productPrice">${{ $price }}
+                        <span>${{ $price_sale }}</span></div>
                     <p>{{ $product->description }}</p>
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
@@ -72,35 +74,47 @@
                                 <span>Availability:</span>
                                 <div class="stock__checkbox">
                                     <label for="stockin">
-                                        @if($product->is_in_stock)
+                                        @if ($product->is_in_stock)
                                             In Stock
                                         @else
                                             Out of Stock
                                         @endif
-                                        <input type="checkbox" id="stockin" {{ $product->is_in_stock ? 'checked' : '' }}>
+                                        <input type="checkbox" id="stockin"
+                                            {{ $product->is_in_stock ? 'checked' : '' }}>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
                             </li>
                             <li>
-                                <span>Category:</span> {{ $category }} <!-- Hiển thị tên danh mục -->
+                                <span>Category:</span> {{ $category }}
                             </li>
                             <!-- Các lựa chọn khác (màu sắc, kích cỡ, khuyến mãi, ...) -->
                             <li>
-                                <span>Color:</span>
-                                <select name="color" id="color">
-                                    @foreach($variants->unique('color') as $variant)
-                                        <option value="{{ $variant->color }}">{{ $variant->color }}</option>
+                                <span>Available color:</span>
+                                <div class="color__checkbox">
+                                    @foreach ($colors as $color)
+                                        <label for="color_{{ $color->id }}">
+                                            <input type="radio" name="color__radio" id="color_{{ $color->id }}"
+                                                value="{{ $color->id }}"
+                                                {{ $color->id == $selectedColorId ? 'checked' : '' }}>
+                                            <span class="checkmark"
+                                                style="background-color: {{ $color->color_code }}; border:1px solid black;"></span>
+                                        </label>
                                     @endforeach
-                                </select>
+                                </div>
                             </li>
                             <li>
-                                <span>Size:</span>
-                                <select name="size" id="size">
-                                    @foreach($variants->unique('size') as $variant)
-                                        <option value="{{ $variant->size }}">{{ $variant->size }}</option>
+                                <span>Available size:</span>
+                                <div class="size__btn">
+                                    @foreach ($sizes as $size)
+                                        <label for="size_{{ $size->id }}">
+                                            <input type="radio" name="size__radio" id="size_{{ $size->id }}"
+                                                value="{{ $size->id }}"
+                                                {{ $size->id == $selectedSizeId ? 'checked' : '' }}>
+                                            {{ $size->size }}
+                                        </label>
                                     @endforeach
-                                </select>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -115,9 +129,6 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
                         </li>
-                        <li class="nav-item">
-                            {{-- <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ({{ $product->reviews->count() }})</a> --}}
-                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -127,18 +138,6 @@
                         <div class="tab-pane" id="tabs-2" role="tabpanel">
                             <h6>Specification</h6>
                             <p>{{ $product->specification }}</p>
-                        </div>
-                        <div class="tab-pane" id="tabs-3" role="tabpanel">
-                            {{-- <h6>Reviews ({{ $product->reviews->count() }})</h6>
-                            @foreach($product->reviews as $review)
-                                <div class="review">
-                                    <div class="review__author">
-                                        <h6>{{ $review->user->name }}</h6>
-                                        <span>{{ $review->created_at->format('M d, Y') }}</span>
-                                    </div>
-                                    <p>{{ $review->content }}</p>
-                                </div>
-                            @endforeach --}}
                         </div>
                     </div>
                 </div>
@@ -150,18 +149,25 @@
                     <h5>RELATED PRODUCTS</h5>
                 </div>
             </div>
-            @foreach($relatedProducts as $relatedProduct)
-                <div class="col-lg-3 col-md-4 col-sm-6">
+            @php
+                $productCount = 0;
+            @endphp
+            @foreach ($relatedProducts as $relatedProduct)
+                <div class="col-lg-3 col-md-4 col-sm-6 product-item @if ($productCount >= 8) d-none @endif">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/' . $relatedProduct->images->first()->url) }}">
+                        <div class="product__item__pic set-bg"
+                            data-setbg="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}">
                             <ul class="product__hover">
-                                <li><a href="{{ asset('storage/' . $relatedProduct->images->first()->url) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}"
+                                        class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="{{ route('detail', $relatedProduct->id) }}">{{ $relatedProduct->name_product }}</a></h6>
+                            <h6><a
+                                    href="{{ route('detail', $relatedProduct->id) }}">{{ $relatedProduct->name_product }}</a>
+                            </h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -170,7 +176,7 @@
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product__price">
-                                @if($relatedProduct->price_sale)
+                                @if ($relatedProduct->price_sale)
                                     <span>${{ $relatedProduct->price }}</span> ${{ $relatedProduct->price_sale }}
                                 @else
                                     ${{ $relatedProduct->price }}
@@ -179,10 +185,83 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    $productCount++;
+                @endphp
             @endforeach
         </div>
-    </div>
+        <div class="col-lg-12 text-center">
+            <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 8) d-none @endif">
+                Xem thêm
+            </button>
+        </div>
 </section>
+
 <!-- Product Details Section End -->
 
 @include('client.partials.footer')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const hiddenProducts = document.querySelectorAll('.product-item.d-none');
+        let currentCount = 0;
+
+        loadMoreBtn.addEventListener('click', function() {
+            const maxToShow = 8;
+            for (let i = currentCount; i < currentCount + maxToShow; i++) {
+                if (hiddenProducts[i]) {
+                    hiddenProducts[i].classList.remove('d-none');
+                } else {
+                    loadMoreBtn.style.display = 'none'; // Hide button when no more products to show
+                    break;
+                }
+            }
+            currentCount += maxToShow;
+        });
+
+        const colorRadios = document.querySelectorAll('input[name="color__radio"]');
+        const sizeRadios = document.querySelectorAll('input[name="size__radio"]');
+        const productPrice = document.getElementById('productPrice');
+        const productDetails = document.querySelector('.product__details__text');
+        const productId = productDetails.dataset.productId;
+
+        function updatePrice() {
+            const selectedColor = document.querySelector('input[name="color__radio"]:checked');
+            const selectedSize = document.querySelector('input[name="size__radio"]:checked');
+
+            if (!selectedColor || !selectedSize) {
+                return; // Nếu chưa chọn đủ màu sắc và kích cỡ thì không làm gì cả
+            }
+
+            const colorId = selectedColor.value;
+            const sizeId = selectedSize.value;
+
+            // Gửi yêu cầu AJAX để lấy giá của biến thể sản phẩm
+            fetch(`/getProductPrice?product_id=${productId}&color=${colorId}&size=${sizeId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Invalid variant selected.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    productPrice.innerHTML = `$${data.price} <span>$${data.price_sale}</span>`;
+                })
+                .catch(error => {
+                    console.error('Error fetching price:', error);
+                    productPrice.innerHTML = 'Hết hàng';
+                });
+        }
+
+        colorRadios.forEach(radio => {
+            radio.addEventListener('change', updatePrice);
+        });
+
+        sizeRadios.forEach(radio => {
+            radio.addEventListener('change', updatePrice);
+        });
+
+        // Cập nhật giá ban đầu khi tải trang
+        updatePrice();
+    });
+</script>

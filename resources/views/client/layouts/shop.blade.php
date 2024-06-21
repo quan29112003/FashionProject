@@ -64,8 +64,8 @@
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
-                                    <input type="text" id="minamount" readonly>
-                                    <input type="text" id="maxamount" readonly>
+                                    $<input type="text" id="minamount">
+                                    $<input type="text" id="maxamount">
                                 </div>
                             </div>
                         </div>
@@ -112,8 +112,6 @@
                     <select id="sort-by" class="form-control">
                         <option value="newest">Newest to Oldest</option>
                         <option value="oldest">Oldest to Newest</option>
-                        <option value="price_high_low">Price: High to Low</option>
-                        <option value="price_low_high">Price: Low to High</option>
                         <option value="name_asc">Name: A to Z</option>
                         <option value="name_desc">Name: Z to A</option>
                     </select>
@@ -155,7 +153,7 @@
                 </div>
                 <!-- Load More Button -->
                 <div class="col-lg-12 text-center">
-                    <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">Load more</button>
+                    <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem thêm</button>
                 </div>
             </div>
             <!-- Products Section End -->
@@ -163,6 +161,43 @@
     </div>
 </section>
 <!-- Shop Section End -->
+
+<!-- Services Section Begin -->
+<section class="services spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-car"></i>
+                    <h6>Free Shipping</h6>
+                    <p>For all oder over $99</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-money"></i>
+                    <h6>Money Back Guarantee</h6>
+                    <p>If good have Problems</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-support"></i>
+                    <h6>Online Support 24/7</h6>
+                    <p>Dedicated support</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-headphones"></i>
+                    <h6>Payment Secure</h6>
+                    <p>100% secure payment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services Section End -->
 
 <!-- Instagram Begin -->
 <div class="instagram">

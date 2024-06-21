@@ -249,7 +249,7 @@
                 })
                 .catch(error => {
                     console.error('Error fetching price:', error);
-                    productPrice.innerHTML = 'Price not available';
+                    productPrice.innerHTML = 'Hết hàng';
                 });
         }
 

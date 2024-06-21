@@ -9,6 +9,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Birthday</th>
                 <th>Age</th>
@@ -22,6 +23,7 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
+                    <td>{{ $user->id }}</td>
                     <td>{{ $user->nameUser }}</td>
                     <td>{{ $user->birthday }}</td>
                     <td>{{ $user->age }}</td>
@@ -31,7 +33,7 @@
                     <td>{{ $user->type }}</td>
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa User này không?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>

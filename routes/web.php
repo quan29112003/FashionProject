@@ -60,6 +60,8 @@ Route::resource('vouchers', VoucherController::class);
 Route::resource('comments', CommentController::class);
 Route::resource('wishlists', WishlistController::class);
 
+Route::get('vouchers/category/{categoryId}', [VoucherController::class, 'getByCategory']);
+
 Route::get('/blog', function(){
     return view('client.layouts.home');
 })->name('blog');

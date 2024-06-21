@@ -34,7 +34,7 @@
                     <td>{{ $voucher->expiry_date }}</td>
                     <td>{{ $voucher->min_purchase_amount }}</td>
                     <td>{{ $voucher->point_required }}</td>
-                    <td>{{ $voucher->category ? $voucher->category->nameCategory : '' }}</td>
+                    <td>{{ $voucher->category ? $voucher->category->name : '' }}</td>
                     <td>{{ $voucher->max_usage }}</td>
                     <td>{{ $voucher->used_count }}</td>
                     <td>{{ $voucher->applicable_products }}</td>
@@ -43,7 +43,7 @@
                     <td>{{ $voucher->distribution_channels }}</td>
                     <td>
                         <a href="{{ route('vouchers.edit', $voucher->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('vouchers.destroy', $voucher->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('vouchers.destroy', $voucher->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa Voucher này không?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>

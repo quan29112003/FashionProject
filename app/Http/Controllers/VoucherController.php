@@ -78,6 +78,12 @@ class VoucherController extends Controller
         $voucher->delete();
         return redirect()->route('vouchers.index');
     }
+
+    public function getByCategory($categoryID)
+    {
+        $vouchers = Voucher::where('category_id', $categoryID)->get();
+        return response()->json($vouchers);
+    }
 }
 
 

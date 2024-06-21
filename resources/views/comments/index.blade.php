@@ -27,7 +27,7 @@
                     <td>{{ $comment->rating }}</td>
                     <td>
                         <a href="{{ route('comments.edit', $comment->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa Comment này không?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>

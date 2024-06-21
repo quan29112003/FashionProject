@@ -1,14 +1,19 @@
-<?php 
+<?php
+
+use App\Http\Controllers\Admin\CatalogueController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CatalogueController;
 
 Route::prefix('admin')
     ->as('admin.')
+    ->middleware(['auth', 'isAdmin'])
     ->group(function () {
 
         Route::get('/', function () {
             return view('admin.dashboard');
-        });
+        })->name('dashboard');
+    });
+
 
         // Route::prefix('catalogues')
         //     ->as('catalogues.')

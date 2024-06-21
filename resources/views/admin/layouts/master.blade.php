@@ -38,7 +38,7 @@
 
         @include('admin.layouts.header')
 
-       
+
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu">
             <!-- LOGO -->

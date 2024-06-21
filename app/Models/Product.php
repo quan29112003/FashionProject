@@ -22,33 +22,33 @@ class Product extends Model
     //     return $this->hasMany(ProductVariant::class, 'product_id');
     // }
 
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class, 'product_id');
-    }
+    // public function images()
+    // {
+    //     return $this->hasMany(ProductImage::class, 'product_id');
+    // }
 
     // public function image()
     // {
     //     return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
     // }
-    // public function images()
-    // {
-    //     return $this->hasMany(ProductImage::class);
-    // }
 
-    // Relationship with categories
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class,'product_id');
+
+    public function images(){
+        return $this->hasMany(ProductImage::class);
     }
 
-
-    public function comments(){
-
-        return $this->hasMany(Comment::class, 'productID');
+    public function comments()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

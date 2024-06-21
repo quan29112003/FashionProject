@@ -596,6 +596,8 @@ ol {
 .trend__item__pic {
 	float: left;
 	margin-right: 25px;
+	width: 90px;
+	height: 100px;
 }
 
 .trend__item__text {
@@ -3689,6 +3691,11 @@ ol {
 .header__search button i {
     color: #333;
 }
+.search {
+    position: relative;
+    left: 900px;
+    top: -30px
+}
 .search-popup {
 	position: fixed;
 	top: 50%;
@@ -3761,4 +3768,25 @@ ol {
 	font-size: 18px;
 	color: #666;
 }
-
+.gender_cateogry {
+	position: relative;
+	right: 340px;
+}
+#load-more-btn {
+	background-color: transparent;
+	color: #000;
+	border: 1px solid black;
+}
+.shop__sorting {
+	position: relative;
+	right: -740px;
+	top: -60px;
+	width: 200px;
+	background-color: transparent;
+}
+.site-btn {
+	background-color: transparent;
+	color: #ca1515;
+	border-radius: 5px;
+	border: 1px solid #ca1515;
+}

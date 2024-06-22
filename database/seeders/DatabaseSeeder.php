@@ -29,10 +29,7 @@ class DatabaseSeeder extends Seeder
             ProductSizeSeeder::class,
             ProductVariantSeeder::class,
             UserSeeder::class,
-            WebsiteMenusSeeder::class,
-            CategoryGenderSeeder::class,
         ]);
-
-
+        
     }
 }

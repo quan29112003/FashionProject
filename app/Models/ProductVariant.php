@@ -18,9 +18,6 @@ class ProductVariant extends Model
         'price_sale',
         'SKU',
         'is_active',
-        'type'
-    ];
-
     ];
 
     // public function color()
@@ -51,12 +48,5 @@ class ProductVariant extends Model
     public function size()
     {
         return $this->belongsTo(ProductSize::class, 'size_id');
-
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-
     }
 }

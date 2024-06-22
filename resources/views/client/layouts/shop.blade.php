@@ -144,8 +144,7 @@
                                         <div class="product__price">${{ $variant->price ?? 'Price not available' }}</div>
                                     </div>
                                 </div>
-                            </div> --}}
-
+                            </div>
                             @php
                                 $productCount++;
                             @endphp
@@ -273,4 +272,3 @@
         });
     });
 </script>
-

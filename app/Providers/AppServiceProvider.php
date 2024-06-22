@@ -21,14 +21,14 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    // public function boot(): void
-    // {
-    //     // lấy menu cho tất cả các trang trên header
-    //     $menus = WebsiteMenu::all();
-    //     View::share('menus', $menus);
+    public function boot(): void
+    {
+        // lấy menu cho tất cả các trang trên header
+        $menus = WebsiteMenu::all();
+        View::share('menus', $menus);
 
-    //     // lấy category giới tính cá trang trên header
-    //     $CategoryGenders = CategoryGender::all();
-    //     View::share('CategoryGenders', $CategoryGenders);
-    // }
+        // lấy category giới tính cá trang trên header
+        $CategoryGenders = CategoryGender::all();
+        View::share('CategoryGenders', $CategoryGenders);
+    }
 }

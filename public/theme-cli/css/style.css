@@ -596,6 +596,8 @@ ol {
 .trend__item__pic {
 	float: left;
 	margin-right: 25px;
+	width: 90px;
+	height: 100px;
 }
 
 .trend__item__text {

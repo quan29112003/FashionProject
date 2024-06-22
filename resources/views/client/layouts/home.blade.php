@@ -119,6 +119,7 @@
 
                 @foreach ($product->variants as $variant)
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
+
                     <div
                         class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 8) d-none @endif">
                         <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
@@ -199,6 +200,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Tăng biến đếm sản phẩm -->
                     @php
                         $productCount++;

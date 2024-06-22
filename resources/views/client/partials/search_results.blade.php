@@ -1,4 +1,5 @@
 {{-- resources/views/search-results.blade.php --}}
+
 @if($products->isEmpty())
     <p>No products found.</p>
 @else
@@ -13,7 +14,7 @@
                     <div class="pi-text">
                         <a href="{{ route('detail', $product->id) }}"><h6>{{ $product->name_product }}</h6></a>
                         <p>${{ $variant->price }}</p>
-                        
+
                     </div>
                 </div>
             </li>

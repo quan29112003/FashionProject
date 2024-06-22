@@ -1,6 +1,9 @@
 @include('client.partials.header')
 <!-- Header Section End -->
 
+
+
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -209,6 +212,9 @@
     </div>
 </div>
 <!-- Instagram End -->
+
+
+
 
 <!-- Footer Section Begin -->
 @include('client.partials.footer')

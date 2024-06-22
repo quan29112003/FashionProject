@@ -42,7 +42,6 @@
                     <div class="tip">2</div>
                 </a></li>
             <li><a href="#"><span class="icon_bag_alt"></span>
-                    <div class="tip">2</div>
                 </a></li>
         </ul>
         <div class="offcanvas__logo">
@@ -64,8 +63,7 @@
                 {{-- logo --}}
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="#"><img src="{{ asset('theme-cli/img/logo.png') }}"
-                                alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
                     </div>
                 </div>
 
@@ -74,14 +72,14 @@
 
                         {{-- menus --}}
                         <ul>
-                                <li>
-                                 {{-- categories --}}
+                            <li>
+                                {{-- categories --}}
                                 @foreach ($CategoryGenders as $CategoryGender)
-                                    <li class="gender_cateogry">
-                                        <a href="#">{{ $CategoryGender->name }}</a>
-                                    </li>
-                                @endforeach
-                                </li>
+                            <li class="gender_cateogry">
+                                <a href="#">{{ $CategoryGender->name }}</a>
+                            </li>
+                            @endforeach
+                            </li>
                             @foreach ($menus as $menu)
                                 <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a
                                         href="{{ url($menu->url) }}">{{ $menu->menu_item }}</a></li>
@@ -97,7 +95,7 @@
                                     </form>
                                 </div>
                             </li>
-                            
+
                         </ul>
                     </nav>
                 </div>
@@ -114,7 +112,6 @@
                                     <div class="tip">2</div>
                                 </a></li>
                             <li><a href="{{ route('cart') }}"><span class="icon_bag_alt"></span>
-                                    <div class="tip">2</div>
                                 </a></li>
                         </ul>
                     </div>

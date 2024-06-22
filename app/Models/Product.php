@@ -37,10 +37,6 @@ class Product extends Model
     // }
 
     // Relationship with categories
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -49,5 +45,4 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class,'product_id');
     }
-}
 }

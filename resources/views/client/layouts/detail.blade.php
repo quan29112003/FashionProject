@@ -178,13 +178,10 @@
                             <div class="product__price">
                                 @if ($relatedProduct->price_sale)
                                     <span>${{ $relatedProduct->price }}</span> ${{ $relatedProduct->price_sale }}
-                                @elseif ($relatedProduct->price)
-                                    ${{ $relatedProduct->price }}
                                 @else
-                                    <div class="product__price">Giá chưa cập nhật</div>
+                                    ${{ $relatedProduct->price }}
                                 @endif
                             </div>
-                            
                         </div>
                     </div>
                 </div>

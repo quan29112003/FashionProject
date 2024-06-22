@@ -145,7 +145,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             @php
                                 $productCount++;
                             @endphp
@@ -273,4 +272,3 @@
         });
     });
 </script>
-

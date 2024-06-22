@@ -7,6 +7,8 @@ use App\Models\ProductColor;
 use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DetailController;
@@ -15,7 +17,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 
 
-// client
+// trọng đức
 Route::resource('/', HomeController::class);
 
 Route::get('/search', [SearchController::class, 'search'])->name('product.search');
@@ -48,6 +50,7 @@ Route::get('/contact', function () {
     return view('client.layouts.contact');
 })->name('contact');
 
+// nghi
 Route::get('/admin', [Controller::class, 'dasboard']);
 
 Route::prefix('admin')->group(function(){
@@ -80,3 +83,11 @@ Route::prefix('admin')->group(function(){
     Route::put('edit-size/{id}',[SizeController::class, 'handleEdit'])->name('handleEdit-size');
 });
 
+
+// viet
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');

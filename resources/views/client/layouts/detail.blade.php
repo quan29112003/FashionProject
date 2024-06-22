@@ -59,7 +59,9 @@
                         <form action="{{ route('cart.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="variant_id" value="{{ $variant->id }}">
+                            @if (isset($variant))
+                                <input type="hidden" name="variant_id" value="{{ $variant->id }}">
+                            @endif
                             <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
@@ -68,7 +70,6 @@
                             </div>
                             <button type="submit" class="site-btn">Add to cart</button>
                         </form>
-
                     </div>
                     <!-- Widget chi tiết sản phẩm -->
                     <div class="product__details__widget">
@@ -187,7 +188,7 @@
                                     <div class="product__price">Giá chưa cập nhật</div>
                                 @endif
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -204,6 +205,7 @@
 </section>
 
 <!-- Product Details Section End -->
+
 
 @include('client.partials.footer')
 <script>

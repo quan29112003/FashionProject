@@ -27,11 +27,13 @@ class HomeController extends Controller
             // Clear the variants collection to only include the selected one
             $product->setRelation('variants', collect([$product->variant]));
         });
+
         // Fetch Hot Trend products
         $hotTrendProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_hot', 1)
             ->take(3)
             ->get();
+
         $hotTrendProducts->each(function ($product) {
             $product->variant = $product->variants()->orderBy('price')->first();
             $product->setRelation('variants', collect([$product->variant]));
@@ -42,6 +44,7 @@ class HomeController extends Controller
             ->where('is_good_deal', 1)
             ->take(3)
             ->get();
+
         $bestSellerProducts->each(function ($product) {
             $product->variant = $product->variants()->orderBy('price')->first();
             $product->setRelation('variants', collect([$product->variant]));
@@ -52,6 +55,7 @@ class HomeController extends Controller
             ->where('is_good_deal', 1)
             ->take(3)
             ->get();
+            
         $featureProducts->each(function ($product) {
             $product->variant = $product->variants()->orderBy('price')->first();
             $product->setRelation('variants', collect([$product->variant]));

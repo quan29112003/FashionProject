@@ -14,31 +14,36 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 
+
+// client
 Route::resource('/', HomeController::class);
-
-
 
 Route::get('/search', [SearchController::class, 'search'])->name('product.search');
 
-
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
 
 Route::get('/cart', function () {
     return view('client.layouts.cart');
 })->name('cart');
+
 Route::get('/checkout', function () {
     return view('client.layouts.checkout');
 })->name('checkout');
+
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
 Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
 
 Route::get('/blog', function () {
     return view('client.layouts.blog');
 })->name('blog');
+
 Route::get('/blog-detail', function () {
     return view('client.layouts.blog-detail');
 })->name('blog-detail');
+
 Route::get('/contact', function () {
     return view('client.layouts.contact');
 })->name('contact');

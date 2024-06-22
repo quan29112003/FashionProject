@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\CategoryGender;
 use App\Models\WebsiteMenu;
 use Illuminate\Support\ServiceProvider;
-
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
         // lấy category giới tính cá trang trên header
         $CategoryGenders = CategoryGender::all();
         View::share('CategoryGenders', $CategoryGenders);
+
     }
 }

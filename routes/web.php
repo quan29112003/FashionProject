@@ -43,10 +43,6 @@ Route::get('/contact', function () {
     return view('client.layouts.contact');
 })->name('contact');
 
-Route::get('/blog', function(){
-    return view('client.layouts.home');
-})->name('blog');
-
 Route::get('/admin', [Controller::class, 'dasboard']);
 
 Route::prefix('admin')->group(function(){

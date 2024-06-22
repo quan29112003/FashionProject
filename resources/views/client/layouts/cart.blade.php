@@ -72,7 +72,7 @@
                                             </td>
                                             <td class="cart__total">
                                                 ${{ number_format($item['price'] * $item['quantity'], 2) }}</td>
-                                            {{-- <td class="cart__close">
+                                            <td class="cart__close">
                                                 <form action="{{ route('cart.remove') }}" method="POST"
                                                     style="display:inline;">
                                                     @csrf
@@ -82,7 +82,7 @@
                                                         value="{{ $item['variant_id'] }}">
                                                     <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                                 </form>
-                                            </td> --}}
+                                            </td>
 
                                         </tr>
 

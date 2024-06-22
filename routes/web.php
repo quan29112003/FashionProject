@@ -59,7 +59,7 @@ Route::get('/contact', function () {
 Route::get('/blog', function () {
     return view('client.layouts.home');
 })->name('blog');
-
+//Viet
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
 Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout');

@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\CategoryGender;
+use App\Models\WebsiteMenu;
 use Illuminate\Support\ServiceProvider;
+
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
         // lấy menu cho tất cả các trang trên header
         $menus = WebsiteMenu::all();
         View::share('menus', $menus);

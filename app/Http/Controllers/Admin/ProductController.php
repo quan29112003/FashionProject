@@ -64,7 +64,6 @@ class ProductController extends Controller
     {
 
         $dataProduct = $request->except('productVariant', 'product_images');
-
         $dataProductVariant = $request->productVariant;
 
         $dataProductImage = $request->product_images ?: [];

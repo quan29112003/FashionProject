@@ -7,9 +7,10 @@ use App\Models\ProductColor;
 use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\ImageController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
-
+use App\Models\ProductImage;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,5 +55,9 @@ Route::prefix('admin')->group(function(){
     Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
     Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
     Route::put('edit-size/{id}',[SizeController::class, 'handleEdit'])->name('handleEdit-size');
+
+    Route::get('image/{id}',[ImageController::class,'index'])->name('image');
+    Route::get('edit-image/{id}',[ImageController::class,'edit'])->name('edit-image');
+    Route::put('edit-image/{id}',[ImageController::class,'handleEdit'])->name('handleEdit-image');
 });
 

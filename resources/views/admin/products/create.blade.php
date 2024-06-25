@@ -42,10 +42,11 @@
                                 <div class="col-lg-4">
                                     <label for="img_thumbnail" class="form-label">Img Thumbnail</label>
                                     <input type="file" class="form-control" name="thumbnail" id="img_thumbnail">
-                                </div>
-                                @error('thumbnail')
+                                    @error('thumbnail')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                                    @enderror
+                                </div>
+
                                 <div class="row">
                                     @php
                                         $is = [
@@ -264,16 +265,8 @@
                         <div class="card-body">
                             <div class="live-preview">
                                 <div id="output"  class="row gy-4">
-                                    <div class="col-xxl-3 col-md-6">
-                                        <div>
-                                            <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size.value}" hidden>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-3 col-md-6">
-                                        <div>
+                                    <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size.value}" hidden>
                                             <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color.value}" hidden>
-                                        </div>
-                                    </div>
                                     <div class="col-xxl-3 col-md-6">
                                         <label for="basiInput" class="form-label">Quantity</label>
                                         <input type="number" class="form-control" name="productVariant[${index}]['quantity']" id="basiInput">
@@ -295,10 +288,11 @@
                                     </div>
 
                                     <div class="col-xxl-3 col-md-6">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" value="1" name="productVariant[${index}]['is_active']" role="switch" id="SwitchCheck1" checked>
-                                            <label class="form-check-label" for="SwitchCheck1">Switch Default</label>
-                                        </div>
+                                        <select class="form-select" id="colorSelect" name="productVariant[${index}]['is_active']" >
+                                        <option selected>Select Active</option>
+                                            <option value="0">Active</option>
+                                            <option value="1">Inactive</option>
+                                        </select>
                                     </div>
 
                                 </div>

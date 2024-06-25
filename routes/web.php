@@ -7,51 +7,28 @@ use App\Models\ProductColor;
 use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\ImageController;
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DetailController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\ShopController;
 
 
-// trọng đức
-Route::resource('/', HomeController::class);
-
-Route::get('/search', [SearchController::class, 'search'])->name('product.search');
-
-Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
-
-Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
-
-Route::get('/cart', function () {
-    return view('client.layouts.cart');
-})->name('cart');
-
-Route::get('/checkout', function () {
-    return view('client.layouts.checkout');
-})->name('checkout');
-
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-
-Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
-
-Route::get('/blog', function () {
-    return view('client.layouts.blog');
-})->name('blog');
-
-Route::get('/blog-detail', function () {
-    return view('client.layouts.blog-detail');
-})->name('blog-detail');
-
-Route::get('/contact', function () {
-    return view('client.layouts.contact');
-})->name('contact');
-
-// nghi
-Route::get('/admin', [Controller::class, 'dasboard']);
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+// Route::prefix('admin')->name('admin.')->group(function () {
+//     Route::resource('points', AdminPointController::class);
+// });
+Route::get('/', [Controller::class, 'dasboard']);
 
 Route::prefix('admin')->group(function(){
     Route::get('show-product',[ProductController::class, 'index'])->name('product');
@@ -81,6 +58,11 @@ Route::prefix('admin')->group(function(){
     Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
     Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
     Route::put('edit-size/{id}',[SizeController::class, 'handleEdit'])->name('handleEdit-size');
+
+    Route::get('image/{id}',[ImageController::class,'index'])->name('image');
+    Route::get('edit-image/{id}',[ImageController::class,'edit'])->name('edit-image');
+    Route::put('edit-image/{id}',[ImageController::class,'handleEdit'])->name('handleEdit-image');
+    
 });
 
 

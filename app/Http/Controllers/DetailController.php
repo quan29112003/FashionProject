@@ -53,7 +53,7 @@ class DetailController extends Controller
             });
 
         // Return the product detail view with the necessary data
-        return view('client.layouts.detail', compact('product', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
+        return view('client.layouts.detail', compact('product', 'variant', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
     }
 
     public function getProductPrice(Request $request)

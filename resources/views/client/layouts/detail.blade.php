@@ -51,21 +51,25 @@
                         <span>(138 reviews)</span>
                     </div>
                     <div class="product__details__price" id="productPrice">${{ $price }}
-                        <span>${{ $price_sale }}</span></div>
+                        <span>${{ $price_sale }}</span>
+                    </div>
                     <p>{{ $product->description }}</p>
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
-                        <div class="quantity">
-                            <span>Quantity:</span>
-                            <div class="pro-qty">
-                                <input type="text" value="1">
+                        <form action="{{ route('cart.add') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            @if (isset($variant))
+                                <input type="hidden" name="variant_id" value="{{ $variant->id }}">
+                            @endif
+                            <div class="quantity">
+                                <span>Quantity:</span>
+                                <div class="pro-qty">
+                                    <input type="text" name="quantity" value="1">
+                                </div>
                             </div>
-                        </div>
-                        <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                        <ul>
-                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                        </ul>
+                            <button type="submit" class="site-btn">Add to cart</button>
+                        </form>
                     </div>
                     <!-- Widget chi tiết sản phẩm -->
                     <div class="product__details__widget">
@@ -178,10 +182,13 @@
                             <div class="product__price">
                                 @if ($relatedProduct->price_sale)
                                     <span>${{ $relatedProduct->price }}</span> ${{ $relatedProduct->price_sale }}
-                                @else
+                                @elseif ($relatedProduct->price)
                                     ${{ $relatedProduct->price }}
+                                @else
+                                    <div class="product__price">Giá chưa cập nhật</div>
                                 @endif
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -198,6 +205,7 @@
 </section>
 
 <!-- Product Details Section End -->
+
 
 @include('client.partials.footer')
 <script>

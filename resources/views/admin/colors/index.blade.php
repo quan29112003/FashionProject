@@ -29,45 +29,143 @@
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách</h5>
 
-                    <a href="{{ route('store-color') }}" class="btn btn-primary mb-3">Thêm mới</a>
+                    {{-- <a href="{{ route('store-color') }}" class="btn btn-primary mb-3">Thêm mới</a> --}}
+                    <a href="javascript:void(0);" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                        data-bs-target="#addNewItemModal">Thêm mới</a>
+
                 </div>
+
+
+
+
+                <!-- Add New Item Modal Pop up-->
+                <div class="modal fade" id="addNewItemModal" tabindex="-1" aria-labelledby="addNewItemModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="addNewItemForm" method="POST" action="{{ route('store-color') }}">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addNewItemModalLabel">Thêm mới Màu sắc</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="colorName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="colorName" name="color" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="colorCode" class="form-label">Color Code</label>
+                                        <input type="color" class="form-control" id="colorCode" name="color_code"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Edit Item Modal Pop up-->
+                <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="editItemForm" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editItemModalLabel">Chỉnh sửa Màu sắc</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="editColorId" name="id">
+                                    <div class="mb-3">
+                                        <label for="editColorName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="editColorName" name="color"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editColorCode" class="form-label">Color Code</label>
+                                        <input type="text" class="form-control" id="editColorCode" name="color_code"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
                 <div class="card-body">
-                    <table id="example"
-                           class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                           style="width:100%">
+                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        style="width:100%">
 
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Color Code</th>
-                            <th>Created at</th>
-                            <th>Updated at</th>
-                            <th>Action</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Color Code</th>
+                                <th>Created at</th>
+                                <th>Updated at</th>
+                                <th>Action</th>
+                            </tr>
                         </thead>
 
                         <tbody>
-                        @foreach($color as $item)
-                            <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->color }}</td>
-                                <td>{{ $item->color_code }}</td>
-                                <td>{{ $item->created_at }}</td>
-                                <td>{{ $item->updated_at }}</td>
+                            @foreach ($color as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->color }}</td>
+                                    <td>
+                                        {{ $item->color_code }}
+                                        <span class="color-circle"
+                                            style="background-color: {{ $item->color_code }};"></span>
+                                    </td>
 
-                                <td>
-                                    <div class="dropdown d-inline-block">
-                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-fill align-middle"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a href="{{ route('edit-color',$item->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->updated_at }}</td>
+
+                                    {{-- <td>
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-more-fill align-middle"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a href="{{ route('edit-color', $item->id) }}"
+                                                        class="dropdown-item edit-item-btn"><i
+                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                        Edit</a></li>
+                                            </ul>
+                                        </div>
+                                    </td> --}}
+                                    <td>
+                                        <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
+                                                        data-id="{{ $item->id }}" data-name="{{ $item->color }}"
+                                                        data-code="{{ $item->color_code }}">
+                                                        <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
+                                                    </a>
+                                    </td>
+
+                                </tr>
+                            @endforeach
                         </tbody>
 
                     </table>
@@ -79,16 +177,29 @@
 
 @section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <style>
+        .color-circle {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-left: 10px;
+            border: 1px solid black;
+            /* Adjust the spacing between the color code and the circle as needed */
+            vertical-align: middle;
+            /* Align the circle with the middle of the text */
+        }
+    </style>
 @endsection
 
 @section('script-libs')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -103,7 +214,73 @@
 
     <script>
         new DataTable("#example", {
-            order: [ [0, 'desc'] ] }
-        );
+            order: [
+                [0, 'desc']
+            ]
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#addNewItemForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#addNewItemModal').modal('hide');
+                            location
+                        .reload(); // Reload the page to reflect new data, or you can append new data to the table directly
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        alert('An error occurred');
+                    }
+                });
+            });
+
+            $('.edit-item-btn').on('click', function() {
+                let id = $(this).data('id');
+                let name = $(this).data('name');
+                let code = $(this).data('code');
+
+                $('#editColorId').val(id);
+                $('#editColorName').val(name);
+                $('#editColorCode').val(code);
+                $('#editItemForm').attr('action', 'edit-color/' + id); // Adjust the URL as needed
+                $('#editItemModal').modal('show');
+            });
+
+            $('#editItemForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editItemModal').modal('hide');
+                            location.reload(); // Reload the page to reflect updated data
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        alert('An error occurred');
+                    }
+                });
+            });
+        });
     </script>
 @endsection

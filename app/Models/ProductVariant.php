@@ -21,8 +21,6 @@ class ProductVariant extends Model
         'type'
     ];
 
-    ];
-
     // public function color()
     // {
     //     return $this->belongsTo(ProductColor::class, 'color_id');
@@ -37,11 +35,6 @@ class ProductVariant extends Model
     // {
     //     return $this->belongsTo(Product::class, 'product_id');
     // }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
 
     public function color()
     {

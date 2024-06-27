@@ -72,12 +72,10 @@
 
                         {{-- menus --}}
                         <ul>
-                            <li>
                                 {{-- categories --}}
                                 @foreach ($CategoryGenders as $CategoryGender)
                             <li class="gender_cateogry">
                                 <a href="#">{{ $CategoryGender->name }}</a>
-                            </li>
                             @endforeach
                             </li>
                             @foreach ($menus as $menu)
@@ -85,7 +83,7 @@
                                         href="{{ url($menu->url) }}">{{ $menu->menu_item }}</a></li>
                             @endforeach
                             {{-- search --}}
-                            <li class="search">
+                            {{-- <li class="search">
                                 <div class="header__search">
                                     <form id="searchForm" action="{{ route('product.search') }}" method="GET">
                                         <input type="text" name="keyword" id="searchInput" placeholder="Search...">
@@ -94,7 +92,7 @@
                                         </button>
                                     </form>
                                 </div>
-                            </li>
+                            </li> --}}
 
                         </ul>
                     </nav>
@@ -108,6 +106,17 @@
                             <a href="#">Register</a>
                         </div>
                         <ul class="header__right__widget">
+                            <!-- Search item with search icon and form -->
+                            <li>
+                                <div class="header__search">
+                                    <form id="searchForm" action="{{ route('product.search') }}" method="GET">
+                                        <input type="text" name="keyword" id="searchInput" placeholder="Search...">
+                                        <button type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
                             <li><a href="#"><span class="icon_heart_alt"></span>
                                     <div class="tip">2</div>
                                 </a></li>

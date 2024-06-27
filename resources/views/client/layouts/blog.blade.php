@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="{{ route('/')}}"><i class="fa fa-home"></i> Home</a>
+                        <a href="{{ url('/')}}"><i class="fa fa-home"></i> Home</a>
                         <span>Blog</span>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <div class="blog__item">
                         <div class="blog__item__pic large__item set-bg" data-setbg="{{ asset('theme-cli/img/blog/blog-1.jpg')}}"></div>
                         <div class="blog__item__text">
-                            <h6><a href="{{ route('blog-detail')}}">No Bad Blood! The Reason Why Tamr Judge Finally Made Up With...</a></h6>
+                            <h6><a href="{{ url('blog-detail')}}">No Bad Blood! The Reason Why Tamr Judge Finally Made Up With...</a></h6>
                             <ul>
                                 <li>by <span>Ema Timahe</span></li>
                                 <li>Seb 17, 2019</li>

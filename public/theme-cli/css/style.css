@@ -1935,10 +1935,10 @@ ol {
 	position: absolute;
 	left: 0;
 	top: -10px;
-	height: 20px;
-	width: 20px;
+	height: 30px;
+	width: 30px;
 	background: #e31e2f;
-	border-radius: 50%;
+	border-radius: 20%;
 	content: "";
 }
 
@@ -3768,10 +3768,35 @@ ol {
 	font-size: 18px;
 	color: #666;
 }
-.gender_cateogry {
-	position: relative;
-	right: 340px;
+.gender_category {
+    position: relative;
+    left: 20px; /* Default position for small screens */
 }
+
+@media (min-width: 576px) {
+    .gender_category {
+        left: 100px; /* Position for screens wider than 576px */
+    }
+}
+
+@media (min-width: 768px) {
+    .gender_category {
+        left: 200px; /* Position for screens wider than 768px */
+    }
+}
+
+@media (min-width: 992px) {
+    .gender_category {
+        left: 280px; /* Position for screens wider than 992px */
+    }
+}
+
+@media (min-width: 1200px) {
+    .gender_category {
+        left: 340px; /* Position for screens wider than 1200px */
+    }
+}
+
 #load-more-btn {
 	background-color: transparent;
 	color: #000;
@@ -3790,3 +3815,49 @@ ol {
 	border-radius: 5px;
 	border: 1px solid #ca1515;
 }
+.size-label {
+    display: inline-block;
+    border: 2px solid #000; /* Black border */
+    padding: 10px; /* Padding inside the border */
+    margin: 5px; /* Space between labels */
+    font-weight: bold; /* Bold text */
+    border-radius: 5px; /* Rounded corners, set to 0 for sharp corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.size-label input[type="radio"] {
+    display: none; /* Hide the radio button itself */
+}
+
+.size-label input[type="radio"]:checked + .size-label {
+    background-color: #f0f0f0; /* Background color when selected */
+}
+.color-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px; /* Padding inside the border */
+    margin: 5px; /* Space between labels */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.color-label input[type="radio"] {
+    display: none; /* Hide the radio button itself */
+}
+
+.color-label .checkmark {
+    display: inline-block;
+    width: 20px; /* Width of the color square */
+    height: 20px; /* Height of the color square */
+    margin-right: 10px; /* Space between checkmark and text */
+    border: 1px solid black; /* Border around the checkmark */
+}
+
+.color-label input[type="radio"]:checked + .checkmark {
+    border: 2px solid blue; /* Border color when selected */
+}
+
+.color-label input[type="radio"]:checked + .checkmark + span {
+    background-color: #f0f0f0; /* Background color when selected */
+}
+

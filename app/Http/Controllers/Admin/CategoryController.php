@@ -20,10 +20,9 @@ class CategoryController extends Controller
         return view('admin.categories.create');
     }
 
-    public function store(CategoryRequest $request){
+    public function store(Request $request){
         $data = $request->all();
         Category::create($data);
-        return redirect()->route('category');
     }
 
     public function edit(Request $request,$id){

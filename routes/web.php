@@ -15,6 +15,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\Admin\OrderController;
 
 
 use App\Http\Controllers\Admin\ImageController;
@@ -91,6 +92,14 @@ Route::prefix('admin')->group(function(){
     Route::get('image/{id}',[ImageController::class,'index'])->name('image');
     Route::get('edit-image/{id}',[ImageController::class,'edit'])->name('edit-image');
     Route::put('edit-image/{id}',[ImageController::class,'handleEdit'])->name('handleEdit-image');
+
+    Route::get('order',[OrderController::class, 'index'])->name('order');
+    Route::get('order-item/{id}',[OrderController::class, 'show'])->name('order-item');
+    Route::get('edit-order/{id}',[OrderController::class, 'edit'])->name('edit-order');
+    Route::put('edit-order/{id}',[OrderController::class, 'handleEdit'])->name('handleEdit-order');
+
+    Route::get('update-category-status', [CategoryController::class, 'updateStatus'])->name('update-category-status');
+
 });
 
 

@@ -26,9 +26,9 @@ use App\Http\Controllers\ProfileController;
 
 
 // trọng đức
-//Route::resource('/', HomeController::class);
+Route::resource('/', HomeController::class);
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return view('welcome');
 });
 

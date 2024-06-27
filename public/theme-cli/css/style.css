@@ -3693,8 +3693,7 @@ ol {
 }
 .search {
     position: relative;
-    left: 900px;
-    top: -30px
+    left: 600px;
 }
 .search-popup {
 	position: fixed;

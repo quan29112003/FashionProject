@@ -128,9 +128,9 @@
                         @foreach ($product->variants as $variant)
                             <div class="col-lg-4 col-md-6 product-item @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ $product->images->first()->url }}">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
                                         <ul class="product__hover">
-                                            <li><a href="{{ $product->images->first()->url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li><a href="{{ asset('uploads/' . $product->images->first()->url) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>

@@ -132,19 +132,19 @@
                             @if ($product->images->isNotEmpty())
                                 <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
                                 <div class="product__item__pic set-bg"
-                                    data-setbg="{{ $product->images->first()->url }}">
+                                    data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
 
-                                    {{-- <a href="{{ route('detail', $product->id) }}">
+                                    <a href="{{ route('detail', $product->id) }}">
                                         <img src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                             alt="img product">
-                                    </a> --}}
+                                    </a>
 
                                     <!-- Hình ảnh sản phẩm -->
                                     <ul class="product__hover">
                                         <!-- Các hành động khi hover -->
 
                                         <li>
-                                            <a href="{{ $product->images->first()->url }}"
+                                            <a href="{{ asset('uploads/' . $product->images->first()->url) }}"
                                                 class="image-popup">
                                                 <span class="arrow_expand"></span>
                                             </a>
@@ -275,7 +275,7 @@
                             <div class="trend__item">
                                 <div class="trend__item__pic">
                                     <a href="{{ route('detail', $product->id) }}"><img
-                                            src="{{  $product->images->first()->url }}"
+                                            src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                             alt="{{ $product->name_product }}"></a>
                                 </div>
                                 <div class="trend__item__text">
@@ -311,7 +311,7 @@
                         <div class="trend__item">
                             <div class="trend__item__pic">
                                 <a href="{{ route('detail', $product->id) }}"><img
-                                        src="{{ $product->images->first()->url }}"
+                                        src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                         alt="{{ $product->name_product }}"></a>
                             </div>
                             <div class="trend__item__text">
@@ -346,7 +346,7 @@
                         <div class="trend__item">
                             <div class="trend__item__pic">
                                 <a href="{{ route('detail', $product->id) }}"><img
-                                        src="{{ $product->images->first()->url }}"
+                                        src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                         alt="{{ $product->name_product }}"></a>
                             </div>
                             <div class="trend__item__text">

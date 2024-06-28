@@ -4,24 +4,24 @@
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="" class="logo logo-dark">
-                    <span class="logo-sm">
-                        <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" alt="" height="22">
-                    </span>
+            <span class="logo-sm">
+                <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" alt="" height="22">
+            </span>
             <span class="logo-lg">
-                        <img src="{{ asset('theme/admin/assets/images/logo-dark.png') }}" alt="" height="17">
-                    </span>
+                <img src="{{ asset('theme/admin/assets/images/logo-dark.png') }}" alt="" height="17">
+            </span>
         </a>
         <!-- Light Logo-->
         <a href="" class="logo logo-light">
-                    <span class="logo-sm">
-                        <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" alt="" height="22">
-                    </span>
+            <span class="logo-sm">
+                <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" alt="" height="22">
+            </span>
             <span class="logo-lg">
-                        <img src="{{ asset('theme/admin/assets/images/logo-light.png') }}" alt="" height="17">
-                    </span>
+                <img src="{{ asset('theme/admin/assets/images/logo-light.png') }}" alt="" height="17">
+            </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
-                id="vertical-hover">
+            id="vertical-hover">
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
@@ -30,7 +30,9 @@
         <div class="container-fluid">
 
             <div id="two-column-menu">
+
             </div>
+
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
@@ -43,7 +45,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarProduct">
+                        aria-expanded="false" aria-controls="sidebarProduct">
                         <i class="ri-layout-3-line"></i>
                         <span data-key="t-layouts">Sản phẩm</span>
 
@@ -51,12 +53,11 @@
                     <div class="collapse menu-dropdown" id="sidebarProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('product') }}" class="nav-link"
-                                   data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('product') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-product') }}" class="nav-link"
-                                   data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{ route('store-product') }}" class="nav-link" data-key="t-horizontal">Thêm
+                                    mới</a>
                             </li>
                         </ul>
                     </div>
@@ -64,7 +65,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarColor" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarColor">
+                        aria-expanded="false" aria-controls="sidebarColor">
                         <i class="ri-layout-3-line"></i>
                         <span data-key="t-layouts">Màu</span>
 
@@ -72,12 +73,11 @@
                     <div class="collapse menu-dropdown" id="sidebarColor">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('color') }}" class="nav-link"
-                                   data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('color') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-color') }}" class="nav-link"
-                                   data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{ route('store-color') }}" class="nav-link" data-key="t-horizontal">Thêm
+                                    mới</a>
                             </li>
                         </ul>
                     </div>
@@ -85,7 +85,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSize" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarSize">
+                        aria-expanded="false" aria-controls="sidebarSize">
                         <i class="ri-layout-3-line"></i>
                         <span data-key="t-layouts">Kích cỡ</span>
 
@@ -93,12 +93,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSize">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('size') }}" class="nav-link"
-                                   data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('size') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-size') }}" class="nav-link"
-                                   data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{ route('store-size') }}" class="nav-link" data-key="t-horizontal">Thêm
+                                    mới</a>
                             </li>
                         </ul>
                     </div>
@@ -106,26 +105,115 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
-                       aria-expanded="false" aria-controls="sidebarCategory">
+                        aria-expanded="false" aria-controls="sidebarCategory">
                         <i class="ri-layout-3-line"></i>
                         <span data-key="t-layouts">Danh mục</span>
-
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCategory">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('category') }}" class="nav-link"
-                                   data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('category') }}" class="nav-link" data-key="t-horizontal">Danh
+                                    sách</a>
 
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('store-category') }}" class="nav-link"
-                                   data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarUser">
+                        <i class="ri-layout-3-line"></i>
+                        <span data-key="t-layouts">Users</span>
+
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarUser">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.create') }}" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarVoucher" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarVoucher">
+                        <i class="ri-layout-3-line"></i>
+                        <span data-key="t-layouts">Vouchers</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarVoucher">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vouchers.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Danh sách
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vouchers.create') }}" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarComment" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarComment">
+                        <i class="ri-layout-3-line"></i>
+                        <span data-key="t-layouts">Comments</span>
+
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarComment">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.comments.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Danh
+                                    sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.comments.create') }}" class="nav-link"
+                                    data-key="t-horizontal">Thêm
+                                    mới</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarWishlist" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarWishlist">
+                        <i class="ri-layout-3-line"></i>
+                        <span data-key="t-layouts">Wishlists</span>
+
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarWishlist">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.wishlists.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Danh
+                                    sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.wishlists.create') }}" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

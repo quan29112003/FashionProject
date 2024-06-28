@@ -27,49 +27,55 @@
         <div class="row">
             <!-- Tiêu đề phần -->
 
-            <div class="col-lg-12">
+            <div class="col-lg-3">
                 <form id="filterForm">
-                <span class="section-title">Bộ Lọc</span>
-                <select id="price" class="p-1 ml-2">
-                    <option hidden>Giá</option>
-                    <option>100k - 300k</option>
-                    <option>300k - 500k</option>
-                    <option>500k - ***k</option>
-                </select>
-                <select id="size" class="p-1 ml-2">
-                    <option hidden>Size</option>
-                    <option>XS</option>
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                    <option>XXL</option>
-                    <option>XXXL</option>
-                </select>
-                <select id="color" class="p-1 ml-2">
-                    <option hidden>Color</option>
-                    <option>Red</option>
-                    <option>Blue</option>
-                    <option>Green</option>
-                    <option>Yellow</option>
-                    <option>Black</option>
-                    <option>White</option>
-                    <option>Orange</option>
-                    <option>Purple</option>
-                    <option>Pink</option>
-                </select>
-                <button type="submit" class="btn btn-secondary ml-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
-                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"></path>
-                    </svg>
-                </button>
-            </form>
-            </div>
-            </div>
-        </div>
-        <!-- Khởi tạo biến đếm sản phẩm -->
+                <p class="section-title">Bộ Lọc</p>
+                <div class="pt-3">
+                    <select id="price" class="p-1 ml-2">
+                        <option hidden>Giá</option>
+                        <option>100k - 300k</option>
+                        <option>300k - 500k</option>
+                        <option>500k - ***k</option>
+                    </select>
+                </div>
+                <div class="pt-3">
+                    <select id="size" class="p-1 ml-2">
+                        <option hidden>Size</option>
+                        <option>XS</option>
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                        <option>XXXL</option>
+                    </select>
+                </div>
 
-        @php
+                <div class="pt-3">
+                    <select id="color" class="p-1 ml-2">
+                        <option hidden>Color</option>
+                        <option>Red</option>
+                        <option>Blue</option>
+                        <option>Green</option>
+                        <option>Yellow</option>
+                        <option>Black</option>
+                        <option>White</option>
+                        <option>Orange</option>
+                        <option>Purple</option>
+                        <option>Pink</option>
+                    </select>
+                </div>
+                <div class="pt-3">
+                    <button type="submit" class="btn btn-secondary ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"></path>
+                        </svg>
+                    </button>
+                </div>
+                </form>
+            </div>
+            <div class="col-lg-9">
+                @php
             $productCount = 0;
         @endphp
 
@@ -167,6 +173,12 @@
                 @endforeach
             @endforeach
         </div>
+            </div>
+            </div>
+        </div>
+        <!-- Khởi tạo biến đếm sản phẩm -->
+
+
 
         <!-- Nút Xem Thêm -->
         <div class="col-lg-12 text-center">

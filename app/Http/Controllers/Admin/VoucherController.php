@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Voucher;
-use App\Models\Admin\Category;
+use App\Models\Category;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 
 

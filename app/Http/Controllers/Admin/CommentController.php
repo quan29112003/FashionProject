@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Comment;
-use App\Models\Admin\Product;
-use App\Models\Admin\User;
+use App\Models\Comment;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 

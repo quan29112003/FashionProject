@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Wishlist;
-use App\Models\Admin\User;
+use App\Models\User;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 
 

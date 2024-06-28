@@ -61,7 +61,7 @@
             <div class="row">
 
                 {{-- logo --}}
-                <div class="col-xl-3 col-lg-1">
+                <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
                         <a href="#"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
                     </div>
@@ -153,8 +153,7 @@
                 event.preventDefault();
                 var query = $('#searchInput').val();
                 if (query.trim() !== '') {
-                    window.location.href = "/search/?keyword="+query;
-                    // searchProducts(query);
+                    searchProducts(query);
                 }
             });
 

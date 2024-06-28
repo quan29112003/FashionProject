@@ -243,7 +243,7 @@
                             <div class="trend__item">
                                 <div class="trend__item__pic">
                                     <a href="{{ route('detail', $product->id) }}"><img
-                                            src="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                            src="{{ $product->images->first()->url }}"
                                             alt="{{ $product->name_product }}"></a>
                                 </div>
                                 <div class="trend__item__text">
@@ -279,7 +279,7 @@
                         <div class="trend__item">
                             <div class="trend__item__pic">
                                 <a href="{{ route('detail', $product->id) }}"><img
-                                        src="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                        src="{{ $product->images->first()->url }}"
                                         alt="{{ $product->name_product }}"></a>
                             </div>
                             <div class="trend__item__text">
@@ -314,7 +314,7 @@
                         <div class="trend__item">
                             <div class="trend__item__pic">
                                 <a href="{{ route('detail', $product->id) }}"><img
-                                        src="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                        src="{{ $product->images->first()->url }}"
                                         alt="{{ $product->name_product }}"></a>
                             </div>
                             <div class="trend__item__text">

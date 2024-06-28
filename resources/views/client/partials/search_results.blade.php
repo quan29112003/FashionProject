@@ -32,37 +32,37 @@
                 <p class="section-title">Bộ Lọc</p>
                 <div class="pt-3">
                     <select id="price" class="p-1 ml-2">
-                        <option hidden>Giá</option>
-                        <option>100k - 300k</option>
-                        <option>300k - 500k</option>
-                        <option>500k - ***k</option>
+                        <option value="">Giá</option>
+                        <option value="1">100k - 300k</option>
+                        <option value="3" >300k - 500k</option>
+                        <option value="5" >500k - ***k</option>
                     </select>
                 </div>
                 <div class="pt-3">
                     <select id="size" class="p-1 ml-2">
-                        <option hidden>Size</option>
-                        <option>XS</option>
-                        <option>S</option>
-                        <option>M</option>
-                        <option>L</option>
-                        <option>XL</option>
-                        <option>XXL</option>
-                        <option>XXXL</option>
+                        <option value="">Size</option>
+                        <option value="1">XS</option>
+                        <option value="2">S</option>
+                        <option value="3">M</option>
+                        <option value="4">L</option>
+                        <option value="5">XL</option>
+                        <option value="6">XXL</option>
+                        <option value="7">XXXL</option>
                     </select>
                 </div>
 
                 <div class="pt-3">
                     <select id="color" class="p-1 ml-2">
-                        <option hidden>Color</option>
-                        <option>Red</option>
-                        <option>Blue</option>
-                        <option>Green</option>
-                        <option>Yellow</option>
-                        <option>Black</option>
-                        <option>White</option>
-                        <option>Orange</option>
-                        <option>Purple</option>
-                        <option>Pink</option>
+                        <option value="">Color</option>
+                        <option value="1">Red</option>
+                        <option value="2">Blue</option>
+                        <option value="3">Green</option>
+                        <option value="4">Yellow</option>
+                        <option value="5">Black</option>
+                        <option value="6">White</option>
+                        <option value="7">Orange</option>
+                        <option value="8">Purple</option>
+                        <option value="9">Pink</option>
                     </select>
                 </div>
                 <div class="pt-3">
@@ -87,14 +87,14 @@
                 {{-- @foreach ($product->variants as $variant) --}}
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
                     <div
-                        class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 8) d-none @endif">
+                        class="col-lg-3 col-md-4 col-sm-6 mix @if ($productCount >= 8) d-none @endif">
                         <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
                         <div class="product__item">
 
-                            @if ($product->images->isNotEmpty())
+                            @if (!empty($product['image']))
                                 <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
                                 <div class="product__item__pic set-bg"
-                                    data-setbg="{{ $product->images->first()->url }}">
+                                    data-setbg={{ $product['image'] }}>
 
                                     {{-- <a href="{{ route('detail', $product->id) }}">
                                         <img src="{{ $product->images->first()->url }}"
@@ -106,7 +106,7 @@
                                         <!-- Các hành động khi hover -->
 
                                         <li>
-                                            <a href="{{ $product->images->first()->url }}"
+                                            <a href="{{ $product['image'] }}"
                                                 class="image-popup">
                                                 <span class="arrow_expand"></span>
                                             </a>
@@ -138,7 +138,7 @@
                                 <!-- Chi tiết sản phẩm -->
 
                                 <h6>
-                                    <a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
+                                    <a href="{{ route('detail', $product['id']) }}">{{ $product['name_product'] }}</a>
                                 </h6>
                                 <!-- Tên sản phẩm -->
 
@@ -146,7 +146,7 @@
                                     <!-- Đánh giá sản phẩm -->
                                     @for ($i = 0; $i < 5; $i++)
                                         <!-- Lặp để hiển thị sao đánh giá dựa trên rating -->
-                                        @if ($i < $product->rating)
+                                        @if ($i < $product['rating'])
                                             <i class="fa fa-star"></i>
                                             <!-- Sao đầy -->
                                         @else
@@ -156,13 +156,13 @@
                                     @endfor
                                 </div>
 
-                                {{-- @if ($variant) --}}
-                                    <div class="product__price">$150</div>
+                                @if ($product['price'])
+                                    <div class="product__price">${{$product['price']}}</div>
                                     <!-- Giá sản phẩm -->
-                                {{-- @else
+                                @else
                                     <div class="product__price">Giá chưa cập nhật</div>
                                     <!-- Handle case where variant is null -->
-                                @endif --}}
+                                @endif
                             </div>
                         </div>
                     </div>

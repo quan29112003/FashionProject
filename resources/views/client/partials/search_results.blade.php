@@ -84,7 +84,7 @@
             @foreach ($products as $product)
                 <!-- Lặp qua các sản phẩm -->
 
-                {{-- @foreach ($product->variants as $variant) --}}
+                @foreach ($product->variants as $variant)
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
                     <div
                         class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 8) d-none @endif">
@@ -96,10 +96,10 @@
                                 <div class="product__item__pic set-bg"
                                     data-setbg="{{ $product->images->first()->url }}">
 
-                                    {{-- <a href="{{ route('detail', $product->id) }}">
+                                    <a href="{{ route('detail', $product->id) }}">
                                         <img src="{{ $product->images->first()->url }}"
                                             alt="img product">
-                                    </a> --}}
+                                    </a>
 
                                     <!-- Hình ảnh sản phẩm -->
                                     <ul class="product__hover">
@@ -156,13 +156,13 @@
                                     @endfor
                                 </div>
 
-                                {{-- @if ($variant) --}}
-                                    <div class="product__price">$150</div>
+                                @if ($variant)
+                                    <div class="product__price">${{ $variant->price }}</div>
                                     <!-- Giá sản phẩm -->
-                                {{-- @else
+                                @else
                                     <div class="product__price">Giá chưa cập nhật</div>
                                     <!-- Handle case where variant is null -->
-                                @endif --}}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                     @php
                         $productCount++;
                     @endphp
-                {{-- @endforeach --}}
+                @endforeach
             @endforeach
         </div>
             </div>

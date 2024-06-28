@@ -13,7 +13,10 @@ return new class extends Migration
     {
         //
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('transport');
+            $table->text('name');
+            $table->text('address');
+            $table->string('phone');
+            $table->integer('payment')->default(0);
         });
     }
 
@@ -23,6 +26,5 @@ return new class extends Migration
     public function down(): void
     {
         //
-
     }
 };

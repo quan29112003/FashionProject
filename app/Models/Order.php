@@ -16,9 +16,9 @@ class Order extends Model
         'voucher_id',
         'add_points',
         'address',
-        'name_client',
-        'phone_number',
-        'transport',
+        'name',
+        'phone',
+        'payment'
     ];
 
     // Define relationship with OrderItem

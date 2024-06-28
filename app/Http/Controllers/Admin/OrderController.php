@@ -38,11 +38,16 @@ class OrderController extends Controller
         return view('admin.orders.item', compact('order_items', 'products', 'productVariants'));
     }
 
-    public function edit(){
+    public function update(Request $request,$id){
+        $status = $request->status;
+        $payment = $request->payment;
+        Order::where('id',$id)->update([
+            'status' => $status,
+            'payment' => $payment,
+        ]);
 
+        return response()->json(['success' => true]);
     }
 
-    public function handleEdit(){
 
-    }
 }

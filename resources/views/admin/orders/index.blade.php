@@ -43,10 +43,8 @@
                             <th>Phone Number</th>
                             <th>Total Amount</th>
                             <th>Status</th>
-                            <th>Transport</th>
+                            <th>Payment</th>
                             <th>Voucher ID</th>
-                            <th>Created at</th>
-                            <th>Updated at</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -55,25 +53,44 @@
                                 <tr>
                                     <td>{{ $od->id }}</td>
                                     <td>{{ $od->user_id }}</td>
-                                    <td>{{ $od->name_client }}</td>
+                                    <td>{{ $od->name }}</td>
                                     <td>{{ $od->address }}</td>
-                                    <td>{{ $od->phone_number }}</td>
+                                    <td>{{ $od->phone }}</td>
                                     <td>{{ $od->total_amount }}</td>
-                                    <td>{{ $od->status }}</td>
-                                    <td>{{ $od->transport }}</td>
-                                    <td>{{ $od->voucher_id }}</td>
-                                    <td>{{ $od->created_at }}</td>
-                                    <td>{{ $od->updated_at }}</td>
                                     <td>
-                                        <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="{{ route('order-item',$od->id) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a></li>
-                                                <li><a href="" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                            </ul>
-                                        </div>
+                                        @php
+                                            if($od->status == 0){
+                                                echo 'Đang giao hàng';
+                                            } else if($od->status == 1){
+                                                echo 'Giao hàng thành công';
+                                            } else if($od->status == 2){
+                                                echo 'Giao hàng thất bại';
+                                            } else if($od->status == 3){
+                                                echo 'Đã hủy';
+                                            } else{
+                                                echo 'NULL';
+                                            }
+                                        @endphp
+                                    </td>
+                                    <td>
+                                        @php
+                                            if($od->payment == 0){
+                                                echo 'Đã thanh toán';
+                                            } else if($od->payment == 1){
+                                                echo 'Chưa thanh toán';
+                                            } else{
+                                                echo 'NULL';
+                                            }
+                                        @endphp
+                                    </td>
+                                    <td>{{ $od->voucher_id }}</td>
+                                    <td>
+                                        <a href="{{ route('order-item',$od->id) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
+                                        <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
+                                                        data-id="{{ $od->id }}" data-name="{{ $od->status }}"
+                                                        data-payment="{{ $od->payment }}">
+                                                        <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
+                                                    </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -84,6 +101,51 @@
                 </div>
             </div><!--end col-->
         </div>
+
+        <!-- Edit Item Modal Pop up-->
+        <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editItemForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editItemModalLabel">Chỉnh sửa Trạng thái</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editOrderId" name="id">
+                        <div class="mb-3">
+                            <label for="editCatalogueCategory" class="form-label">Status</label>
+                            <select class="form-select" id="editOrderStatus" name="status"
+                                required>
+                                    <option value="0">Đang giao hàng</option>
+                                    <option value="1">Giao hàng thành công</option>
+                                    <option value="2">Giao hàng thất bại</option>
+                                    <option value="3">Đã hủy</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editCatalogueCategory" class="form-label">Payment</label>
+                            <select class="form-select" id="editOrderPayment" name="payment"
+                                required>
+                                    <option value="0">Đã Thanh Toán</option>
+                                    <option value="1">Chưa thanh toán</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @section('style-libs')
@@ -115,4 +177,45 @@
             order: [ [0, 'desc'] ] }
         );
     </script>
+
+<script>
+    $(document).ready(function() {
+
+        $('.edit-item-btn').on('click', function() {
+            let id = $(this).data('id');
+            let status = $(this).data('status');
+            let payment = $(this).data('payment');
+
+            $('#editOrderId').val(id);
+            $('#editOrderStatus').val(status);
+            $('#editOrderPayment').val(payment);
+            $('#editItemForm').attr('action', 'edit-order/' + id); // Adjust the URL as needed
+            $('#editItemModal').modal('show');
+        });
+
+        $('#editItemForm').on('submit', function(e) {
+            e.preventDefault();
+
+            let formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        $('#editItemModal').modal('hide');
+                        location.reload(); // Reload the page to reflect updated data
+                    } else {
+                        alert('An error occurred');
+                    }
+                },
+                error: function(response) {
+                    console.log(response.responseText); // Print error response
+                    alert('An error occurred');
+                }
+            });
+        });
+    });
+</script>
 @endsection

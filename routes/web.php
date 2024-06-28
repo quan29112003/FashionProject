@@ -17,12 +17,11 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\OrderController;
 
-
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
-
+use App\Http\Controllers\Admin\CatalogueController;
 
 // trọng đức
 Route::resource('/', HomeController::class);
@@ -98,13 +97,12 @@ Route::prefix('admin')->group(function(){
 
     Route::get('order',[OrderController::class, 'index'])->name('order');
     Route::get('order-item/{id}',[OrderController::class, 'show'])->name('order-item');
-    Route::get('edit-order/{id}',[OrderController::class, 'edit'])->name('edit-order');
-    Route::put('edit-order/{id}',[OrderController::class, 'handleEdit'])->name('handleEdit-order');
+    Route::put('edit-order/{id}',[OrderController::class, 'update'])->name('edit-order');
 
-    Route::get('update-category-status', [CategoryController::class, 'updateStatus'])->name('update-category-status');
-
+    Route::get('catalogue',[CatalogueController::class,'index'])->name('catalogue');
+    Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');
+    Route::put('edit-catalogues/{id}', [CatalogueController::class, 'update'])->name('edit-catalogues');
 });
-
 
 // viet
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');

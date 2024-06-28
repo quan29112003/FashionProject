@@ -1952,8 +1952,8 @@ ol {
 
 .product__details__widget ul li .color__checkbox label .checkmark:after {
 	position: absolute;
-	left: 3px;
-	top: 5px;
+	left: 8px;
+	top: 8px;
 	width: 13px;
 	height: 6px;
 	border: solid #ffffff;
@@ -3187,6 +3187,10 @@ ol {
 	.nav::after {
 		width: 240px;
 	}
+	.gender_category {
+		right: 20%;
+		left: 10px;
+	}
 }
 
 /* Tablet Device = 768px */
@@ -3392,6 +3396,7 @@ ol {
 	.header__right {
 		display: none;
 	}
+	
 }
 
 /* Wide Mobile = 480px */
@@ -3682,6 +3687,7 @@ ol {
 		font-size: 24px;
 	}
 }
+
 .header__search button {
     padding: 10px;
     background-color: transparent;
@@ -3692,9 +3698,8 @@ ol {
     color: #333;
 }
 .search {
-    position: relative;
-    left: 900px;
-    top: -30px
+    /* position: relative; */
+    left: 20%;
 }
 .search-popup {
 	position: fixed;
@@ -3768,34 +3773,11 @@ ol {
 	font-size: 18px;
 	color: #666;
 }
+/* Custom CSS for additional styling */
 .gender_category {
-    position: relative;
-    left: 20px; /* Default position for small screens */
+	right: 20%;
 }
 
-@media (min-width: 576px) {
-    .gender_category {
-        left: 100px; /* Position for screens wider than 576px */
-    }
-}
-
-@media (min-width: 768px) {
-    .gender_category {
-        left: 200px; /* Position for screens wider than 768px */
-    }
-}
-
-@media (min-width: 992px) {
-    .gender_category {
-        left: 280px; /* Position for screens wider than 992px */
-    }
-}
-
-@media (min-width: 1200px) {
-    .gender_category {
-        left: 340px; /* Position for screens wider than 1200px */
-    }
-}
 
 #load-more-btn {
 	background-color: transparent;
@@ -3809,12 +3791,7 @@ ol {
 	width: 200px;
 	background-color: transparent;
 }
-.site-btn {
-	background-color: transparent;
-	color: #ca1515;
-	border-radius: 5px;
-	border: 1px solid #ca1515;
-}
+
 .size-label {
     display: inline-block;
     border: 2px solid #000; /* Black border */

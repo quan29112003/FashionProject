@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="editColorCode" class="form-label">Color Code</label>
-                                        <input type="text" class="form-control" id="editColorCode" name="color_code"
+                                        <input type="color" class="form-control" id="editColorCode" name="color_code"
                                             required>
                                     </div>
                                 </div>

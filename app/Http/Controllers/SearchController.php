@@ -28,9 +28,8 @@ class SearchController extends Controller
         $products = Product::with(['variants', 'images'])
         ->where('name_product', 'LIKE', "%{$keyword}%")
         ->get();
-    }else{
-        $products = Product::with(['variants', 'category', 'images'])->get();
     }
+    $products = [];
 
     // Fetch Hot Trend products
     $hotTrendProducts = Product::with(['variants', 'images', 'category'])

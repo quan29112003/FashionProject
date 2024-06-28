@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    
+
     use HasApiTokens, HasFactory, Notifiable;
     public $timestamps = true; // Đảm bảo timestamps được bật
     /**
@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'role', 'type',
-    
+
     ];
     public function points()
     {
@@ -51,5 +51,13 @@ class User extends Authenticatable
     public function getAgeAttribute()
     {
         return now()->diffInYears($this->birthday);
+    }
+
+    protected $dates = ['birthday'];
+
+    public function setBirthdayAttribute($value)
+    {
+        $this->attributes['birthday'] = $value;
+        $this->attributes['age'] = Carbon::parse($value)->age;
     }
 }

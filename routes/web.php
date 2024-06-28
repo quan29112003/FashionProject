@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Models\ProductColor;
 use App\Http\Controllers\Admin\ProductVariantController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\SizeController;
 
 use App\Http\Controllers\CartController;
@@ -18,6 +19,9 @@ use App\Http\Controllers\ShopController;
 
 
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Admin\WishlistController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
@@ -119,6 +123,14 @@ Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('chec
 Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', UserController::class);
+    Route::resource('vouchers', VoucherController::class);
+    Route::resource('comments', CommentController::class);
+    Route::resource('wishlists', WishlistController::class);
+});
 
 
 require __DIR__.'/auth.php';

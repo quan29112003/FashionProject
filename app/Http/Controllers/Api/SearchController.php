@@ -18,7 +18,7 @@ class SearchController extends Controller
         if($keyword != '' && $keyword != null){
             $products = Product::with(['variants', 'images'])
             ->where('name_product', 'LIKE', "%{$keyword}%")
-            ->get();
+            ->get()->toArray();
         }else{
             $products = Product::with(['variants', 'category', 'images'])->get()->toArray();
         }

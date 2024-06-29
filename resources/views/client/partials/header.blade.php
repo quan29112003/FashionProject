@@ -76,7 +76,7 @@
                         <ul>
                             {{-- categories --}}
                             @foreach ($CategoryGenders as $CategoryGender)
-                                <li class="gender_cateogry">
+                                <li class="gender_category">
                                     <a href="#">{{ $CategoryGender->name }}</a>
                                 </li>
                             @endforeach

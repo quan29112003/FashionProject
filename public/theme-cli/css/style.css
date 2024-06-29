@@ -1935,10 +1935,10 @@ ol {
 	position: absolute;
 	left: 0;
 	top: -10px;
-	height: 20px;
-	width: 20px;
+	height: 30px;
+	width: 30px;
 	background: #e31e2f;
-	border-radius: 50%;
+	border-radius: 20%;
 	content: "";
 }
 
@@ -1952,8 +1952,8 @@ ol {
 
 .product__details__widget ul li .color__checkbox label .checkmark:after {
 	position: absolute;
-	left: 3px;
-	top: 5px;
+	left: 8px;
+	top: 8px;
 	width: 13px;
 	height: 6px;
 	border: solid #ffffff;
@@ -3187,6 +3187,10 @@ ol {
 	.nav::after {
 		width: 240px;
 	}
+	.gender_category {
+		right: 20%;
+		left: 10px;
+	}
 }
 
 /* Tablet Device = 768px */
@@ -3392,6 +3396,7 @@ ol {
 	.header__right {
 		display: none;
 	}
+
 }
 
 /* Wide Mobile = 480px */
@@ -3682,6 +3687,7 @@ ol {
 		font-size: 24px;
 	}
 }
+
 .header__search button {
     padding: 10px;
     background-color: transparent;
@@ -3692,8 +3698,8 @@ ol {
     color: #333;
 }
 .search {
-    position: relative;
-    left: 600px;
+    /* position: relative; */
+    left: 20%;
 }
 .search-popup {
 	position: fixed;
@@ -3767,10 +3773,12 @@ ol {
 	font-size: 18px;
 	color: #666;
 }
-.gender_cateogry {
-	position: relative;
-	right: 340px;
+/* Custom CSS for additional styling */
+.gender_category {
+	right: 20%;
 }
+
+
 #load-more-btn {
 	background-color: transparent;
 	color: #000;
@@ -3783,9 +3791,50 @@ ol {
 	width: 200px;
 	background-color: transparent;
 }
-.site-btn {
-	background-color: transparent;
-	color: #ca1515;
-	border-radius: 5px;
-	border: 1px solid #ca1515;
+
+.size-label {
+    display: inline-block;
+    border: 2px solid #000; /* Black border */
+    padding: 10px; /* Padding inside the border */
+    margin: 5px; /* Space between labels */
+    font-weight: bold; /* Bold text */
+    border-radius: 5px; /* Rounded corners, set to 0 for sharp corners */
+    cursor: pointer; /* Pointer cursor on hover */
 }
+
+.size-label input[type="radio"] {
+    display: none; /* Hide the radio button itself */
+}
+
+.size-label input[type="radio"]:checked + .size-label {
+    background-color: #f0f0f0; /* Background color when selected */
+}
+.color-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px; /* Padding inside the border */
+    margin: 5px; /* Space between labels */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.color-label input[type="radio"] {
+    display: none; /* Hide the radio button itself */
+}
+
+.color-label .checkmark {
+    display: inline-block;
+    width: 20px; /* Width of the color square */
+    height: 20px; /* Height of the color square */
+    margin-right: 10px; /* Space between checkmark and text */
+    border: 1px solid black; /* Border around the checkmark */
+}
+
+.color-label input[type="radio"]:checked + .checkmark {
+    border: 2px solid blue; /* Border color when selected */
+}
+
+.color-label input[type="radio"]:checked + .checkmark + span {
+    background-color: #f0f0f0; /* Background color when selected */
+}
+

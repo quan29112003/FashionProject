@@ -21,16 +21,42 @@ class SizeController extends Controller
         return view('admin.sizes.create');
     }
 
-    public function store(Request $request){
-        $data = $request->all();
-        ProductSize::create($data);
+    // public function store(Request $request){
+    //     $data = $request->all();
+    //     ProductSize::create($data);
 
-        return redirect()->route('size');
+    //     return redirect()->route('size');
+    // }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'size' => 'required|regex:/^[A-Z0-9]+$/',
+        ]);
+
+        $size = new ProductSize();
+        $size->size = $request->size;
+        $size->save();
+
+        return response()->json(['success' => true]);
     }
 
-    public function edit(Request $request,$id){
-        $size = ProductSize::where('id',$id)->first();
-        return view('admin.sizes.edit',compact('size'));
+    // public function edit(Request $request,$id){
+    //     $size = ProductSize::where('id',$id)->first();
+    //     return view('admin.sizes.edit',compact('size'));
+    // }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'size' => 'required|regex:/^[A-Z0-9]+$/',
+        ]);
+
+        $size = ProductSize::findOrFail($id);
+        $size->size = $request->size;
+        $size->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function handleEdit(Request $request, $id){

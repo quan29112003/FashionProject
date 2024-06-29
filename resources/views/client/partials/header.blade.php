@@ -72,18 +72,19 @@
 
                         {{-- menus --}}
                         <ul>
-                            <li>
                                 {{-- categories --}}
                                 @foreach ($CategoryGenders as $CategoryGender)
-                            <li class="gender_cateogry">
+                            <li class="gender_category">
                                 <a href="#">{{ $CategoryGender->name }}</a>
-                            </li>
                             @endforeach
                             </li>
+                        
+                      
                             @foreach ($menus as $menu)
                                 <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a
                                         href="{{ url($menu->url) }}">{{ $menu->menu_item }}</a></li>
                             @endforeach
+                        
                             {{-- search --}}
                             <li class="search">
                                 <div class="header__search">
@@ -95,7 +96,6 @@
                                     </form>
                                 </div>
                             </li>
-
                         </ul>
                     </nav>
                 </div>

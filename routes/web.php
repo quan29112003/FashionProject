@@ -94,21 +94,27 @@ Route::prefix('admin')->group(function(){
 
     Route::get('show-category',[CategoryController::class, 'index'])->name('category');
     Route::get('create-category',[CategoryController::class, 'create'])->name('store-category');
-    Route::post('create-category',[CategoryController::class,'store'])->name('handleStore-category');
+    // Route::post('create-category',[CategoryController::class,'store'])->name('handleStore-category');
+    Route::post('store-category', [CategoryController::class, 'store'])->name('store-category');
     Route::get('edit-category/{id}',[CategoryController::class, 'edit'])->name('edit-category');
-    Route::put('edit-category/{id}',[CategoryController::class, 'handleEdit'])->name('handleEdit-category');
+    // Route::put('edit-category/{id}',[CategoryController::class, 'handleEdit'])->name('handleEdit-category');
+    Route::put('edit-category/{id}', [CategoryController::class, 'update'])->name('update-category');
+
 
     Route::get('show-color',[ColorController::class, 'index'])->name('color');
     Route::get('create-color',[ColorController::class, 'create'])->name('store-color');
-    Route::post('create-color',[ColorController::class, 'store'])->name('handleStore-color');
+    Route::post('store-color', [ColorController::class, 'store'])->name('store-color');
+    // Route::post('create-color',[ColorController::class, 'store'])->name('handleStore-color');
     Route::get('edit-color/{id}',[ColorController::class, 'edit'])->name('edit-color');
-    Route::put('edit-color/{id}',[ColorController::class, 'handleEdit'])->name('handleEdit-color');
+    // Route::put('edit-color/{id}',[ColorController::class, 'handleEdit'])->name('handleEdit-color');
+    Route::put('edit-color/{id}', [ColorController::class, 'update'])->name('update-color');
 
     Route::get('show-size',[SizeController::class, 'index'])->name('size');
     Route::get('create-size',[SizeController::class, 'create'])->name('store-size');
-    Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
+    // Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
+    Route::post('store-size', [SizeController::class, 'store'])->name('store-size');
     Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
-    Route::put('edit-size/{id}',[SizeController::class, 'handleEdit'])->name('handleEdit-size');
+    Route::put('edit-size/{id}',[SizeController::class, 'update'])->name('update-size');
 
     Route::get('image/{id}',[ImageController::class,'index'])->name('image');
     Route::get('edit-image/{id}',[ImageController::class,'edit'])->name('edit-image');

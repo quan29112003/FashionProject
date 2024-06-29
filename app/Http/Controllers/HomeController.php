@@ -55,15 +55,14 @@ class HomeController extends Controller
             ->where('is_good_deal', 1)
             ->take(3)
             ->get();
-            
+
         $featureProducts->each(function ($product) {
             $product->variant = $product->variants()->orderBy('price')->first();
             $product->setRelation('variants', collect([$product->variant]));
         });
 
-        // Fetch all categories separately
-        $categories = Category::all();
 
-        return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts', 'categories'));
+
+        return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts'));
     }
 }

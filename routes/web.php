@@ -22,64 +22,67 @@ use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Admin\WishlistController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
 
 use App\Http\Controllers\ProfileController;
+use \App\Http\Controllers\Auth\RegisteredUserController;
 
 
-// trọng đức
-Route::resource('/', HomeController::class);
+// Route trang chủ không yêu cầu đăng nhập
+Route::get('/', [HomeController::class, 'index']
+)->name('home');
 
+//đăng nhập
 Route::get('/login', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
+//tạo tài khoản
+Route::get('/register', [RegisteredUserController::class, 'create'])
+    ->middleware('guest')
+    ->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])
+    ->middleware('guest');
+//profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
 
 
 
 Route::get('/search', [SearchController::class, 'search'])->name('product.search');
-
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
-
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
-
-Route::get('/cart', function () {
-    return view('client.layouts.cart');
-})->name('cart');
-
-Route::get('/checkout', function () {
-    return view('client.layouts.checkout');
-})->name('checkout');
-
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-
 Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
-
 Route::get('/blog', function () {
     return view('client.layouts.blog');
 })->name('blog');
-
 Route::get('/blog-detail', function () {
     return view('client.layouts.blog-detail');
 })->name('blog-detail');
-
 Route::get('/contact', function () {
     return view('client.layouts.contact');
 })->name('contact');
 
+Route::get('/cart', function () {
+    return view('client.layouts.cart');
+})->name('cart');
+Route::get('/checkout', function () {
+    return view('client.layouts.checkout');
+})->name('checkout');
 // nghi
 Route::get('/admin', [Controller::class, 'dasboard']);
+
 
 Route::prefix('admin')->group(function(){
     Route::get('show-product',[ProductController::class, 'index'])->name('product');

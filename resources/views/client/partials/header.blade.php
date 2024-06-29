@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">
@@ -63,28 +64,30 @@
                 {{-- logo --}}
                 <div class="col-xl-3 col-lg-1">
                     <div class="header__logo">
-                        <a href="#"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+                        <a href="#">
+                            <img src="{{ asset('theme-cli/img/logo.png') }}" alt="">
+                        </a>
                     </div>
                 </div>
 
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
-
                         {{-- menus --}}
                         <ul>
-                                {{-- categories --}}
-                                @foreach ($CategoryGenders as $CategoryGender)
-                            <li class="gender_category">
-                                <a href="#">{{ $CategoryGender->name }}</a>
+                            {{-- categories --}}
+                            @foreach ($CategoryGenders as $CategoryGender)
+                                <li class="gender_cateogry">
+                                    <a href="#">{{ $CategoryGender->name }}</a>
+                                </li>
                             @endforeach
-                            </li>
-                        
-                      
+
                             @foreach ($menus as $menu)
-                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}"><a
-                                        href="{{ url($menu->url) }}">{{ $menu->menu_item }}</a></li>
+                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}">
+                                    <a href="{{ url($menu->url) }}">{{ $menu->menu_item }}
+                                    </a>
+                                </li>
                             @endforeach
-                        
+
                             {{-- search --}}
                             <li class="search">
                                 <div class="header__search">
@@ -104,15 +107,47 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
+                            @auth
+                                <a href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="auto"
+                                        fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                                        <path
+                                            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                                        <path
+                                            d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
+                                    </svg>
+                                </a>
+
+                                <a class="" href="{{ route('profile.edit') }}">Edit Profile</a>
+
+                                <a class="" href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+
+                            @else
+                                <a href="{{ route('login') }}">Login /</a>
+                                <a href="{{ route('register') }}">Register</a>
+                            @endauth
                         </div>
+
                         <ul class="header__right__widget">
-                            <li><a href="#"><span class="icon_heart_alt"></span>
+                            <li>
+                                <a href="#">
+                                    <span class="icon_heart_alt"></span>
                                     <div class="tip">2</div>
-                                </a></li>
-                            <li><a href="{{ route('cart') }}"><span class="icon_bag_alt"></span>
-                                </a></li>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('cart') }}">
+                                    <span class="icon_bag_alt"></span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -153,7 +188,7 @@
                 event.preventDefault();
                 var query = $('#searchInput').val();
                 if (query.trim() !== '') {
-                    window.location.href = "/search/?keyword="+query;
+                    window.location.href = "/search/?keyword=" + query;
                     // searchProducts(query);
                 }
             });

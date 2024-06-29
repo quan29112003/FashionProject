@@ -1,5 +1,5 @@
-<!-- resources/views/layouts/navigation.blade.php -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{{-- resources/views/layouts/navigation.blade.php --}}
+{{-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">Your App Name</a>
 
@@ -28,4 +28,4 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> --}}

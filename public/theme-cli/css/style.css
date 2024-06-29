@@ -451,7 +451,6 @@ ol {
 	position: absolute;
 	right: -8px;
 	top: -2px;
-	content: "/";
 	font-size: 13px;
 }
 
@@ -979,7 +978,7 @@ ol {
 }
 
 .footer__copyright__text a {
-	color: #5C5C5C;
+	color: #5c5c5c;
 }
 
 .footer__copyright__text i {
@@ -1382,7 +1381,7 @@ ol {
 }
 
 .categories__accordion .card-heading a:after,
-.categories__accordion .card-heading>a.active[aria-expanded=false]:after {
+.categories__accordion .card-heading > a.active[aria-expanded="false"]:after {
 	content: "";
 	font-size: 14px;
 	font-family: "FontAwesome";
@@ -1402,8 +1401,8 @@ ol {
 	top: -1px;
 }
 
-.categories__accordion .card-heading a[aria-expanded=true]:after,
-.categories__accordion .card-heading>a.active:after {
+.categories__accordion .card-heading a[aria-expanded="true"]:after,
+.categories__accordion .card-heading > a.active:after {
 	content: "";
 	font-size: 14px;
 	font-family: "FontAwesome";
@@ -1532,13 +1531,13 @@ ol {
 	visibility: hidden;
 }
 
-.sidebar__sizes .size__list label input:checked~.checkmark,
-.sidebar__color .size__list label input:checked~.checkmark {
+.sidebar__sizes .size__list label input:checked ~ .checkmark,
+.sidebar__color .size__list label input:checked ~ .checkmark {
 	border-color: #ca1515;
 }
 
-.sidebar__sizes .size__list label input:checked~.checkmark:after,
-.sidebar__color .size__list label input:checked~.checkmark:after {
+.sidebar__sizes .size__list label input:checked ~ .checkmark:after,
+.sidebar__color .size__list label input:checked ~ .checkmark:after {
 	border-color: #ca1515;
 	opacity: 1;
 }
@@ -1742,7 +1741,7 @@ ol {
 	margin-bottom: 10px;
 }
 
-.quantity>span {
+.quantity > span {
 	font-size: 14px;
 	color: #111111;
 	font-weight: 600;
@@ -1871,11 +1870,11 @@ ol {
 	visibility: hidden;
 }
 
-.product__details__widget ul li .stock__checkbox label input:checked~.checkmark {
+.product__details__widget ul li .stock__checkbox label input:checked ~ .checkmark {
 	border-color: #ca1515;
 }
 
-.product__details__widget ul li .stock__checkbox label input:checked~.checkmark:after {
+.product__details__widget ul li .stock__checkbox label input:checked ~ .checkmark:after {
 	border-color: #ca1515;
 	opacity: 1;
 }
@@ -1912,7 +1911,7 @@ ol {
 	margin-right: 20px;
 }
 
-.product__details__widget ul li .color__checkbox label.active input~.checkmark:after {
+.product__details__widget ul li .color__checkbox label.active input ~ .checkmark:after {
 	border-color: #ffffff;
 	opacity: 1;
 }
@@ -1926,7 +1925,7 @@ ol {
 	visibility: hidden;
 }
 
-.product__details__widget ul li .color__checkbox label input:checked~.checkmark:after {
+.product__details__widget ul li .color__checkbox label input:checked ~ .checkmark:after {
 	border-color: #ffffff;
 	opacity: 1;
 }
@@ -2393,11 +2392,11 @@ ol {
 	visibility: hidden;
 }
 
-.checkout__form .checkout__form__checkbox label input:checked~.checkmark {
+.checkout__form .checkout__form__checkbox label input:checked ~ .checkmark {
 	border-color: #ca1515;
 }
 
-.checkout__form .checkout__form__checkbox label input:checked~.checkmark:after {
+.checkout__form .checkout__form__checkbox label input:checked ~ .checkmark:after {
 	border-color: #ca1515;
 	opacity: 1;
 }
@@ -2526,11 +2525,11 @@ ol {
 	visibility: hidden;
 }
 
-.checkout__order__widget label input:checked~.checkmark {
+.checkout__order__widget label input:checked ~ .checkmark {
 	border-color: #ca1515;
 }
 
-.checkout__order__widget label input:checked~.checkmark:after {
+.checkout__order__widget label input:checked ~ .checkmark:after {
 	border-color: #ca1515;
 	opacity: 1;
 }
@@ -3396,7 +3395,6 @@ ol {
 	.header__right {
 		display: none;
 	}
-
 }
 
 /* Wide Mobile = 480px */
@@ -3689,17 +3687,17 @@ ol {
 }
 
 .header__search button {
-    padding: 10px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+	padding: 10px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
 }
 .header__search button i {
-    color: #333;
+	color: #333;
 }
 .search {
-    /* position: relative; */
-    left: 20%;
+	/* position: relative; */
+	left: 20%;
 }
 .search-popup {
 	position: fixed;
@@ -3778,7 +3776,6 @@ ol {
 	right: 20%;
 }
 
-
 #load-more-btn {
 	background-color: transparent;
 	color: #000;
@@ -3793,48 +3790,47 @@ ol {
 }
 
 .size-label {
-    display: inline-block;
-    border: 2px solid #000; /* Black border */
-    padding: 10px; /* Padding inside the border */
-    margin: 5px; /* Space between labels */
-    font-weight: bold; /* Bold text */
-    border-radius: 5px; /* Rounded corners, set to 0 for sharp corners */
-    cursor: pointer; /* Pointer cursor on hover */
+	display: inline-block;
+	border: 2px solid #000; /* Black border */
+	padding: 10px; /* Padding inside the border */
+	margin: 5px; /* Space between labels */
+	font-weight: bold; /* Bold text */
+	border-radius: 5px; /* Rounded corners, set to 0 for sharp corners */
+	cursor: pointer; /* Pointer cursor on hover */
 }
 
 .size-label input[type="radio"] {
-    display: none; /* Hide the radio button itself */
+	display: none; /* Hide the radio button itself */
 }
 
 .size-label input[type="radio"]:checked + .size-label {
-    background-color: #f0f0f0; /* Background color when selected */
+	background-color: #f0f0f0; /* Background color when selected */
 }
 .color-label {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px; /* Padding inside the border */
-    margin: 5px; /* Space between labels */
-    font-weight: bold; /* Bold text */
-    cursor: pointer; /* Pointer cursor on hover */
+	display: inline-flex;
+	align-items: center;
+	padding: 10px; /* Padding inside the border */
+	margin: 5px; /* Space between labels */
+	font-weight: bold; /* Bold text */
+	cursor: pointer; /* Pointer cursor on hover */
 }
 
 .color-label input[type="radio"] {
-    display: none; /* Hide the radio button itself */
+	display: none; /* Hide the radio button itself */
 }
 
 .color-label .checkmark {
-    display: inline-block;
-    width: 20px; /* Width of the color square */
-    height: 20px; /* Height of the color square */
-    margin-right: 10px; /* Space between checkmark and text */
-    border: 1px solid black; /* Border around the checkmark */
+	display: inline-block;
+	width: 20px; /* Width of the color square */
+	height: 20px; /* Height of the color square */
+	margin-right: 10px; /* Space between checkmark and text */
+	border: 1px solid black; /* Border around the checkmark */
 }
 
 .color-label input[type="radio"]:checked + .checkmark {
-    border: 2px solid blue; /* Border color when selected */
+	border: 2px solid blue; /* Border color when selected */
 }
 
 .color-label input[type="radio"]:checked + .checkmark + span {
-    background-color: #f0f0f0; /* Background color when selected */
+	background-color: #f0f0f0; /* Background color when selected */
 }
-

@@ -73,4 +73,6 @@ class ColorController extends Controller
 
         return redirect()->route('color');
     }
+
+    
 }

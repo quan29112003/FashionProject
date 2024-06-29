@@ -16,6 +16,8 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\Admin\CatalogueController;
+use App\Http\Controllers\Admin\OrderController;
 
 
 use App\Http\Controllers\Admin\ImageController;
@@ -118,6 +120,14 @@ Route::prefix('admin')->group(function(){
     Route::post('store-size', [SizeController::class, 'store'])->name('store-size');
     Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
     Route::put('edit-size/{id}',[SizeController::class, 'update'])->name('update-size');
+
+    Route::get('order',[OrderController::class, 'index'])->name('order');
+    Route::get('order-item/{id}',[OrderController::class, 'show'])->name('order-item');
+    Route::put('edit-order/{id}',[OrderController::class, 'update'])->name('edit-order');
+
+    Route::get('catalogue',[CatalogueController::class,'index'])->name('catalogue');
+    Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');
+    Route::put('edit-catalogues/{id}', [CatalogueController::class, 'update'])->name('edit-catalogues');
 
     Route::get('image/{id}',[ImageController::class,'index'])->name('image');
     Route::get('edit-image/{id}',[ImageController::class,'edit'])->name('edit-image');

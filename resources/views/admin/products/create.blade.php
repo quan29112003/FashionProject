@@ -90,12 +90,33 @@
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Product Variant</h4>
                     </div>
+                    @error('productVariant')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.color')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.size')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.quantity')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.price')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.price_sale')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.SKU')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row">
                                 <div class="col-lg-6">
+                                    <h4>Chọn màu</h4>
                                     <select class="form-select" id="colorSelect" multiple aria-label="multiple select example">
-                                        <option selected>Chọn màu</option>
                                         @foreach ($product_color as $id => $color )
                                             <option value="{{ $id }}">{{ $color }}</option>
                                         @endforeach
@@ -103,8 +124,9 @@
                                 </div>
 
                                 <div class="col-lg-6">
+                                    <h4>Chọn kích thước</h4>
                                     <select class="form-select" id="sizeSelect"  multiple aria-label="multiple select example">
-                                        <option selected>Chọn kích thước</option>
+
                                         @foreach ($product_size as $id => $size )
                                             <option value="{{ $id }}">{{ $size }}</option>
                                         @endforeach

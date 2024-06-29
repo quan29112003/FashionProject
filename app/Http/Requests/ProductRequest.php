@@ -21,7 +21,7 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|integer|exists:categories,id',
             'description' => 'required|string',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // 'productVariant' => 'required|array',
+            'productVariant' => 'required|array',
             // 'productVariant.*.color' => 'required|integer|exists:colors,id',
             // 'productVariant.*.size' => 'required|integer|exists:sizes,id',
             // 'productVariant.*.quantity' => 'required|integer|min:0',
@@ -73,5 +73,22 @@ class ProductRequest extends FormRequest
             'product_images.*.mimes' => 'Mỗi mục trong danh sách hình ảnh phải là một tệp loại: jpeg, png, jpg, gif.',
             'product_images.*.max' => 'Mỗi hình ảnh trong danh sách không được vượt quá 2048 KB.',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $input = $this->all();
+
+        // Check if productVariant is present and is a valid JSON string, if not, initialize as an empty array
+        if (!isset($input['productVariant']) || !is_array($input['productVariant'])) {
+            $input['productVariant'] = [];
+        } else {
+            // Make sure productVariant is an array
+            if (is_string($input['productVariant'])) {
+                $input['productVariant'] = json_decode($input['productVariant'], true);
+            }
+        }
+
+        $this->replace($input);
     }
 }

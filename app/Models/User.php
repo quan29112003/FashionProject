@@ -61,6 +61,6 @@ class User extends Authenticatable
     public function setBirthdayAttribute($value)
     {
         $this->attributes['birthday'] = $value;
-        $this->attributes['age'] = Carbon::parse($value)->age;
+        // $this->attributes['age'] = Carbon::parse($value)->age;
     }
 }

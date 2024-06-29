@@ -206,7 +206,7 @@
                         }
                     },
                     error: function(response) {
-                        alert('An error occurred');
+                        alert('Phải nhập chữ in hoa hoặc số');
                     }
                 });
             });
@@ -239,7 +239,7 @@
                         }
                     },
                     error: function(response) {
-                        alert('An error occurred');
+                        alert('Phải nhập chữ in hoa hoặc số');
                     }
                 });
             });

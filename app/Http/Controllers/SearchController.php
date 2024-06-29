@@ -119,7 +119,7 @@ class SearchController extends Controller
     });
 
     // Render view partials.search_results với các sản phẩm tìm được
-    $searchResultsHtml = view('client.partials.search_results', compact('products', 'keyword', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts'))->render();
+    $searchResultsHtml = view('client.layouts.search', compact('products', 'keyword', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts'))->render();
 
     // Trả về kết quả dưới dạng JSON
     return $searchResultsHtml;

@@ -34,7 +34,9 @@ use \App\Http\Controllers\Auth\RegisteredUserController;
 
 
 // Route trang chủ không yêu cầu đăng nhập
-Route::get('/', [HomeController::class, 'index']
+Route::get(
+    '/',
+    [HomeController::class, 'index']
 )->name('home');
 
 //đăng nhập
@@ -54,9 +56,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 
 
@@ -86,36 +93,36 @@ Route::get('/checkout', function () {
 Route::get('/admin', [Controller::class, 'dasboard']);
 
 
-Route::prefix('admin')->group(function(){
-    Route::get('show-product',[ProductController::class, 'index'])->name('product');
-    Route::get('create-product',[ProductController::class, 'create'])->name('store-product');
-    Route::post('create-product',[ProductController::class,'store'])->name('handleStore-product');
-    Route::get('edit-product/{id}',[ProductController::class, 'edit'])->name('edit-product');
-    Route::put('edit-product/{id}',[ProductController::class, 'handleEdit'])->name('handleEdit-product');
+Route::prefix('admin')->group(function () {
+    Route::get('show-product', [ProductController::class, 'index'])->name('product');
+    Route::get('create-product', [ProductController::class, 'create'])->name('store-product');
+    Route::post('create-product', [ProductController::class, 'store'])->name('handleStore-product');
+    Route::get('edit-product/{id}', [ProductController::class, 'edit'])->name('edit-product');
+    Route::put('edit-product/{id}', [ProductController::class, 'handleEdit'])->name('handleEdit-product');
 
-    Route::get('product-variant/{id}',[ProductVariantController::class, 'show'])->name('product-variant');
-    Route::get('edit-product-variant/{id}',[ProductVariantController::class, 'edit'])->name('edit-productVariant');
-    Route::put('edit-product-variant/{id}',[ProductVariantController::class, 'handleEdit'])->name('handleEdit-productVariant');
+    Route::get('product-variant/{id}', [ProductVariantController::class, 'show'])->name('product-variant');
+    Route::get('edit-product-variant/{id}', [ProductVariantController::class, 'edit'])->name('edit-productVariant');
+    Route::put('edit-product-variant/{id}', [ProductVariantController::class, 'handleEdit'])->name('handleEdit-productVariant');
 
-    Route::get('show-category',[CategoryController::class, 'index'])->name('category');
-    Route::get('create-category',[CategoryController::class, 'create'])->name('store-category');
+    Route::get('show-category', [CategoryController::class, 'index'])->name('category');
+    Route::get('create-category', [CategoryController::class, 'create'])->name('store-category');
     // Route::post('create-category',[CategoryController::class,'store'])->name('handleStore-category');
     Route::post('store-category', [CategoryController::class, 'store'])->name('store-category');
-    Route::get('edit-category/{id}',[CategoryController::class, 'edit'])->name('edit-category');
+    Route::get('edit-category/{id}', [CategoryController::class, 'edit'])->name('edit-category');
     // Route::put('edit-category/{id}',[CategoryController::class, 'handleEdit'])->name('handleEdit-category');
     Route::put('edit-category/{id}', [CategoryController::class, 'update'])->name('update-category');
 
 
-    Route::get('show-color',[ColorController::class, 'index'])->name('color');
-    Route::get('create-color',[ColorController::class, 'create'])->name('store-color');
+    Route::get('show-color', [ColorController::class, 'index'])->name('color');
+    Route::get('create-color', [ColorController::class, 'create'])->name('store-color');
     Route::post('store-color', [ColorController::class, 'store'])->name('store-color');
     // Route::post('create-color',[ColorController::class, 'store'])->name('handleStore-color');
-    Route::get('edit-color/{id}',[ColorController::class, 'edit'])->name('edit-color');
+    Route::get('edit-color/{id}', [ColorController::class, 'edit'])->name('edit-color');
     // Route::put('edit-color/{id}',[ColorController::class, 'handleEdit'])->name('handleEdit-color');
     Route::put('edit-color/{id}', [ColorController::class, 'update'])->name('update-color');
 
-    Route::get('show-size',[SizeController::class, 'index'])->name('size');
-    Route::get('create-size',[SizeController::class, 'create'])->name('store-size');
+    Route::get('show-size', [SizeController::class, 'index'])->name('size');
+    Route::get('create-size', [SizeController::class, 'create'])->name('store-size');
     // Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
     Route::post('store-size', [SizeController::class, 'store'])->name('store-size');
     Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
@@ -129,9 +136,9 @@ Route::prefix('admin')->group(function(){
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');
     Route::put('edit-catalogues/{id}', [CatalogueController::class, 'update'])->name('edit-catalogues');
 
-    Route::get('image/{id}',[ImageController::class,'index'])->name('image');
-    Route::get('edit-image/{id}',[ImageController::class,'edit'])->name('edit-image');
-    Route::put('edit-image/{id}',[ImageController::class,'handleEdit'])->name('handleEdit-image');
+    Route::get('image/{id}', [ImageController::class, 'index'])->name('image');
+    Route::get('edit-image/{id}', [ImageController::class, 'edit'])->name('edit-image');
+    Route::put('edit-image/{id}', [ImageController::class, 'handleEdit'])->name('handleEdit-image');
 });
 
 
@@ -152,4 +159,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

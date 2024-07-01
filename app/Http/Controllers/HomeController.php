@@ -18,6 +18,7 @@ class HomeController extends Controller
 
         $products = Product::with(['variants', 'images', 'category'])
             ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
+            ->has('variants')
             ->get();
 
         // Attach the first variant to each product
@@ -31,6 +32,7 @@ class HomeController extends Controller
         // Fetch Hot Trend products
         $hotTrendProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_hot', 1)
+            ->has('variants')
             ->take(3)
             ->get();
 
@@ -42,6 +44,7 @@ class HomeController extends Controller
         // Fetch Best Seller products
         $bestSellerProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_good_deal', 1)
+            ->has('variants')
             ->take(3)
             ->get();
 
@@ -53,6 +56,7 @@ class HomeController extends Controller
         // Fetch Feature products
         $featureProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_good_deal', 1)
+            ->has('variants')
             ->take(3)
             ->get();
 

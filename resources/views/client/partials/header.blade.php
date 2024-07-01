@@ -138,7 +138,7 @@
 
                         <ul class="header__right__widget">
                             <li>
-                                <a href="#">
+                                <a href="{{ route('wishlist.index') }}">
                                     <span class="icon_heart_alt"></span>
                                     <div class="tip">2</div>
                                 </a>

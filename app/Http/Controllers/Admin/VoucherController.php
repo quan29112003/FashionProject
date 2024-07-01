@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Voucher;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 
@@ -33,10 +33,7 @@ class VoucherController extends Controller
             'min_purchase_amount' => 'nullable|numeric',
             'category_id' => 'nullable|exists:categories,id',
             'max_usage' => 'nullable|integer',
-            'used_count' => 'nullable|integer',
             'applicable_products' => 'nullable|string',
-            'created_count' => 'nullable|integer',
-            'remaining_count' => 'nullable|integer',
             'distribution_channels' => 'nullable|string',
         ]);
 

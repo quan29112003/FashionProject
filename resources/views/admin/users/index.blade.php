@@ -42,6 +42,7 @@
                                 <th>Age</th>
                                 <th>Email</th>
                                 <th>Address</th>
+                                <th>Password</th>
                                 <th>Role</th>
                                 <th>Type</th>
                                 <th>Actions</th>
@@ -56,6 +57,7 @@
                                     <td>{{ $user->age }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->address }}</td>
+                                    <td>{{ $user->password }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->type }}</td>
                                     <td>

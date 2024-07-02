@@ -3190,6 +3190,10 @@ ol {
 		right: 20%;
 		left: 10px;
 	}
+	.search {
+		left: 20%;
+		right: 10px;
+	}
 }
 
 /* Tablet Device = 768px */
@@ -3696,8 +3700,9 @@ ol {
 	color: #333;
 }
 .search {
-	/* position: relative; */
 	left: 20%;
+	float: right;
+	top: -30px;
 }
 .search-popup {
 	position: fixed;

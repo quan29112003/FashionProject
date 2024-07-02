@@ -74,14 +74,25 @@ class WishlistController extends Controller
     //     return redirect()->route('admin.wishlists.index');
     // }
 
-    public function remove($id)
+    // public function remove($id)
+    // {
+    //     $wishlist = Wishlist::find($id);
+    //     if ($wishlist && $wishlist->user_id == Auth::id()) {
+    //         $wishlist->delete();
+    //         return redirect()->back()->with('success', 'Product removed from wishlist');
+    //     }
+    //     return redirect()->back()->with('error', 'Unable to remove product from wishlist');
+    // }
+    public function destroy($id)
     {
         $wishlist = Wishlist::find($id);
-        if ($wishlist && $wishlist->user_id == Auth::id()) {
+
+        if ($wishlist) {
             $wishlist->delete();
-            return redirect()->back()->with('success', 'Product removed from wishlist');
+            return redirect()->back()->with('success', 'Product removed from wishlist successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Product not found in wishlist.');
         }
-        return redirect()->back()->with('error', 'Unable to remove product from wishlist');
     }
 }
 

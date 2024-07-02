@@ -10,32 +10,69 @@ use App\Http\Requests\ColorRequest;
 class ColorController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         $color = ProductColor::all();
 
         return view('admin.colors.index', compact('color'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('admin.colors.create');
     }
 
-    public function store(Request $request){
-        $data = $request->all();
-        ProductColor::create($data);
+    // public function store(Request $request){
+    //     $data = $request->all();
+    //     ProductColor::create($data);
+
+    //     return redirect()->route('color');
+    // }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'color' => 'required|string|max:255',
+            'color_code' => 'required|string|max:255',
+        ]);
+
+        $color = new ProductColor();
+        $color->color = $request->color;
+        $color->color_code = $request->color_code;
+        $color->save();
+
+        return response()->json(['success' => true]);
+    }
+
+
+    // public function edit(Request $request, $id)
+    // {
+    //     $color = ProductColor::where('id', $id)->first();
+    //     return view('admin.colors.edit', compact('color'));
+    // }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'color' => 'required|string|max:255',
+            'color_code' => 'required|string|max:255',
+        ]);
+
+        $color = ProductColor::findOrFail($id);
+        $color->color = $request->color;
+        $color->color_code = $request->color_code;
+        $color->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function handleEdit(Request $request, $id)
+    {
+        $data = $request->except('_token', '_method');
+        ProductColor::where('id', $id)->update($data);
 
         return redirect()->route('color');
     }
 
-    public function edit(Request $request,$id){
-        $color = ProductColor::where('id',$id)->first();
-        return view('admin.colors.edit',compact('color'));
-    }
-
-    public function handleEdit(Request $request, $id){
-        $data = $request->except('_token','_method');
-        ProductColor::where('id',$id)->update($data);
-
-        return redirect()->route('color');
-    }
+    
 }

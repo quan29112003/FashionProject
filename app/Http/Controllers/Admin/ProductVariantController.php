@@ -34,7 +34,6 @@ class ProductVariantController extends Controller
     public function handleEdit(Request $request, $id){
         $data = $request->except('_token','_method');
         ProductVariant::where('id',$id)->update($data);
-
         return redirect()->route('product');
 
     }

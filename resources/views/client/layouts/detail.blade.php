@@ -53,7 +53,7 @@
                     <div class="product__details__price" id="productPrice">${{ $price }}
                         <span>${{ $price_sale }}</span>
                     </div>
-                    <p>{{ $product->description }}</p>
+                    {{-- <p>{{ $product->description }}</p> --}}
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
                         <form action="{{ route('cart.add') }}" method="POST">
@@ -97,7 +97,7 @@
                                 <span>Available color:</span>
                                 <div class="color__checkbox">
                                     @foreach ($colors as $color)
-                                        <label for="color_{{ $color->id }}">
+                                        <label for="color_{{ $color->id }}" class="color-label">
                                             <input type="radio" name="color__radio" id="color_{{ $color->id }}"
                                                 value="{{ $color->id }}"
                                                 {{ $color->id == $selectedColorId ? 'checked' : '' }}>
@@ -111,7 +111,7 @@
                                 <span>Available size:</span>
                                 <div class="size__btn">
                                     @foreach ($sizes as $size)
-                                        <label for="size_{{ $size->id }}">
+                                        <label for="size_{{ $size->id }}" class="size-label">
                                             <input type="radio" name="size__radio" id="size_{{ $size->id }}"
                                                 value="{{ $size->id }}"
                                                 {{ $size->id == $selectedSizeId ? 'checked' : '' }}>
@@ -119,6 +119,10 @@
                                         </label>
                                     @endforeach
                                 </div>
+                            </li>
+                            <li>
+                                <span>Promotions:</span>
+                                <p>Free shipping</p>
                             </li>
                         </ul>
                     </div>

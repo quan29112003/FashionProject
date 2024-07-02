@@ -42,11 +42,10 @@
                                 <div class="col-lg-4">
                                     <label for="img_thumbnail" class="form-label">Img Thumbnail</label>
                                     <input type="file" class="form-control" name="thumbnail" id="img_thumbnail">
-                                    @error('thumbnail')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
                                 </div>
-
+                                @error('thumbnail')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 <div class="row">
                                     @php
                                         $is = [
@@ -91,12 +90,33 @@
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Product Variant</h4>
                     </div>
+                    @error('productVariant')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.color')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.size')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.quantity')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.price')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.price_sale')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    @error('productVariant.*.SKU')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row">
                                 <div class="col-lg-6">
+                                    <h4>Chọn màu</h4>
                                     <select class="form-select" id="colorSelect" multiple aria-label="multiple select example">
-                                        <option selected>Chọn màu</option>
                                         @foreach ($product_color as $id => $color )
                                             <option value="{{ $id }}">{{ $color }}</option>
                                         @endforeach
@@ -104,8 +124,9 @@
                                 </div>
 
                                 <div class="col-lg-6">
+                                    <h4>Chọn kích thước</h4>
                                     <select class="form-select" id="sizeSelect"  multiple aria-label="multiple select example">
-                                        <option selected>Chọn kích thước</option>
+
                                         @foreach ($product_size as $id => $size )
                                             <option value="{{ $id }}">{{ $size }}</option>
                                         @endforeach
@@ -265,8 +286,16 @@
                         <div class="card-body">
                             <div class="live-preview">
                                 <div id="output"  class="row gy-4">
-                                    <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size.value}" hidden>
+                                    <div class="col-xxl-3 col-md-6">
+                                        <div>
+                                            <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size.value}" hidden>
+                                        </div>
+                                    </div>
+                                    <div class="col-xxl-3 col-md-6">
+                                        <div>
                                             <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color.value}" hidden>
+                                        </div>
+                                    </div>
                                     <div class="col-xxl-3 col-md-6">
                                         <label for="basiInput" class="form-label">Quantity</label>
                                         <input type="number" class="form-control" name="productVariant[${index}]['quantity']" id="basiInput">
@@ -288,11 +317,10 @@
                                     </div>
 
                                     <div class="col-xxl-3 col-md-6">
-                                        <select class="form-select" id="colorSelect" name="productVariant[${index}]['is_active']" >
-                                        <option selected>Select Active</option>
-                                            <option value="0">Active</option>
-                                            <option value="1">Inactive</option>
-                                        </select>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" value="1" name="productVariant[${index}]['is_active']" role="switch" id="SwitchCheck1" checked>
+                                            <label class="form-check-label" for="SwitchCheck1">Switch Default</label>
+                                        </div>
                                     </div>
 
                                 </div>

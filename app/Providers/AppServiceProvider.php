@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
         $menus = WebsiteMenu::all();
         View::share('menus', $menus);
 
+        $categories = categoryGender::all();
+        view::share('categories', $categories);
+
         // lấy category giới tính cá trang trên header
         $CategoryGenders = CategoryGender::all();
         View::share('CategoryGenders', $CategoryGenders);

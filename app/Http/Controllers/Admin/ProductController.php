@@ -64,6 +64,7 @@ class ProductController extends Controller
     {
 
         $dataProduct = $request->except('productVariant', 'product_images');
+
         $dataProductVariant = $request->productVariant;
 
         $dataProductImage = $request->product_images ?: [];
@@ -75,43 +76,54 @@ class ProductController extends Controller
         $dataProduct['is_hot']  ??= 0;
         $dataProduct['is_good_deal']  ??= 0;
         $dataProduct['is_show_home']  ??= 0;
-        $product = Product::query()->create([
-            'name_product' => $dataProduct['name_product'],
-            'category_id' => $dataProduct['category_id'],
-            'description' => $dataProduct['description'],
-            'thumbnail' => $thumbnailName,
-            "is_active" => $dataProduct['is_active'],
-            "is_hot" => $dataProduct['is_hot'],
-            "is_good_deal" => $dataProduct['is_good_deal'],
-            "is_show_home" => $dataProduct['is_show_home']
-        ]);
-
-        foreach ($dataProductVariant as $variant) {
-            $variant['product_id'] = $product->id;
-            $variant = $this->cleanArrayKeys($variant);
-            $variant['is_active']  ??= 0;
-            ProductVariant::query()->create([
-                'product_id' => $product->id,
-                'color_id' => $variant['color'],
-                'size_id' => $variant['size'],
-                'quantity' => $variant['quantity'],
-                'price' => $variant['price'],
-                'price_sale' => $variant['price_sale'],
-                'SKU' => $variant['SKU'],
-                'is_active' => $variant['is_active']
+        try{
+            $product = Product::query()->create([
+                'name_product' => $dataProduct['name_product'],
+                'category_id' => $dataProduct['category_id'],
+                'description' => $dataProduct['description'],
+                'thumbnail' => $thumbnailName,
+                "is_active" => $dataProduct['is_active'],
+                "is_hot" => $dataProduct['is_hot'],
+                "is_good_deal" => $dataProduct['is_good_deal'],
+                "is_show_home" => $dataProduct['is_show_home']
             ]);
+
+            foreach ($dataProductVariant as $variant) {
+                $variant['product_id'] = $product->id;
+                $variant = $this->cleanArrayKeys($variant);
+                $variant['is_active']  ??= 0;
+                ProductVariant::query()->create([
+                    'product_id' => $product->id,
+                    'color_id' => $variant['color'],
+                    'size_id' => $variant['size'],
+                    'quantity' => $variant['quantity'],
+                    'price' => $variant['price'],
+                    'price_sale' => $variant['price_sale'],
+                    'SKU' => $variant['SKU'],
+                    'is_active' => $variant['is_active']
+                ]);
+            }
+
+            foreach ($dataProductImage as $img) {
+                $imageName = time() . '_' . $img->getClientOriginalName();
+                $img->move(public_path('uploads'), $imageName);
+
+                ProductImage::query()->create([
+                    'product_id' => $product->id,
+                    'url' => $imageName,
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('product');
+        }catch(\Exception $exception){
+            DB::rollBack();
+
+            return back();
         }
 
-        foreach ($dataProductImage as $img) {
-            $imageName = time() . '_' . $img->getClientOriginalName();
-            $img->move(public_path('uploads'), $imageName);
 
-            ProductImage::query()->create([
-                'product_id' => $product->id,
-                'url' => $imageName,
-            ]);
-        }
 
-        return redirect()->route('product');
+
     }
 }

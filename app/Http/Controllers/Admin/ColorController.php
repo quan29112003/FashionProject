@@ -32,8 +32,10 @@ class ColorController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'color' => 'required|string|max:255',
-            'color_code' => 'required|string|max:255',
+            'color' => [
+                'required',
+                'unique:product_colors,color'
+            ]
         ]);
 
         $color = new ProductColor();
@@ -54,8 +56,10 @@ class ColorController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'color' => 'required|string|max:255',
-            'color_code' => 'required|string|max:255',
+            'color' => [
+                'required',
+                'unique:product_colors,color'
+            ]
         ]);
 
         $color = ProductColor::findOrFail($id);
@@ -74,5 +78,5 @@ class ColorController extends Controller
         return redirect()->route('color');
     }
 
-    
+
 }

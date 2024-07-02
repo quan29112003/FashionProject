@@ -19,8 +19,10 @@ class CatalogueController extends Controller
     public function store(Request $request){
         // Validate the request data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'name' => [
+                'required',
+                'unique:catalogues,name'
+            ],
             'category_id' => 'required|integer|exists:categories,id',
         ]);
 
@@ -36,9 +38,11 @@ class CatalogueController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+        $request->validate([
+            'name' => [
+                'required',
+                'unique:catalogues,name'
+            ],
             'category_id' => 'required|integer|exists:categories,id',
         ]);
 

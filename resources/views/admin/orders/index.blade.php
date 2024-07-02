@@ -87,7 +87,7 @@
                                     <td>
                                         <a href="{{ route('order-item',$od->id) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
                                         <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
-                                                        data-id="{{ $od->id }}" data-name="{{ $od->status }}"
+                                                        data-id="{{ $od->id }}" data-status="{{ $od->status }}"
                                                         data-payment="{{ $od->payment }}">
                                                         <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
                                                     </a>
@@ -117,6 +117,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="editOrderId" name="id">
+
                         <div class="mb-3">
                             <label for="editCatalogueCategory" class="form-label">Status</label>
                             <select class="form-select" id="editOrderStatus" name="status"
@@ -180,7 +181,6 @@
 
 <script>
     $(document).ready(function() {
-
         $('.edit-item-btn').on('click', function() {
             let id = $(this).data('id');
             let status = $(this).data('status');

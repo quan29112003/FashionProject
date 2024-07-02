@@ -39,6 +39,7 @@ class OrderController extends Controller
     }
 
     public function update(Request $request,$id){
+        $order = Order::where('id,',$id)->first();
         $status = $request->status;
         $payment = $request->payment;
         Order::where('id',$id)->update([

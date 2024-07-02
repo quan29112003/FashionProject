@@ -21,6 +21,12 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request){
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'unique:categories,name'
+            ]
+        ]);
         $data = $request->all();
         Category::create($data);
 
@@ -33,6 +39,12 @@ class CategoryController extends Controller
     }
 
     public function handleEdit(Request $request, $id){
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'unique:categories,name'
+            ]
+        ]);
         $data = $request->except('_token','_method');
         Category::where('id',$id)->update($data);
 

@@ -124,6 +124,7 @@
 
                 @foreach ($product->variants as $variant)
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
+
                     <div
                         class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 8) d-none @endif">
                         <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
@@ -152,9 +153,14 @@
                                         <!-- Popup hình ảnh -->
 
                                         <li>
-                                            <a href="#">
-                                                <span class="icon_heart_alt">
-                                                </span>
+                                            <form id="wishlist-form-{{ $product->id }}"
+                                                action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
+                                            <a href="#"
+                                                onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
+                                                <span class="icon_heart_alt"></span>
                                             </a>
                                         </li>
                                         <!-- Thêm vào danh sách yêu thích -->
@@ -204,6 +210,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Tăng biến đếm sản phẩm -->
                     @php
                         $productCount++;
@@ -226,7 +233,7 @@
 <!-- Product Section End -->
 
 <!-- Banner Section Begin -->
-<section class="banner set-bg" data-setbg="{{ asset('theme-cli/img/banner/banner-1.jpg')}}">
+<section class="banner set-bg" data-setbg="{{ asset('theme-cli/img/banner/banner-1.jpg') }}">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">
@@ -235,21 +242,21 @@
                         <div class="banner__text">
                             <span>The Chloe Collection</span>
                             <h1>The Project Jacket</h1>
-                            <a href="{{route('shop')}}">Shop now</a>
+                            <a href="{{ route('shop') }}">Shop now</a>
                         </div>
                     </div>
                     <div class="banner__item">
                         <div class="banner__text">
                             <span>The Chloe Collection</span>
                             <h1>The Project Jacket</h1>
-                            <a href="{{route('shop')}}">Shop now</a>
+                            <a href="{{ route('shop') }}">Shop now</a>
                         </div>
                     </div>
                     <div class="banner__item">
                         <div class="banner__text">
                             <span>The Chloe Collection</span>
                             <h1>The Project Jacket</h1>
-                            <a href="{{route('shop')}}">Shop now</a>
+                            <a href="{{ route('shop') }}">Shop now</a>
                         </div>
                     </div>
                 </div>
@@ -287,13 +294,8 @@
                                             <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                         @endfor
                                     </div>
-                                    @if ($variant)
-                                        <div class="product__price">${{ $variant->price }}</div>
-                                        <!-- Giá sản phẩm -->
-                                    @else
-                                        <div class="product__price">Giá chưa cập nhật</div>
-                                        <!-- Handle case where variant is null -->
-                                    @endif
+                                    <div class="product__price">${{ $variant->price }}</div>
+                                    <!-- Giá sản phẩm -->
                                 </div>
                             </div>
                         @endforeach
@@ -323,13 +325,8 @@
                                         <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                     @endfor
                                 </div>
-                                @if ($variant)
-                                    <div class="product__price">${{ $variant->price }}</div>
-                                    <!-- Giá sản phẩm -->
-                                @else
-                                    <div class="product__price">Giá chưa cập nhật</div>
-                                    <!-- Handle case where variant is null -->
-                                @endif
+                                <div class="product__price">${{ $variant->price }}</div>
+                                <!-- Giá sản phẩm -->
                             </div>
                         </div>
                     @endforeach

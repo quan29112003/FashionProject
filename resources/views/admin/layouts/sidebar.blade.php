@@ -43,9 +43,15 @@
                 </li> <!-- end Dashboard Menu -->
 
 
+                
+
+                
+
+                
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarProduct">
+                       aria-expanded="false" aria-controls="sidebarProduct">
                         <i class="ri-layout-3-line"></i>
                         <span data-key="t-layouts">Sản phẩm</span>
 
@@ -53,72 +59,28 @@
                     <div class="collapse menu-dropdown" id="sidebarProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('product') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('product') }}" class="nav-link"
+                                   data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-product') }}" class="nav-link" data-key="t-horizontal">Thêm
-                                    mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarColor" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarColor">
-                        <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Màu</span>
-
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarColor">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('color') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('color') }}" class="nav-link"
+                                   data-key="t-horizontal">Color</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-color') }}" class="nav-link" data-key="t-horizontal">Thêm
-                                    mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarSize" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarSize">
-                        <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Kích cỡ</span>
-
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarSize">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('size') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('size') }}" class="nav-link"
+                                   data-key="t-horizontal">Size</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-size') }}" class="nav-link" data-key="t-horizontal">Thêm
-                                    mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarCategory">
-                        <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Danh mục</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarCategory">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('category') }}" class="nav-link" data-key="t-horizontal">Danh
-                                    sách</a>
-
+                                <a href="{{ route('catalogue') }}" class="nav-link"
+                                   data-key="t-horizontal">Catalogues</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('store-category') }}" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{ route('category') }}" class="nav-link"
+                                   data-key="t-horizontal">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('order') }}" class="nav-link"
+                                   data-key="t-horizontal">Order</a>
                             </li>
                         </ul>
                     </div>

@@ -62,7 +62,7 @@
                                             @php
                                                 $url = $pr->thumbnail;
                                             @endphp
-                                            <input type="file" class="form-control" name="thumbnail" alt="{{ $url }}" value="{{ $url }}" id="name">
+                                            <input type="file" class="form-control" name="thumbnail" value="{{ $url }}" id="name">
                                         </div>
                                     </div>
 

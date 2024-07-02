@@ -40,6 +40,7 @@ class CheckoutController extends Controller
         $order = Order::create([
             'user_id' => 1,
             'status' => 'pending',
+            'payment' => 0,
             'total_amount' => $request->total_amount,
             'voucher_id' => $request->voucher_id ?? null,
             'add_points' => $request->add_points ?? 0,

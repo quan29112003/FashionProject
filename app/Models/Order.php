@@ -15,6 +15,10 @@ class Order extends Model
         'total_amount',
         'voucher_id',
         'add_points',
+        'address',
+        'name',
+        'phone',
+        'payment'
     ];
 
     // Define relationship with OrderItem

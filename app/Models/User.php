@@ -20,8 +20,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'role', 'type',
-
+        'name_user',
+        'email',
+        'password',
+        'role',
+        'type',
     ];
     public function points()
     {
@@ -59,6 +62,6 @@ class User extends Authenticatable
     public function setBirthdayAttribute($value)
     {
         $this->attributes['birthday'] = $value;
-        $this->attributes['age'] = Carbon::parse($value)->age;
+        // $this->attributes['age'] = Carbon::parse($value)->age;
     }
 }

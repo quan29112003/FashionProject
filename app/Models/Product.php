@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,33 +23,33 @@ class Product extends Model
     //     return $this->hasMany(ProductVariant::class, 'product_id');
     // }
 
-    // public function images()
-    // {
-    //     return $this->hasMany(ProductImage::class, 'product_id');
-    // }
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
 
     // public function image()
     // {
     //     return $this->hasOne(ProductImage::class, 'product_id')->where('is_primary', true);
     // }
+    // public function images()
+    // {
+    //     return $this->hasMany(ProductImage::class);
+    // }
 
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
-
+    // Relationship with categories
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-
-    public function images()
+    public function variants()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductVariant::class,'product_id');
     }
 
     public function comments()
     {
         return $this->hasMany(Comment::class, 'productID');
     }
+
 }

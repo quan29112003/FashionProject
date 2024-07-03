@@ -34,8 +34,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->get();
-
-        return view('admin.products.index', compact('products'));
+        $category = Category::all();
+        return view('admin.products.index', compact('products','category'));
     }
 
     public function edit($id){

@@ -35,7 +35,14 @@
                            style="width:100%">
 
                         <thead>
+                            <tr>
+                                <th><input type="text" id="searchID" placeholder="Tìm ID"></th>
+                                <th><input type="text" id="searchName" placeholder="Tìm ID"></th>
+                                <th><input type="text" id="searchName" placeholder="Tìm ID"></th>
+
+                            </tr>
                         <tr>
+
                             <th>ID</th>
                             <th>ID User</th>
                             <th>Name Client</th>
@@ -57,40 +64,17 @@
                                     <td>{{ $od->address }}</td>
                                     <td>{{ $od->phone }}</td>
                                     <td>{{ $od->total_amount }}</td>
-                                    <td>
-                                        @php
-                                            if($od->status == 0){
-                                                echo 'Đang giao hàng';
-                                            } else if($od->status == 1){
-                                                echo 'Giao hàng thành công';
-                                            } else if($od->status == 2){
-                                                echo 'Giao hàng thất bại';
-                                            } else if($od->status == 3){
-                                                echo 'Đã hủy';
-                                            } else{
-                                                echo 'NULL';
-                                            }
-                                        @endphp
-                                    </td>
-                                    <td>
-                                        @php
-                                            if($od->payment == 0){
-                                                echo 'Đã thanh toán';
-                                            } else if($od->payment == 1){
-                                                echo 'Chưa thanh toán';
-                                            } else{
-                                                echo 'NULL';
-                                            }
-                                        @endphp
-                                    </td>
+                                    <td>{{ $od->status->name }}</td>
+                                    <td>{{ $od->payment->name }}</td>
                                     <td>{{ $od->voucher_id }}</td>
                                     <td>
                                         <a href="{{ route('order-item',$od->id) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
                                         <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
-                                                        data-id="{{ $od->id }}" data-status="{{ $od->status }}"
-                                                        data-payment="{{ $od->payment }}">
-                                                        <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
-                                                    </a>
+                                            data-id="{{ $od->id }}" data-status="{{ $od->status->id }}"
+                                            data-payment="{{ $od->payment->id }}">
+                                            <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
+                                        </a>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -119,22 +103,20 @@
                         <input type="hidden" id="editOrderId" name="id">
 
                         <div class="mb-3">
-                            <label for="editCatalogueCategory" class="form-label">Status</label>
-                            <select class="form-select" id="editOrderStatus" name="status"
-                                required>
-                                    <option value="0">Đang giao hàng</option>
-                                    <option value="1">Giao hàng thành công</option>
-                                    <option value="2">Giao hàng thất bại</option>
-                                    <option value="3">Đã hủy</option>
+                            <label for="editOrderStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editOrderStatus" name="status_id" required>
+                                @foreach ($status as $st )
+                                    <option value="{{ $st->id }}">{{ $st->name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="editCatalogueCategory" class="form-label">Payment</label>
-                            <select class="form-select" id="editOrderPayment" name="payment"
-                                required>
-                                    <option value="0">Đã Thanh Toán</option>
-                                    <option value="1">Chưa thanh toán</option>
+                            <label for="editOrderPayment" class="form-label">Payment</label>
+                            <select class="form-select" id="editOrderPayment" name="payment_id" required>
+                                @foreach ($payment as $pm )
+                                    <option value="{{ $pm->id }}">{{ $pm->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -181,41 +163,85 @@
 
 <script>
     $(document).ready(function() {
-        $('.edit-item-btn').on('click', function() {
-            let id = $(this).data('id');
-            let status = $(this).data('status');
-            let payment = $(this).data('payment');
 
-            $('#editOrderId').val(id);
-            $('#editOrderStatus').val(status);
-            $('#editOrderPayment').val(payment);
-            $('#editItemForm').attr('action', 'edit-order/' + id); // Adjust the URL as needed
-            $('#editItemModal').modal('show');
-        });
+        $(document).ready(function() {
+            var table;
 
-        $('#editItemForm').on('submit', function(e) {
-            e.preventDefault();
+            // DataTable initialization
+            if ($.fn.dataTable.isDataTable('#example')) {
+                table = $('#example').DataTable();
+            } else {
+                table = $('#example').DataTable({
+                    order: [[0, 'desc']]
+                });
+            }
 
-            let formData = $(this).serialize();
+            // Apply search on each column
+            $('#searchID, #searchIdUser, #searchName, #searchAddress, #searchPhone, #searchAmount, #searchStatus, #searchPayment, #searchVoucher').on('keyup', function() {
+                table.column($(this).parent().index() + ':visible').search(this.value).draw();
+            });
+        })
 
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        $('#editItemModal').modal('hide');
-                        location.reload(); // Reload the page to reflect updated data
-                    } else {
-                        alert('An error occurred');
-                    }
-                },
-                error: function(response) {
-                    console.log(response.responseText); // Print error response
+    $('.edit-item-btn').on('click', function() {
+        let id = $(this).data('id');
+        let status = $(this).data('status');
+        let payment = $(this).data('payment');
+
+        $('#editOrderId').val(id);
+        $('#editOrderStatus').val(status);
+        $('#editOrderPayment').val(payment);
+        $('#editItemForm').attr('action', 'edit-order/' + id);
+
+        // Disable status select if status_id is 1
+        if (status == 4) {
+            $('#editOrderStatus').prop('disabled', true);
+        } else {
+            $('#editOrderStatus').prop('disabled', false);
+        }
+
+        // Disable payment select if payment_id is 1
+        if (payment == 1) {
+            $('#editOrderPayment').prop('disabled', true);
+        } else {
+            $('#editOrderPayment').prop('disabled', false);
+        }
+
+        $('#editItemModal').modal('show');
+    });
+
+    $('#editItemForm').on('submit', function(e) {
+        e.preventDefault();
+
+        // Re-enable selects before submitting the form to ensure data is sent
+        if ($('#editOrderStatus').prop('disabled')) {
+            $('#editOrderStatus').prop('disabled', false);
+        }
+
+        if ($('#editOrderPayment').prop('disabled')) {
+            $('#editOrderPayment').prop('disabled', false);
+        }
+
+        let formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    $('#editItemModal').modal('hide');
+                    location.reload(); // Reload the page to reflect updated data
+                } else {
                     alert('An error occurred');
                 }
-            });
+            },
+            error: function(response) {
+                console.log(response.responseText); // Print error response
+                alert('An error occurred');
+            }
         });
     });
+});
+
 </script>
 @endsection

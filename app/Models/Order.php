@@ -11,19 +11,29 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'status',
         'total_amount',
+        'status_id',
+        'payment_id',
         'voucher_id',
         'add_points',
         'address',
         'name',
         'phone',
-        'payment'
     ];
 
     // Define relationship with OrderItem
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
     }
 }

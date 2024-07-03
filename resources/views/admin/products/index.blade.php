@@ -28,15 +28,25 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách</h5>
-
                     <a href="{{ route('store-product') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
                     <table id="example"
                            class="table table-bordered dt-responsive nowrap table-striped align-middle"
                            style="width:100%">
-
                         <thead>
+                            <tr>
+                                <th><input type="text" id="searchID" placeholder="Tìm ID"></th>
+                                <th><input type="text" id="searchName" placeholder="Tìm ID"></th>
+                                <th><input type="text" id="searchCategory" placeholder="Tìm ID"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -47,8 +57,6 @@
                             <th>Good Deal</th>
                             <th>Show Home</th>
                             <th>Views</th>
-                            <th>Created at</th>
-                            <th>Updated at</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -71,8 +79,6 @@
                                                                     : '<span class="badge bg-danger">NO</span>' !!}</td>
 
                                     <td>{{ $product->views }}</td>
-                                    <td>{{ $product->created_at }}</td>
-                                    <td>{{ $product->updated_at }}</td>
                                     <td>
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -117,7 +123,7 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/6pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
@@ -125,5 +131,26 @@
         new DataTable("#example", {
             order: [ [0, 'desc'] ] }
         );
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            var table;
+
+            // DataTable initialization
+            if ($.fn.dataTable.isDataTable('#example')) {
+                table = $('#example').DataTable();
+            } else {
+                table = $('#example').DataTable({
+                    order: [[0, 'desc']]
+                });
+            }
+
+            // Apply search on each column
+            $('#searchID, #searchName, #searchCategory, #searchAddress, #searchPhone, #searchAmount, #searchStatus, #searchPayment, #searchVoucher').on('keyup', function() {
+                table.column($(this).parent().index() + ':visible').search(this.value).draw();
+            });
+        })
     </script>
 @endsection

@@ -105,6 +105,10 @@ Route::prefix('admin')->group(function () {
     Route::get('edit-product-variant/{id}', [ProductVariantController::class, 'edit'])->name('edit-productVariant');
     Route::put('edit-product-variant/{id}', [ProductVariantController::class, 'handleEdit'])->name('handleEdit-productVariant');
 
+    
+    Route::post('/product/update-status', [ProductController::class, 'updateStatus'])->name('update-product-status');
+
+
     Route::get('show-category', [CategoryController::class, 'index'])->name('category');
     Route::get('create-category', [CategoryController::class, 'create'])->name('store-category');
     // Route::post('create-category',[CategoryController::class,'store'])->name('handleStore-category');
@@ -126,14 +130,14 @@ Route::prefix('admin')->group(function () {
     Route::get('create-size', [SizeController::class, 'create'])->name('store-size');
     // Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
     Route::post('store-size', [SizeController::class, 'store'])->name('store-size');
-    Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
-    Route::put('edit-size/{id}',[SizeController::class, 'update'])->name('update-size');
+    Route::get('edit-size/{id}', [SizeController::class, 'edit'])->name('edit-size');
+    Route::put('edit-size/{id}', [SizeController::class, 'update'])->name('update-size');
 
-    Route::get('order',[OrderController::class, 'index'])->name('order');
-    Route::get('order-item/{id}',[OrderController::class, 'show'])->name('order-item');
-    Route::put('edit-order/{id}',[OrderController::class, 'update'])->name('edit-order');
+    Route::get('order', [OrderController::class, 'index'])->name('order');
+    Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
+    Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
 
-    Route::get('catalogue',[CatalogueController::class,'index'])->name('catalogue');
+    Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');
     Route::put('edit-catalogues/{id}', [CatalogueController::class, 'update'])->name('edit-catalogues');
 

@@ -31,23 +31,53 @@ class ProductController extends Controller
         return $cleanedArray;
     }
     //
-    public function index()
+    // public function index()
+    // {
+    //     $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->get();
+
+    //     return view('admin.products.index', compact('products'));
+    // }
+
+    public function index(Request $request)
     {
-        $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->get();
+        $query = Product::with(['variants.color', 'variants.size', 'category', 'images']);
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $products = $query->get();
 
         return view('admin.products.index', compact('products'));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $category = Category::all();
-        $product = Product::with(['category'])->where('id',$id)->get();
-        return view('admin.products.edit',compact('category','product'));
+        $product = Product::with(['category'])->where('id', $id)->get();
+        return view('admin.products.edit', compact('category', 'product'));
     }
 
-    public function handleEdit(ProductRequest $request, $id){
-        $data = $request->except('_token','_method');
-        Product::where('id',$id)->update($data);
+    public function handleEdit(ProductRequest $request, $id)
+    {
+        $data = $request->except('_token', '_method');
+        Product::where('id', $id)->update($data);
         return redirect()->route('product');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $product = Product::find($request->id);
+        if ($product) {
+            $field = $request->field;
+            $value = $request->value == 'true' ? 1 : 0; // Convert 'true'/'false' to 1/0
+            $product->$field = $value;
+            $product->save();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 400);
     }
 
     public function create(Request $request)
@@ -76,7 +106,7 @@ class ProductController extends Controller
         $dataProduct['is_hot']  ??= 0;
         $dataProduct['is_good_deal']  ??= 0;
         $dataProduct['is_show_home']  ??= 0;
-        try{
+        try {
             $product = Product::query()->create([
                 'name_product' => $dataProduct['name_product'],
                 'category_id' => $dataProduct['category_id'],
@@ -116,14 +146,10 @@ class ProductController extends Controller
 
             DB::commit();
             return redirect()->route('product');
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
 
             return back();
         }
-
-
-
-
     }
 }

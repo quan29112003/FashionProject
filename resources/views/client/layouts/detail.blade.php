@@ -41,7 +41,6 @@
             <div class="col-lg-6">
                 <div class="product__details__text" data-product-id="{{ $product->id }}">
                     <h3>{{ $product->name_product }} <span>Brand: {{ $product->brand }}</span></h3>
-                    <!-- Đánh giá sản phẩm -->
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -50,10 +49,9 @@
                         <i class="fa fa-star"></i>
                         <span>(138 reviews)</span>
                     </div>
-                    <div class="product__details__price" id="productPrice">${{ $price }}
-                        <span>${{ $price_sale }}</span>
+                    <div class="product__details__price" id="productPrice">{{ number_format($price, 0, ',', '.') }}₫
+                        <span>{{ number_format($price_sale, 0, ',', '.') }}₫</span>
                     </div>
-                    {{-- <p>{{ $product->description }}</p> --}}
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
                         <form action="{{ route('cart.add') }}" method="POST">
@@ -71,7 +69,6 @@
                             <button type="submit" class="site-btn">Add to cart</button>
                         </form>
                     </div>
-                    <!-- Widget chi tiết sản phẩm -->
                     <div class="product__details__widget">
                         <ul>
                             <li>
@@ -92,7 +89,6 @@
                             <li>
                                 <span>Category:</span> {{ $category }}
                             </li>
-                            <!-- Các lựa chọn khác (màu sắc, kích cỡ, khuyến mãi, ...) -->
                             <li>
                                 <span>Available color:</span>
                                 <div class="color__checkbox">
@@ -185,9 +181,10 @@
                             </div>
                             <div class="product__price">
                                 @if ($relatedProduct->price_sale)
-                                    <span>${{ $relatedProduct->price }}</span> ${{ $relatedProduct->price_sale }}
+                                    <span>{{ number_format($relatedProduct->price, 0, ',', '.') }}₫</span>
+                                    {{ number_format($relatedProduct->price_sale, 0, ',', '.') }}₫
                                 @elseif ($relatedProduct->price)
-                                    ${{ $relatedProduct->price }}
+                                    {{ number_format($relatedProduct->price, 0, ',', '.') }}₫
                                 @else
                                     <div class="product__price">Giá chưa cập nhật</div>
                                 @endif
@@ -207,8 +204,8 @@
             </button>
         </div>
 </section>
-
 <!-- Product Details Section End -->
+
 
 
 @include('client.partials.footer')

@@ -16,6 +16,7 @@
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Css Styles -->
+
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/elegant-icons.css') }}" type="text/css">
@@ -129,7 +130,6 @@
                                     style="display: none;">
                                     @csrf
                                 </form>
-
                             @else
                                 <a href="{{ route('login') }}">Login /</a>
                                 <a href="{{ route('register') }}">Register</a>

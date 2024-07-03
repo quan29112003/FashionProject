@@ -97,13 +97,13 @@
                                 <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
                                 </li>
                                 @foreach (session('cart', []) as $item)
-                                    <li>{{ $item['name'] }} <span>${{ $item['price'] * $item['quantity'] }}</span></li>
+                                    <li>{{ $item['name'] }} <span>{{ $item['price'] * $item['quantity'] }}₫</span></li>
                                 @endforeach
                             </ul>
                         </div>
                         <div class="checkout__order__total">
                             <ul>
-                                <li>Total <span>${{ $total }}</span></li>
+                                <li>Total <span>{{ $total }}₫</span></li>
                             </ul>
                         </div>
                         <input type="hidden" name="total_amount" value="{{ $total }}">
@@ -115,6 +115,7 @@
     </div>
 </section>
 <!-- Checkout Section End -->
+
 <script></script>
 
 

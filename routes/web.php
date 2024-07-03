@@ -125,14 +125,14 @@ Route::prefix('admin')->group(function () {
     Route::get('create-size', [SizeController::class, 'create'])->name('store-size');
     // Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
     Route::post('store-size', [SizeController::class, 'store'])->name('store-size');
-    Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
-    Route::put('edit-size/{id}',[SizeController::class, 'update'])->name('update-size');
+    Route::get('edit-size/{id}', [SizeController::class, 'edit'])->name('edit-size');
+    Route::put('edit-size/{id}', [SizeController::class, 'update'])->name('update-size');
 
-    Route::get('order',[OrderController::class, 'index'])->name('order');
-    Route::get('order-item/{id}',[OrderController::class, 'show'])->name('order-item');
-    Route::put('edit-order/{id}',[OrderController::class, 'update'])->name('edit-order');
+    Route::get('order', [OrderController::class, 'index'])->name('order');
+    Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
+    Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
 
-    Route::get('catalogue',[CatalogueController::class,'index'])->name('catalogue');
+    Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');
     Route::put('edit-catalogues/{id}', [CatalogueController::class, 'update'])->name('edit-catalogues');
 
@@ -149,6 +149,7 @@ Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('chec
 Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {

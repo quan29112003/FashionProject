@@ -201,7 +201,8 @@
                                 </div>
 
                                 @if ($variant)
-                                    <div class="product__price">${{ $variant->price }}</div>
+                                    <div class="product__price">{{ $variant->price }}₫
+                                    </div>
                                     <!-- Giá sản phẩm -->
                                 @else
                                     <div class="product__price">Giá chưa cập nhật</div>

@@ -1,10 +1,17 @@
 @extends('admin.layouts.master')
 
+
+
 @section('title')
     Danh sách Sản phẩm
 @endsection
 
 @section('content')
+    {{-- Hiện thông báo --}}
+    <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3">
+    </div>
+
+    
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -34,6 +41,17 @@
                     <div class="mb-3">
                         <label for="date-range-filter" class="form-label">Lọc theo khoảng ngày:</label>
                         <input type="text" id="date-range-filter" class="form-control">
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="mb-3">
+                        <label for="category-filter" class="form-label">Lọc theo danh mục:</label>
+                        <select id="category-filter" class="form-control">
+                            <option value="">Tất cả</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->name }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
@@ -183,20 +201,35 @@
                 $.fn.dataTable.ext.search.pop();
             });
 
+            // Category filter
+            $('#category-filter').on('change', function() {
+                var selectedCategory = $(this).val();
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        var category = data[2]; // Use data for the category column
+                        if (selectedCategory === "" || category === selectedCategory) {
+                            return true;
+                        }
+                        return false;
+                    }
+                );
+                table.draw();
+                $.fn.dataTable.ext.search.pop();
+            });
+
             // Function to initialize switches
             function initializeSwitches() {
-                // Khởi tạo các switch Bootstrap Toggle
+                // Initialize Bootstrap Toggle switches
                 $('.switch').bootstrapToggle({
-                    on: 'YES', // Văn bản hiển thị khi switch được bật
-                    off: 'NO', // Văn bản hiển thị khi switch được tắt
-                    size: 'small' // Kích thước của switch (nhỏ)
+                    on: 'YES',
+                    off: 'NO',
+                    size: 'small'
                 }).change(function() {
-                    // Xử lý khi switch thay đổi trạng thái
-                    var id = $(this).data('id'); // Lấy giá trị của thuộc tính data-id
-                    var field = $(this).data('field'); // Lấy giá trị của thuộc tính data-field
-                    var isChecked = $(this).prop('checked'); // Kiểm tra switch có đang bật hay không
+                    var id = $(this).data('id');
+                    var field = $(this).data('field');
+                    var isChecked = $(this).prop('checked');
 
-                    // Gửi yêu cầu AJAX để cập nhật trạng thái
+                    // AJAX request to update status
                     $.ajax({
                         url: '{{ route('update-product-status') }}',
                         method: 'POST',
@@ -207,16 +240,43 @@
                             value: isChecked
                         },
                         success: function(response) {
-                            // Xử lý kết quả trả về từ yêu cầu AJAX
                             if (response.success) {
-                                alert(
-                                'Status updated successfully!'); // Thông báo khi cập nhật thành công
+                                // Show success toast
+                                showToast('Status updated successfully!', 'success');
                             } else {
-                                alert(
-                                'Failed to update status.'); // Thông báo khi cập nhật thất bại
+                                // Show error toast
+                                showToast('Failed to update status.', 'error');
                             }
                         }
                     });
+                });
+            }
+
+            // Function to show toast messages
+            function showToast(message, type) {
+                var toastContainer = $('#toast-container');
+                var autoHideDelay = 5000; // 5 seconds
+
+                var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+                var toast = $('<div class="toast text-white ' + toastClass +
+                    '" role="alert" aria-live="assertive" aria-atomic="true">' +
+                    '<div class="toast-header">' +
+                    '<strong class="me-auto">Notification</strong>' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+                    '</div>' +
+                    '<div class="toast-body">' + message + '</div>' +
+                    '</div>');
+
+                // Append toast to container and show it
+                toastContainer.append(toast);
+                var bootstrapToast = new bootstrap.Toast(toast[0], {
+                    delay: autoHideDelay
+                });
+                bootstrapToast.show();
+
+                // Remove toast after it's hidden
+                toast.on('hidden.bs.toast', function() {
+                    toast.remove();
                 });
             }
 

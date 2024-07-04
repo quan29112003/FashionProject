@@ -46,7 +46,7 @@
             <div class="col-6 my-2">
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
-                    required autocomplete="username" />
+                    required autocomplete="username" readonly />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
                 @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
@@ -201,7 +201,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const provinceSelect = document.getElementById('province');
             const districtSelect = document.getElementById('district');
@@ -269,6 +269,155 @@
                 }
             }
         });
+    </script> --}}
+
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const provinceSelect = $('#province');
+            const districtSelect = $('#district');
+            const wardSelect = $('#ward');
+
+            provinceSelect.on('change', function() {
+                fetchDistricts($(this).val());
+            });
+
+            provinceSelect.val('{{ $provinceId }}');
+            fetchDistricts('{{ $provinceId }}');
+
+            function fetchDistricts(provinceId) {
+                if (provinceId) {
+                    const districtId = '{{ $districtId }}';
+                    $.ajax({
+                        url: `/api/districts/${provinceId}`,
+                        dataType: 'json',
+                        success: function(data) {
+                            districtSelect.empty().append('<option value="">Select District</option>');
+                            $.each(data, function(index, district) {
+                                districtSelect.append(
+                                    `<option value="${district.code}" ${district.code == districtId ? 'selected' : ''}>${district.name}</option>`
+                                    );
+                            });
+                            districtSelect.prop('disabled', false);
+                            wardSelect.empty().append('<option value="">Select Ward</option>').prop(
+                                'disabled', true);
+                        }
+                    });
+                } else {
+                    districtSelect.empty().append('<option value="">Select District</option>').prop('disabled',
+                        true);
+                    wardSelect.empty().append('<option value="">Select Ward</option>').prop('disabled', true);
+                }
+            }
+
+            districtSelect.on('change', function() {
+                fetchWards($(this).val());
+            });
+
+            districtSelect.val('{{ $districtId }}');
+            fetchWards('{{ $districtId }}');
+
+            function fetchWards(districtId) {
+                if (districtId) {
+                    const wardId = '{{ $wardId }}';
+                    $.ajax({
+                        url: `/api/wards/${districtId}`,
+                        dataType: 'json',
+                        success: function(data) {
+                            wardSelect.empty().append('<option value="">Select Ward</option>');
+                            $.each(data, function(index, ward) {
+                                wardSelect.append(
+                                    `<option value="${ward.code}" ${ward.code == wardId ? 'selected' : ''}>${ward.name}</option>`
+                                    );
+                            });
+                            wardSelect.prop('disabled', false);
+                        }
+                    });
+                } else {
+                    wardSelect.empty().append('<option value="">Select Ward</option>').prop('disabled', true);
+                }
+            }
+        });
+    </script> --}}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const provinceSelect = $('#province');
+            const districtSelect = $('#district');
+            const wardSelect = $('#ward');
+            const defaultOption = '<option value="">Select</option>';
+            const apiUrls = {
+                districts: '/api/districts/',
+                wards: '/api/wards/'
+            };
+
+            // Function to fetch data from API
+            async function fetchData(url) {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return await response.json();
+            }
+
+            // Function to populate select element
+            function populateSelect(select, data, selectedId) {
+                select.empty().append(defaultOption);
+                data.forEach(item => {
+                    select.append(
+                        `<option value="${item.code}" ${item.code == selectedId ? 'selected' : ''}>${item.name}</option>`
+                        );
+                });
+                select.prop('disabled', false);
+            }
+
+            // Event listener for province select change
+            provinceSelect.on('change', async function() {
+                const provinceId = $(this).val();
+                if (provinceId) {
+                    const districts = await fetchData(apiUrls.districts + provinceId);
+                    populateSelect(districtSelect, districts, '{{ $districtId }}');
+                    wardSelect.empty().append(defaultOption).prop('disabled', true);
+                } else {
+                    districtSelect.empty().append(defaultOption).prop('disabled', true);
+                    wardSelect.empty().append(defaultOption).prop('disabled', true);
+                }
+            });
+
+            // Event listener for district select change
+            districtSelect.on('change', async function() {
+                const districtId = $(this).val();
+                if (districtId) {
+                    const wards = await fetchData(apiUrls.wards + districtId);
+                    populateSelect(wardSelect, wards, '{{ $wardId }}');
+                } else {
+                    wardSelect.empty().append(defaultOption).prop('disabled', true);
+                }
+            });
+
+            // Initialize selects with default values
+            (async function() {
+                try {
+                    const provinceId = '{{ $provinceId }}';
+                    const districtId = '{{ $districtId }}';
+                    const wardId = '{{ $wardId }}';
+
+                    if (provinceId) {
+                        const districts = await fetchData(apiUrls.districts + provinceId);
+                        populateSelect(districtSelect, districts, districtId);
+                    }
+
+                    if (districtId) {
+                        const wards = await fetchData(apiUrls.wards + districtId);
+                        populateSelect(wardSelect, wards, wardId);
+                    }
+                } catch (error) {
+                    console.error('Error initializing selects:', error);
+                }
+            })();
+        });
     </script>
+
 
 </section>

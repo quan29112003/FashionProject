@@ -29,9 +29,9 @@ class AppServiceProvider extends ServiceProvider
         $categories = categoryGender::all();
         view::share('categories', $categories);
 
-        // lấy category giới tính cá trang trên header
-        $CategoryGenders = CategoryGender::all();
-        View::share('CategoryGenders', $CategoryGenders);
+    //     // lấy category giới tính cá trang trên header
+    //     $CategoryGenders = CategoryGender::all();
+    //     View::share('CategoryGenders', $CategoryGenders);
 
-    }
+    // }
 }

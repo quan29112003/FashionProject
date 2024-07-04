@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-
 class UserController extends Controller
 {
     public function index()
@@ -27,18 +26,21 @@ class UserController extends Controller
             'birthday' => 'nullable|date',
             'email' => 'required|email|unique:users',
             'address' => 'nullable|string|max:255',
-            'role' => 'required|integer',
+            'role' => 'required|integer|in:0,1,2',
+            'password' => 'required|string|min:6',
         ]);
 
-        $user = User::create($request->all());
-        if ($request->role == 0) {
-            $user->type = 'khách hàng';
-        } else {
-            $user->type = 'nhân viên';
-        }
+        $user = new User();
+        $user->nameUser = $request->nameUser;
+        $user->birthday = $request->birthday;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->password = $request->password;
+        $user->role = $request->role;
+    
         $user->save();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
     public function edit($id)
@@ -54,30 +56,29 @@ class UserController extends Controller
             'birthday' => 'nullable|date',
             'email' => 'required|email|unique:users,email,' . $id,
             'address' => 'nullable|string|max:255',
-            'role' => 'required|integer',
+            'role' => 'required|integer|in:0,1,2',
+            'password' => 'nullable|string|min:6',
         ]);
 
         $user = User::find($id);
-        $user->fill($request->all());
-        if ($request->role == 0) {
-            $user->type = 'khách hàng';
-        } else {
-            $user->type = 'nhân viên';
+        $user->nameUser = $request->nameUser;
+        $user->birthday = $request->birthday;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        if ($request->password) {
+            $user->password = $request->password; // Lưu mật khẩu rõ ràng
         }
+        $user->role = $request->role;
+        
         $user->save();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
 }
-
-
-
-
-

@@ -65,7 +65,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
-    Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    // Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::delete('wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
 });
 
 Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
@@ -106,6 +107,10 @@ Route::prefix('admin')->group(function () {
     Route::get('product-variant/{id}', [ProductVariantController::class, 'show'])->name('product-variant');
     Route::get('edit-product-variant/{id}', [ProductVariantController::class, 'edit'])->name('edit-productVariant');
     Route::put('edit-product-variant/{id}', [ProductVariantController::class, 'handleEdit'])->name('handleEdit-productVariant');
+
+    
+    Route::post('/product/update-status', [ProductController::class, 'updateStatus'])->name('update-product-status');
+
 
     Route::get('show-category', [CategoryController::class, 'index'])->name('category');
     Route::get('create-category', [CategoryController::class, 'create'])->name('store-category');

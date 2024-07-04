@@ -65,28 +65,6 @@
                                     </div>
 
                                     <div class="col-lg-12">
-                                        @php
-                                        $is = [
-                                            'is_active' => 'primary',
-                                            'is_hot' => 'danger',
-                                            'is_good_deal' => 'warning',
-                                            'is_show_home' => 'info',
-                                        ];
-                                        @endphp
-
-                                        @foreach($is as $key => $color)
-                                            <div class="col-lg-3">
-                                                <div class="form-check form-switch form-switch-{{ $color }}">
-                                                    <input class="form-check-input" type="checkbox" role="switch"
-                                                        name="{{ $key }}" value="1" id="{{ $key }}" checked>
-                                                    <label class="form-check-label"
-                                                        for="{{ $key }}">{{ \Str::convertCase($key, MB_CASE_TITLE) }}</label>
-                                                </div>
-                                            </div>
-                                    @endforeach
-                                    </div>
-
-                                    <div class="col-lg-12">
                                         <h1>Description</h1>
                                         <textarea name="description" value="{{ $pr->description }}" id="editor">
                                             <p>This is some sample content.</p>

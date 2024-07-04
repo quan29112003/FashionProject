@@ -42,6 +42,7 @@
 
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>
                                     <select id="filterName" hidden>
                                     </select>
@@ -54,35 +55,7 @@
                                         @endforeach
                                     </select>
                                 </th>
-                                <th></th>
-                                <th>
-                                    <select id="filterActive" class="form-select form-select-sm">
-                                        <option value="">All</option>
-                                        <option value="YES">YES</option>
-                                        <option value="NO">NO</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <select id="filterHotDeal" class="form-select form-select-sm">
-                                        <option value="">All</option>
-                                        <option value="YES">YES</option>
-                                        <option value="NO">NO</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <select id="filterGoodDeal" class="form-select form-select-sm">
-                                        <option value="">All</option>
-                                        <option value="YES">YES</option>
-                                        <option value="NO">NO</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <select id="filterShowHome" class="form-select form-select-sm">
-                                        <option value="">All</option>
-                                        <option value="YES">YES</option>
-                                        <option value="NO">NO</option>
-                                    </select>
-                                </th>
+
                             </tr>
                             <tr>
                                 <th>ID</th>
@@ -198,6 +171,14 @@
                     [0, 'desc']
                 ]
             });
+
+            // Apply the search on each select change
+            $('#filterID, #filterName, #filterCategory, #filterActive, #filterHotDeal, #filterGoodDeal, #filterShowHome, #filterViews, #filterCreatedAt, #filterUpdatedAt')
+                .on('change', function() {
+                    let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                    table.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true,
+                        false).draw();
+                });
 
             // Initialize Date Range Picker
             $('#date-range-filter').daterangepicker({
@@ -317,13 +298,7 @@
             });
         });
 
-        // Apply the search on each select change
-        $('#filterID, #filterName, #filterCategory, #filterActive, #filterHotDeal, #filterGoodDeal, #filterShowHome, #filterViews, #filterCreatedAt, #filterUpdatedAt')
-            .on('change', function() {
-                let val = $.fn.dataTable.util.escapeRegex($(this).val());
-                table.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true,
-                    false).draw();
-            });
+
 
         // Edit item modal handling
         $('.edit-item-btn').on('click', function() {

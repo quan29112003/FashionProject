@@ -65,6 +65,7 @@ class ShopController extends Controller
         $products = $query->with(['variants' => function ($query) {
             $query->orderBy('price'); // Assuming you want to order variants by price
         }, 'images'])
+            ->where('is_active', 1) // Chỉ lấy sản phẩm có is_active = 1
             ->get()
             ->map(function ($product) {
                 // Attach the first variant to the product (if exists)

@@ -49,8 +49,9 @@ class ProductController extends Controller
         }
 
         $products = $query->get();
+        $categories = Category::all(); // Get all categories
 
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products','categories'));
     }
 
     public function edit($id)

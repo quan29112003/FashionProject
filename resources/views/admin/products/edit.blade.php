@@ -59,21 +59,31 @@
                                     <div class="col-md-4">
                                         <div>
                                             <label for="name" class="form-label">Thumbnail</label>
-                                            @php
-                                                $url = $pr->thumbnail;
-                                            @endphp
-                                            <input type="file" class="form-control" name="thumbnail" value="{{ $url }}" id="name">
+                                            <input type="file" class="form-control" name="thumbnail" id="thumbnail" accept="image/*">
+                                            <img id="preview-thumbnail" src="#" alt="Preview Thumbnail" style="display: none; width: 100px; margin-top: 10px;">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div>
-                                            <label for="name" class="form-label">Active</label>
-                                            <select class="form-select rounded-pill mb-3" name="is_active" aria-label="Default select example">
-                                                <option value="1">Active</option>
-                                                <option value="0">In Active</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-lg-12">
+                                        @php
+                                        $is = [
+                                            'is_active' => 'primary',
+                                            'is_hot' => 'danger',
+                                            'is_good_deal' => 'warning',
+                                            'is_show_home' => 'info',
+                                        ];
+                                        @endphp
+
+                                        @foreach($is as $key => $color)
+                                            <div class="col-lg-3">
+                                                <div class="form-check form-switch form-switch-{{ $color }}">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        name="{{ $key }}" value="1" id="{{ $key }}" checked>
+                                                    <label class="form-check-label"
+                                                        for="{{ $key }}">{{ \Str::convertCase($key, MB_CASE_TITLE) }}</label>
+                                                </div>
+                                            </div>
+                                    @endforeach
                                     </div>
 
                                     <div class="col-lg-12">
@@ -85,6 +95,7 @@
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                             </div>
 
                             <div class="row">
@@ -105,13 +116,22 @@
         </div>
 
     </form>
-
+    @endforeach
     <script>
         ClassicEditor
         .create(document.querySelector('#editor'))
         .catch(error => {
             console.error(error);
         });
+
+        document.getElementById('thumbnail').addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                const preview = document.getElementById('preview-thumbnail');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
     </script>
-    @endforeach
+
 @endsection

@@ -60,7 +60,7 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('product') }}" class="nav-link"
-                                   data-key="t-horizontal">Danh sách</a>
+                                   data-key="t-horizontal">Product</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('color') }}" class="nav-link"

@@ -41,6 +41,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::with(['variants.color', 'variants.size', 'category', 'images']);
+        $category = Category::all();
 
         if ($request->has('start_date') && $request->has('end_date')) {
             $startDate = $request->input('start_date');
@@ -51,20 +52,31 @@ class ProductController extends Controller
         $products = $query->get();
         $categories = Category::all(); // Get all categories
 
-        return view('admin.products.index', compact('products','categories'));
+        return view('admin.products.index', compact('products','category'));
     }
 
     public function edit($id)
     {
         $category = Category::all();
-        $product = Product::with(['category'])->where('id', $id)->get();
-        return view('admin.products.edit', compact('category', 'product'));
+        $product = Product::with(['category'])->where('id',$id)->get();
+        $url = $product[0]->thumbnail;
+        return view('admin.products.edit',compact('category','product','url'));
     }
 
-    public function handleEdit(ProductRequest $request, $id)
-    {
-        $data = $request->except('_token', '_method');
-        Product::where('id', $id)->update($data);
+    public function handleEdit(ProductRequest $request, $id){
+        $data = $request->except('_token','_method');
+
+        $data['is_active']  ??= 0;
+        $data['is_hot']  ??= 0;
+        $data['is_good_deal']  ??= 0;
+        $data['is_show_home']  ??= 0;
+        if ($request->hasFile('thumbnail')) {
+            $img = $request->thumbnail;
+            $thumbnailName = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('uploads'), $thumbnailName);
+            $data['thumbnail'] = $thumbnailName;
+        }
+        Product::where('id',$id)->update($data);
         return redirect()->route('product');
     }
 

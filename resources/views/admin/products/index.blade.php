@@ -11,7 +11,7 @@
     <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3">
     </div>
 
-    
+
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -37,26 +37,53 @@
                     <a href="{{ route('store-product') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <!-- Date Range Filter -->
-                    <div class="mb-3">
-                        <label for="date-range-filter" class="form-label">Lọc theo khoảng ngày:</label>
-                        <input type="text" id="date-range-filter" class="form-control">
-                    </div>
-
-                    <!-- Category Filter -->
-                    <div class="mb-3">
-                        <label for="category-filter" class="form-label">Lọc theo danh mục:</label>
-                        <select id="category-filter" class="form-control">
-                            <option value="">Tất cả</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->name }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
+
                         <thead>
+                            <tr>
+                                <th>
+                                    <select id="filterName" hidden>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filterCategory" class="form-select form-select-sm">
+                                        <option value="">All</option>
+                                        @foreach ($category as $ct)
+                                            <option value="{{ $ct->name }}">{{ $ct->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </th>
+                                <th></th>
+                                <th>
+                                    <select id="filterActive" class="form-select form-select-sm">
+                                        <option value="">All</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filterHotDeal" class="form-select form-select-sm">
+                                        <option value="">All</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filterGoodDeal" class="form-select form-select-sm">
+                                        <option value="">All</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select id="filterShowHome" class="form-select form-select-sm">
+                                        <option value="">All</option>
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                    </select>
+                                </th>
+                            </tr>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
@@ -288,6 +315,75 @@
             table.on('draw', function() {
                 initializeSwitches();
             });
+        });
+
+        // Apply the search on each select change
+        $('#filterID, #filterName, #filterCategory, #filterActive, #filterHotDeal, #filterGoodDeal, #filterShowHome, #filterViews, #filterCreatedAt, #filterUpdatedAt')
+            .on('change', function() {
+                let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                table.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true,
+                    false).draw();
+            });
+
+        // Edit item modal handling
+        $('.edit-item-btn').on('click', function() {
+            let id = $(this).data('id');
+            let status = $(this).data('status');
+            let payment = $(this).data('payment');
+
+            $('#editOrderId').val(id);
+            $('#editOrderStatus').val(status);
+            $('#editOrderPayment').val(payment);
+            $('#editItemForm').attr('action', 'edit-order/' + id); // Adjust the URL as needed
+
+            // Disable select inputs based on conditions
+            if (status == 1) {
+                $('#editOrderStatus').prop('disabled', true);
+            } else {
+                $('#editOrderStatus').prop('disabled', false);
+            }
+
+            if (payment == 1) {
+                $('#editOrderPayment').prop('disabled', true);
+            } else {
+                $('#editOrderPayment').prop('disabled', false);
+            }
+
+            $('#editItemModal').modal('show');
+        });
+
+        // Edit item form submission
+        $('#editItemForm').on('submit', function(e) {
+        e.preventDefault();
+
+        // Re-enable selects before submitting the form to ensure data is sent
+        if ($('#editOrderStatus').prop('disabled')) {
+            $('#editOrderStatus').prop('disabled', false);
+        }
+
+        if ($('#editOrderPayment').prop('disabled')) {
+            $('#editOrderPayment').prop('disabled', false);
+        }
+
+        let formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    $('#editItemModal').modal('hide');
+                    location.reload(); // Reload the page to reflect updated data
+                } else {
+                    alert('An error occurred');
+                }
+            },
+            error: function(response) {
+                console.log(response.responseText); // Print error response
+                alert('An error occurred');
+            }
+        });
         });
     </script>
 @endsection

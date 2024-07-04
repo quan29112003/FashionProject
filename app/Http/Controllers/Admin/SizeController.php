@@ -31,8 +31,13 @@ class SizeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'size' => 'required|regex:/^[A-Z0-9]+$/',
+            'size' => [
+                'required',
+                'regex:/^[A-Z0-9]+$/',
+                'unique:product_sizes,size'
+            ],
         ]);
+
 
         $size = new ProductSize();
         $size->size = $request->size;
@@ -49,7 +54,11 @@ class SizeController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'size' => 'required|regex:/^[A-Z0-9]+$/',
+            'size' => [
+                'required',
+                'regex:/^[A-Z0-9]+$/',
+                'unique:product_sizes,size'
+            ],
         ]);
 
         $size = ProductSize::findOrFail($id);

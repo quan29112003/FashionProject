@@ -22,16 +22,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // // lấy menu cho tất cả các trang trên header
-        // $menus = WebsiteMenu::all();
-        // View::share('menus', $menus);
+        // lấy menu cho tất cả các trang trên header
+        $menus = WebsiteMenu::all();
+        View::share('menus', $menus);
 
-        // $categories = categoryGender::all();
-        // view::share('categories', $categories);
+        $categories = categoryGender::all();
+        view::share('categories', $categories);
 
-        // // lấy category giới tính cá trang trên header
-        // $CategoryGenders = CategoryGender::all();
-        // View::share('CategoryGenders', $CategoryGenders);
+        // lấy category giới tính cá trang trên header
+        $CategoryGenders = CategoryGender::all();
+        View::share('CategoryGenders', $CategoryGenders);
 
     }
 }

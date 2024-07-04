@@ -31,7 +31,8 @@ use App\Models\ProductImage;
 
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\LocationController;
+use App\Http\Middleware\ShareProvinces;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
@@ -51,9 +52,10 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
     ->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
+
 //profile
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('share.provinces');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -66,7 +68,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 
-
+Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
+Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
 
 Route::get('/search', [SearchController::class, 'search'])->name('product.search');
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
@@ -125,14 +128,14 @@ Route::prefix('admin')->group(function () {
     Route::get('create-size', [SizeController::class, 'create'])->name('store-size');
     // Route::post('create-size',[SizeController::class, 'store'])->name('handleStore-size');
     Route::post('store-size', [SizeController::class, 'store'])->name('store-size');
-    Route::get('edit-size/{id}',[SizeController::class, 'edit'])->name('edit-size');
-    Route::put('edit-size/{id}',[SizeController::class, 'update'])->name('update-size');
+    Route::get('edit-size/{id}', [SizeController::class, 'edit'])->name('edit-size');
+    Route::put('edit-size/{id}', [SizeController::class, 'update'])->name('update-size');
 
-    Route::get('order',[OrderController::class, 'index'])->name('order');
-    Route::get('order-item/{id}',[OrderController::class, 'show'])->name('order-item');
-    Route::put('edit-order/{id}',[OrderController::class, 'update'])->name('edit-order');
+    Route::get('order', [OrderController::class, 'index'])->name('order');
+    Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
+    Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
 
-    Route::get('catalogue',[CatalogueController::class,'index'])->name('catalogue');
+    Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');
     Route::put('edit-catalogues/{id}', [CatalogueController::class, 'update'])->name('edit-catalogues');
 

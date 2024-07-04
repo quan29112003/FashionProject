@@ -18,10 +18,8 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             'name_user' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $this->user()->id,
             'birthday' => 'nullable|date',
-            'age' => 'nullable|integer|min:0', // nếu bạn vẫn muốn xác thực trường này
-            'address' => 'nullable|string|max:255',
+            'age' => 'nullable|integer|min:0',
         ];
     }
 }

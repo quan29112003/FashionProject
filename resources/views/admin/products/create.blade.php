@@ -44,11 +44,12 @@
                                         <label for="name" class="form-label">Thumbnail</label>
                                         <input type="file" class="form-control" name="thumbnail" id="thumbnail" accept="image/*">
                                         <img id="preview-thumbnail" src="#" alt="Preview Thumbnail" style="display: none; width: 100px; margin-top: 10px;">
-                                    </div>
-                                </div>
-                                @error('thumbnail')
+                                        @error('thumbnail')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     @php
                                         $is = [
@@ -94,9 +95,6 @@
                         <h4 class="card-title mb-0 flex-grow-1">Product Variant</h4>
                     </div>
                     @error('productVariant')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    @error('productVariant.*.SKU')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                     <div class="card-body">
@@ -180,7 +178,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
-    
+
     @endsection
 
     <script>

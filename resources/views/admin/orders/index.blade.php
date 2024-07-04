@@ -35,12 +35,6 @@
                            style="width:100%">
 
                         <thead>
-                            <tr>
-                                <th><input type="text" id="searchID" placeholder="Tìm ID"></th>
-                                <th><input type="text" id="searchName" placeholder="Tìm ID"></th>
-                                <th><input type="text" id="searchName" placeholder="Tìm ID"></th>
-
-                            </tr>
                         <tr>
 
                             <th>ID</th>
@@ -120,6 +114,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">Close</button>
@@ -163,25 +158,6 @@
 
 <script>
     $(document).ready(function() {
-
-        $(document).ready(function() {
-            var table;
-
-            // DataTable initialization
-            if ($.fn.dataTable.isDataTable('#example')) {
-                table = $('#example').DataTable();
-            } else {
-                table = $('#example').DataTable({
-                    order: [[0, 'desc']]
-                });
-            }
-
-            // Apply search on each column
-            $('#searchID, #searchIdUser, #searchName, #searchAddress, #searchPhone, #searchAmount, #searchStatus, #searchPayment, #searchVoucher').on('keyup', function() {
-                table.column($(this).parent().index() + ':visible').search(this.value).draw();
-            });
-        })
-
     $('.edit-item-btn').on('click', function() {
         let id = $(this).data('id');
         let status = $(this).data('status');
@@ -192,14 +168,13 @@
         $('#editOrderPayment').val(payment);
         $('#editItemForm').attr('action', 'edit-order/' + id);
 
-        // Disable status select if status_id is 1
+        // Disable select if status_id is 1
         if (status == 4) {
             $('#editOrderStatus').prop('disabled', true);
         } else {
             $('#editOrderStatus').prop('disabled', false);
         }
 
-        // Disable payment select if payment_id is 1
         if (payment == 1) {
             $('#editOrderPayment').prop('disabled', true);
         } else {
@@ -212,13 +187,8 @@
     $('#editItemForm').on('submit', function(e) {
         e.preventDefault();
 
-        // Re-enable selects before submitting the form to ensure data is sent
         if ($('#editOrderStatus').prop('disabled')) {
             $('#editOrderStatus').prop('disabled', false);
-        }
-
-        if ($('#editOrderPayment').prop('disabled')) {
-            $('#editOrderPayment').prop('disabled', false);
         }
 
         let formData = $(this).serialize();
@@ -242,6 +212,7 @@
         });
     });
 });
+
 
 </script>
 @endsection

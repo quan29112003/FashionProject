@@ -21,7 +21,7 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|integer|exists:categories,id',
             'description' => 'required|string',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // 'productVariant' => 'required|array',
+            'productVariant' => 'required|array',
             // 'productVariant.*.color' => 'required|integer|exists:colors,id',
             // 'productVariant.*.size' => 'required|integer|exists:sizes,id',
             // 'productVariant.*.quantity' => 'required|integer|min:0',

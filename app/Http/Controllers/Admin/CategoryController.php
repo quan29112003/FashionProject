@@ -42,7 +42,7 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => [
                 'required',
-                'unique:categories,name'
+
             ]
         ]);
         $data = $request->except('_token','_method');

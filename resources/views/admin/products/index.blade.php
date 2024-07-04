@@ -35,18 +35,53 @@
                            class="table table-bordered dt-responsive nowrap table-striped align-middle"
                            style="width:100%">
                         <thead>
-                            <tr>
-                                <th><input type="text" id="searchID" placeholder="Tìm ID"></th>
-                                <th><input type="text" id="searchName" placeholder="Tìm ID"></th>
-                                <th><input type="text" id="searchCategory" placeholder="Tìm ID"></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th>
+                                <select id="filterID" hidden>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="filterName" hidden>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="filterCategory" class="form-select form-select-sm">
+                                    <option value="">All</option>
+                                    @foreach ($category as $ct )
+                                        <option value="{{ $ct->name }}">{{ $ct->name }}</option>
+                                    @endforeach
+                                </select>
+                            </th>
+                            <th></th>
+                            <th>
+                                <select id="filterActive" class="form-select form-select-sm">
+                                    <option value="">All</option>
+                                    <option value="YES">YES</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="filterHotDeal" class="form-select form-select-sm">
+                                    <option value="">All</option>
+                                    <option value="YES">YES</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="filterGoodDeal" class="form-select form-select-sm">
+                                    <option value="">All</option>
+                                    <option value="YES">YES</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select id="filterShowHome" class="form-select form-select-sm">
+                                    <option value="">All</option>
+                                    <option value="YES">YES</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </th>
+                        </tr>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -57,6 +92,8 @@
                             <th>Good Deal</th>
                             <th>Show Home</th>
                             <th>Views</th>
+                            <th>Created at</th>
+                            <th>Updated at</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -79,6 +116,8 @@
                                                                     : '<span class="badge bg-danger">NO</span>' !!}</td>
 
                                     <td>{{ $product->views }}</td>
+                                    <td>{{ $product->created_at }}</td>
+                                    <td>{{ $product->updated_at }}</td>
                                     <td>
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -123,34 +162,82 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/6pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
-        new DataTable("#example", {
-            order: [ [0, 'desc'] ] }
-        );
-    </script>
-
-    <script>
         $(document).ready(function() {
-
-            var table;
-
-            // DataTable initialization
-            if ($.fn.dataTable.isDataTable('#example')) {
-                table = $('#example').DataTable();
-            } else {
-                table = $('#example').DataTable({
-                    order: [[0, 'desc']]
-                });
-            }
-
-            // Apply search on each column
-            $('#searchID, #searchName, #searchCategory, #searchAddress, #searchPhone, #searchAmount, #searchStatus, #searchPayment, #searchVoucher').on('keyup', function() {
-                table.column($(this).parent().index() + ':visible').search(this.value).draw();
+            var table = $('#example').DataTable({
+                order: [[0, 'desc']]
             });
-        })
+
+            // Apply the search on each select change
+            $('#filterID, #filterName, #filterCategory, #filterActive, #filterHotDeal, #filterGoodDeal, #filterShowHome, #filterViews, #filterCreatedAt, #filterUpdatedAt').on('change', function() {
+                let val = $.fn.dataTable.util.escapeRegex($(this).val());
+                table.column($(this).parent().index() + ':visible').search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+
+            // Edit item modal handling
+            $('.edit-item-btn').on('click', function() {
+                let id = $(this).data('id');
+                let status = $(this).data('status');
+                let payment = $(this).data('payment');
+
+                $('#editOrderId').val(id);
+                $('#editOrderStatus').val(status);
+                $('#editOrderPayment').val(payment);
+                $('#editItemForm').attr('action', 'edit-order/' + id); // Adjust the URL as needed
+
+                // Disable select inputs based on conditions
+                if (status == 1) {
+                    $('#editOrderStatus').prop('disabled', true);
+                } else {
+                    $('#editOrderStatus').prop('disabled', false);
+                }
+
+                if (payment == 1) {
+                    $('#editOrderPayment').prop('disabled', true);
+                } else {
+                    $('#editOrderPayment').prop('disabled', false);
+                }
+
+                $('#editItemModal').modal('show');
+            });
+
+            // Edit item form submission
+            $('#editItemForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Re-enable selects before submitting the form to ensure data is sent
+                if ($('#editOrderStatus').prop('disabled')) {
+                    $('#editOrderStatus').prop('disabled', false);
+                }
+
+                if ($('#editOrderPayment').prop('disabled')) {
+                    $('#editOrderPayment').prop('disabled', false);
+                }
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editItemModal').modal('hide');
+                            location.reload(); // Reload the page to reflect updated data
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response.responseText); // Print error response
+                        alert('An error occurred');
+                    }
+                });
+            });
+        });
     </script>
 @endsection

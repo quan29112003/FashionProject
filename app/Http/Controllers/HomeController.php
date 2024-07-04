@@ -18,6 +18,7 @@ class HomeController extends Controller
 
         $products = Product::with(['variants', 'images', 'category'])
             ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
+            ->where('is_active', 1) // Chỉ lấy sản phẩm có is_active = 1
             ->has('variants')
             ->get();
 

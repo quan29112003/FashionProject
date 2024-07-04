@@ -3151,6 +3151,7 @@ ol {
 	.header {
 		padding: 0 85px;
 	}
+	
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
@@ -3160,12 +3161,15 @@ ol {
 	.header {
 		padding: 0 30px;
 	}
+	
 }
 
 @media only screen and (min-width: 1200px) {
 	.container {
 		max-width: 1170px;
 	}
+	
+	
 }
 
 /* Medium Device = 1200px */
@@ -3190,10 +3194,11 @@ ol {
 		right: 20%;
 		left: 10px;
 	}
-	.search {
+	/* .search {
 		left: 20%;
-		right: 10px;
-	}
+		right: 110px;
+		float: right;
+	} */
 }
 
 /* Tablet Device = 768px */

@@ -63,13 +63,9 @@ class ProductController extends Controller
         return view('admin.products.edit',compact('category','product','url'));
     }
 
-    public function handleEdit(ProductRequest $request, $id){
+    public function handleEdit(Request $request, $id){
         $data = $request->except('_token','_method');
 
-        $data['is_active']  ??= 0;
-        $data['is_hot']  ??= 0;
-        $data['is_good_deal']  ??= 0;
-        $data['is_show_home']  ??= 0;
         if ($request->hasFile('thumbnail')) {
             $img = $request->thumbnail;
             $thumbnailName = time() . '_' . $img->getClientOriginalName();

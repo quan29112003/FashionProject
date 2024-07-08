@@ -160,7 +160,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('vouchers', VoucherController::class);
     Route::resource('comments', CommentController::class);
-    Route::resource('wishlists', WishlistController::class);
+    // Route::resource('wishlists', WishlistController::class);
+    Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 });
 
 

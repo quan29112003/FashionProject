@@ -11,6 +11,9 @@
         padding-left: 10px;
     }
 </style>
+
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -49,22 +52,18 @@
                                         @php
                                             $variant = $wishlist->product->variants->first();
                                         @endphp
-                                        <tr>
+                                        <tr id="wishlist-item-{{ $wishlist->id }}">
                                             <td class="cart__product__item">
                                                 <img src="{{ asset('uploads/' . $wishlist->product->thumbnail) }}" alt="">
                                                 <div class="cart__product__item__title">
-                                                    <a href="{{ route('detail', $wishlist->productID)}}"><h6>{{ $wishlist->product->name_product }}</h6></a>
+                                                    <a href="{{ route('detail', $wishlist->productID) }}"><h6>{{ $wishlist->product->name_product }}</h6></a>
                                                 </div>
                                             </td>
                                             <td class="cart__price">${{ number_format($variant->price, 2) }}</td>
                                             <td class="cart__quantity">{{ $variant->quantity }}</td>
                                             <td class="cart__total">${{ number_format($variant->price_sale, 2) }}</td>
                                             <td class="cart__close">
-                                                <form action="{{ route('wishlist.remove', $wishlist->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                                                </form>
+                                                <button onclick="deleteWishlistItem({{ $wishlist->id }})" class="btn btn-danger btn-sm">Remove</button>
                                             </td>
                                         </tr>
                                     @else
@@ -74,6 +73,8 @@
                                     @endif
                                 @endforeach
                             </tbody>
+                            
+                            
                         </table>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -157,3 +158,57 @@
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
 <!-- Footer Section End -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteWishlistItem(id) {
+            $.ajax({
+                url: '/wishlist/' + id,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Xóa hàng trong bảng
+                        $('#wishlist-item-' + id).remove();
+                        showToast(response.message, 'success');
+                    } else {
+                        showToast(response.message, 'error');
+                    }
+                },
+                error: function(xhr) {
+                    showToast('An error occurred. Please try again later.', 'error');
+                }
+            });
+        }
+
+        function showToast(message, type) {
+            var toastContainer = $('#toast-container');
+            var autoHideDelay = 5000; // 5 seconds
+
+            var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+            var toast = $('<div class="toast text-white ' + toastClass +
+                '" role="alert" aria-live="assertive" aria-atomic="true">' +
+                '<div class="toast-header">' +
+                '<strong class="me-auto">Notification</strong>' +
+                '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+                '</div>' +
+                '<div class="toast-body">' + message + '</div>' +
+                '</div>');
+
+            // Append toast to container and show it
+            toastContainer.append(toast);
+            var bootstrapToast = new bootstrap.Toast(toast[0], {
+                delay: autoHideDelay
+            });
+            bootstrapToast.show();
+
+            // Remove toast after it's hidden
+            toast.on('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+    </script>

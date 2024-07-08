@@ -18,8 +18,8 @@ class WishlistController extends Controller
     public function index()
     {
         $wishlists = Wishlist::where('userID', Auth::id())
-        ->with(['product.variants.color', 'product.variants.size', 'product.images'])
-        ->get();
+            ->with(['product.variants.color', 'product.variants.size', 'product.images'])
+            ->get();
         return view('client.layouts.wishlist', compact('wishlists'));
     }
 
@@ -45,7 +45,7 @@ class WishlistController extends Controller
         $wishlist->userID = Auth::id();
         $wishlist->productID = $productId;
         $wishlist->save();
-        
+
         return redirect()->back()->with('success', 'Product added to wishlist');
     }
 
@@ -89,13 +89,9 @@ class WishlistController extends Controller
 
         if ($wishlist) {
             $wishlist->delete();
-            return redirect()->back()->with('success', 'Product removed from wishlist successfully.');
+            return response()->json(['success' => true, 'message' => 'Product removed from wishlist successfully.']);
         } else {
-            return redirect()->back()->with('error', 'Product not found in wishlist.');
+            return response()->json(['success' => false, 'message' => 'Product not found in wishlist.']);
         }
     }
 }
-
-
-
-

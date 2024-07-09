@@ -150,6 +150,7 @@ Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {

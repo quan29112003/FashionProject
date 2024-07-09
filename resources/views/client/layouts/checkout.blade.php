@@ -35,56 +35,58 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>First Name <span>*</span></p>
-                                <input type="text" name="first_name">
+                                <input type="text" name="first_name" value="{{ old('first_name') }}">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Last Name <span>*</span></p>
-                                <input type="text" name="last_name">
+                                <input type="text" name="last_name" value="{{ old('last_name') }}">
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Country <span>*</span></p>
-                                <input type="text" name="country">
+                                <input type="text" name="country" value="{{ old('country') }}">
                             </div>
                             <div class="checkout__form__input">
                                 <p>Address <span>*</span></p>
-                                <input type="text" name="address" placeholder="Street Address">
+                                <input type="text" name="address" placeholder="Street Address"
+                                    value="{{ old('address') }}">
                                 <input type="text" name="address2"
-                                    placeholder="Apartment. suite, unit etc (optional)">
+                                    placeholder="Apartment. suite, unit etc (optional)" value="{{ old('address2') }}">
                             </div>
                             <div class="checkout__form__input">
                                 <p>Town/City <span>*</span></p>
-                                <input type="text" name="city">
+                                <input type="text" name="city" value="{{ old('city') }}">
                             </div>
                             <div class="checkout__form__input">
                                 <p>Country/State <span>*</span></p>
-                                <input type="text" name="state">
+                                <input type="text" name="state" value="{{ old('state') }}">
                             </div>
                             <div class="checkout__form__input">
                                 <p>Postcode/Zip <span>*</span></p>
-                                <input type="text" name="postcode">
+                                <input type="text" name="postcode" value="{{ old('postcode') }}">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Phone <span>*</span></p>
-                                <input type="text" name="phone">
+                                <input type="text" name="phone" value="{{ old('phone') }}">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Email <span>*</span></p>
-                                <input type="text" name="email">
+                                <input type="text" name="email" value="{{ old('email') }}">
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Note about your order, e.g, special note for delivery</p>
                                 <input type="text" name="note"
-                                    placeholder="Note about your order, e.g, special note for delivery">
+                                    placeholder="Note about your order, e.g, special note for delivery"
+                                    value="{{ old('note') }}">
                             </div>
                         </div>
                     </div>
@@ -97,7 +99,8 @@
                                 <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
                                 </li>
                                 @foreach (session('cart', []) as $item)
-                                    <li>{{ $item['name'] }} <span>{{ $item['price'] * $item['quantity'] }}₫</span></li>
+                                    <li>{{ $item['name'] }} <span>{{ $item['price'] * $item['quantity'] }}₫</span>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -107,6 +110,13 @@
                             </ul>
                         </div>
                         <input type="hidden" name="total_amount" value="{{ $total }}">
+
+                        <div class="checkout__form__input">
+                            <p>Payment Method <span>*</span></p>
+                            <input type="radio" name="payment_method" value="cod" checked> Cash on Delivery
+                            <input type="radio" name="payment_method" value="vnpay"> VNPAY
+                        </div>
+
                         <button type="submit" class="site-btn">Place order</button>
                     </div>
                 </div>
@@ -115,6 +125,7 @@
     </div>
 </section>
 <!-- Checkout Section End -->
+
 
 <script></script>
 

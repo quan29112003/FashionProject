@@ -21,7 +21,6 @@ class CheckoutController extends Controller
         return view('client.layouts.checkout', compact('total'));
     }
 
-    // Phương thức xử lý thanh toán
     public function processCheckout(Request $request)
     {
         $request->validate([
@@ -60,6 +59,7 @@ class CheckoutController extends Controller
         return $this->createOrder($request, 0);
     }
 
+
     // Phương thức tạo thanh toán qua VNPAY
     private function createVnpayPayment(Request $request)
     {
@@ -90,50 +90,60 @@ class CheckoutController extends Controller
             "vnp_TxnRef" => $vnp_TxnRef,
         ];
 
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+        if (!empty($vnp_BankCode)) {
             $inputData['vnp_BankCode'] = $vnp_BankCode;
         }
 
         ksort($inputData);
-        $hashdata = http_build_query($inputData);
+        $query = [];
+        foreach ($inputData as $key => $value) {
+            $query[] = urlencode($key) . "=" . urlencode($value);
+        }
+        $hashdata = implode('&', $query);
         $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-        $vnp_Url .= "?" . $hashdata . '&vnp_SecureHash=' . $vnpSecureHash;
 
+        $vnp_Url .= "?" . http_build_query($inputData) . '&vnp_SecureHash=' . $vnpSecureHash;
+
+        Log::info('VNPAY Input Data: ' . json_encode($inputData));
+        Log::info('VNPAY Secure Hash Data: ' . $hashdata);
+        Log::info('VNPAY Calculated Secure Hash: ' . $vnpSecureHash);
         Log::info('VNPAY URL: ' . $vnp_Url);
+
         return redirect($vnp_Url);
     }
+
+
+
 
     // Phương thức xử lý phản hồi từ VNPAY
     public function vnpayReturn(Request $request)
     {
         $vnp_HashSecret = env('VNP_HASH_SECRET');
-        $inputData = array();
-        foreach ($request->all() as $key => $value) {
-            $inputData[$key] = $value;
-        }
+        $inputData = $request->all();
 
         $vnp_SecureHash = $inputData['vnp_SecureHash'];
         unset($inputData['vnp_SecureHashType']);
         unset($inputData['vnp_SecureHash']);
         ksort($inputData);
-        $hashData = '';
+
+        $hashData = [];
         foreach ($inputData as $key => $value) {
-            $hashData .= '&' . $key . "=" . $value;
+            $hashData[] = urlencode($key) . "=" . urlencode($value);
         }
-        $hashData = ltrim($hashData, '&');
+        $hashData = implode('&', $hashData);
 
-        $secureHash = hash('sha256', $vnp_HashSecret . $hashData);
+        Log::info('Sorted VNPAY Return Data: ', $inputData);
+        Log::info('Hash Data String: ' . $hashData);
 
-        Log::info('VNPAY Return Data: ', $inputData);
+        $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+
         Log::info('Calculated Secure Hash: ' . $secureHash);
         Log::info('VNPAY Secure Hash: ' . $vnp_SecureHash);
 
         if ($secureHash === $vnp_SecureHash) {
             if ($request->vnp_ResponseCode == '00') {
                 Log::info('VNPAY payment successful, creating order');
-                // Thanh toán thành công, lưu thông tin đơn hàng vào database
-                $totalAmount = session()->pull('total_amount'); // Lấy tổng số tiền từ session
-
+                $totalAmount = session()->pull('total_amount');
                 return $this->createOrder($request, 1, $totalAmount);
             } else {
                 Log::error('VNPAY payment failed with response code: ' . $request->vnp_ResponseCode);
@@ -144,6 +154,10 @@ class CheckoutController extends Controller
             return redirect('/')->with('error', 'Chữ ký không hợp lệ!');
         }
     }
+
+
+
+
 
     // Phương thức tạo đơn hàng
     private function createOrder($request, $paymentMethod, $totalAmount = null)

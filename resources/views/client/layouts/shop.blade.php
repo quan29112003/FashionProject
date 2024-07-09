@@ -83,12 +83,14 @@
                             @foreach ($sizes as $size)
                                 <label for="size-{{ $size->id }}">
                                     {{ $size->size }}
-                                    <input type="checkbox" id="size-{{ $size->id }}">
+                                    <input type="checkbox" id="size-{{ $size->id }}" class="size-filter"
+                                        data-size="{{ $size->size }}">
                                     <span class="checkmark"></span>
                                 </label>
                             @endforeach
                         </div>
                     </div>
+
                     <!-- Color Filter Section -->
                     <div class="sidebar__color">
                         <div class="section-title">
@@ -98,12 +100,14 @@
                             @foreach ($colors as $color)
                                 <label for="color-{{ $color->id }}">
                                     {{ $color->color }}
-                                    <input type="checkbox" id="color-{{ $color->id }}">
+                                    <input type="checkbox" id="color-{{ $color->id }}" class="color-filter"
+                                        data-color="{{ $color->color }}">
                                     <span class="checkmark"></span>
                                 </label>
                             @endforeach
                         </div>
                     </div>
+
                 </div>
             </div>
             <!-- Sidebar End -->
@@ -128,15 +132,19 @@
                         @foreach ($product->variants as $variant)
                             <div class="col-lg-4 col-md-6 product-item @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                    <div class="product__item__pic set-bg"
+                                        data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
                                         <ul class="product__hover">
-                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                    class="image-popup"><span class="arrow_expand"></span></a></li>
                                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6><a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a></h6>
+                                        <h6><a
+                                                href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
+                                        </h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -144,7 +152,8 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">${{ $variant->price ?? 'Price not available' }}</div>
+                                        <div class="product__price">${{ $variant->price ?? 'Price not available' }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +165,8 @@
                 </div>
                 <!-- Load More Button -->
                 <div class="col-lg-12 text-center">
-                    <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem thêm</button>
+                    <button id="load-more-btn"
+                        class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem thêm</button>
                 </div>
             </div>
             <!-- Products Section End -->
@@ -223,7 +233,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
+{{-- <script>
     $(function() {
         var minPrice = {{ request()->get('min_price', 0) }};
         var maxPrice = {{ request()->get('max_price', 500) }};
@@ -240,12 +250,119 @@
         $("#minamount").val($("#slider-range").slider("values", 0));
         $("#maxamount").val($("#slider-range").slider("values", 1));
 
+        // Khai báo các biến để lưu trữ selected colors và sizes
+        var selectedColors = [];
+        var selectedSizes = [];
+
+        // Xử lý sự kiện khi checkbox color thay đổi
+        $('.color-filter').on('change', function() {
+            selectedColors = []; // Đặt lại mảng selectedColors
+            $('.color-filter:checked').each(function() {
+                selectedColors.push($(this).data('color'));
+            });
+        });
+
+        // Xử lý sự kiện khi checkbox size thay đổi
+        $('.size-filter').on('change', function() {
+            selectedSizes = []; // Đặt lại mảng selectedSizes
+            $('.size-filter:checked').each(function() {
+                selectedSizes.push($(this).data('size'));
+            });
+        });
+
+        // Xử lý sự kiện khi click vào nút filter-btn
         $('#filter-btn').on('click', function() {
             var min = $("#minamount").val();
             var max = $("#maxamount").val();
             var url = new URL(window.location.href);
+
             url.searchParams.set('min_price', min);
             url.searchParams.set('max_price', max);
+            url.searchParams.set('colors', selectedColors.join(','));
+            url.searchParams.set('sizes', selectedSizes.join(','));
+
+            window.location.href = url.toString();
+        });
+
+        // Sorting filter
+        $('#sort-by').on('change', function() {
+            var sortBy = $(this).val();
+            var url = new URL(window.location.href);
+            url.searchParams.set('sort_by', sortBy);
+            window.location.href = url.toString();
+        });
+    });
+</script> --}}
+
+
+
+<script>
+    $(function() {
+        // Lấy giá trị min_price, max_price, colors và sizes từ các query parameter
+        var minPrice = {{ request()->get('min_price', 0) }};
+        var maxPrice = {{ request()->get('max_price', 500) }};
+        var selectedColors = '{{ request()->get('colors', '') }}'.split(',');
+        var selectedSizes = '{{ request()->get('sizes', '') }}'.split(',');
+
+        // Thiết lập slider cho phần chọn khoảng giá
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [minPrice, maxPrice],
+            slide: function(event, ui) {
+                $("#minamount").val(ui.values[0]);
+                $("#maxamount").val(ui.values[1]);
+            }
+        });
+
+        // Thiết lập giá trị ban đầu cho input minamount và maxamount
+        $("#minamount").val($("#slider-range").slider("values", 0));
+        $("#maxamount").val($("#slider-range").slider("values", 1));
+
+        // Đặt lại trạng thái checked cho các checkbox color dựa trên selectedColors
+        $('.color-filter').each(function() {
+            var color = $(this).data('color');
+            if (selectedColors.includes(color)) {
+                $(this).prop('checked', true);
+            }
+        });
+
+        // Đặt lại trạng thái checked cho các checkbox size dựa trên selectedSizes
+        $('.size-filter').each(function() {
+            var size = $(this).data('size');
+            if (selectedSizes.includes(size)) {
+                $(this).prop('checked', true);
+            }
+        });
+
+        // Xử lý sự kiện khi checkbox color thay đổi
+        $('.color-filter').on('change', function() {
+            selectedColors = []; // Đặt lại mảng selectedColors
+            $('.color-filter:checked').each(function() {
+                selectedColors.push($(this).data('color'));
+            });
+        });
+
+        // Xử lý sự kiện khi checkbox size thay đổi
+        $('.size-filter').on('change', function() {
+            selectedSizes = []; // Đặt lại mảng selectedSizes
+            $('.size-filter:checked').each(function() {
+                selectedSizes.push($(this).data('size'));
+            });
+        });
+
+        // Xử lý sự kiện khi click vào nút filter-btn
+        $('#filter-btn').on('click', function() {
+            var min = $("#minamount").val();
+            var max = $("#maxamount").val();
+            var url = new URL(window.location.href);
+
+            url.searchParams.set('min_price', min);
+            url.searchParams.set('max_price', max);
+            url.searchParams.set('colors', selectedColors.join(','));
+            url.searchParams.set('sizes', selectedSizes.join(','));
+
             window.location.href = url.toString();
         });
 
@@ -258,6 +375,7 @@
         });
     });
 </script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

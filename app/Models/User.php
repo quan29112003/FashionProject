@@ -2,66 +2,55 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
+    use Notifiable;
 
-    use HasApiTokens, HasFactory, Notifiable;
-    public $timestamps = true; // Đảm bảo timestamps được bật
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'name_user',
-        'email',
-        'password',
-        'role',
-        'type',
+        'nameUser', 'email', 'password', 'role', 'address', 'birthday', 'age', 'status',
     ];
-    public function points()
-    {
-        return $this->hasMany(Point::class);
-    }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'birthday' => 'date',
     ];
-
-    public function getAgeAttribute()
-    {
-        return now()->diffInYears($this->birthday);
-    }
 
     protected $dates = ['birthday'];
 
     public function setBirthdayAttribute($value)
     {
         $this->attributes['birthday'] = $value;
-        // $this->attributes['age'] = Carbon::parse($value)->age;
+        $this->attributes['age'] = Carbon::parse($value)->age;
+    }
+
+    public function getTypeAttribute()
+    {
+        switch ($this->attributes['status']) {
+            case 'Đang hoạt động':
+                return 'Đang hoạt động';
+            case 'Khóa tạm thời':
+                return 'Khóa tạm thời';
+            case 'Khóa vĩnh viễn':
+                return 'Khóa vĩnh viễn';
+        }
+    }
+
+    public function getRoleDescriptionAttribute()
+    {
+        switch ($this->attributes['role']) {
+            case 0:
+                return 'Khách hàng';
+            case 1:
+                return 'Nhân viên';
+            case 2:
+                return 'Admin';
+        }
     }
 }

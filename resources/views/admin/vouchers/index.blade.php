@@ -32,10 +32,9 @@
                     <a href="{{ route('admin.vouchers.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table id="vouchers-table"
-                           class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                           style="width:100%">
-                           <thead>
+                    <table id="vouchers-table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        style="width:100%">
+                        <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Code</th>
@@ -63,15 +62,18 @@
                                     <td>{{ $voucher->expiry_date }}</td>
                                     <td>{{ $voucher->min_purchase_amount }}</td>
                                     <td>{{ $voucher->category->name }}</td>
-                                    <td>{{ $voucher->applicable_products }}</td>
+                                    <td>{{ implode(', ', $voucher->products->pluck('name_product')->toArray()) }}</td>
                                     <td>{{ $voucher->max_usage }}</td>
                                     <td>{{ $voucher->used_count }}</td>
                                     <td>{{ $voucher->created_count }}</td>
                                     <td>{{ $voucher->remaining_count }}</td>
                                     <td>{{ $voucher->distribution_channels }}</td>
                                     <td>
-                                        <a href="{{ route('admin.vouchers.edit', $voucher->id) }}" class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('admin.vouchers.destroy', $voucher->id) }}" method="POST" style="display:inline"; onsubmit="return confirm('Bạn có chắc chắn muốn xóa Voucher này không?');">
+                                        <a href="{{ route('admin.vouchers.edit', $voucher->id) }}"
+                                            class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('admin.vouchers.destroy', $voucher->id) }}" method="POST"
+                                            style="display:inline";
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa Voucher này không?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -80,26 +82,25 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                        </table>
-                    </div>
+                    </table>
                 </div>
-            </div><!--end col-->
-        </div>
-
+            </div>
+        </div><!--end col-->
+    </div>
 @endsection
 
 @section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('script-libs')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -114,7 +115,9 @@
 
     <script>
         new DataTable("#vouchers-table", {
-            order: [ [0, 'desc'] ] }
-        );
+            order: [
+                [0, 'desc']
+            ]
+        });
     </script>
 @endsection

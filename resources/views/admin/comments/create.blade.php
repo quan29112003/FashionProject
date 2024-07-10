@@ -5,6 +5,17 @@
 @section('content')
 <div class="container">
     <h1>Create Comment</h1>
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('admin.comments.store') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -28,12 +39,12 @@
             <textarea name="comment" class="form-control" required></textarea>
         </div>
         <div class="form-group">
-            <label for="createAt">Create At:</label>
-            <input type="date" name="createAt" class="form-control" required>
-        </div>
-        <div class="form-group">
             <label for="rating">Rating:</label>
-            <input type="number" name="rating" class="form-control" required>
+            <select name="rating" class="form-control" required>
+                @for ($i = 1; $i <= 10; $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>

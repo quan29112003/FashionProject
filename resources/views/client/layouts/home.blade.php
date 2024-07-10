@@ -103,10 +103,10 @@
                 <ul class="filter__controls">
                     <!-- Bộ lọc danh mục sản phẩm -->
                     <li class="active" data-filter="*">Tất cả</li>
-                    @foreach ($categories as $category)
+                    {{-- @foreach ($categories as $category)
                         <!-- Lặp qua các danh mục và tạo các nút bộ lọc -->
                         <li data-filter=".{{ $category->slug }}" value="{{ $category->id }}">{{ $category->name }}</li>
-                    @endforeach
+                    @endforeach --}}
                 </ul>
             </div>
 

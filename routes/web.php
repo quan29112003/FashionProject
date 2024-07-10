@@ -28,7 +28,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
-
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
 
@@ -152,11 +153,19 @@ Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.cle
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('users', UserController::class);
-    Route::resource('vouchers', VoucherController::class);
-    Route::resource('comments', CommentController::class);
     Route::resource('wishlists', WishlistController::class);
+    Route::resource('users', UserController::class);
+    Route::post('users/{user}/toggle-lock', 'App\Http\Controllers\Admin\UserController@toggleLock')->name('users.toggleLock');
+    Route::post('users/{user}/permanent-lock', 'App\Http\Controllers\Admin\UserController@permanentLock')->name('users.permanentLock');
+    Route::resource('vouchers', VoucherController::class);
+    Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
+    Route::resource('comments', CommentController::class);
+    Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
+    Route::resource('blogs', AdminBlogController::class);
 });
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog-detail/{id}', [BlogController::class, 'show'])->name('blog-detail');
+
 
 
 require __DIR__ . '/auth.php';

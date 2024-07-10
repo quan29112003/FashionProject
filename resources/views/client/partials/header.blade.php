@@ -75,18 +75,18 @@
                         {{-- menus --}}
                         <ul>
                             {{-- categories --}}
-                            @foreach ($CategoryGenders as $CategoryGender)
+                            {{-- @foreach ($CategoryGenders as $CategoryGender)
                                 <li class="gender_category">
                                     <a href="#">{{ $CategoryGender->name }}</a>
                                 </li>
-                            @endforeach
+                            @endforeach --}}
 
-                            @foreach ($menus as $menu)
+                            {{-- @foreach ($menus as $menu)
                                 <li class="{{ Request::is($menu->url) ? 'active' : '' }}">
                                     <a href="{{ url($menu->url) }}">{{ $menu->menu_item }}
                                     </a>
                                 </li>
-                            @endforeach
+                            @endforeach --}}
 
                             {{-- search --}}
                             <li class="search">

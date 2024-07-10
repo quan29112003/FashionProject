@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,9 +36,10 @@ class UserController extends Controller
         $user->birthday = $request->birthday;
         $user->email = $request->email;
         $user->address = $request->address;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->role = $request->role;
-    
+        $user->status = 'Đang hoạt động'; 
+
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
@@ -66,19 +68,34 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->address = $request->address;
         if ($request->password) {
-            $user->password = $request->password; // Lưu mật khẩu rõ ràng
+            $user->password = Hash::make($request->password);
         }
         $user->role = $request->role;
-        
+
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
-    public function destroy($id)
+    public function toggleLock($id)
     {
         $user = User::find($id);
-        $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        if ($user->status === 'Đang hoạt động') {
+            $user->status = 'Khóa tạm thời';
+        } elseif ($user->status === 'Khóa tạm thời') {
+            $user->status = 'Đang hoạt động';
+        } elseif ($user->status === 'Khóa vĩnh viễn') {
+            $user->status = 'Khóa vĩnh viễn';
+        }
+        $user->save();
+        return redirect()->route('admin.users.index')->with('success', 'User status updated successfully.');
+    }
+
+    public function permanentLock($id)
+    {
+        $user = User::find($id);
+        $user->status = 'Khóa vĩnh viễn';
+        $user->save();
+        return redirect()->route('admin.users.index')->with('success', 'User permanently locked.');
     }
 }

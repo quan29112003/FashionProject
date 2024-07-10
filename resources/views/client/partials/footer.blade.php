@@ -23,7 +23,7 @@
                     <h6>Quick links</h6>
                     <ul>
                         <li><a href="#">About</a></li>
-                        <li><a href="#">Blogs</a></li>
+                        <li><a href="{{ route('blog')}}">Blogs</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>

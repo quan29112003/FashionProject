@@ -47,13 +47,13 @@
             <!--end row-->
 
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-6 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Tổng thu phập</p>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Tổng thu phập trong ngày</p>
                                 </div>
                                 <div class="flex-shrink-0">
                                     <h5 class="text-success fs-14 mb-0">
@@ -63,7 +63,7 @@
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target={{$data->order}}>0</span>k </h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target={{$data->dayAmount}}>0</span>k </h4>
                                     <a href="" class="text-decoration-underline">View net earnings</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
@@ -92,7 +92,7 @@
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target={{$data->order}}>0</span></h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target={{$data->dayOrder}}>0</span></h4>
                                     <a href="" class="text-decoration-underline">View all orders</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
@@ -121,7 +121,7 @@
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target={{$data->order}}>0</span>M </h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target={{$data->customer}}>0</span> </h4>
                                     <a href="" class="text-decoration-underline">See details</a>
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
@@ -167,7 +167,7 @@
             <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
-                        <div class="card-header border-0 align-items-center d-flex">
+                        {{-- <div class="card-header border-0 align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Doanh Thu</h4>
                             <div>
                                 <button type="button" class="btn btn-soft-secondary btn-sm">
@@ -183,7 +183,7 @@
                                     1Y
                                 </button>
                             </div>
-                        </div><!-- end card header -->
+                        </div><!-- end card header --> --}}
 
                         <div class="card-header p-0 border-0 bg-light-subtle">
                             <div class="row g-0 text-center">
@@ -222,7 +222,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
                 <!-- end col -->
-                <div class="col-xl-4">
+                {{-- <div class="col-xl-4">
                     <div class="card card-height-100">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Lượt xem</h4>
@@ -246,7 +246,7 @@
                         </div>
                     </div> <!-- .card-->
 
-            </div>
+                </div> --}}
 
             <div class="row">
                 <div class="col-xl-6">

@@ -52,19 +52,20 @@ class ProductController extends Controller
         $products = $query->get();
         $categories = Category::all(); // Get all categories
 
-        return view('admin.products.index', compact('products','category'));
+        return view('admin.products.index', compact('products', 'category'));
     }
 
     public function edit($id)
     {
         $category = Category::all();
-        $product = Product::with(['category'])->where('id',$id)->get();
+        $product = Product::with(['category'])->where('id', $id)->get();
         $url = $product[0]->thumbnail;
-        return view('admin.products.edit',compact('category','product','url'));
+        return view('admin.products.edit', compact('category', 'product', 'url'));
     }
 
-    public function handleEdit(Request $request, $id){
-        $data = $request->except('_token','_method');
+    public function handleEdit(Request $request, $id)
+    {
+        $data = $request->except('_token', '_method');
 
         if ($request->hasFile('thumbnail')) {
             $img = $request->thumbnail;
@@ -72,7 +73,7 @@ class ProductController extends Controller
             $img->move(public_path('uploads'), $thumbnailName);
             $data['thumbnail'] = $thumbnailName;
         }
-        Product::where('id',$id)->update($data);
+        Product::where('id', $id)->update($data);
         return redirect()->route('product');
     }
 
@@ -101,21 +102,23 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-
-        $dataProduct = $request->except('productVariant', 'product_images');
-
-        $dataProductVariant = $request->productVariant;
-
-        $dataProductImage = $request->product_images ?: [];
-
-        $img = $dataProduct['thumbnail'];
-        $thumbnailName = time() . '_' . $img->getClientOriginalName();
-        $img->move(public_path('uploads'), $thumbnailName);
-        $dataProduct['is_active']  ??= 0;
-        $dataProduct['is_hot']  ??= 0;
-        $dataProduct['is_good_deal']  ??= 0;
-        $dataProduct['is_show_home']  ??= 0;
         try {
+            $dataProduct = $request->except('productVariant', 'product_images');
+
+            $dataProductVariant = $request->productVariant;
+
+            $dataProductImage = $request->product_images ?: [];
+
+            $img = $dataProduct['thumbnail'];
+            $thumbnailName = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('uploads'), $thumbnailName);
+
+            $dataProduct['is_active']  ??= 0;
+            $dataProduct['is_hot']  ??= 0;
+            $dataProduct['is_good_deal']  ??= 0;
+            $dataProduct['is_show_home']  ??= 0;
+
+
             $product = Product::query()->create([
                 'name_product' => $dataProduct['name_product'],
                 'category_id' => $dataProduct['category_id'],
@@ -131,7 +134,8 @@ class ProductController extends Controller
                 $variant['product_id'] = $product->id;
                 $variant = $this->cleanArrayKeys($variant);
                 $variant['is_active']  ??= 0;
-                ProductVariant::query()->create([
+
+                $createdVariant = ProductVariant::query()->create([
                     'product_id' => $product->id,
                     'color_id' => $variant['color'],
                     'size_id' => $variant['size'],
@@ -141,10 +145,12 @@ class ProductController extends Controller
                     'SKU' => $variant['SKU'],
                     'is_active' => $variant['is_active']
                 ]);
+
             }
 
             foreach ($dataProductImage as $img) {
                 $imageName = time() . '_' . $img->getClientOriginalName();
+
                 $img->move(public_path('uploads'), $imageName);
 
                 ProductImage::query()->create([
@@ -156,9 +162,9 @@ class ProductController extends Controller
             DB::commit();
             return redirect()->route('product');
         } catch (\Exception $exception) {
-            DB::rollBack();
+            // DB::rollBack();
+            echo($exception);
 
-            return back();
         }
     }
 }

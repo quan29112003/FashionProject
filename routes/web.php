@@ -108,9 +108,7 @@ Route::prefix('admin')->group(function () {
     Route::get('edit-product-variant/{id}', [ProductVariantController::class, 'edit'])->name('edit-productVariant');
     Route::put('edit-product-variant/{id}', [ProductVariantController::class, 'handleEdit'])->name('handleEdit-productVariant');
 
-    
     Route::post('/product/update-status', [ProductController::class, 'updateStatus'])->name('update-product-status');
-
 
     Route::get('show-category', [CategoryController::class, 'index'])->name('category');
     Route::get('create-category', [CategoryController::class, 'create'])->name('store-category');

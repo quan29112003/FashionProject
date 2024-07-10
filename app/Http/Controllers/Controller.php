@@ -37,11 +37,13 @@ class Controller extends BaseController
         // Sau đó, join với bảng products và product_variants để lấy các trường cần thiết
         $results = DB::table('products')
         ->join('product_variants', 'products.id', '=', 'product_variants.product_id')
+        ->leftJoin('order_items', 'products.id', '=', 'order_items.product_id')
         ->whereIn('products.id', $topProducts)
-        ->select('products.name_product', 'product_variants.quantity', 'product_variants.price_sale')
+        ->groupBy('products.id', 'products.name_product', 'product_variants.quantity', 'product_variants.price_sale')
+        ->select('products.name_product', 'product_variants.quantity', 'product_variants.price_sale', DB::raw('SUM(order_items.quantity) as total_quantity'))
         ->get();
 
-        dd($results);
+
 
 
         // Vòng lặp qua từng tháng
@@ -89,6 +91,6 @@ class Controller extends BaseController
         $data->views = [20,40,40];
 
         // dd($entries);
-        return view('admin.dashboard', ['data' => $data]);
+        return view('admin.dashboard', ['data' => $data],compact('results'));
     }
 }

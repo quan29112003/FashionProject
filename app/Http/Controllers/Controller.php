@@ -38,10 +38,20 @@ class Controller extends BaseController
         $results = DB::table('products')
         ->join('product_variants', 'products.id', '=', 'product_variants.product_id')
         ->leftJoin('order_items', 'products.id', '=', 'order_items.product_id')
+        ->leftJoin('product_colors', 'product_variants.color_id', '=', 'product_colors.id')
+        ->leftJoin('product_sizes', 'product_variants.size_id', '=', 'product_sizes.id')
         ->whereIn('products.id', $topProducts)
-        ->groupBy('products.id', 'products.name_product', 'product_variants.quantity', 'product_variants.price_sale')
-        ->select('products.name_product', 'product_variants.quantity', 'product_variants.price_sale', DB::raw('SUM(order_items.quantity) as total_quantity'))
+        ->groupBy('products.id', 'products.name_product', 'product_variants.quantity', 'product_variants.price_sale','product_colors.color','product_sizes.size')
+        ->select('products.name_product', 'product_variants.quantity', 'product_variants.price_sale','product_colors.color','product_sizes.size', DB::raw('SUM(order_items.quantity) as total_quantity'))
         ->get();
+
+        $topOrders = DB::table('orders')
+            ->join('statuses', 'orders.status_id', '=', 'statuses.id')
+            ->join('payments', 'orders.payment_id', '=', 'payments.id')
+            ->select('orders.id', 'orders.name', 'orders.total_amount', 'statuses.name as status_name', 'payments.name as payment_name')
+            ->orderBy('orders.total_amount', 'desc')
+            ->limit(5)
+            ->get();
 
 
 
@@ -91,6 +101,6 @@ class Controller extends BaseController
         $data->views = [20,40,40];
 
         // dd($entries);
-        return view('admin.dashboard', ['data' => $data],compact('results'));
+        return view('admin.dashboard', ['data' => $data],compact('results','topOrders'));
     }
 }

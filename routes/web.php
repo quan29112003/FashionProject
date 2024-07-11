@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
 
 
 // Route::get('/search', [SearchController::class, 'search'])->name('product.search');
-Route::get('/search', [ProductController::class, 'search'])->name('product.search');
+Route::get('/search', [SearchController::class, 'search'])->name('product.search');
 
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);

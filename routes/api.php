@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VoucherController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,6 @@ use App\Http\Controllers\Api\VoucherController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/search', [SearchController::class, 'search'])->name('api.product.search');
 

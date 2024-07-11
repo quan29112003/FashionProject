@@ -140,6 +140,7 @@ class ShopController extends Controller
             $query->orderBy('price'); // Assuming you want to order variants by price
         }, 'images'])
             ->where('is_active', 1)
+            ->has('variants')
             ->get()
             ->map(function ($product) {
                 // Attach the first variant to the product (if exists)

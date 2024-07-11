@@ -367,6 +367,13 @@
         });
 
         // Sorting filter
+        // Lấy giá trị sort_by từ query parameter
+        var sortBy = '{{ request()->get('sort_by', '') }}';
+
+        // Thiết lập giá trị ban đầu cho select box sort-by
+        $('#sort-by').val(sortBy);
+
+        // Xử lý sự kiện khi select box sort-by thay đổi
         $('#sort-by').on('change', function() {
             var sortBy = $(this).val();
             var url = new URL(window.location.href);

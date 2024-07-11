@@ -47,9 +47,18 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class,'product_id');
     }
 
-    public function comments()
+    // public function comments()
+    // {
+    //     return $this->hasMany(Comment::class, 'productID');
+    // }
+    public function colors()
     {
-        return $this->hasMany(Comment::class, 'productID');
+        return $this->belongsToMany(ProductColor::class, 'product_id', 'color_id');
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(ProductSize::class, 'product_id', 'size_id');
     }
 
 }

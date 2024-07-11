@@ -31,19 +31,19 @@ class User extends Authenticatable
         'type',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::saving(function ($user) {
-            if ($user->birthday) {
-                $birthDate = new \DateTime($user->birthday);
-                $today = new \DateTime();
-                $age = $today->diff($birthDate)->y;
-                $user->age = $age;
-            }
-        });
-    }
+    //     static::saving(function ($user) {
+    //         if ($user->birthday) {
+    //             $birthDate = new \DateTime($user->birthday);
+    //             $today = new \DateTime();
+    //             $age = $today->diff($birthDate)->y;
+    //             $user->age = $age;
+    //         }
+    //     });
+    // }
 
     public function points()
     {
@@ -56,52 +56,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'birthday' => 'date',
     ];
-    protected $appends = [
-        'type',
-    ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-
-    protected $dates = ['birthday'];
-
-    public function setBirthdayAttribute($value)
-    {
-        $this->attributes['birthday'] = $value;
-        $this->attributes['age'] = Carbon::parse($value)->age;
-    }
-
-    public function getTypeAttribute()
-    {
-        switch ($this->attributes['role']) {
-            case 0:
-                return 'Khách hàng';
-            case 1:
-                return 'Nhân viên';
-            case 2:
-                return 'Admin';
-        }
-    }
-
-    // public function getAgeAttribute()
-    // {
-    //     return now()->diffInYears($this->birthday);
-    // }
-
-    // protected $dates = ['birthday'];
-
-    // public function setBirthdayAttribute($value)
-    // {
-    //     $this->attributes['birthday'] = $value;
-    //     // $this->attributes['age'] = Carbon::parse($value)->age;
-    // }
 }

@@ -142,31 +142,17 @@
                                     <!-- Hình ảnh sản phẩm -->
                                     <ul class="product__hover">
                                         <!-- Các hành động khi hover -->
-
                                         <li>
-                                            <a href="{{ $product->images->first()->url }}"
-                                                class="image-popup">
-                                                <span class="arrow_expand"></span>
-                                            </a>
+                                            <button>
+                                                <span >Thêm nhanh vào giỏ</span>
+                                            </button>
+                                            <div class="attributes">
+                                                <div class="options">S</div>
+                                                <div class="options">M</div>
+                                                <div class="options">L</div>
+                                                <div class="options">XL</div>
+                                            </div>
                                         </li>
-                                        <!-- Popup hình ảnh -->
-
-                                        <li>
-                                            <a href="#">
-                                                <span class="icon_heart_alt">
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <!-- Thêm vào danh sách yêu thích -->
-
-                                        <li>
-                                            <a href="#">
-                                                <span class="icon_bag_alt">
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <!-- Thêm vào giỏ hàng -->
-
                                     </ul>
 
                                 </div>
@@ -174,7 +160,12 @@
 
                             <div class="product__item__text">
                                 <!-- Chi tiết sản phẩm -->
-
+                                <div class="swatch-attribute-options">
+                                    <div class="swatch-option" style="background-color: rgb(137, 185, 160);"></div>
+                                    <div class="swatch-option" style="background-color: rgb(37, 39, 130);"></div>
+                                    <div class="swatch-option" style="background-color: rgb(236, 189, 135);"></div>
+                                    <div class="swatch-option" style="background-color: rgb(189, 13, 48);"></div>
+                                </div>
                                 <h6>
                                     <a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
                                 </h6>

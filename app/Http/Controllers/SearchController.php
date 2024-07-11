@@ -171,6 +171,7 @@ class SearchController extends Controller
 
             return false;
         });
+        
 
         // Prepare data for view
         $filteredProducts = $filteredProducts->map(function ($product) {

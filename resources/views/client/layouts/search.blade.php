@@ -482,23 +482,28 @@
         // Handle form submission for search
         $('#filterForm').on('submit', function(event) {
             event.preventDefault();
+            var urlParams = new URLSearchParams(window.location.search);
+            var keyword = urlParams.get('keyword');
             var size = $('#size').val();
             var price = $('#price').val();
             var color = $('#color').val();
-            filterProducts(size, price, color);
+            searchProducts(keyword, size, price, color)
+            // window.location.href = "/search/?keyword="+"&size="+size+"&price="+price+"&color="+color;
         });
 
-        function filterProducts(size, price, color) {
+        // Function to perform AJAX search
+        function searchProducts(keyword, size, price, color) {
             $.ajax({
-                url: '{{ route('api.product.search') }}', // Update with your route for filtering
+                url: '{{ route('api.product.search') }}',
                 type: 'GET',
                 data: {
+                    keyword: keyword,
                     size: size,
                     price: price,
                     color: color
                 },
                 success: function(response) {
-                    $('#list_product').html(response.html); // Update product listing
+                    $('#list_product').html(response);
                 },
                 error: function(xhr, status, error) {
                     console.error(error);

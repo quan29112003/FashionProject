@@ -41,6 +41,6 @@ class ImageController extends Controller
                 'url' => $imageName
             ]);
         }
-        return back();
+        return redirect()->route('product');
     }
 }

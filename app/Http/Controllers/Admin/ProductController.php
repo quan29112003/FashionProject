@@ -31,23 +31,63 @@ class ProductController extends Controller
         return $cleanedArray;
     }
     //
-    public function index()
+    // public function index()
+    // {
+    //     $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->get();
+
+    //     return view('admin.products.index', compact('products'));
+    // }
+
+    public function index(Request $request)
     {
-        $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->get();
-
-        return view('admin.products.index', compact('products'));
-    }
-
-    public function edit($id){
+        $query = Product::with(['variants.color', 'variants.size', 'category', 'images']);
         $category = Category::all();
-        $product = Product::with(['category'])->where('id',$id)->get();
-        return view('admin.products.edit',compact('category','product'));
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $products = $query->get();
+        $categories = Category::all(); // Get all categories
+
+        return view('admin.products.index', compact('products', 'category'));
     }
 
-    public function handleEdit(ProductRequest $request, $id){
-        $data = $request->except('_token','_method');
-        Product::where('id',$id)->update($data);
+    public function edit($id)
+    {
+        $category = Category::all();
+        $product = Product::with(['category'])->where('id', $id)->get();
+        $url = $product[0]->thumbnail;
+        return view('admin.products.edit', compact('category', 'product', 'url'));
+    }
+
+    public function handleEdit(Request $request, $id)
+    {
+        $data = $request->except('_token', '_method');
+
+        if ($request->hasFile('thumbnail')) {
+            $img = $request->thumbnail;
+            $thumbnailName = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('uploads'), $thumbnailName);
+            $data['thumbnail'] = $thumbnailName;
+        }
+        Product::where('id', $id)->update($data);
         return redirect()->route('product');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $product = Product::find($request->id);
+        if ($product) {
+            $field = $request->field;
+            $value = $request->value == 'true' ? 1 : 0; // Convert 'true'/'false' to 1/0
+            $product->$field = $value;
+            $product->save();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 400);
     }
 
     public function create(Request $request)
@@ -62,21 +102,23 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
+        try {
+            $dataProduct = $request->except('productVariant', 'product_images');
 
-        $dataProduct = $request->except('productVariant', 'product_images');
+            $dataProductVariant = $request->productVariant;
 
-        $dataProductVariant = $request->productVariant;
+            $dataProductImage = $request->product_images ?: [];
 
-        $dataProductImage = $request->product_images ?: [];
+            $img = $dataProduct['thumbnail'];
+            $thumbnailName = time() . '_' . $img->getClientOriginalName();
+            $img->move(public_path('uploads'), $thumbnailName);
 
-        $img = $dataProduct['thumbnail'];
-        $thumbnailName = time() . '_' . $img->getClientOriginalName();
-        $img->move(public_path('uploads'), $thumbnailName);
-        $dataProduct['is_active']  ??= 0;
-        $dataProduct['is_hot']  ??= 0;
-        $dataProduct['is_good_deal']  ??= 0;
-        $dataProduct['is_show_home']  ??= 0;
-        try{
+            $dataProduct['is_active']  ??= 0;
+            $dataProduct['is_hot']  ??= 0;
+            $dataProduct['is_good_deal']  ??= 0;
+            $dataProduct['is_show_home']  ??= 0;
+
+
             $product = Product::query()->create([
                 'name_product' => $dataProduct['name_product'],
                 'category_id' => $dataProduct['category_id'],
@@ -92,7 +134,8 @@ class ProductController extends Controller
                 $variant['product_id'] = $product->id;
                 $variant = $this->cleanArrayKeys($variant);
                 $variant['is_active']  ??= 0;
-                ProductVariant::query()->create([
+
+                $createdVariant = ProductVariant::query()->create([
                     'product_id' => $product->id,
                     'color_id' => $variant['color'],
                     'size_id' => $variant['size'],
@@ -102,10 +145,12 @@ class ProductController extends Controller
                     'SKU' => $variant['SKU'],
                     'is_active' => $variant['is_active']
                 ]);
+
             }
 
             foreach ($dataProductImage as $img) {
                 $imageName = time() . '_' . $img->getClientOriginalName();
+
                 $img->move(public_path('uploads'), $imageName);
 
                 ProductImage::query()->create([
@@ -116,14 +161,10 @@ class ProductController extends Controller
 
             DB::commit();
             return redirect()->route('product');
-        }catch(\Exception $exception){
-            DB::rollBack();
+        } catch (\Exception $exception) {
+            // DB::rollBack();
+            echo($exception);
 
-            return back();
         }
-
-
-
-
     }
 }

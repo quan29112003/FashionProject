@@ -16,7 +16,6 @@ return new class extends Migration
             $table->text('name');
             $table->text('address');
             $table->string('phone');
-            $table->integer('payment')->default(0);
         });
     }
 

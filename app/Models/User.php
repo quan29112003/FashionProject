@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -22,9 +23,27 @@ class User extends Authenticatable
         'name_user',
         'email',
         'password',
+        'birthday',
+        'age',
+        'address',
         'role',
         'type',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($user) {
+            if ($user->birthday) {
+                $birthDate = new \DateTime($user->birthday);
+                $today = new \DateTime();
+                $age = $today->diff($birthDate)->y;
+                $user->age = $age;
+            }
+        });
+    }
+
     public function points()
     {
         return $this->hasMany(Point::class);
@@ -51,16 +70,16 @@ class User extends Authenticatable
         'birthday' => 'date',
     ];
 
-    public function getAgeAttribute()
-    {
-        return now()->diffInYears($this->birthday);
-    }
+    // public function getAgeAttribute()
+    // {
+    //     return now()->diffInYears($this->birthday);
+    // }
 
-    protected $dates = ['birthday'];
+    // protected $dates = ['birthday'];
 
-    public function setBirthdayAttribute($value)
-    {
-        $this->attributes['birthday'] = $value;
-        // $this->attributes['age'] = Carbon::parse($value)->age;
-    }
+    // public function setBirthdayAttribute($value)
+    // {
+    //     $this->attributes['birthday'] = $value;
+    //     // $this->attributes['age'] = Carbon::parse($value)->age;
+    // }
 }

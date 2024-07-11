@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
             $table->decimal('price_sale', 8,2);
-            $table->string('type');
             $table->string('SKU')->unique();
             $table->string('is_active');
             $table->timestamps();

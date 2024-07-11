@@ -65,4 +65,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
+
+    // share dữ liệu các tỉnh cho nhiều view để không cần khai báo trong controller
+    protected $routeMiddleware = [
+        'share.provinces' => \App\Http\Middleware\ShareProvinces::class,
+    ];
 }

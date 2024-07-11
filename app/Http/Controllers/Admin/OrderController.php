@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Status;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductVariant;
@@ -16,8 +18,10 @@ class OrderController extends Controller
 {
     //
     public function index(){
-        $orders = Order::all();
-        return view('admin.orders.index',compact('orders'));
+        $orders = Order::with('status','payment')->get();
+        $status = Status::all();
+        $payment = Payment::all();
+        return view('admin.orders.index',compact('orders','status','payment'));
     }
 
     public function show($id)
@@ -39,11 +43,13 @@ class OrderController extends Controller
     }
 
     public function update(Request $request,$id){
-        $status = $request->status;
-        $payment = $request->payment;
+        $status = $request->status_id;
+        $payment = $request->payment_id;
+        $status ??= 4;
+        $payment ??= 1;
         Order::where('id',$id)->update([
-            'status' => $status,
-            'payment' => $payment,
+            'status_id' => $status,
+            'payment_id' => $payment,
         ]);
 
         return response()->json(['success' => true]);

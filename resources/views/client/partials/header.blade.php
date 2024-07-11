@@ -16,6 +16,23 @@
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Css Styles -->
+    <style>
+        .payment-method {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .custom-radio {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .custom-radio input[type="radio"] {
+            margin-right: 10px;
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/elegant-icons.css') }}" type="text/css">
@@ -25,6 +42,12 @@
     <link rel="stylesheet" href="{{ asset('theme-cli/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.css">
+
+    <!-- CSS của Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- JS của Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body>
@@ -129,7 +152,6 @@
                                     style="display: none;">
                                     @csrf
                                 </form>
-
                             @else
                                 <a href="{{ route('login') }}">Login /</a>
                                 <a href="{{ route('register') }}">Register</a>

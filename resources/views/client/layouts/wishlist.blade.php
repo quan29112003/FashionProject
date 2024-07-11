@@ -1,12 +1,8 @@
 @include('client.partials.header')
 <style>
     .cart__product__item img {
-        max-width: 100%;
+        max-width: 100px;
         height: auto;
-    }
-
-    .cart__product__item img {
-        width: 20%;
         margin-right: 15px;
     }
 
@@ -21,8 +17,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                    <span>wishlist</span>
+                    <a href="{{ url('/')}}"><i class="fa fa-home"></i> Home</a>
+                    <span>Wishlist</span>
                 </div>
             </div>
         </div>
@@ -30,45 +26,53 @@
 </div>
 <!-- Breadcrumb End -->
 
-<!-- Shop Cart Section Begin -->
+<!-- Wishlist Section Begin -->
 <section class="shop-cart spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="shop__cart__table">
-                    {{-- @if (count(session('cart', [])) > 0) --}}
-                    <form action="{{ route('cart.update') }}" method="POST">
-                        @csrf
-                        <table class="table table-bordered">
+                    @if (count($wishlists) > 0)
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity Available</th>
+                                    <th>Sale Price</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($wishlists as $wishlist)
                                     @if ($wishlist->product && $wishlist->product->variants->isNotEmpty())
+                                        @php
+                                            $variant = $wishlist->product->variants->first();
+                                        @endphp
                                         <tr>
-                                            <td>{{ $wishlist->product->id }}</td>
-                                            <td>
-                                                <img src="{{ asset('uploads/' . $wishlist->product->thumbnail) }}"
-                                                    alt="" width="50px">
+                                            <td class="cart__product__item">
+                                                <img src="{{ asset('uploads/' . $wishlist->product->thumbnail) }}" alt="">
+                                                <div class="cart__product__item__title">
+                                                    <a href="{{ route('detail', $wishlist->productID)}}"><h6>{{ $wishlist->product->name_product }}</h6></a>
+                                                </div>
                                             </td>
-                                            <td>{{ $wishlist->product->name_product }}</td>
-
-                                            @foreach ($wishlist->product->variants as $variant)
-                                                    <td>{{ $variant->quantity }}</td>
-                                                    <td>{{ $variant->price }}</td>
-                                                    <td>{{ $variant->price_sale }}</td>
-                                                    @break
-                                            @endforeach
+                                            <td class="cart__price">${{ number_format($variant->price, 2) }}</td>
+                                            <td class="cart__quantity">{{ $variant->quantity }}</td>
+                                            <td class="cart__total">${{ number_format($variant->price_sale, 2) }}</td>
+                                            <td class="cart__close">
+                                                <form action="{{ route('wishlist.remove', $wishlist->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @else
-                                        <p>No product in wishlist</p>
+                                        <tr>
+                                            <td colspan="5" class="text-center">No product in wishlist</td>
+                                        </tr>
                                     @endif
                                 @endforeach
-
                             </tbody>
                         </table>
                         <div class="row">
@@ -78,33 +82,20 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="discount__content">
-                                <h6>Discount codes</h6>
-                                <form action="#">
-                                    <input type="text" placeholder="Enter your coupon code">
-                                    <button type="submit" class="site-btn">Apply</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- @else
+                    @else
                         <div class="alert alert-info">
-                            Không có sản phẩm trong wishlist
+                            No products in the wishlist.
                         </div>
                         <div class="cart__btn">
                             <a class="site-btn" href="{{ url('/') }}">Continue Shopping</a>
                         </div>
-                    @endif --}}
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- Shop Cart Section End -->
+<!-- Wishlist Section End -->
 
 <!-- Instagram Begin -->
 <div class="instagram">
@@ -114,7 +105,7 @@
                 <div class="instagram__item set-bg" data-setbg="{{ asset('theme-cli/img/instagram/insta-1.jpg') }}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@ashion_shop</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +113,7 @@
                 <div class="instagram__item set-bg" data-setbg="{{ asset('theme-cli/img/instagram/insta-2.jpg') }}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@ashion_shop</a>
                     </div>
                 </div>
             </div>
@@ -130,7 +121,7 @@
                 <div class="instagram__item set-bg" data-setbg="{{ asset('theme-cli/img/instagram/insta-3.jpg') }}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@ashion_shop</a>
                     </div>
                 </div>
             </div>
@@ -138,7 +129,7 @@
                 <div class="instagram__item set-bg" data-setbg="{{ asset('theme-cli/img/instagram/insta-4.jpg') }}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@ashion_shop</a>
                     </div>
                 </div>
             </div>
@@ -146,7 +137,7 @@
                 <div class="instagram__item set-bg" data-setbg="{{ asset('theme-cli/img/instagram/insta-5.jpg') }}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@ashion_shop</a>
                     </div>
                 </div>
             </div>
@@ -154,7 +145,7 @@
                 <div class="instagram__item set-bg" data-setbg="{{ asset('theme-cli/img/instagram/insta-6.jpg') }}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@ashion_shop</a>
                     </div>
                 </div>
             </div>

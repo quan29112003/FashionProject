@@ -62,6 +62,12 @@ class CategoryController extends Controller
     }
 
     public function handleEdit(Request $request, $id){
+        $validated = $request->validate([
+            'name' => [
+                'required',
+
+            ]
+        ]);
         $data = $request->except('_token','_method');
         Category::where('id',$id)->update($data);
 

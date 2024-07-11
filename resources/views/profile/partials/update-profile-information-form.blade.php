@@ -140,6 +140,7 @@
 
     {{-- tính tuổi khi chọn birthday --}}
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Khởi tạo Flatpickr
         flatpickr('.flatpickr', {
@@ -152,8 +153,8 @@
 
         // Hàm tính toán tuổi
         function calculateAge() {
-            var birthday = document.getElementById('birthday').value;
-            var ageField = document.getElementById('age');
+            var birthday = $('#birthday').val();
+            var ageField = $('#age');
 
             if (birthday) {
                 var birthDate = new Date(birthday);
@@ -163,9 +164,11 @@
                 if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
-                ageField.value = age;
+                ageField.val(age);
             }
         }
+
+        // của phần địa chỉ
         const currentAddressSection = document.getElementById('currentAddressSection');
 
         const editAddressSection = document.getElementById('editAddressSection');
@@ -199,149 +202,7 @@
             // Ví dụ: bạn có thể gắn nó vào một sự kiện onclick của một nút
             document.getElementById('editButton').addEventListener('click', showEditForm);
         });
-    </script>
 
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const provinceSelect = document.getElementById('province');
-            const districtSelect = document.getElementById('district');
-            const wardSelect = document.getElementById('ward');
-
-            provinceSelect.addEventListener('change', function() {
-                fetchDistricts(this.value);
-            });
-
-            // Gán giá trị mặc định cho provinceSelect từ Laravel
-            provinceSelect.value = '{{ $provinceId }}';
-
-            // Gọi hàm fetchDistricts ban đầu khi đã có giá trị mặc định
-            fetchDistricts('{{ $provinceId }}');
-
-            // Hàm xử lý để fetch districts và cập nhật select box district
-            function fetchDistricts(provinceId) {
-                if (provinceId) {
-                    const districtId = '{{ $districtId }}';
-
-                    fetch(`/api/districts/${provinceId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            districtSelect.innerHTML = '<option value="">Select District</option>';
-                            data.forEach(district => {
-                                districtSelect.innerHTML +=
-                                    `<option value="${district.code}" ${district.code == districtId ? 'selected' : ''}>${district.name}</option>`;
-                            });
-                            districtSelect.disabled = false;
-                            wardSelect.innerHTML = '<option value="">Select Ward</option>';
-                            wardSelect.disabled = true;
-                        });
-                } else {
-                    districtSelect.innerHTML = '<option value="">Select District</option>';
-                    districtSelect.disabled = true;
-                    wardSelect.innerHTML = '<option value="">Select Ward</option>';
-                    wardSelect.disabled = true;
-                }
-            }
-
-            districtSelect.addEventListener('change', function() {
-                fetchWards(this.value);
-            });
-
-            districtSelect.value = '{{ $districtId }}';
-
-            fetchWards('{{ $districtId }}');
-
-            function fetchWards(districtId) {
-                if (districtId) {
-                    const wardId = '{{ $wardId }}';
-                    fetch(`/api/wards/${districtId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            wardSelect.innerHTML = '<option value="">Select Ward</option>';
-                            data.forEach(ward => {
-                                wardSelect.innerHTML +=
-                                    `<option value="${ward.code}" ${ward.code == wardId ? 'selected' : ''}>${ward.name}</option>`;
-                            });
-                            wardSelect.disabled = false;
-                        });
-                } else {
-                    wardSelect.innerHTML = '<option value="">Select Ward</option>';
-                    wardSelect.disabled = true;
-                }
-            }
-        });
-    </script> --}}
-
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            const provinceSelect = $('#province');
-            const districtSelect = $('#district');
-            const wardSelect = $('#ward');
-
-            provinceSelect.on('change', function() {
-                fetchDistricts($(this).val());
-            });
-
-            provinceSelect.val('{{ $provinceId }}');
-            fetchDistricts('{{ $provinceId }}');
-
-            function fetchDistricts(provinceId) {
-                if (provinceId) {
-                    const districtId = '{{ $districtId }}';
-                    $.ajax({
-                        url: `/api/districts/${provinceId}`,
-                        dataType: 'json',
-                        success: function(data) {
-                            districtSelect.empty().append('<option value="">Select District</option>');
-                            $.each(data, function(index, district) {
-                                districtSelect.append(
-                                    `<option value="${district.code}" ${district.code == districtId ? 'selected' : ''}>${district.name}</option>`
-                                    );
-                            });
-                            districtSelect.prop('disabled', false);
-                            wardSelect.empty().append('<option value="">Select Ward</option>').prop(
-                                'disabled', true);
-                        }
-                    });
-                } else {
-                    districtSelect.empty().append('<option value="">Select District</option>').prop('disabled',
-                        true);
-                    wardSelect.empty().append('<option value="">Select Ward</option>').prop('disabled', true);
-                }
-            }
-
-            districtSelect.on('change', function() {
-                fetchWards($(this).val());
-            });
-
-            districtSelect.val('{{ $districtId }}');
-            fetchWards('{{ $districtId }}');
-
-            function fetchWards(districtId) {
-                if (districtId) {
-                    const wardId = '{{ $wardId }}';
-                    $.ajax({
-                        url: `/api/wards/${districtId}`,
-                        dataType: 'json',
-                        success: function(data) {
-                            wardSelect.empty().append('<option value="">Select Ward</option>');
-                            $.each(data, function(index, ward) {
-                                wardSelect.append(
-                                    `<option value="${ward.code}" ${ward.code == wardId ? 'selected' : ''}>${ward.name}</option>`
-                                    );
-                            });
-                            wardSelect.prop('disabled', false);
-                        }
-                    });
-                } else {
-                    wardSelect.empty().append('<option value="">Select Ward</option>').prop('disabled', true);
-                }
-            }
-        });
-    </script> --}}
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
         $(document).ready(function() {
             const provinceSelect = $('#province');
             const districtSelect = $('#district');
@@ -367,7 +228,7 @@
                 data.forEach(item => {
                     select.append(
                         `<option value="${item.code}" ${item.code == selectedId ? 'selected' : ''}>${item.name}</option>`
-                        );
+                    );
                 });
                 select.prop('disabled', false);
             }

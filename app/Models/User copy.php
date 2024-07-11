@@ -32,6 +32,7 @@ class User extends Model
         $this->attributes['birthday'] = $value;
         $this->attributes['age'] = Carbon::parse($value)->age;
     }
+    
     public function getTypeAttribute()
     {
         switch ($this->attributes['role']) {

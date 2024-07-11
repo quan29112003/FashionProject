@@ -26,6 +26,13 @@
                 <x-input-error class="mt-2" :messages="$errors->get('name_user')" />
             </div>
 
+            <div class="col-6 my-2">
+                <x-input-label for="number_phone" :value="__('Number_phone')" />
+                <x-text-input id="number_phone" name="number_phone" type="text" class="mt-1 block w-full" :value="old('number_phone', $user->number_phone)"
+                    required autofocus autocomplete="number_phone" />
+                <x-input-error class="mt-2" :messages="$errors->get('number_phone')" />
+            </div>
+
             {{-- birthday --}}
             <div class="col-3 my-2">
                 <x-input-label for="birthday" :value="__('Birthday')" />
@@ -33,6 +40,7 @@
                     :value="old('birthday', optional($user->birthday)->format('Y-m-d'))" autocomplete="birthday" />
                 <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
             </div>
+            {{-- @dump($user->birthday) --}}
 
             {{-- age --}}
             <div class="col-3 my-2">

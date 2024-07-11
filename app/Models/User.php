@@ -21,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name_user',
+        'number_phone',
         'email',
         'password',
         'birthday',
@@ -55,8 +56,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+    protected $appends = [
+        'type',
     ];
 
     /**
@@ -64,11 +71,26 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'birthday' => 'date',
-    ];
+
+    protected $dates = ['birthday'];
+
+    public function setBirthdayAttribute($value)
+    {
+        $this->attributes['birthday'] = $value;
+        $this->attributes['age'] = Carbon::parse($value)->age;
+    }
+
+    public function getTypeAttribute()
+    {
+        switch ($this->attributes['role']) {
+            case 0:
+                return 'Khách hàng';
+            case 1:
+                return 'Nhân viên';
+            case 2:
+                return 'Admin';
+        }
+    }
 
     // public function getAgeAttribute()
     // {

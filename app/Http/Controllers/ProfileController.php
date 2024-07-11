@@ -20,6 +20,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = $request->user();
+        // dd($user);
 
         $addressParts = explode(', ', $user->address);
 
@@ -80,6 +81,7 @@ class ProfileController extends Controller
 
         $updateData = [
             'name_user' => $request->input('name_user'),
+            'number_phone' => $request->input('number_phone'),
             'email' => $request->input('email'),
             'birthday' => $birthday->format('Y-m-d'),
             'address' => $address,

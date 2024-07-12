@@ -19,7 +19,6 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\CatalogueController;
 use App\Http\Controllers\Admin\OrderController;
 
-
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VoucherController;
@@ -31,6 +30,7 @@ use App\Models\ProductImage;
 
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\LoadContentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Middleware\ShareProvinces;
 
@@ -147,7 +147,6 @@ Route::prefix('admin')->group(function () {
     Route::put('edit-image/{id}', [ImageController::class, 'handleEdit'])->name('handleEdit-image');
 });
 
-
 // viet
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
@@ -158,7 +157,6 @@ Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.cle
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('vouchers', VoucherController::class);
@@ -166,5 +164,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('wishlists', WishlistController::class);
 });
 
+Route::get('/load-content', [LoadContentController::class, 'loadContent'])->name('load-content');
 
 require __DIR__ . '/auth.php';

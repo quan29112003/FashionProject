@@ -17,19 +17,20 @@
         @csrf
         @method('patch')
 
-        {{-- user name --}}
         <div class="row">
+            {{-- user name --}}
             <div class="col-6 my-2">
                 <x-input-label for="name_user" :value="__('Name')" />
                 <x-text-input id="name_user" name="name_user" type="text" class="mt-1 block w-full" :value="old('name_user', $user->name_user)"
-                    required autofocus autocomplete="name_user" />
+                    autofocus autocomplete="name_user" />
                 <x-input-error class="mt-2" :messages="$errors->get('name_user')" />
             </div>
 
+            {{-- number phone --}}
             <div class="col-6 my-2">
-                <x-input-label for="number_phone" :value="__('Number_phone')" />
+                <x-input-label for="number_phone" :value="__('Number phone')" />
                 <x-text-input id="number_phone" name="number_phone" type="text" class="mt-1 block w-full" :value="old('number_phone', $user->number_phone)"
-                    required autofocus autocomplete="number_phone" />
+                    autofocus autocomplete="number_phone" />
                 <x-input-error class="mt-2" :messages="$errors->get('number_phone')" />
             </div>
 
@@ -54,7 +55,7 @@
             <div class="col-6 my-2">
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
-                    required autocomplete="username" readonly />
+                    autocomplete="username" readonly />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
                 @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
@@ -77,6 +78,7 @@
                 @endif
             </div>
 
+            {{-- address --}}
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 my-2" id="currentAddressSection" onclick="showEditForm()">
@@ -94,7 +96,7 @@
                     <div class="col-3 my-2">
                         <x-input-label for="specific_address" :value="__('specific_address')" />
                         <x-text-input id="specific_address" name="specific_address" type="text"
-                            class="mt-1 block w-full" :value="$specific_addressName" required autofocus
+                            class="mt-1 block w-full" :value="$specific_addressName" autofocus
                             autocomplete="specific_address" />
                         <x-input-error class="mt-2" :messages="$errors->get('specific_address')" />
                     </div>

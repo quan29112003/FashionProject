@@ -1,4 +1,6 @@
-@include('client.partials.header')
+@extends('client.layouts.app')
+
+@section('content')
 <style>
     .cart__product__item img {
         max-width: 100px;
@@ -154,6 +156,4 @@
 </div>
 <!-- Instagram End -->
 
-<!-- Footer Section Begin -->
-@include('client.partials.footer')
-<!-- Footer Section End -->
+@endsection

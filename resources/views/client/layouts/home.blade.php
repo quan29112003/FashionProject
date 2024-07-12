@@ -1,10 +1,13 @@
+
+@extends('client.layouts.app')
+
+@section('content')
+<!-- Bao gồm header phần -->
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
 @endif
-@include('client.partials.header')
-<!-- Bao gồm header phần -->
 
 <!-- Bắt đầu phần danh mục -->
 <section class="categories">
@@ -83,6 +86,7 @@
     </div>
 </section>
 <!-- Kết thúc phần danh mục -->
+
 
 <!-- Bắt đầu phần sản phẩm -->
 <section class="product spad">
@@ -232,7 +236,6 @@
 
 </section>
 <!-- Product Section End -->
-
 <!-- Banner Section Begin -->
 <section class="banner set-bg" data-setbg="{{ asset('theme-cli/img/banner/banner-1.jpg') }}">
     <div class="container">
@@ -453,11 +456,6 @@
 <!-- Services Section End -->
 
 
-<!-- Phần còn lại của template -->
-
-@include('client.partials.footer')
-<!-- Bao gồm template phần footer -->
-
 <!-- Scripts cho chức năng lọc -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -509,3 +507,5 @@
         });
     });
 </script>
+
+@endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
@@ -28,9 +29,18 @@ class BlogController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'images/' . $filename;
+            Storage::disk('public')->put($filePath, file_get_contents($file));
+            $data['image'] = $filename;
+        } elseif ($request->has('content')) {
+            $matches = [];
+            preg_match('/<img src="([^"]+)"/', $request->input('content'), $matches);
+            if ($matches) {
+                $image_url = $matches[1];
+                $data['image'] = basename($image_url);
+            }
         }
 
         Blog::create($data);
@@ -57,10 +67,20 @@ class BlogController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'images/' . $filename;
+            Storage::disk('public')->put($filePath, file_get_contents($file));
+            $data['image'] = $filename;
+        } elseif ($request->has('content')) {
+            $matches = [];
+            preg_match('/<img src="([^"]+)"/', $request->input('content'), $matches);
+            if ($matches) {
+                $image_url = $matches[1];
+                $data['image'] = basename($image_url);
+            }
         }
+    
 
         $blog->update($data);
 
@@ -74,6 +94,23 @@ class BlogController extends Controller
         }
         $blog->delete();
         return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted successfully.');
+    }
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'images/' . $filename;
+
+            // Save the file
+            Storage::disk('public')->put($filePath, file_get_contents($file));
+
+            // Respond to CKEditor
+            $url = Storage::url($filePath);
+            return response()->json(['url' => $url]);
+        }
+
+        return response()->json(['url' => '']);
     }
 }
 

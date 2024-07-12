@@ -161,6 +161,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
     Route::resource('comments', CommentController::class);
     Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
+    Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
     Route::resource('blogs', AdminBlogController::class);
 });
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');

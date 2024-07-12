@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="blog__details__desc">
-                            <p>{{ $blog->content }}</p>
+                            <p>{!! $blog->content !!}</p>
                         </div>
                         <div class="blog__details__tags">
                             <a href="#">Fashion</a>

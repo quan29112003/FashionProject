@@ -44,7 +44,7 @@
                             @foreach ($blogs as $blog)
                                 <tr>
                                     <td>{{ $blog->title }}</td>
-                                    <td>{{ Str::limit($blog->content, 100) }}</td>
+                                    <td>{!! Str::limit($blog->content, 10000) !!}</td>
                                     <td>
                                         @if ($blog->image)
                                             <img src="{{ asset('images/' . $blog->image) }}" alt="{{ $blog->title }}"
@@ -77,14 +77,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('script-libs')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -98,10 +95,8 @@
 
     <script>
         $(document).ready(function() {
-            $('#vouchers-table').DataTable({
-                order: [
-                    [0, 'desc']
-                ]
+            $('#blogs-table').DataTable({
+                order: [[0, 'desc']]
             });
         });
     </script>

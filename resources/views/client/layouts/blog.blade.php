@@ -26,7 +26,7 @@
                                     <li>by <span>{{ $blog->author }}</span></li>
                                     <li>{{ $blog->created_at->format('M d, Y') }}</li>
                                 </ul>
-                                <p>{{ Str::limit($blog->content, 100) }}</p>
+                                <p>{!! Str::limit($blog->content, 100) !!}</p>
                             </div>
                         </div>
                     </div>

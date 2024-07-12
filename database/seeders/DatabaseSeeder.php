@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             ProductColorSeeder::class,
             ProductSizeSeeder::class,
             ProductVariantSeeder::class,
-            UserSeeder::class,
+            // UserSeeder::class,
             WebsiteMenusSeeder::class,
             CategoryGenderSeeder::class
         ]);

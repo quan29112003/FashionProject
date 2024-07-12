@@ -14,7 +14,7 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
 
-    public function dasboard()
+    public function dashboard()
     {
         $dayAmount = DB::table('orders')->whereDay('created_at',date('d'))->sum('total_amount');
         $dayOrder = DB::table('orders')->whereDay('created_at',date('d'))->count('id');

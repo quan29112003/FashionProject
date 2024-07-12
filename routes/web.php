@@ -27,7 +27,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
-
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoadContentController;
@@ -168,11 +169,20 @@ Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])-
 Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('users', UserController::class);
-    Route::resource('vouchers', VoucherController::class);
-    Route::resource('comments', CommentController::class);
     Route::resource('wishlists', WishlistController::class);
+    Route::resource('users', UserController::class);
+    Route::post('users/{user}/toggle-lock', 'App\Http\Controllers\Admin\UserController@toggleLock')->name('users.toggleLock');
+    Route::post('users/{user}/permanent-lock', 'App\Http\Controllers\Admin\UserController@permanentLock')->name('users.permanentLock');
+    Route::resource('vouchers', VoucherController::class);
+    Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
+    Route::resource('comments', CommentController::class);
+    Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
+    Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
+    Route::resource('blogs', AdminBlogController::class);
 });
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog-detail/{id}', [BlogController::class, 'show'])->name('blog-detail');
+
 
 Route::get('/load-content', [LoadContentController::class, 'loadContent'])->name('load-content');
 

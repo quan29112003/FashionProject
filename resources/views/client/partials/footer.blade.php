@@ -5,16 +5,21 @@
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="./index.html"><img src="{{ asset('theme-cli/img/logo.png')}}" alt=""></a>
+                        <a href="./index.html"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
                     </div>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    cilisis.</p>
+                        cilisis.</p>
                     <div class="footer__payment">
-                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-1.png')}}" alt=""></a>
-                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-2.png')}}" alt=""></a>
-                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-3.png')}}" alt=""></a>
-                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-4.png')}}" alt=""></a>
-                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-5.png')}}" alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-1.png') }}"
+                                alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-2.png') }}"
+                                alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-3.png') }}"
+                                alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-4.png') }}"
+                                alt=""></a>
+                        <a href="#"><img src="{{ asset('theme-cli/img/payment/payment-5.png') }}"
+                                alt=""></a>
                     </div>
                 </div>
             </div>
@@ -61,7 +66,13 @@
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <div class="footer__copyright__text">
-                    <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+                    <p>Copyright &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        All rights reserved | This template is made with <i class="fa fa-heart"
+                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    </p>
                 </div>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </div>
@@ -82,16 +93,98 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="{{ asset('theme-cli/js/jquery-3.3.1.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/bootstrap.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/jquery.magnific-popup.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/jquery-ui.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/mixitup.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/jquery.countdown.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/jquery.slicknav.js')}}"></script>
-<script src="{{ asset('theme-cli/js/owl.carousel.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/jquery.nicescroll.min.js')}}"></script>
-<script src="{{ asset('theme-cli/js/main.js')}}"></script>
+<!-- JS Plugins -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Show search popup when clicking on search icon
+        $('.search-switch').on('click', function() {
+            $('#searchPopup').fadeIn();
+        });
+
+        // Close search popup when clicking on close button or overlay
+        $('#closeSearchPopup, #closeSearchPopupBtn').on('click', function() {
+            $('#searchPopup').fadeOut();
+        });
+
+        // Handle form submission for search
+        $('#searchForm').on('submit', function(event) {
+            event.preventDefault();
+            var query = $('#searchInput').val();
+            if (query.trim() !== '') {
+                searchProducts(query);
+                // searchProducts(query);
+            }
+        });
+
+        // Function to perform AJAX search
+        function searchProducts(query) {
+            $.ajax({
+                url: '{{ route('product.search') }}',
+                type: 'GET',
+                data: {
+                    keyword: query
+                },
+                success: function(response) {
+                    $('#searchResults').html(response);
+                    $('#searchPopup').fadeIn();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchInput = document.getElementById('searchInput');
+        var searchForm = document.getElementById('searchForm');
+
+        searchInput.addEventListener('focus', function() {
+            searchForm.classList.add('expanded');
+        });
+
+        searchInput.addEventListener('blur', function() {
+            if (!searchInput.value) {
+                searchForm.classList.remove('expanded');
+            }
+        });
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function loadContent() {
+            $.ajax({
+                url: "{{ url('login') }}",
+                method: "GET",
+                success: function(data) {
+                    $('#content').html(data);
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra trong quá trình load content.');
+                }
+            });
+        }
+
+        // Gọi hàm loadContent() khi cần thiết
+        loadContent();
+    });
+</script>
+
+<script src="{{ asset('theme-cli/js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/mixitup.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/jquery.countdown.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/jquery.slicknav.js') }}"></script>
+<script src="{{ asset('theme-cli/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/jquery.nicescroll.min.js') }}"></script>
+<script src="{{ asset('theme-cli/js/main.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
 </body>
 

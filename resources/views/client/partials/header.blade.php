@@ -14,7 +14,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- Css Styles -->
     <style>
         .payment-method {
@@ -69,7 +73,7 @@
                 </a></li>
         </ul>
         <div class="offcanvas__logo">
-            <a href=""><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
@@ -80,103 +84,143 @@
     <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container-fluid">
-            <div class="row">
+    <header class="header ">
 
-                {{-- logo --}}
-                <div class="col-xl-3 col-lg-2">
-                    <div class="header__logo">
-                        <a href="#">
-                            <img src="{{ asset('theme-cli/img/logo.png') }}" alt="">
-                        </a>
+        <div class="p-2 header__desktop ">
+
+            <div class="row align-items-center">
+
+                {{-- tìm kiếm --}}
+                <div class="col-12 my-3">
+                    <div class="col d-flex justify-content-center">
+                        <!-- Form tìm kiếm -->
+                        <form role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"
+                            class="search-form">
+                            <!-- Input tìm kiếm -->
+                            <input class="search-input" type="search" name="keyword" id="searchInput"
+                                placeholder="Search" aria-label="Search">
+                            <!-- Gạch chân dưới -->
+                            <div class="underline"></div>
+                            <!-- Nút tìm kiếm -->
+                            <button class="search-btn" type="submit">
+                                <!-- Icon tìm kiếm -->
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-xl-6 col-lg-7">
-                    <nav class="header__menu">
-                        {{-- menus --}}
-                        <ul>
-                            {{-- categories --}}
+            <div class="row align-items-center">
+                <div class="col-xl-3 d-flex justify-content-between">
+                    {{-- logo --}}
+                    <div>
+                        <a href="{{ url('/') }}">
+                            <img src="{{ asset('theme-cli/img/logo.png') }}" alt="Logo">
+                        </a>
+                    </div>
+                    {{-- categorygender --}}
+                    <nav>
+                        <ul class="nav ">
                             @foreach ($CategoryGenders as $CategoryGender)
-                                <li class="gender_category">
-                                    <a href="#">{{ $CategoryGender->name }}</a>
+                                <li class="nav-item">
+                                    <a class="nav-link fs-5 text-dark fw-bold custom-hover"
+                                        href="#">{{ $CategoryGender->name }}</a>
                                 </li>
                             @endforeach
-
+                        </ul>
+                    </nav>
+                </div>
+                {{-- main menu --}}
+                <div class="col-xl-6">
+                    <nav>
+                        <ul class="nav justify-content-center">
                             @foreach ($menus as $menu)
-                                <li class="{{ Request::is($menu->url) ? 'active' : '' }}">
-                                    <a href="{{ url($menu->url) }}">{{ $menu->menu_item }}
+                                <li class="nav-item">
+                                    <a href="{{ url($menu->url) }}"
+                                        class="{{ Request::is($menu->url) ? 'active' : '' }} nav-link fs-6 text-dark custom-hover">
+                                        {{ $menu->menu_item }}
                                     </a>
                                 </li>
                             @endforeach
-
-                            {{-- search --}}
-                            <li class="search">
-                                <div class="header__search">
-                                    <form id="searchForm" action="{{ route('product.search') }}" method="GET">
-                                        <input type="text" name="keyword" id="searchInput" placeholder="Search...">
-                                        <button type="submit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
                         </ul>
                     </nav>
                 </div>
 
-                {{-- login, cart, wishlist --}}
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            @auth
-                                <a href="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="auto"
-                                        fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
-                                        <path
-                                            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
-                                        <path
-                                            d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
-                                    </svg>
-                                </a>
+                {{-- search, login, cart, wishlist --}}
+                <div class="col-xl-3">
+                    <div class="row">
+                        {{-- User actions (login, profile, logout) --}}
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <ul class="nav justify-content-end">
+                                        @auth
+                                            {{-- edit profile --}}
+                                            <li class="nav-item">
+                                                <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
+                                                    <i class="bi bi-person-badge"></i>
+                                                </a>
+                                            </li>
+                                            {{-- logout --}}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link text-dark fs-6"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        @else
+                                            {{-- login --}}
 
-                                <a class="" href="{{ route('profile.edit') }}">Edit Profile</a>
+                                            <li class="nav-item">
+                                                <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class="nav-link text-dark fs-5"
+                                                    onclick="showLoginModal()">
+                                                    <i class="bi bi-person-badge"></i>
+                                                </a>
+                                            </li>
+                                        @endauth
 
-                                <a class="" href="#"
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                                        {{-- Cart icons --}}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">
+                                                <span class="icon_heart_alt"></span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark fs-5" href="{{ route('cart') }}">
+                                                <span class="icon_bag_alt"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-                            @else
-                                <a href="{{ route('login') }}">Login /</a>
-                                <a href="{{ route('register') }}">Register</a>
-                            @endauth
+                            </div>
                         </div>
-
-                        <ul class="header__right__widget">
-                            <li>
-                                <a href="{{ route('wishlist.index') }}">
-                                    <span class="icon_heart_alt"></span>
-                                    <div class="tip">2</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('cart') }}">
-                                    <span class="icon_bag_alt"></span>
-                                </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="canvas__open">
-                <i class="fa fa-bars"></i>
+
+            <div class="row align-items-center">
+                {{-- category --}}
+                <div class="col">
+                    <nav>
+                        <ul class="nav justify-content-center">
+                            @foreach ($categories as $categorie)
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link fs-6 text-dark custom-hover">
+                                        {{ $categorie->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </nav>
+                </div>
             </div>
+        </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
         </div>
     </header>
 
@@ -191,49 +235,6 @@
         </div>
     </div>
 
-    <!-- JS Plugins -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Show search popup when clicking on search icon
-            $('.search-switch').on('click', function() {
-                $('#searchPopup').fadeIn();
-            });
-
-            // Close search popup when clicking on close button or overlay
-            $('#closeSearchPopup, #closeSearchPopupBtn').on('click', function() {
-                $('#searchPopup').fadeOut();
-            });
-
-            // Handle form submission for search
-            $('#searchForm').on('submit', function(event) {
-                event.preventDefault();
-                var query = $('#searchInput').val();
-                if (query.trim() !== '') {
-                    searchProducts(query);
-                    // searchProducts(query);
-                }
-            });
-
-            // Function to perform AJAX search
-            function searchProducts(query) {
-                $.ajax({
-                    url: '{{ route('product.search') }}',
-                    type: 'GET',
-                    data: {
-                        keyword: query
-                    },
-                    success: function(response) {
-                        $('#searchResults').html(response);
-                        $('#searchPopup').fadeIn();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
-        });
-    </script>
 
 </body>
 

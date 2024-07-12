@@ -21,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name_user',
+        'number_phone',
         'email',
         'password',
         'birthday',
@@ -30,19 +31,19 @@ class User extends Authenticatable
         'type',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::saving(function ($user) {
-            if ($user->birthday) {
-                $birthDate = new \DateTime($user->birthday);
-                $today = new \DateTime();
-                $age = $today->diff($birthDate)->y;
-                $user->age = $age;
-            }
-        });
-    }
+    //     static::saving(function ($user) {
+    //         if ($user->birthday) {
+    //             $birthDate = new \DateTime($user->birthday);
+    //             $today = new \DateTime();
+    //             $age = $today->diff($birthDate)->y;
+    //             $user->age = $age;
+    //         }
+    //     });
+    // }
 
     public function points()
     {
@@ -59,27 +60,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'birthday' => 'date',
     ];
 
-    // public function getAgeAttribute()
-    // {
-    //     return now()->diffInYears($this->birthday);
-    // }
-
-    // protected $dates = ['birthday'];
-
-    // public function setBirthdayAttribute($value)
-    // {
-    //     $this->attributes['birthday'] = $value;
-    //     // $this->attributes['age'] = Carbon::parse($value)->age;
-    // }
 }

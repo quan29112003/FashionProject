@@ -94,8 +94,18 @@ Route::get('/checkout', function () {
     return view('client.layouts.checkout');
 })->name('checkout');
 // nghi
-Route::get('/admin', [Controller::class, 'dasboard']);
 
+Route::get('/admin', [Controller::class, 'dashboard']);
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [Controller::class, 'index'])->name('dashboard');
+
+    Route::get('show-product', [ProductController::class, 'index'])->name('product');
+    Route::get('create-product', [ProductController::class, 'create'])->name('store-product');
+    Route::post('create-product', [ProductController::class, 'store'])->name('handleStore-product');
+    Route::get('edit-product/{id}', [ProductController::class, 'edit'])->name('edit-product');
+    Route::put('edit-product/{id}', [ProductController::class, 'handleEdit'])->name('handleEdit-product');
+});
 
 Route::prefix('admin')->group(function () {
     Route::get('show-product', [ProductController::class, 'index'])->name('product');

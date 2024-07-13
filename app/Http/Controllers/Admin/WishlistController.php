@@ -17,9 +17,10 @@ class WishlistController extends Controller
     // }
     public function index()
     {
-        $wishlists = Wishlist::where('userID', Auth::id())
+        $wishlists = Wishlist::where('user_id', Auth::id())
         ->with(['product.variants.color', 'product.variants.size', 'product.images'])
         ->get();
+        // dd($wishlists);
         return view('client.layouts.wishlist', compact('wishlists'));
     }
 
@@ -42,10 +43,10 @@ class WishlistController extends Controller
     public function add(Request $request, $productId)
     {
         $wishlist = new Wishlist();
-        $wishlist->userID = Auth::id();
-        $wishlist->productID = $productId;
+        $wishlist->user_id = Auth::id();
+        $wishlist->product_id = $productId;
         $wishlist->save();
-        
+
         return redirect()->back()->with('success', 'Product added to wishlist');
     }
 

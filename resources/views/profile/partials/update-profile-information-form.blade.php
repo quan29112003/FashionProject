@@ -29,8 +29,8 @@
             {{-- number phone --}}
             <div class="col-6 my-2">
                 <x-input-label for="number_phone" :value="__('Number phone')" />
-                <x-text-input id="number_phone" name="number_phone" type="text" class="mt-1 block w-full" :value="old('number_phone', $user->number_phone)"
-                    autofocus autocomplete="number_phone" />
+                <x-text-input id="number_phone" name="number_phone" type="text" class="mt-1 block w-full"
+                    :value="old('number_phone', $user->number_phone)" autofocus autocomplete="number_phone" />
                 <x-input-error class="mt-2" :messages="$errors->get('number_phone')" />
             </div>
 
@@ -38,7 +38,7 @@
             <div class="col-3 my-2">
                 <x-input-label for="birthday" :value="__('Birthday')" />
                 <x-text-input id="birthday" name="birthday" type="text" class="mt-1 block w-full flatpickr"
-                    :value="old('birthday', optional($user->birthday)->format('Y-m-d'))" autocomplete="birthday" />
+                    value="{{ old('birthday', $user->birthday) }}" autocomplete="birthday" />
                 <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
             </div>
             {{-- @dump($user->birthday) --}}
@@ -96,8 +96,7 @@
                     <div class="col-3 my-2">
                         <x-input-label for="specific_address" :value="__('specific_address')" />
                         <x-text-input id="specific_address" name="specific_address" type="text"
-                            class="mt-1 block w-full" :value="$specific_addressName" autofocus
-                            autocomplete="specific_address" />
+                            class="mt-1 block w-full" :value="$specific_addressName" autofocus autocomplete="specific_address" />
                         <x-input-error class="mt-2" :messages="$errors->get('specific_address')" />
                     </div>
 
@@ -153,12 +152,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Khởi tạo Flatpickr
-        flatpickr('.flatpickr', {
-            dateFormat: 'Y-m-d',
-            maxDate: 'today',
-            onChange: function(selectedDates, dateStr, instance) {
-                calculateAge();
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr('.flatpickr', {
+                dateFormat: 'Y-m-d',
+                maxDate: 'today',
+                onChange: function(selectedDates, dateStr, instance) {
+                    calculateAge();
+                }
+            });
         });
 
         // Hàm tính toán tuổi
@@ -210,13 +211,23 @@
 
             // Gọi hàm showEditForm() khi cần thiết
             // Ví dụ: bạn có thể gắn nó vào một sự kiện onclick của một nút
-            document.getElementById('editButton').addEventListener('click', showEditForm);
+            // document.getElementById('editButton').addEventListener('click', showEditForm);
         });
 
+        const provinceId = @json($provinceId);
+        const districtId = @json($districtId);
+        const wardId = @json($wardId);
+        const apiUrls = {
+            districts: '/api/districts/',
+            wards: '/api/wards/'
+        };
+
         $(document).ready(function() {
-            const provinceSelect = $('#province');
-            const districtSelect = $('#district');
-            const wardSelect = $('#ward');
+            const selects = {
+                province: $('#province'),
+                district: $('#district'),
+                ward: $('#ward')
+            };
             const defaultOption = '<option value="">Select</option>';
             const apiUrls = {
                 districts: '/api/districts/',
@@ -224,48 +235,36 @@
             };
 
             // Function to fetch data from API
-            async function fetchData(url) {
+            const fetchData = async (url) => {
                 const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok.');
-                }
-                return await response.json();
-            }
+                if (!response.ok) throw new Error('Network response was not ok.');
+                return response.json();
+            };
 
             // Function to populate select element
-            function populateSelect(select, data, selectedId) {
-                select.empty().append(defaultOption);
-                data.forEach(item => {
-                    select.append(
-                        `<option value="${item.code}" ${item.code == selectedId ? 'selected' : ''}>${item.name}</option>`
-                    );
-                });
-                select.prop('disabled', false);
-            }
+            const populateSelect = (select, data, selectedId) => {
+                select.empty().append(defaultOption).prop('disabled', data.length === 0);
+                data.forEach(item => select.append(
+                    `<option value="${item.code}" ${item.code == selectedId ? 'selected' : ''}>${item.name}</option>`
+                ));
+            };
 
-            // Event listener for province select change
-            provinceSelect.on('change', async function() {
-                const provinceId = $(this).val();
-                if (provinceId) {
-                    const districts = await fetchData(apiUrls.districts + provinceId);
-                    populateSelect(districtSelect, districts, '{{ $districtId }}');
-                    wardSelect.empty().append(defaultOption).prop('disabled', true);
+            // Function to handle select change
+            const handleChange = async (select, apiUrl, targetSelect, targetSelectedId) => {
+                const id = select.val();
+                if (id) {
+                    const data = await fetchData(apiUrl + id);
+                    populateSelect(targetSelect, data, targetSelectedId);
                 } else {
-                    districtSelect.empty().append(defaultOption).prop('disabled', true);
-                    wardSelect.empty().append(defaultOption).prop('disabled', true);
+                    targetSelect.empty().append(defaultOption).prop('disabled', true);
                 }
-            });
+            };
 
-            // Event listener for district select change
-            districtSelect.on('change', async function() {
-                const districtId = $(this).val();
-                if (districtId) {
-                    const wards = await fetchData(apiUrls.wards + districtId);
-                    populateSelect(wardSelect, wards, '{{ $wardId }}');
-                } else {
-                    wardSelect.empty().append(defaultOption).prop('disabled', true);
-                }
-            });
+            // Event listeners for select changes
+            selects.province.on('change', () => handleChange(selects.province, apiUrls.districts, selects.district,
+                districtId));
+            selects.district.on('change', () => handleChange(selects.district, apiUrls.wards, selects.ward,
+                wardId));
 
             // Initialize selects with default values
             (async function() {
@@ -276,12 +275,12 @@
 
                     if (provinceId) {
                         const districts = await fetchData(apiUrls.districts + provinceId);
-                        populateSelect(districtSelect, districts, districtId);
+                        populateSelect(selects.district, districts, districtId);
                     }
 
                     if (districtId) {
                         const wards = await fetchData(apiUrls.wards + districtId);
-                        populateSelect(wardSelect, wards, wardId);
+                        populateSelect(selects.ward, wards, wardId);
                     }
                 } catch (error) {
                     console.error('Error initializing selects:', error);

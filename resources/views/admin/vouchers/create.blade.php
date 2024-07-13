@@ -56,7 +56,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="discount_value" class="form-label">Discount Value</label>
-                                        <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" required>
+                                        <input type="number" step="0.01" class="form-control" name="discount_value"
+                                            id="discount_value" required>
                                         @error('discount_value')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -65,7 +66,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="expiry_date" class="form-label">Expiry Date</label>
-                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" required>
+                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date"
+                                            required>
                                         @error('expiry_date')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -74,7 +76,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="min_purchase_amount" class="form-label">Min Purchase Amount</label>
-                                        <input type="number" step="0.01" class="form-control" name="min_purchase_amount" id="min_purchase_amount">
+                                        <input type="number" step="0.01" class="form-control" name="min_purchase_amount"
+                                            id="min_purchase_amount">
                                         @error('min_purchase_amount')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -84,7 +87,7 @@
                                     <div>
                                         <label for="category_id" class="form-label">Category</label>
                                         <select class="form-select" name="category_id">
-                                            @foreach($categories as $category)
+                                            @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
@@ -96,7 +99,12 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="applicable_products" class="form-label">Applicable Products</label>
-                                        <input type="text" class="form-control" name="applicable_products" id="applicable_products">
+                                        <select class="form-select select2" name="applicable_products[]"
+                                            id="applicable_products" multiple>
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->id }}">{{ $product->name_product }}</option>
+                                            @endforeach
+                                        </select>
                                         @error('applicable_products')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -114,7 +122,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="distribution_channels" class="form-label">Distribution Channels</label>
-                                        <input type="text" class="form-control" name="distribution_channels" id="distribution_channels">
+                                        <input type="text" class="form-control" name="distribution_channels"
+                                            id="distribution_channels">
                                         @error('distribution_channels')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -140,4 +149,25 @@
         </div>
 
     </form>
+    <<script>
+        document.getElementById('category_id').addEventListener('change', function() {
+            var categoryId = this.value;
+            fetch('/products/' + categoryId)
+                .then(response => response.json())
+                .then(data => {
+                    var applicableProductsSelect = $('#applicable_products');
+                    applicableProductsSelect.empty();
+                    data.forEach(product => {
+                        var option = new Option(product.name_product, product.id, false, false);
+                        applicableProductsSelect.append(option);
+                    });
+                    applicableProductsSelect.trigger('change');
+                });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 @endsection

@@ -16,6 +16,7 @@ class Comment extends Model
         'comment',
         'createAt',
         'rating',
+        'visible',
     ];
 
     public function product()

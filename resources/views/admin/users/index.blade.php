@@ -44,7 +44,7 @@
                                 <th>Address</th>
                                 <th>Password</th>
                                 <th>Role</th>
-                                <th>Type</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -57,19 +57,30 @@
                                     <td>{{ $user->age }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->address }}</td>
-                                    <td>{{ $user->password }}</td>
-                                    <td>{{ $user->role }}</td>
-                                    <td>{{ $user->type }}</td>
+                                    <td> ******* </td>
+                                    <td>{{ $user->role_description }}</td>
+                                    <td>{{ $user->status }}</td>
                                     <td>
-                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                            class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                            style="display:inline;"
-                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa User này không?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                        @if ($user->status === 'Đang hoạt động')
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                            <form action="{{ route('admin.users.toggleLock', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('POST')
+                                                <button type="submit" class="btn btn-info">Khóa</button>
+                                            </form>
+                                        @elseif ($user->status === 'Khóa tạm thời')
+                                            <form action="{{ route('admin.users.toggleLock', $user->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('POST')
+                                                <button type="submit" class="btn btn-primary">Mở khóa</button>
+                                            </form>
+                                            <form action="{{ route('admin.users.permanentLock', $user->id) }}" method="POST" style="display:inline;"
+                                                onsubmit="return confirm('Bạn có chắc chắn muốn khóa vĩnh viễn User này không ?');">
+                                                @csrf
+                                                @method('POST')
+                                                <button type="submit" class="btn btn-danger">Khóa vĩnh viễn</button> 
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

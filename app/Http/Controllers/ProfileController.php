@@ -20,6 +20,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = $request->user();
+        // dd($user);
 
         $addressParts = explode(', ', $user->address);
 
@@ -63,10 +64,6 @@ class ProfileController extends Controller
         $today = new \DateTime();
         $age = $today->diff($birthday)->y;
 
-        if ($age < 3) {
-            return redirect()->back()->withErrors(['age' => 'You must be at least 3 years old to make a purchase.'])->withInput();
-        }
-
         $provinceId = $request->input('province');
         $districtId = $request->input('district');
         $wardId = $request->input('ward');
@@ -80,6 +77,7 @@ class ProfileController extends Controller
 
         $updateData = [
             'name_user' => $request->input('name_user'),
+            'number_phone' => $request->input('number_phone'),
             'email' => $request->input('email'),
             'birthday' => $birthday->format('Y-m-d'),
             'address' => $address,

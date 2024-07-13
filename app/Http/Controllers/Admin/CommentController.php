@@ -13,14 +13,26 @@ class CommentController extends Controller
 {
     public function index()
     {
-        $comments = Comment::with('user', 'product')->get();
+        $comments = Comment::with('user', 'product')
+            ->whereHas('user', function ($query) {
+                $query->whereIn('role', [0, 1]);
+            })
+            ->get();
+
         return view('admin.comments.index', compact('comments'));
     }
+    public function toggleVisibility($id)
+    {
+        $comment = Comment::find($id);
+        $comment->visible = !$comment->visible;
+        $comment->save();
 
+        return redirect()->route('admin.comments.index');
+    }
     public function create()
     {
         $products = Product::all();
-        $users = User::all();
+        $users = User::whereIn('role', [0, 1])->where('status', 'Đang hoạt động')->get();
         return view('admin.comments.create', compact('products', 'users'));
     }
 
@@ -30,48 +42,15 @@ class CommentController extends Controller
             'productID' => 'required|exists:products,id',
             'userID' => 'required|exists:users,id',
             'comment' => 'required|string',
-            'createAt' => 'required|date',
-            'rating' => 'required|integer',
+            'rating' => 'required|integer|between:1,10',
         ]);
+        $user = User::find($request->userID);
+
+        if ($user->status !== 'Đang hoạt động') {
+            return redirect()->route('admin.comments.create');
+        }
 
         Comment::create($request->all());
         return redirect()->route('admin.comments.index');
     }
-
-    public function edit($id)
-    {
-        $comment = Comment::find($id);
-        $products = Product::all();
-        $users = User::all();
-        return view('admin.comments.edit', compact('comment', 'products', 'users'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'productID' => 'required|exists:products,id',
-            'userID' => 'required|exists:users,id',
-            'comment' => 'required|string',
-            'createAt' => 'required|date',
-            'rating' => 'required|integer',
-        ]);
-
-        $comment = Comment::find($id);
-        $comment->update($request->all());
-        return redirect()->route('admin.comments.index');
-    }
-
-    public function destroy($id)
-    {
-        $comment = Comment::find($id);
-        $comment->delete();
-        return redirect()->route('admin.comments.index');
-    }
 }
-
-
-
-
-
-
-

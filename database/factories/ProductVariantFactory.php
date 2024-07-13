@@ -33,7 +33,6 @@ class ProductVariantFactory extends Factory
             'price_sale' => $this->faker->randomFloat(2, 5, 150),
             'SKU' => $this->faker->unique()->regexify('[A-Z0-9]{8}'),
             'is_active' => $this->faker->boolean(80), // 80% cơ hội là true
-            'type' => $this->faker->word,
         ];
     }
 }

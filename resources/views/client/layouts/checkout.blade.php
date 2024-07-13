@@ -111,11 +111,16 @@
                         </div>
                         <input type="hidden" name="total_amount" value="{{ $total }}">
 
-                        <div class="checkout__form__input">
+                        <div class="checkout__form__input1">
                             <p>Payment Method <span>*</span></p>
-                            <input type="radio" name="payment_method" value="cod" checked> Cash on Delivery
-                            <input type="radio" name="payment_method" value="vnpay"> VNPAY
-                        </div>
+                            <label>
+                                <input type="radio" name="payment_method" value="cod" checked> Cash on Delivery
+                            </label>
+                            <label>
+                                <input type="radio" name="payment_method" value="vnpay"> VNPAY
+                            </label>
+                        </div>                        
+                        
 
                         <button type="submit" class="site-btn">Place order</button>
                     </div>
@@ -189,3 +194,21 @@
 
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
+
+<style>
+.checkout__form__input1 {
+    display: flex;
+    align-items: center;
+}
+
+.checkout__form__input1 p {
+    margin-right: 10px; /* Adjust spacing as needed */
+}
+
+.checkout__form__input1 label {
+    margin-right: 20px; /* Adjust spacing between radio buttons as needed */
+    display: flex;
+    align-items: center;
+}
+
+</style>

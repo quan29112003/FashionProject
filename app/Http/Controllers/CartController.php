@@ -44,6 +44,8 @@ class CartController extends Controller
                 'quantity' => $quantity,
                 'price' => $variant->price,
                 'name' => $product->name_product,
+                'color_code' => $variant->color->color_code ?? null,
+                'size' => $variant->size->size ?? null,
                 'image' => $product->images->first()->url ?? null,
             ];
         }

@@ -41,6 +41,8 @@
                             <thead>
                                 <tr>
                                     <th>Product</th>
+                                    <th>Size</th>
+                                    <th>Color</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
                                     <th>Total</th>
@@ -58,6 +60,8 @@
                                                 <h6>{{ $item['name'] }}</h6>
                                             </div>
                                         </td>
+                                        <td>{{ $item['size'] }}</td>
+                                        <td><span class="swatch-option color" style="background-color: {{$item['color_code']}}"></span></td>
                                         <td class="cart__price">{{ $item['price'] }}₫</td>
                                         <td class="cart__quantity">
                                             <div class="input-group quantity">

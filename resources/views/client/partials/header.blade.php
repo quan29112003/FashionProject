@@ -36,6 +36,33 @@
         .custom-radio input[type="radio"] {
             margin-right: 10px;
         }
+        .swatch-attribute-options {
+            flex-wrap: wrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swatch-option {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            display: inline-block;
+            border-radius: 100%;
+            margin-right: 8px;
+            margin-bottom: 10px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border: 1px solid #e6e7e8;
+            padding: 2px;
+            background-clip: content-box !important;
+            cursor: pointer;
+        }
+
+        .swatch-option.selected {
+            border-color: #333f48;
+        }
     </style>
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">

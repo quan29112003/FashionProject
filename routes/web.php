@@ -54,6 +54,8 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
+Route::post("get-size",[ProductVariantController::class,"getSize"])->name('getSizeProduct');
+
 //profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('share.provinces');

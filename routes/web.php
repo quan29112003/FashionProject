@@ -33,6 +33,7 @@ use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoadContentController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OrderControllerCli;
 use App\Http\Middleware\ShareProvinces;
 
 // Route trang chủ không yêu cầu đăng nhập
@@ -76,8 +77,21 @@ Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistri
 Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
 
 
-// Route::get('/search', [SearchController::class, 'search'])->name('product.search');
 Route::get('/search', [SearchController::class, 'search'])->name('product.search');
+
+
+Route::get('/order-history', function () {
+    return view('client.layouts.order-history');
+})->name('order.history');
+
+Route::get('/order-detail', function () {
+    return view('client.layouts.order-detail');
+})->name('order.detail');
+
+Route::get('/order-detail2', function () {
+    return view('client.layouts.order-detail2');
+})->name('order.detail2');
+
 
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);

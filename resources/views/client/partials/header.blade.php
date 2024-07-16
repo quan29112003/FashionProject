@@ -18,6 +18,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Css Styles -->
     <style>
@@ -36,6 +37,7 @@
         .custom-radio input[type="radio"] {
             margin-right: 10px;
         }
+
         .swatch-attribute-options {
             flex-wrap: wrap;
             display: flex;
@@ -80,7 +82,10 @@
     <!-- JS của Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </head>
 
 <body>
@@ -188,6 +193,12 @@
                     <div class="header__right">
                         <ul class="nav justify-content-end">
                             @auth
+
+                                <li class="nav-item">
+                                    <a href="{{ route('order.history') }}" class="nav-link text-dark fs-5">
+                                        <i class="bi bi-receipt-cutoff"></i>
+                                    </a>
+                                </li>
                                 {{-- edit profile --}}
                                 <li class="nav-item">
                                     <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
@@ -207,7 +218,7 @@
                                 {{-- login --}}
 
                                 <li class="nav-item">
-                                    <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class="nav-link text-dark fs-5"
+                                    <a href="{{--  javascript:void(0); --}}{{ url('login') }}" class="nav-link text-dark fs-5"
                                         onclick="showLoginModal()">
                                         <i class="bi bi-person-badge"></i>
                                     </a>

@@ -17,7 +17,7 @@ class WishlistController extends Controller
     // }
     public function index()
     {
-        $wishlists = Wishlist::where('userID', Auth::id())
+        $wishlists = Wishlist::where('user_id', Auth::id())
         ->with(['product.variants.color', 'product.variants.size', 'product.images'])
         ->get();
         return view('client.layouts.wishlist', compact('wishlists'));

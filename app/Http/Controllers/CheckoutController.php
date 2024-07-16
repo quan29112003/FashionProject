@@ -161,50 +161,51 @@ class CheckoutController extends Controller
 
     // Phương thức tạo đơn hàng
     private function createOrder($request, $paymentMethod, $totalAmount = null)
-    {
-        DB::beginTransaction();
-        try {
-            $order = Order::create([
-                'user_id' => 1,
-                'status' => 'pending',
-                'payment' => $paymentMethod,
-                'total_amount' => $totalAmount ?? $request->total_amount,
-                'voucher_id' => session()->get('voucher_id'),
-                'add_points' => session()->get('add_points', 0),
-                'first_name' => session()->pull('checkout_first_name'),
-                'last_name' => session()->pull('checkout_last_name'),
-                'country' => session()->pull('checkout_country'),
-                'address' => session()->pull('checkout_address'),
-                'address2' => session()->pull('checkout_address2'),
-                'city' => session()->pull('checkout_city'),
-                'state' => session()->pull('checkout_state'),
-                'postcode' => session()->pull('checkout_postcode'),
-                'phone' => session()->pull('checkout_phone'),
-                'email' => session()->pull('checkout_email'),
-                'note' => session()->pull('checkout_note'),
+{
+    DB::beginTransaction();
+    try {
+        $order = Order::create([
+            'user_id' => 1,
+            'status' => 'pending',
+            'payment' => $paymentMethod,
+            'total_amount' => $totalAmount ?? $request->total_amount,
+            'voucher_id' => session()->get('voucher_id'),
+            'add_points' => session()->get('add_points', 0),
+            'first_name' => session()->pull('checkout_first_name'),
+            'last_name' => session()->pull('checkout_last_name'),
+            'country' => session()->pull('checkout_country'),
+            'address' => session()->pull('checkout_address'),
+            'address2' => session()->pull('checkout_address2'),
+            'city' => session()->pull('checkout_city'),
+            'state' => session()->pull('checkout_state'),
+            'postcode' => session()->pull('checkout_postcode'),
+            'phone' => session()->pull('checkout_phone'),
+            'email' => session()->pull('checkout_email'),
+            'note' => session()->pull('checkout_note'),
+        ]);
+
+        foreach (session('cart', []) as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['product_id'],
+                'variant_id' => $item['variant_id'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
             ]);
-
-            foreach (session('cart', []) as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
-                    'variant_id' => $item['variant_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                ]);
-            }
-
-            session()->forget('cart');
-            DB::commit();
-
-            Log::info('Order created successfully: ', ['order_id' => $order->id]);
-
-            return redirect('/')->with('success', 'Đặt hàng thành công!');
-        } catch (\Exception $e) {
-            DB::rollback();
-            Log::error('Error creating order: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
         }
+
+        session()->forget('cart');
+        DB::commit();
+
+        Log::info('Order created successfully: ', ['order_id' => $order->id]);
+
+        return redirect()->back()->with('success', 'Đặt hàng thành công!');
+    } catch (\Exception $e) {
+        DB::rollback();
+        Log::error('Error creating order: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
     }
+}
+
 }
 //note

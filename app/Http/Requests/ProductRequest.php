@@ -27,7 +27,7 @@ class ProductRequest extends FormRequest
             // 'productVariant.*.quantity' => 'required|integer|min:0',
             // 'productVariant.*.price' => 'required|numeric|min:0',
             // 'productVariant.*.price_sale' => 'nullable|numeric|min:0',
-            // 'productVariant.*.SKU' => 'required|string|max:255|unique:product_variants,SKU',
+            'productVariant.SKU' => '|unique:product_variants,SKU',
             'product_images' => 'nullable|array',
             'product_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];

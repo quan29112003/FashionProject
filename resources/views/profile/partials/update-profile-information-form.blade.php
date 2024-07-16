@@ -17,22 +17,31 @@
         @csrf
         @method('patch')
 
-        {{-- user name --}}
         <div class="row">
+            {{-- user name --}}
             <div class="col-6 my-2">
                 <x-input-label for="name_user" :value="__('Name')" />
                 <x-text-input id="name_user" name="name_user" type="text" class="mt-1 block w-full" :value="old('name_user', $user->name_user)"
-                    required autofocus autocomplete="name_user" />
+                    autofocus autocomplete="name_user" />
                 <x-input-error class="mt-2" :messages="$errors->get('name_user')" />
+            </div>
+
+            {{-- number phone --}}
+            <div class="col-6 my-2">
+                <x-input-label for="number_phone" :value="__('Number phone')" />
+                <x-text-input id="number_phone" name="number_phone" type="text" class="mt-1 block w-full"
+                    :value="old('number_phone', $user->number_phone)" autofocus autocomplete="number_phone" />
+                <x-input-error class="mt-2" :messages="$errors->get('number_phone')" />
             </div>
 
             {{-- birthday --}}
             <div class="col-3 my-2">
                 <x-input-label for="birthday" :value="__('Birthday')" />
                 <x-text-input id="birthday" name="birthday" type="text" class="mt-1 block w-full flatpickr"
-                    :value="old('birthday', optional($user->birthday)->format('Y-m-d'))" autocomplete="birthday" />
+                    value="{{ old('birthday', $user->birthday) }}" autocomplete="birthday" />
                 <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
             </div>
+            {{-- @dump($user->birthday) --}}
 
             {{-- age --}}
             <div class="col-3 my-2">
@@ -46,7 +55,7 @@
             <div class="col-6 my-2">
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
-                    required autocomplete="username" />
+                    autocomplete="username" readonly />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
                 @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
@@ -70,11 +79,59 @@
             </div>
 
             {{-- address --}}
-            <div class="col-6 my-2">
-                <x-input-label for="address" :value="__('Address')" />
-                <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $user->address)"
-                    autocomplete="address" />
-                <x-input-error class="mt-2" :messages="$errors->get('address')" />
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 my-2" id="currentAddressSection" onclick="showEditForm()">
+                        <x-input-label for="address" :value="__('address')" />
+                        <textarea id="address" name="address"
+                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                            autocomplete="address" readonly>{{ old('address', $user->address) }}</textarea>
+                        <x-input-error class="mt-2" :messages="$errors->get('address')" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="editAddressSection" class="col-12">
+                <div class="row">
+                    <div class="col-3 my-2">
+                        <x-input-label for="specific_address" :value="__('specific_address')" />
+                        <x-text-input id="specific_address" name="specific_address" type="text"
+                            class="mt-1 block w-full" :value="$specific_addressName" autofocus autocomplete="specific_address" />
+                        <x-input-error class="mt-2" :messages="$errors->get('specific_address')" />
+                    </div>
+
+                    <div class="col-3 my-2">
+                        <x-input-label for="ward" :value="__('Ward')" />
+                        <select id="ward" name="ward"
+                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="">Select Ward</option>
+                        </select>
+                        <x-input-error class="mt-2" :messages="$errors->get('ward')" />
+                    </div>
+
+                    <div class="col-3 my-2">
+                        <x-input-label for="district" :value="__('District')" />
+                        <select id="district" name="district"
+                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="">Select District</option>
+                        </select>
+                        <x-input-error class="mt-2" :messages="$errors->get('district')" />
+                    </div>
+
+                    <div class="col-3 my-2">
+                        <x-input-label for="province" :value="__('Province')" />
+                        <select id="province" name="province"
+                            class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="">Select Province</option>
+                            @foreach ($provinces as $province)
+                                <option value="{{ $province->code }}"
+                                    {{ $province->code == $provinceId ? 'selected' : '' }}>
+                                    {{ $province->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error class="mt-2" :messages="$errors->get('province')" />
+                    </div>
+                </div>
             </div>
 
             <div class="flex items-center gap-4 col-3 my-2">
@@ -92,20 +149,23 @@
 
     {{-- tính tuổi khi chọn birthday --}}
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Khởi tạo Flatpickr
-        flatpickr('.flatpickr', {
-            dateFormat: 'Y-m-d',
-            maxDate: 'today',
-            onChange: function(selectedDates, dateStr, instance) {
-                calculateAge();
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr('.flatpickr', {
+                dateFormat: 'Y-m-d',
+                maxDate: 'today',
+                onChange: function(selectedDates, dateStr, instance) {
+                    calculateAge();
+                }
+            });
         });
 
         // Hàm tính toán tuổi
         function calculateAge() {
-            var birthday = document.getElementById('birthday').value;
-            var ageField = document.getElementById('age');
+            var birthday = $('#birthday').val();
+            var ageField = $('#age');
 
             if (birthday) {
                 var birthDate = new Date(birthday);
@@ -115,9 +175,119 @@
                 if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
-                ageField.value = age;
+                ageField.val(age);
             }
         }
+
+        // của phần địa chỉ
+        const currentAddressSection = document.getElementById('currentAddressSection');
+
+        const editAddressSection = document.getElementById('editAddressSection');
+
+        function showEditForm() {
+            // Ẩn phần địa chỉ hiện tại
+            currentAddressSection.style.display = 'none';
+            // Hiển thị phần form chỉnh sửa địa chỉ
+            editAddressSection.style.display = 'block';
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const userAddress = '{{ $user->address ?? '' }}';
+
+            // Kiểm tra giá trị của địa chỉ người dùng
+            if (userAddress) {
+                // Ẩn phần địa chỉ hiện tại
+                currentAddressSection.style.display = 'block';
+
+                // Hiển thị phần form chỉnh sửa địa chỉ
+                editAddressSection.style.display = 'none';
+
+            } else {
+                // Ẩn phần địa chỉ hiện tại
+                currentAddressSection.style.display = 'none';
+
+                // Hiển thị phần form chỉnh sửa địa chỉ
+                editAddressSection.style.display = 'block';
+            }
+
+            // Gọi hàm showEditForm() khi cần thiết
+            // Ví dụ: bạn có thể gắn nó vào một sự kiện onclick của một nút
+            // document.getElementById('editButton').addEventListener('click', showEditForm);
+        });
+
+        const provinceId = @json($provinceId);
+        const districtId = @json($districtId);
+        const wardId = @json($wardId);
+        const apiUrls = {
+            districts: '/api/districts/',
+            wards: '/api/wards/'
+        };
+
+        $(document).ready(function() {
+            const selects = {
+                province: $('#province'),
+                district: $('#district'),
+                ward: $('#ward')
+            };
+            const defaultOption = '<option value="">Select</option>';
+            const apiUrls = {
+                districts: '/api/districts/',
+                wards: '/api/wards/'
+            };
+
+            // Function to fetch data from API
+            const fetchData = async (url) => {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok.');
+                return response.json();
+            };
+
+            // Function to populate select element
+            const populateSelect = (select, data, selectedId) => {
+                select.empty().append(defaultOption).prop('disabled', data.length === 0);
+                data.forEach(item => select.append(
+                    `<option value="${item.code}" ${item.code == selectedId ? 'selected' : ''}>${item.name}</option>`
+                ));
+            };
+
+            // Function to handle select change
+            const handleChange = async (select, apiUrl, targetSelect, targetSelectedId) => {
+                const id = select.val();
+                if (id) {
+                    const data = await fetchData(apiUrl + id);
+                    populateSelect(targetSelect, data, targetSelectedId);
+                } else {
+                    targetSelect.empty().append(defaultOption).prop('disabled', true);
+                }
+            };
+
+            // Event listeners for select changes
+            selects.province.on('change', () => handleChange(selects.province, apiUrls.districts, selects.district,
+                districtId));
+            selects.district.on('change', () => handleChange(selects.district, apiUrls.wards, selects.ward,
+                wardId));
+
+            // Initialize selects with default values
+            (async function() {
+                try {
+                    const provinceId = '{{ $provinceId }}';
+                    const districtId = '{{ $districtId }}';
+                    const wardId = '{{ $wardId }}';
+
+                    if (provinceId) {
+                        const districts = await fetchData(apiUrls.districts + provinceId);
+                        populateSelect(selects.district, districts, districtId);
+                    }
+
+                    if (districtId) {
+                        const wards = await fetchData(apiUrls.wards + districtId);
+                        populateSelect(selects.ward, wards, wardId);
+                    }
+                } catch (error) {
+                    console.error('Error initializing selects:', error);
+                }
+            })();
+        });
     </script>
+
 
 </section>

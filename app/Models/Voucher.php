@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+ use Illuminate\Database\Eloquent\Factories\HasFactory;
+ use Illuminate\Database\Eloquent\Model;
 
 class Voucher extends Model
 {
@@ -23,6 +22,14 @@ class Voucher extends Model
         'remaining_count',
         'distribution_channels',
     ];
+    protected $casts = [
+        'applicable_products' => 'array',
+    ]; 
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'voucher_product', 'voucher_id', 'product_id');
+    }
 
     public function category()
     {

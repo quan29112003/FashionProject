@@ -52,8 +52,8 @@
                                     <div>
                                         <label for="name" class="form-label">Active</label>
                                         <select class="form-select rounded-pill mb-3" name="is_active" aria-label="Default select example">
-                                            <option value="0">Active</option>
-                                            <option value="1">In Active</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">In Active</option>
                                         </select>
                                     </div>
                                 </div>

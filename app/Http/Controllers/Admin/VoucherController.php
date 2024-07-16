@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Voucher;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 
@@ -12,17 +13,17 @@ use Illuminate\Http\Request;
 class VoucherController extends Controller
 {
     public function index()
-    {
-        $vouchers = Voucher::with('category')->get();
-        return view('admin.vouchers.index', compact('vouchers'));
-    }
-
+{
+    $vouchers = Voucher::with('category', 'products')->get();
+    return view('admin.vouchers.index', compact('vouchers'));
+}
+  
     public function create()
     {
         $categories = Category::all();
-        return view('admin.vouchers.create', compact('categories'));
+        $products = Product::all();
+        return view('admin.vouchers.create', compact('categories', 'products'));
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -33,23 +34,25 @@ class VoucherController extends Controller
             'min_purchase_amount' => 'nullable|numeric',
             'category_id' => 'nullable|exists:categories,id',
             'max_usage' => 'nullable|integer',
-            'used_count' => 'nullable|integer',
-            'applicable_products' => 'nullable|string',
-            'created_count' => 'nullable|integer',
-            'remaining_count' => 'nullable|integer',
+            'applicable_products' => 'required|array',
+            'applicable_products.*' => 'exists:products,id',
             'distribution_channels' => 'nullable|string',
         ]);
 
-        Voucher::create($request->all());
-        return redirect()->route('admin.vouchers.index');
+        $voucher = Voucher::create($request->all());
+        $voucher->products()->sync($request->applicable_products);
+        return redirect()->route('admin.vouchers.index')->with('success', 'Voucher created successfully.');
     }
 
     public function edit($id)
     {
-        $voucher = Voucher::find($id);
+        $voucher = Voucher::with('products')->findOrFail($id);
         $categories = Category::all();
-        return view('admin.vouchers.edit', compact('voucher', 'categories'));
+        $products = Product::all();
+
+        return view('admin.vouchers.edit', compact('voucher', 'categories', 'products'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -62,15 +65,17 @@ class VoucherController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'max_usage' => 'nullable|integer',
             'used_count' => 'nullable|integer',
-            'applicable_products' => 'nullable|string',
+            'applicable_products' => 'required|array',
+            'applicable_products.*' => 'exists:products,id',
             'created_count' => 'nullable|integer',
             'remaining_count' => 'nullable|integer',
             'distribution_channels' => 'nullable|string',
         ]);
 
-        $voucher = Voucher::find($id);
+        $voucher = Voucher::findOrFail($id);
         $voucher->update($request->all());
-        return redirect()->route('admin.vouchers.index');
+        $voucher->products()->sync($request->applicable_products);
+        return redirect()->route('admin.vouchers.index')->with('success', 'Voucher updated successfully.');
     }
 
     public function destroy($id)
@@ -79,18 +84,9 @@ class VoucherController extends Controller
         $voucher->delete();
         return redirect()->route('admin.vouchers.index');
     }
-
-    public function getByCategory($categoryID)
+    public function getProductsByCategory($categoryId)
     {
-        $vouchers = Voucher::where('category_id', $categoryID)->get();
-        return response()->json($vouchers);
+        $products = Product::where('category_id', $categoryId)->get();
+        return response()->json($products);
     }
 }
-
-
-
-
-
-
-
-

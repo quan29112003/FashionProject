@@ -1997,57 +1997,6 @@ ol {
 	margin-bottom: 65px;
 }
 
-.nav {
-	border-bottom: none;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	position: relative;
-	margin-bottom: 40px;
-}
-
-.nav::before {
-	position: absolute;
-	left: 0;
-	top: 13px;
-	height: 1px;
-	width: 335px;
-	background: #e1e1e1;
-	content: "";
-}
-
-.nav::after {
-	position: absolute;
-	right: 0;
-	top: 13px;
-	height: 1px;
-	width: 335px;
-	background: #e1e1e1;
-	content: "";
-}
-
-.nav-item {
-	margin-right: 46px;
-}
-
-.nav-item:last-child {
-	margin-right: 0;
-}
-
-.nav-item .nav-link {
-	font-size: 18px;
-	color: #666666;
-	font-weight: 600;
-	border: none;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	padding: 0;
-}
-
-.nav-item .nav-link.active {
-	color: #111111;
-}
-
 .tab-content .tab-pane h6 {
 	color: #666666;
 	font-weight: 600;
@@ -3151,7 +3100,7 @@ ol {
 	.header {
 		padding: 0 85px;
 	}
-	
+
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
@@ -3161,15 +3110,15 @@ ol {
 	.header {
 		padding: 0 30px;
 	}
-	
+
 }
 
 @media only screen and (min-width: 1200px) {
 	.container {
 		max-width: 1170px;
 	}
-	
-	
+
+
 }
 
 /* Medium Device = 1200px */
@@ -3183,12 +3132,6 @@ ol {
 	}
 	.sidebar__filter a {
 		padding: 5px 15px 5px 15px;
-	}
-	.nav::before {
-		width: 240px;
-	}
-	.nav::after {
-		width: 240px;
 	}
 	.gender_category {
 		right: 20%;
@@ -3225,12 +3168,6 @@ ol {
 	}
 	.product__details__pic {
 		margin-bottom: 50px;
-	}
-	.nav::before {
-		width: 125px;
-	}
-	.nav::after {
-		width: 125px;
 	}
 	.discount__content {
 		margin-bottom: 40px;
@@ -3596,12 +3533,6 @@ ol {
 		float: none;
 		margin-right: 0;
 	}
-	.nav::before {
-		display: none;
-	}
-	.nav::after {
-		display: none;
-	}
 	.shop__cart__table {
 		overflow-x: auto;
 	}
@@ -3666,9 +3597,6 @@ ol {
 	}
 	.product__details__button ul {
 		float: none;
-	}
-	.nav-item {
-		margin-right: 20px;
 	}
 	.blog__details__item__title {
 		margin-right: 30px;
@@ -3882,4 +3810,79 @@ ol {
 
 .color-label input[type="radio"]:checked + .checkmark + span {
 	background-color: #f0f0f0; /* Background color when selected */
+}
+
+/* Form tìm kiếm */
+.search-form {
+    position: relative; /* Vị trí tương đối */
+    display: flex; /* Sử dụng flexbox */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    width: 100%; /* Chiều rộng 100% của phần tử cha */
+    max-width: 300px; /* Giới hạn chiều rộng tối đa */
+    transition: max-width 0.5s ease; /* Hiệu ứng khi thay đổi max-width */
+}
+
+/* Form tìm kiếm khi mở rộng */
+.search-form.expanded {
+    max-width: 75%; /* Chiều rộng tối đa khi form mở rộng */
+}
+
+/* Input tìm kiếm */
+.search-input {
+    border: none; /* Không có viền */
+    outline: none; /* Không có đường viền khi focus */
+    background: transparent; /* Nền trong suốt */
+    padding: 5px 0; /* Khoảng đệm 5px dưới và trên */
+    font-size: 16px; /* Cỡ chữ 16px */
+    color: #000; /* Màu chữ đen */
+    transition: width 0.5s ease; /* Hiệu ứng khi thay đổi chiều rộng */
+    width: 100%; /* Chiều rộng 100% của phần tử cha */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+/* Placeholder của input tìm kiếm */
+.search-input::placeholder {
+    color: #000; /* Màu chữ đen */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+/* Nút tìm kiếm */
+.search-btn {
+    position: absolute; /* Vị trí tuyệt đối */
+    right: 50px; /* Cách mép phải 50px */
+    background: transparent; /* Nền trong suốt */
+    border: none; /* Không có viền */
+    color: #000; /* Màu chữ đen */
+    cursor: pointer; /* Con trỏ chuột là pointer */
+    transition: transform 0.5s ease, right 0.5s ease; /* Hiệu ứng khi hover */
+}
+
+/* Hiệu ứng khi focus hoặc hover vào nút tìm kiếm */
+.search-btn:focus,
+.search-btn:hover {
+    outline: none; /* Không hiển thị đường viền khi focus */
+}
+
+/* Gạch chân dưới */
+.underline {
+    position: absolute; /* Vị trí tuyệt đối */
+    bottom: 0; /* Nằm ở phía dưới */
+    left: 50%; /* Căn giữa theo chiều ngang */
+    transform: translateX(-50%); /* Dịch chuyển về trái 50% của chính nó */
+    height: 2px; /* Chiều cao là 2px */
+    background-color: #000; /* Màu nền đen */
+    width: 200px; /* Chiều rộng ban đầu là 200px */
+    transition: width 0.5s ease; /* Hiệu ứng khi thay đổi chiều rộng */
+}
+
+/* Hiệu ứng khi hover vào form tìm kiếm hoặc khi input được focus */
+.search-form:hover .underline,
+.search-input:focus ~ .underline {
+    width: 100%; /* Mở rộng chiều rộng của gạch chân */
+}
+
+/* Hiệu ứng khi hover vào form tìm kiếm hoặc khi input được focus */
+.search-form:hover .search-btn,
+.search-input:focus ~ .search-btn {
+    right: 0; /* Dịch chuyển nút tìm kiếm về phía phải */
 }

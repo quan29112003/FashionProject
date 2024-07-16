@@ -23,7 +23,6 @@
     <link href="{{ asset('theme/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"/>
     <!-- custom Css-->
     <link href="{{ asset('theme/admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css"/>
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 
     @yield('styles')
 
@@ -88,7 +87,7 @@
 <script src="{{ asset('theme/admin/assets/libs/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('theme/admin/assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ asset('theme/admin/assets/js/plugins.js') }}"></script>
-
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 @yield('script-libs')
 
 <!-- App js -->

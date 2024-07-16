@@ -1,9 +1,6 @@
 @include('client.partials.header')
 <!-- Header Section End -->
 
-
-
-
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -26,18 +23,20 @@
             <!-- Sidebar Begin -->
             <div class="col-lg-3 col-md-3">
                 <div class="shop__sidebar">
+
                     <!-- Categories Section -->
                     <div class="sidebar__categories">
                         <div class="section-title">
                             <h4>Categories</h4>
                         </div>
+
                         <div class="categories__accordion">
                             <div class="accordion" id="accordionExample">
+
                                 @foreach ($categories as $category)
                                     <div class="card">
                                         <div class="card-heading">
-                                            <a href="#category-{{ $category->id }}" data-toggle="collapse"
-                                                data-target="#category-{{ $category->id }}">
+                                            <a href="#category-{{ $category->id }}" data-toggle="collapse" data-target="#category-{{ $category->id }}">
                                                 {{ $category->name }}
                                             </a>
                                         </div>
@@ -53,17 +52,19 @@
                                         </div> --}}
                                     </div>
                                 @endforeach
+
                             </div>
                         </div>
                     </div>
+
                     <!-- Price Filter Section -->
                     <div class="sidebar__filter">
                         <div class="section-title">
                             <h4>Shop by price</h4>
                         </div>
+
                         <div class="filter-range-wrap">
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                id="slider-range"></div>
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" id="slider-range"></div>
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
@@ -72,14 +73,17 @@
                                 </div>
                             </div>
                         </div>
+
                         <button id="filter-btn" class="site-btn">Filter</button>
                     </div>
+
                     <!-- Size Filter Section -->
                     <div class="sidebar__sizes">
                         <div class="section-title">
                             <h4>Shop by size</h4>
                         </div>
                         <div class="size__list">
+
                             @foreach ($sizes as $size)
                                 <label for="size-{{ $size->id }}">
                                     {{ $size->size }}
@@ -88,8 +92,10 @@
                                     <span class="checkmark"></span>
                                 </label>
                             @endforeach
+
                         </div>
                     </div>
+
 
                     <!-- Color Filter Section -->
                     <div class="sidebar__color">
@@ -97,6 +103,7 @@
                             <h4>Shop by color</h4>
                         </div>
                         <div class="size__list color__list">
+
                             @foreach ($colors as $color)
                                 <label for="color-{{ $color->id }}">
                                     {{ $color->color }}
@@ -105,6 +112,7 @@
                                     <span class="checkmark"></span>
                                 </label>
                             @endforeach
+
                         </div>
                     </div>
 
@@ -128,23 +136,22 @@
                     @php
                         $productCount = 0;
                     @endphp
+
                     @foreach ($products as $product)
                         @foreach ($product->variants as $variant)
                             <div class="col-lg-4 col-md-6 product-item @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg"
-                                        data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
                                         <ul class="product__hover">
-                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                    class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
                                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>
+
                                     </div>
+
                                     <div class="product__item__text">
-                                        <h6><a
-                                                href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
-                                        </h6>
+                                        <h6><a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a></h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -152,9 +159,9 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">${{ $variant->price ?? 'Price not available' }}
-                                        </div>
+                                        <div class="product__price">${{ $variant->price ?? 'Price not available' }}</div>
                                     </div>
+
                                 </div>
                             </div>
                             @php

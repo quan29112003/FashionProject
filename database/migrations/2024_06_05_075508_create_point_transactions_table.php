@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->integer('points');
-            $table->text('description')->unique();
+            $table->string('description', 255)->unique();
             $table->integer('transaction_type');
             $table->timestamps();
 

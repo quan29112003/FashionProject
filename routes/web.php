@@ -19,7 +19,6 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\CatalogueController;
 use App\Http\Controllers\Admin\OrderController;
 
-
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VoucherController;
@@ -28,10 +27,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\ProductVariant;
 use App\Http\Controllers\Controller;
 use App\Models\ProductImage;
-
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\LoadContentController;
+use App\Http\Controllers\LocationController;
+use App\Http\Middleware\ShareProvinces;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
@@ -51,9 +53,12 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
     ->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
+
+Route::post("get-size",[ProductVariantController::class,"getSize"])->name('getSizeProduct');
+
 //profile
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('share.provinces');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -67,6 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
 });
 
+Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
+Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
 
 
 // Route::get('/search', [SearchController::class, 'search'])->name('product.search');
@@ -93,8 +100,18 @@ Route::get('/checkout', function () {
     return view('client.layouts.checkout');
 })->name('checkout');
 // nghi
-Route::get('/admin', [Controller::class, 'dasboard']);
 
+Route::get('/admin', [Controller::class, 'dashboard']);
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [Controller::class, 'index'])->name('dashboard');
+
+    Route::get('show-product', [ProductController::class, 'index'])->name('product');
+    Route::get('create-product', [ProductController::class, 'create'])->name('store-product');
+    Route::post('create-product', [ProductController::class, 'store'])->name('handleStore-product');
+    Route::get('edit-product/{id}', [ProductController::class, 'edit'])->name('edit-product');
+    Route::put('edit-product/{id}', [ProductController::class, 'handleEdit'])->name('handleEdit-product');
+});
 
 Route::prefix('admin')->group(function () {
     Route::get('show-product', [ProductController::class, 'index'])->name('product');
@@ -107,9 +124,7 @@ Route::prefix('admin')->group(function () {
     Route::get('edit-product-variant/{id}', [ProductVariantController::class, 'edit'])->name('edit-productVariant');
     Route::put('edit-product-variant/{id}', [ProductVariantController::class, 'handleEdit'])->name('handleEdit-productVariant');
 
-    
     Route::post('/product/update-status', [ProductController::class, 'updateStatus'])->name('update-product-status');
-
 
     Route::get('show-category', [CategoryController::class, 'index'])->name('category');
     Route::get('create-category', [CategoryController::class, 'create'])->name('store-category');
@@ -148,7 +163,6 @@ Route::prefix('admin')->group(function () {
     Route::put('edit-image/{id}', [ImageController::class, 'handleEdit'])->name('handleEdit-image');
 });
 
-
 // viet
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
@@ -156,15 +170,26 @@ Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('chec
 Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
-
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('wishlists', WishlistController::class);
     Route::resource('users', UserController::class);
+    Route::post('users/{user}/toggle-lock', 'App\Http\Controllers\Admin\UserController@toggleLock')->name('users.toggleLock');
+    Route::post('users/{user}/permanent-lock', 'App\Http\Controllers\Admin\UserController@permanentLock')->name('users.permanentLock');
     Route::resource('vouchers', VoucherController::class);
+    Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
     Route::resource('comments', CommentController::class);
-    // Route::resource('wishlists', WishlistController::class);
+    Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
+    Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
+    Route::resource('blogs', AdminBlogController::class);
     Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 });
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog-detail/{id}', [BlogController::class, 'show'])->name('blog-detail');
 
+
+Route::get('/load-content', [LoadContentController::class, 'loadContent'])->name('load-content');
 
 require __DIR__ . '/auth.php';

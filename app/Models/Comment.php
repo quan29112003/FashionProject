@@ -1,4 +1,5 @@
 <?php
+namespace App\Models;
 
 namespace App\Models;
 
@@ -15,6 +16,7 @@ class Comment extends Model
         'comment',
         'createAt',
         'rating',
+        'visible',
     ];
 
     public function product()

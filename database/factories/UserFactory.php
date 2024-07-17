@@ -34,7 +34,6 @@ class UserFactory extends Factory
             'address' => $this->faker->address,
             'password' => Hash::make('password'), // Đặt mật khẩu mặc định là 'password'
             'role' => 0, // Mặc định role là 0
-            'is_active' => 0, // Mặc định is_active là 0
             'created_at' => now(),
             'updated_at' => now(),
         ];

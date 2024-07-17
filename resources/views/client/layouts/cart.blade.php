@@ -66,15 +66,15 @@
                                         <td class="cart__quantity">
                                             <div class="input-group quantity">
                                                 <div class="input-group-prepend">
-                                                    <button style="border: 1px solid #ccc" type="button" class="btn btn-outline-secondary btn-number"
+                                                    <button style="border: none" type="button" class="btn btn-outline-secondary btn-number"
                                                         data-type="minus">-</button>
                                                 </div>
-                                                <input type="number" class="form-control input-number update-cart"
+                                                <input disabled style="border: none; background-color: #fff; text-align: center; width: 50px" type="number" class="form-control input-number update-cart"
                                                     name="quantity" data-product-id="{{ $item['product_id'] }}"
                                                     data-variant-id="{{ $item['variant_id'] }}"
                                                     value="{{ $item['quantity'] }}" min="1">
                                                 <div class="input-group-append">
-                                                    <button style="border: 1px solid #ccc" type="button" class="btn btn-outline-secondary btn-number"
+                                                    <button style="border: none" type="button" class="btn btn-outline-secondary btn-number"
                                                         data-type="plus">+</button>
                                                 </div>
                                             </div>

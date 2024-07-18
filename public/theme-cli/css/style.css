@@ -1442,6 +1442,7 @@ ol {
 
 .filter-range-wrap .range-slider .price-input {
 	position: relative;
+	display: inline-flex;
 }
 
 .filter-range-wrap .range-slider .price-input p {

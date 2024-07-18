@@ -234,18 +234,45 @@
         const productDetails = document.querySelector('.product__details__text');
         const productId = productDetails.dataset.productId;
 
+        function numberFormat(number, decimals, decPoint, thousandsSep) {
+            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+            const n = !isFinite(+number) ? 0 : +number;
+            const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals);
+            const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep;
+            const dec = (typeof decPoint === 'undefined') ? '.' : decPoint;
+            let s = '';
+
+            const toFixedFix = function(n, prec) {
+                const k = Math.pow(10, prec);
+                return '' + (Math.round(n * k) / k).toFixed(prec);
+            };
+
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+
         function updatePrice() {
             const selectedColor = document.querySelector('input[name="color__radio"]:checked');
             const selectedSize = document.querySelector('input[name="size__radio"]:checked');
 
             if (!selectedColor || !selectedSize) {
-                return; // Nếu chưa chọn đủ màu sắc và kích cỡ thì không làm gì cả
+                return; // If color and size are not selected, do nothing
             }
 
             const colorId = selectedColor.value;
             const sizeId = selectedSize.value;
 
-            // Gửi yêu cầu AJAX để lấy giá của biến thể sản phẩm
+            // Display loading indicator
+            productPrice.innerHTML = 'Loading...';
+
+            // Fetch the product variant price
             fetch(`/getProductPrice?product_id=${productId}&color=${colorId}&size=${sizeId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -254,7 +281,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    productPrice.innerHTML = `$${data.price} <span>$${data.price_sale}</span>`;
+                    const formattedPrice = numberFormat(data.price, 0, ',', '.') + '₫';
+                    const formattedPriceSale = data.price_sale ? numberFormat(data.price_sale, 0, ',',
+                        '.') + '₫' : '';
+                    productPrice.innerHTML = `${formattedPrice} <span>${formattedPriceSale}</span>`;
                 })
                 .catch(error => {
                     console.error('Error fetching price:', error);
@@ -270,7 +300,7 @@
             radio.addEventListener('change', updatePrice);
         });
 
-        // Cập nhật giá ban đầu khi tải trang
+        // Update price on initial load
         updatePrice();
     });
 </script>

@@ -68,8 +68,8 @@
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
-                                    $<input type="text" id="minamount">
-                                    $<input type="text" id="maxamount">
+                                    <input type="text" id="minamount">
+                                    <input type="text" id="maxamount">
                                 </div>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">${{ $variant->price ?? 'Price not available' }}</div>
+                                        <div class="product__price">{{ number_format($variant->price, 0, ',', '.') ?? 'Price not available' }}đ</div>
                                     </div>
 
                                 </div>
@@ -307,7 +307,7 @@
     $(function() {
         // Lấy giá trị min_price, max_price, colors và sizes từ các query parameter
         var minPrice = {{ request()->get('min_price', 0) }};
-        var maxPrice = {{ request()->get('max_price', 500) }};
+        var maxPrice = {{ request()->get('max_price', 10000000) }};
         var selectedColors = '{{ request()->get('colors', '') }}'.split(',');
         var selectedSizes = '{{ request()->get('sizes', '') }}'.split(',');
 
@@ -315,7 +315,7 @@
         $("#slider-range").slider({
             range: true,
             min: 0,
-            max: 500,
+            max: 10000000,
             values: [minPrice, maxPrice],
             slide: function(event, ui) {
                 $("#minamount").val(ui.values[0]);

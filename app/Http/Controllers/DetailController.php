@@ -44,6 +44,7 @@ class DetailController extends Controller
         $relatedProducts = Product::with('images')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $id)
+            ->has('variants')
             ->get()
             ->map(function ($relatedProduct) {
                 $variant = $relatedProduct->variants->first();

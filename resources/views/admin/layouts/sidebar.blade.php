@@ -42,12 +42,11 @@
                     </a>
                 </li> <!-- end Dashboard Menu -->
 
-
-
-
-
-
-
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('order') }}">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-dashboards">Orders</span>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
@@ -74,9 +73,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('category') }}" class="nav-link" data-key="t-horizontal">Category</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('order') }}" class="nav-link" data-key="t-horizontal">Order</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>

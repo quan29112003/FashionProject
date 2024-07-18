@@ -44,5 +44,14 @@ class OrderController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function checkNewOrder(Request $request)
+    {
+        // Kiểm tra xem có đơn hàng mới không (ví dụ: trạng thái đơn hàng mới)
+        $newOrderCount = Order::where('status_id', '=', 1)->count();
+
+        // Trả về kết quả dưới dạng JSON
+        return response()->json(['newOrderCount' => $newOrderCount]);
+    }
+
 
 }

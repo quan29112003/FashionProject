@@ -148,6 +148,8 @@ Route::prefix('admin')->group(function () {
     Route::get('order', [OrderController::class, 'index'])->name('order');
     Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
     Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
+    Route::get('/check-new-order', [OrderController::class, 'checkNewOrder'])->name('check-new-order'); //inform order
+
 
     Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');

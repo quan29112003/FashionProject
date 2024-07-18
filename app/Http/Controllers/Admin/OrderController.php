@@ -28,18 +28,7 @@ class OrderController extends Controller
     {
         $order_items = OrderItem::where('order_id', $id)->get();
 
-        $products = [];
-        $productVariants = [];
-
-        foreach ($order_items as $o) {
-            $product = Product::where('id', $o->product_id)->select('name_product')->first();
-            $products[$o->id] = $product;
-
-            $productVariant = ProductVariant::with(['color', 'size'])->where('id', $o->variant_id)->first();
-            $productVariants[$o->id] = $productVariant;
-        }
-
-        return view('admin.orders.item', compact('order_items', 'products', 'productVariants'));
+        return view('admin.orders.item', compact('order_items'));
     }
 
     public function update(Request $request,$id){

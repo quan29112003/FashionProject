@@ -169,13 +169,13 @@
         $('#editItemForm').attr('action', 'edit-order/' + id);
 
         // Disable select if status_id is 1
-        if (status == 4) {
+        if (status == 4 || status == 5 || status ==6) {
             $('#editOrderStatus').prop('disabled', true);
         } else {
             $('#editOrderStatus').prop('disabled', false);
         }
 
-        if (payment == 1) {
+        if (payment == 2) {
             $('#editOrderPayment').prop('disabled', true);
         } else {
             $('#editOrderPayment').prop('disabled', false);

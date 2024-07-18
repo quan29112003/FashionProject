@@ -37,7 +37,6 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>ID Product</th>
                             <th>Name Product</th>
                             <th>Size</th>
                             <th>Color</th>
@@ -52,10 +51,9 @@
 
                                 <tr>
                                     <<td>{{ $od->id }}</td>
-                                    <td>{{ $od->product_id }}</td>
-                                    <td>{{ $products[$od->id]->name_product }}</td>
-                                    <td>{{ $productVariants[$od->id]->size->size }}</td>
-                                    <td>{{ $productVariants[$od->id]->color->color }}</td>
+                                    <td>{{ $od->name_product }}</td>
+                                    <td>{{ $od->size}}</td>
+                                    <td>{{ $od->color }}</td>
                                     <td>{{ $od->quantity }}</td>
                                     <td>{{ $od->price }}</td>
                                     <td>{{ $od->created_at }}</td>

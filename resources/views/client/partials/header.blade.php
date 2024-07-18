@@ -102,7 +102,10 @@
             <li>
                 <form id="searchForm" action="{{ route('product.search') }}" method="GET">
                     <input type="text" name="keyword" placeholder="Search products..." required>
-                    <button type="submit"><span class="icon_search search-switch"></span></button>
+                    <button class="search-btn" type="submit">
+                        <!-- Icon tìm kiếm -->
+                        <i class="fa fa-search"></i>
+                    </button>
                 </form>
             </li>
             <li><a href="#"><span class="icon_heart_alt"></span>

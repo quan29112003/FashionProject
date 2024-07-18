@@ -99,7 +99,7 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
         <ul class="offcanvas__widget">
-            <li>
+            {{-- <li>
                 <form id="searchForm" action="{{ route('product.search') }}" method="GET">
                     <input type="text" name="keyword" placeholder="Search products..." required>
                     <button class="search-btn" type="submit">
@@ -107,7 +107,7 @@
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
-            </li>
+            </li> --}}
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>

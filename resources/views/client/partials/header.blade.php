@@ -98,6 +98,9 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
+        <div class="offcanvas__logo">
+            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+        </div>
         <ul class="offcanvas__widget">
             {{-- <li>
                 <form id="searchForm" action="{{ route('product.search') }}" method="GET">
@@ -114,13 +117,42 @@
             <li><a href="#"><span class="icon_bag_alt"></span>
                 </a></li>
         </ul>
-        <div class="offcanvas__logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
-        </div>
+
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <a href="{{ route('login') }}">Login</a>
-            <a href="{{ route('register') }}">Register</a>
+            <ul style="list-style-type:none;float: left;">
+                @auth
+
+                    <li class="nav-item">
+                        <a href="{{ route('order.history') }}" class="nav-link text-dark fs-5">
+                            <span>Orders</span>
+                        </a>
+                        
+                    </li>
+                    
+                    {{-- edit profile --}}
+                    <li class="nav-item">
+                        <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
+                            <span>Edit Profile</span>
+                        </a>
+                    </li>
+                    {{-- logout --}}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-dark fs-6"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                @else
+                    {{-- login --}}
+
+                    <li class="nav-item">
+                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    </li>
+                @endauth
+            </ul>
         </div>
     </div>
     <!-- Offcanvas Menu End -->

@@ -400,48 +400,7 @@
             });
         </script>
 
-        {{-- inform order --}}
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                var hasShownNotification = false; // Biến flag để kiểm tra đã hiển thị thông báo hay chưa
-
-                // Hàm kiểm tra đơn hàng mới
-                function checkNewOrder() {
-                    $.ajax({
-                        url: '{{ route('check-new-order') }}', // Sử dụng route đã định nghĩa
-                        method: 'GET',
-                        success: function(response) {
-                            if (response.newOrderCount > 0 && !hasShownNotification) {
-                                // Cập nhật nội dung thông báo và hiển thị nó
-                                $('#notification').text('Bạn có ' + response.newOrderCount + ' đơn hàng mới!').show();
-                                hasShownNotification = true; // Đánh dấu đã hiển thị thông báo
-                            }
-                            if (response.hasNewOrders && !hasShownNotification) {
-                                // Tạo nội dung thông báo
-                                var notificationContent = '<ul>';
-                                response.newOrders.forEach(function(order) {
-                                    notificationContent += 'Đơn hàng #' + order.id + ' - Tổng số tiền: ' + order.total_amount;
-                                });
-
-                                // Cập nhật nội dung thông báo và hiển thị nó
-                                $('#textNotification').text(notificationContent).show();
-                                hasShownNotification = true; // Đánh dấu đã hiển thị thông báo
-                            }
-                        },
-                        error: function(err) {
-                            console.error('Lỗi khi kiểm tra đơn hàng mới:', err);
-                        }
-                    });
-                }
-
-                // Kiểm tra đơn hàng mới khi tải trang lần đầu
-                checkNewOrder();
-
-                // Sau đó kiểm tra đơn hàng mới mỗi 30 giây
-                //setInterval(checkNewOrder, 30000); // Mỗi 30 giây
-            });
-        </script>
+        
 
 
         <!-- apexcharts -->

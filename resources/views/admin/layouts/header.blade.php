@@ -135,6 +135,7 @@
                             id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                             data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
+                        {{-- Count Notifycation --}}
                         <span id="notification"
                             class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span
                                 class="visually-hidden">unread messages</span></span>
@@ -168,6 +169,7 @@
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1">
+                                                {{-- content notifycation --}}
                                                 <div id="textNotification"></div>
                                                 <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                         <span><i

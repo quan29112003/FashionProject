@@ -34,7 +34,6 @@ class Controller extends BaseController
         ->selectRaw('SUM(quantity) as total_quantity')
         ->groupBy('product_id')
         ->orderByDesc('total_quantity')
-        ->limit(5)
         ->pluck('product_id');
 
         // Subquery để lấy một bản ghi duy nhất cho mỗi product_id và tổng quantity
@@ -59,7 +58,6 @@ class Controller extends BaseController
             ->join('payments', 'orders.payment_id', '=', 'payments.id')
             ->select('orders.id', 'orders.name', 'orders.total_amount', 'statuses.name as status_name', 'payments.name as payment_name')
             ->orderBy('orders.total_amount', 'desc')
-            ->limit(5)
             ->get();
 
 

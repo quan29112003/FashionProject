@@ -54,7 +54,7 @@
                     </div>
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <form id="add-to-cart-form" action="{{ route('cart.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             @if (isset($variant))
@@ -210,6 +210,28 @@
 
 @include('client.partials.footer')
 <script>
+    $(document).ready(function() {
+        $('#add-to-cart-form').on('submit', function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = '{{ route('cart.index') }}';
+                    } else {
+                        alert('Error adding product to cart.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                    alert('Error adding product to cart.');
+                }
+            });
+        });
+    });
     document.addEventListener('DOMContentLoaded', function() {
         const loadMoreBtn = document.getElementById('load-more-btn');
         const hiddenProducts = document.querySelectorAll('.product-item.d-none');

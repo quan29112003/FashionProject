@@ -175,8 +175,8 @@
                                             {{-- login --}}
 
                                             <li class="nav-item">
-                                                <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class="nav-link text-dark fs-5"
-                                                    onclick="showLoginModal()">
+                                                <a href="{{--  javascript:void(0); --}}{{ url('login') }}"
+                                                    class="nav-link text-dark fs-5" onclick="showLoginModal()">
                                                     <i class="bi bi-person-badge"></i>
                                                 </a>
                                             </li>
@@ -189,7 +189,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link text-dark fs-5" href="{{ route('cart') }}">
+                                            <a class="nav-link text-dark fs-5" href="{{ route('cart.index') }}">
                                                 <span class="icon_bag_alt"></span>
                                             </a>
                                         </li>

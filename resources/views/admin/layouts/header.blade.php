@@ -150,7 +150,7 @@
                                         <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
                                     </div>
                                     <div class="col-auto dropdown-tabs">
-                                        <span class="badge bg-light-subtle text-body fs-13">4 New</span>
+                                        <span class="badge bg-light-subtle text-body fs-13">New</span>
                                     </div>
                                 </div>
                             </div>
@@ -159,9 +159,9 @@
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    {{-- <div
+                                    <div
                                         class="text-reset notification-item d-block dropdown-item position-relative">
-                                        <div class="d-flex">
+                                        {{-- <div class="d-flex">
                                             <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span
                                                     class="avatar-title bg-info-subtle text-info rounded-circle fs-16">
@@ -184,8 +184,8 @@
                                                            for="all-notification-check01"></label>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div> --}}
+                                        </div> --}}
+                                    </div>
                                     <div id="notifications-container"></div>
 
 

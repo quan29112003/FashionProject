@@ -35,6 +35,8 @@
 
                         // Tạo nội dung thông báo cho từng đơn hàng
                         response.newOrders.forEach(function(order) {
+                            var createdAt = new Date(order.created_at);
+                            var timeDiff = getTimeDifference(createdAt);
                             var notificationContent = `
                                 <div class="text-reset notification-item d-block dropdown-item position-relative">
                                     <div class="d-flex">
@@ -46,7 +48,7 @@
                                         <div class="flex-grow-1">
                                             <div>Đơn hàng #${order.id} - Tổng số tiền: ${order.total_amount}</div>
                                             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                <span><i class="mdi mdi-clock-outline"></i> Just 30 sec ago</span>
+                                                <span><i class="mdi mdi-clock-outline"></i> ${timeDiff} ago</span>
                                             </p>
                                         </div>
                                     </div>
@@ -63,6 +65,24 @@
             });
         }
 
+        // Hàm tính toán sự khác biệt thời gian
+        function getTimeDifference(createdAt) {
+            var now = new Date();
+            var diff = Math.floor((now - createdAt) / 1000); // diff in seconds
+
+            var days = Math.floor(diff / 86400);
+            diff -= days * 86400;
+            var hours = Math.floor(diff / 3600) % 24;
+            diff -= hours * 3600;
+            var minutes = Math.floor(diff / 60) % 60;
+            var seconds = diff % 60;
+
+            if (days > 0) return days + ' day' + (days > 1 ? 's' : '');
+            if (hours > 0) return hours + ' hour' + (hours > 1 ? 's' : '');
+            if (minutes > 0) return minutes + ' minute' + (minutes > 1 ? 's' : '');
+            return seconds + ' second' + (seconds > 1 ? 's' : '');
+        }
+
         // Kiểm tra đơn hàng mới khi tải trang lần đầu
         checkNewOrder();
 
@@ -70,4 +90,5 @@
         setInterval(checkNewOrder, 30000); // Mỗi 30 giây
     });
 </script>
+
 

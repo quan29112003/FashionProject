@@ -47,19 +47,18 @@ class OrderController extends Controller
     public function checkNewOrder(Request $request)
     {
         // Lấy các đơn hàng mới trong ngày hiện tại (ví dụ: những đơn hàng chưa được xử lý)
-    $newOrders = Order::whereDay('created_at', date('d'))
-    ->where('status_id', '=', 1)
-    ->get(['id', 'total_amount']);
+        $newOrders = Order::where('status_id', '=', 1)
+        ->orderBy('created_at', 'desc') // Sắp xếp theo created_at giảm dần
+        ->get(['id', 'total_amount', 'created_at']);
 
-    // Kiểm tra xem có đơn hàng mới trong ngày hiện tại không
-    $newOrderCount = Order::where('status_id', '=', 1)
-        ->whereDay('created_at', date('d'))
-        ->count();
+        // Kiểm tra xem có đơn hàng mới trong ngày hiện tại không
+        $newOrderCount = Order::where('status_id', '=', 1)
+            ->count();
 
-    return response()->json([
-        'newOrderCount' => $newOrderCount,
-        'newOrders' => $newOrders
-    ]);
+        return response()->json([
+            'newOrderCount' => $newOrderCount,
+            'newOrders' => $newOrders
+        ]);
     }
 
 

@@ -152,8 +152,8 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         try {
             $order = Order::create([
-                'user_id' => auth()->user()->id, // Lấy user_id từ session đăng nhập
-                'status_id' => 1, // Mặc định là 1 cho trạng thái "pending"
+                'user_id' => auth()->user()->id,
+                'status_id' => 1, // Mặc định là 1 cho trạng thái "Chờ xác nhận"
                 'payment_id' => $paymentMethod, // 1 cho COD, 2 cho thanh toán online
                 'total_amount' => $totalAmount ?? $request->total_amount,
                 'voucher_id' => session()->get('checkout_voucher_id'),
@@ -166,7 +166,6 @@ class CheckoutController extends Controller
                 'note' => session()->pull('checkout_note'),
             ]);
 
-            // Ghi log dữ liệu trong session 'cart'
             $cart = session('cart', []);
             Log::info('Cart data before order creation: ', $cart);
 
@@ -177,27 +176,7 @@ class CheckoutController extends Controller
                     $item['name'] = 'Unnamed Product'; // Gán giá trị mặc định
                 }
 
-                // Kiểm tra sự tồn tại của các giá trị khóa ngoại
-                $productExists = Product::find($item['product_id']);
-                $variantExists = ProductVariant::find($item['variant_id']);
 
-                if (!$productExists || !$variantExists) {
-                    Log::error('Invalid foreign key in cart item: ', $item);
-                    return redirect()->back()->with('error', 'Invalid product or variant in cart item.');
-                }
-
-                // Ghi log chi tiết dữ liệu từng mục trong giỏ hàng
-                Log::info('Creating order item with data: ', [
-                    'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
-                    'name_product' => $item['name'],
-                    'thumbnail' => $item['image'] ?? '',
-                    'quantity' => $item['quantity'],
-                    'size' => $item['size'] ?? '', // Sử dụng size
-                    'color' => $item['color'] ?? '', // Sử dụng color
-                    'color_code' => $item['color_code'] ?? '', // Sử dụng color_code
-                    'price' => $item['price'],
-                ]);
 
                 try {
                     // Chèn dữ liệu vào bảng order_items

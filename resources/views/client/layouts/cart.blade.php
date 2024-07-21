@@ -74,7 +74,7 @@
                                                 </div>
                                                 <input disabled
                                                     style="border: none; background-color: #fff; text-align: center;"
-                                                    type="number" class="form-control input-number update-cart"
+                                                    type="text" class="form-control input-number update-cart"
                                                     name="quantity" data-product-id="{{ $item['product_id'] }}"
                                                     data-variant-id="{{ $item['variant_id'] }}"
                                                     value="{{ $item['quantity'] }}" min="1">

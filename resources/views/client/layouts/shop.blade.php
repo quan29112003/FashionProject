@@ -240,69 +240,6 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-{{-- <script>
-    $(function() {
-        var minPrice = {{ request()->get('min_price', 0) }};
-        var maxPrice = {{ request()->get('max_price', 500) }};
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 500,
-            values: [minPrice, maxPrice],
-            slide: function(event, ui) {
-                $("#minamount").val(ui.values[0]);
-                $("#maxamount").val(ui.values[1]);
-            }
-        });
-        $("#minamount").val($("#slider-range").slider("values", 0));
-        $("#maxamount").val($("#slider-range").slider("values", 1));
-
-        // Khai báo các biến để lưu trữ selected colors và sizes
-        var selectedColors = [];
-        var selectedSizes = [];
-
-        // Xử lý sự kiện khi checkbox color thay đổi
-        $('.color-filter').on('change', function() {
-            selectedColors = []; // Đặt lại mảng selectedColors
-            $('.color-filter:checked').each(function() {
-                selectedColors.push($(this).data('color'));
-            });
-        });
-
-        // Xử lý sự kiện khi checkbox size thay đổi
-        $('.size-filter').on('change', function() {
-            selectedSizes = []; // Đặt lại mảng selectedSizes
-            $('.size-filter:checked').each(function() {
-                selectedSizes.push($(this).data('size'));
-            });
-        });
-
-        // Xử lý sự kiện khi click vào nút filter-btn
-        $('#filter-btn').on('click', function() {
-            var min = $("#minamount").val();
-            var max = $("#maxamount").val();
-            var url = new URL(window.location.href);
-
-            url.searchParams.set('min_price', min);
-            url.searchParams.set('max_price', max);
-            url.searchParams.set('colors', selectedColors.join(','));
-            url.searchParams.set('sizes', selectedSizes.join(','));
-
-            window.location.href = url.toString();
-        });
-
-        // Sorting filter
-        $('#sort-by').on('change', function() {
-            var sortBy = $(this).val();
-            var url = new URL(window.location.href);
-            url.searchParams.set('sort_by', sortBy);
-            window.location.href = url.toString();
-        });
-    });
-</script> --}}
-
-
-
 <script>
     $(function() {
         // Lấy giá trị min_price, max_price, colors và sizes từ các query parameter

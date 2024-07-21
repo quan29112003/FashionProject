@@ -102,15 +102,21 @@
             <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
         </div>
         <ul class="offcanvas__widget">
-            {{-- <li>
-                <form id="searchForm" action="{{ route('product.search') }}" method="GET">
-                    <input type="text" name="keyword" placeholder="Search products..." required>
+            <li>
+                <form hidden role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"
+                    class="search-form">
+                    <!-- Input tìm kiếm -->
+                    <input class="search-input" type="search" name="keyword" id="searchInput" placeholder="Search"
+                        aria-label="Search">
+                    <!-- Gạch chân dưới -->
+                    <div class="underline"></div>
+                    <!-- Nút tìm kiếm -->
                     <button class="search-btn" type="submit">
                         <!-- Icon tìm kiếm -->
                         <i class="fa fa-search"></i>
                     </button>
                 </form>
-            </li> --}}
+            </li>
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
@@ -127,9 +133,9 @@
                         <a href="{{ route('order.history') }}" class="nav-link text-dark fs-5">
                             <span>Orders</span>
                         </a>
-                        
+
                     </li>
-                    
+
                     {{-- edit profile --}}
                     <li class="nav-item">
                         <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">

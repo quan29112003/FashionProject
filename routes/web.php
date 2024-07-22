@@ -178,17 +178,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     });
 
     // viet
-    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
-    Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout');
-    Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
-    Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
-    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
-    Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::get('/my-order-history', [OrderControllerCli::class, 'index'])->name('user.orders.history');
-    Route::get('/my-order-detail/{order}', [OrderControllerCli::class, 'show'])->name('user.order.detail');
 
 
     Route::resource('wishlists', WishlistController::class);
@@ -202,6 +191,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
     Route::resource('blogs', AdminBlogController::class);
 });
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/my-order-history', [OrderControllerCli::class, 'index'])->name('user.orders.history');
+Route::get('/my-order-detail/{order}', [OrderControllerCli::class, 'show'])->name('user.order.detail');
+
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog-detail/{id}', [BlogController::class, 'show'])->name('blog-detail');
 

@@ -236,7 +236,7 @@
                             @auth
 
                                 <li class="nav-item">
-                                    <a href="{{ route('order.history') }}" class="nav-link text-dark fs-5">
+                                    <a href="{{ route('user.orders.history') }}" class="nav-link text-dark fs-5">
                                         <i class="bi bi-receipt-cutoff"></i>
                                     </a>
                                 </li>

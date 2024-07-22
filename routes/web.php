@@ -33,9 +33,8 @@ use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoadContentController;
 use App\Http\Controllers\LocationController;
-use App\Http\Controllers\OrderControllerCli;
 use App\Http\Middleware\ShareProvinces;
-
+use App\Http\Controllers\OrderControllerCli;
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
     '/',
@@ -55,7 +54,7 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
-Route::post("get-size",[ProductVariantController::class,"getSize"])->name('getSizeProduct');
+Route::post("get-size", [ProductVariantController::class, "getSize"])->name('getSizeProduct');
 
 //profile
 Route::middleware('auth')->group(function () {
@@ -187,6 +186,9 @@ Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.cle
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/my-order-history', [OrderControllerCli::class, 'index'])->name('user.orders.history');
+Route::get('/my-order-detail/{order}', [OrderControllerCli::class, 'show'])->name('user.order.detail');
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('wishlists', WishlistController::class);

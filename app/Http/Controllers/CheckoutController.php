@@ -203,8 +203,8 @@ class CheckoutController extends Controller
 
             Log::info('Order created successfully: ', ['order_id' => $order->id]);
 
-            // return redirect('/')->with('success', 'Đặt hàng thành công!');
-            return redirect()->back()->with('success', 'Đặt hàng thành công!');
+            return redirect('/')->with('success', 'Đặt hàng thành công!');
+            // return redirect()->back()->with('success', 'Đặt hàng thành công!');
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Error creating order: ' . $e->getMessage());

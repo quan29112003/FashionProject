@@ -60,13 +60,13 @@
 <div class="container mt-5">
     <div class="shadow-box shadow-box-header">
         <div class="order-header">
-            <h3>Order #32543</h3>
+            <h3>Order #{{ $order->id }}</h3>
             <div>
-                <span class="badge badge-paid">Paid</span>
-                <span class="badge badge-ready">Ready to Pickup</span>
+                <span class="badge badge-paid">{{ $order->status->name }}</span>
+                <span class="badge badge-ready">{{ $order->payment->name }}</span>
             </div>
         </div>
-        <p>Aug 17, 2024, 5:48 (ET)</p>
+        <p>{{ $order->created_at->format('M d, Y, g:i A (T)') }}</p>
     </div>
 
     <div class="row">
@@ -83,47 +83,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Wooden Chair<br><small>Material: Wooden</small></td>
-                            <td>$841</td>
-                            <td>2</td>
-                            <td>$1682</td>
-                        </tr>
-                        <tr>
-                            <td>Oneplus 10<br><small>Storage: 128gb</small></td>
-                            <td>$896</td>
-                            <td>3</td>
-                            <td>$2688</td>
-                        </tr>
-                        <tr>
-                            <td>Nike Jordan<br><small>Size: 8UK</small></td>
-                            <td>$392</td>
-                            <td>1</td>
-                            <td>$392</td>
-                        </tr>
-                        <tr>
-                            <td>Face cream<br><small>Gender: Women</small></td>
-                            <td>$813</td>
-                            <td>2</td>
-                            <td>$1626</td>
-                        </tr>
+                        @foreach ($orderItems as $item)
+                            <tr>
+                                <td>{{ $item->name_product }}<br><small>{{ $item->product ? $item->product->name : 'No product' }}</small>
+                                </td>
+                                <td>{{ number_format($item->price, 0, ',', '.') }}₫</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }}₫</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-right">Subtotal</td>
-                            <td>$2093</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">Discount</td>
-                            <td>$2</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right">Tax</td>
-                            <td>$28</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right"><strong>Total</strong></td>
-                            <td><strong>$2113</strong></td>
+                            <td>{{ number_format($order->total_amount, 0, ',', '.') }}₫</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -133,75 +106,24 @@
             <div class="shadow-box">
                 <h5 class="section-title">Customer details</h5>
                 <div class="border p-3">
-                    <p><strong>Shamus Tuttle</strong></p>
-                    <p>Customer ID: #58909</p>
-                    <p>12 Orders</p>
-                    <p>Email: Shamus889@yahoo.com</p>
-                    <p>Mobile: +1 (609) 972-22-22</p>
+                    <p><strong>{{ $order->name }}</strong></p>
+                    <p>Email: {{ $order->email }}</p>
+                    <p>Mobile: {{ $order->phone }}</p>
                 </div>
             </div>
             <div class="shadow-box">
                 <h5 class="section-title">Shipping address</h5>
                 <div class="border p-3">
-                    <p>45 Roker Terrace</p>
-                    <p>Latheronwheel</p>
-                    <p>KW5 8NW, London</p>
-                    <p>UK</p>
+                    <p>Địa chỉ: {{ $order->address }}</p>
+                    <p></p>
                 </div>
             </div>
-            <div class="shadow-box">
-                <h5 class="section-title">Billing address</h5>
-                <div class="border p-3">
-                    <p>45 Roker Terrace</p>
-                    <p>Latheronwheel</p>
-                    <p>KW5 8NW, London</p>
-                    <p>UK</p>
-                </div>
-            </div>
-            <div class="shadow-box">
-                <h5 class="section-title">Mastercard</h5>
-                <div class="border p-3">
-                    <p>Card Number: ******4291</p>
-                </div>
-            </div>
+
         </div>
     </div>
-
-    <!-- <div class="shadow-box">
-      <h5 class="section-title">Shipping activity</h5>
-      <ul class="list-unstyled">
-          <li>
-              <strong>Order was placed (Order ID: #32543)</strong>
-              <p>Your order has been placed successfully</p>
-              <small class="text-muted">Tuesday 11:29 AM</small>
-          </li>
-          <li>
-              <strong>Pick-up</strong>
-              <p>Pick-up scheduled with courier</p>
-              <small class="text-muted">Wednesday 11:29 AM</small>
-          </li>
-          <li>
-              <strong>Dispatched</strong>
-              <p>Item has been picked up by courier</p>
-              <small class="text-muted">Thursday 11:29 AM</small>
-          </li>
-          <li>
-              <strong>Package arrived</strong>
-              <p>Package arrived at an Amazon facility, NY</p>
-              <small class="text-muted">Saturday 15:20 AM</small>
-          </li>
-          <li>
-              <strong>Dispatched for delivery</strong>
-              <p>Package has left an Amazon facility, NY</p>
-              <small class="text-muted">Today 14:12 PM</small>
-          </li>
-          <li>
-              <strong>Delivery</strong>
-              <p>Package will be delivered by tomorrow</p>
-          </li>
-      </ul>
-  </div> -->
 </div>
+
+
 
 
 @include('client.partials.footer')

@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('status')->default(0);
             $table->decimal('total_amount', 8, 2);
             $table->text('name');
             $table->text('address');
@@ -24,7 +23,7 @@ return new class extends Migration
             $table->string('state')->nullable()->default('');
             $table->string('postcode')->nullable()->default('');
             $table->string('email')->nullable()->default('');
-            $table->text('note')->nullable()->default('');
+            $table->text('note')->nullable();
             $table->unsignedBigInteger('status_id')->nullable();
             $table->unsignedBigInteger('payment_id')->nullable();
             $table->timestamps();

@@ -55,7 +55,7 @@
                                             <td class="cart__product__item">
                                                 <img src="{{ asset('uploads/' . $wishlist->product->thumbnail) }}" alt="">
                                                 <div class="cart__product__item__title">
-                                                    <a href="{{ route('detail', $wishlist->productID)}}"><h6>{{ $wishlist->product->name_product }}</h6></a>
+                                                    <a href="{{ route('detail', $wishlist->product_id)}}"><h6>{{ $wishlist->product->name_product }}</h6></a>
                                                 </div>
                                             </td>
                                             <td class="cart__price">${{ number_format($variant->price, 2) }}</td>

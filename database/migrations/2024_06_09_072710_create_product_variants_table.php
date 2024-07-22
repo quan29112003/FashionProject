@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('color_id');
             $table->unsignedBigInteger('size_id');
             $table->integer('quantity');
-            $table->decimal('price', 8, 2);
-            $table->decimal('price_sale', 8,2);
+            $table->integer('price');
+            $table->integer('price_sale');
             $table->string('SKU')->unique();
             $table->string('is_active');
             $table->timestamps();

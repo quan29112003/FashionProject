@@ -21,6 +21,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         // dd($user);
+        // $user->birthday = optional($user->birthday)->format('Y-m-d');
 
         $addressParts = explode(', ', $user->address);
 

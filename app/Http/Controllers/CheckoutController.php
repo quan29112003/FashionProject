@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Order;
@@ -7,10 +8,13 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\Size;
+use App\Models\Color;
 
 class CheckoutController extends Controller
 {
-    // Phương thức hiển thị trang thanh toán
     public function showCheckout()
     {
         $cart = session()->get('cart', []);
@@ -24,11 +28,8 @@ class CheckoutController extends Controller
     public function processCheckout(Request $request)
     {
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'country' => 'required',
+            'name' => 'required',
             'address' => 'required',
-            'city' => 'required',
             'state' => 'required',
             'postcode' => 'required',
             'phone' => 'required',
@@ -37,18 +38,15 @@ class CheckoutController extends Controller
         ]);
 
         // Lưu thông tin order tạm thời vào session
-        session()->put('checkout_first_name', $request->first_name);
-        session()->put('checkout_last_name', $request->last_name);
-        session()->put('checkout_country', $request->country);
+        session()->put('checkout_name', $request->name);
         session()->put('checkout_address', $request->address);
-        session()->put('checkout_address2', $request->address2);
-        session()->put('checkout_city', $request->city);
         session()->put('checkout_state', $request->state);
         session()->put('checkout_postcode', $request->postcode);
         session()->put('checkout_phone', $request->phone);
         session()->put('checkout_email', $request->email);
         session()->put('checkout_note', $request->note);
-        session()->put('total_amount', $request->total_amount); // Lưu tổng số tiền vào session
+        session()->put('checkout_voucher_id', $request->voucher_id);
+        session()->put('total_amount', $request->total_amount);
 
         if ($request->payment_method === 'vnpay') {
             Log::info('Starting VNPAY payment process');
@@ -56,11 +54,9 @@ class CheckoutController extends Controller
         }
 
         // Xử lý thanh toán khi nhận hàng (COD)
-        return $this->createOrder($request, 0);
+        return $this->createOrder($request, 1);
     }
 
-
-    // Phương thức tạo thanh toán qua VNPAY
     private function createVnpayPayment(Request $request)
     {
         $vnp_TmnCode = env('VNP_TMN_CODE');
@@ -112,10 +108,6 @@ class CheckoutController extends Controller
         return redirect($vnp_Url);
     }
 
-
-
-
-    // Phương thức xử lý phản hồi từ VNPAY
     public function vnpayReturn(Request $request)
     {
         $vnp_HashSecret = env('VNP_HASH_SECRET');
@@ -144,7 +136,7 @@ class CheckoutController extends Controller
             if ($request->vnp_ResponseCode == '00') {
                 Log::info('VNPAY payment successful, creating order');
                 $totalAmount = session()->pull('total_amount');
-                return $this->createOrder($request, 1, $totalAmount);
+                return $this->createOrder($request, 2, $totalAmount); // Payment method = 2 for online payment
             } else {
                 Log::error('VNPAY payment failed with response code: ' . $request->vnp_ResponseCode);
                 return redirect('/')->with('error', 'Thanh toán không thành công!');
@@ -155,57 +147,68 @@ class CheckoutController extends Controller
         }
     }
 
-
-
-
-
-    // Phương thức tạo đơn hàng
     private function createOrder($request, $paymentMethod, $totalAmount = null)
-{
-    DB::beginTransaction();
-    try {
-        $order = Order::create([
-            'user_id' => 1,
-            'status' => 'pending',
-            'payment' => $paymentMethod,
-            'total_amount' => $totalAmount ?? $request->total_amount,
-            'voucher_id' => session()->get('voucher_id'),
-            'add_points' => session()->get('add_points', 0),
-            'first_name' => session()->pull('checkout_first_name'),
-            'last_name' => session()->pull('checkout_last_name'),
-            'country' => session()->pull('checkout_country'),
-            'address' => session()->pull('checkout_address'),
-            'address2' => session()->pull('checkout_address2'),
-            'city' => session()->pull('checkout_city'),
-            'state' => session()->pull('checkout_state'),
-            'postcode' => session()->pull('checkout_postcode'),
-            'phone' => session()->pull('checkout_phone'),
-            'email' => session()->pull('checkout_email'),
-            'note' => session()->pull('checkout_note'),
-        ]);
-
-        foreach (session('cart', []) as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'variant_id' => $item['variant_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
+    {
+        DB::beginTransaction();
+        try {
+            $order = Order::create([
+                'user_id' => auth()->user()->id,
+                'status_id' => 1, // Mặc định là 1 cho trạng thái "Chờ xác nhận"
+                'payment_id' => $paymentMethod, // 1 cho COD, 2 cho thanh toán online
+                'total_amount' => $totalAmount ?? $request->total_amount,
+                'voucher_id' => session()->get('checkout_voucher_id'),
+                'name' => session()->pull('checkout_name'),
+                'address' => session()->pull('checkout_address'),
+                'state' => session()->pull('checkout_state'),
+                'postcode' => session()->pull('checkout_postcode'),
+                'phone' => session()->pull('checkout_phone'),
+                'email' => session()->pull('checkout_email'),
+                'note' => session()->pull('checkout_note'),
             ]);
+
+            $cart = session('cart', []);
+            Log::info('Cart data before order creation: ', $cart);
+
+            foreach ($cart as $item) {
+                // Kiểm tra và log nếu thiếu trường name_product
+                if (!isset($item['name']) || empty($item['name'])) {
+                    Log::error('Missing name_product in cart item: ', $item);
+                    $item['name'] = 'Unnamed Product'; // Gán giá trị mặc định
+                }
+
+
+
+                try {
+                    // Chèn dữ liệu vào bảng order_items
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item['product_id'],
+                        'name_product' => $item['name'], // Đảm bảo cột này được điền
+                        'thumbnail' => $item['image'] ?? '', // Đảm bảo cột này được điền
+                        'quantity' => $item['quantity'],
+                        'size' => $item['size'] ?? '',  // Đảm bảo cột này được điền
+                        'color' => $item['color'] ?? '', // Đảm bảo cột này được điền
+                        'color_code' => $item['color_code'] ?? '', // Đảm bảo cột này được điền
+                        'price' => $item['price'],
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('Error inserting order item: ' . $e->getMessage());
+                    DB::rollback();
+                    return redirect()->back()->with('error', 'Error inserting order item.');
+                }
+            }
+
+            session()->forget('cart');
+            DB::commit();
+
+            Log::info('Order created successfully: ', ['order_id' => $order->id]);
+
+            return redirect('/')->with('success', 'Đặt hàng thành công!');
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error creating order: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
         }
-
-        session()->forget('cart');
-        DB::commit();
-
-        Log::info('Order created successfully: ', ['order_id' => $order->id]);
-
-        return redirect()->back()->with('success', 'Đặt hàng thành công!');
-    } catch (\Exception $e) {
-        DB::rollback();
-        Log::error('Error creating order: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
     }
 }
-
-}
-//note

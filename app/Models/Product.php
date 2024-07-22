@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Comment;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,7 +44,7 @@ class Product extends Model
     }
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class,'product_id');
+        return $this->hasMany(ProductVariant::class, 'product_id');
     }
 
     // public function comments()
@@ -60,5 +60,4 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductSize::class, 'product_id', 'size_id');
     }
-
 }

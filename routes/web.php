@@ -186,6 +186,7 @@ Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('ca
 Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('wishlists', WishlistController::class);

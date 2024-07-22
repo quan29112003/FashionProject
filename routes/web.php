@@ -117,8 +117,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin', [Controller::class, 'dashboard']);
 
-    Route::prefix('admin')->group(function () {
-        Route::get('/dashboard', [Controller::class, 'index'])->name('dashboard');
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [Controller::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
         Route::get('show-product', [ProductController::class, 'index'])->name('product');
         Route::get('create-product', [ProductController::class, 'create'])->name('store-product');
@@ -164,9 +165,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('edit-size/{id}', [SizeController::class, 'edit'])->name('edit-size');
         Route::put('edit-size/{id}', [SizeController::class, 'update'])->name('update-size');
 
-        Route::get('order', [OrderController::class, 'index'])->name('order');
-        Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
-        Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
+    Route::get('order', [OrderController::class, 'index'])->name('order');
+    Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
+    Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
 
         Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
         Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');

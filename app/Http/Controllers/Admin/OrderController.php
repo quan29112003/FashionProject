@@ -28,18 +28,7 @@ class OrderController extends Controller
     {
         $order_items = OrderItem::where('order_id', $id)->get();
 
-        $products = [];
-        $productVariants = [];
-
-        foreach ($order_items as $o) {
-            $product = Product::where('id', $o->product_id)->select('name_product')->first();
-            $products[$o->id] = $product;
-
-            $productVariant = ProductVariant::with(['color', 'size'])->where('id', $o->variant_id)->first();
-            $productVariants[$o->id] = $productVariant;
-        }
-
-        return view('admin.orders.item', compact('order_items', 'products', 'productVariants'));
+        return view('admin.orders.item', compact('order_items'));
     }
 
     public function update(Request $request,$id){
@@ -53,6 +42,23 @@ class OrderController extends Controller
         ]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function checkNewOrder(Request $request)
+    {
+        // Lấy các đơn hàng mới trong ngày hiện tại (ví dụ: những đơn hàng chưa được xử lý)
+        $newOrders = Order::where('status_id', '=', 1)
+        ->orderBy('created_at', 'desc') // Sắp xếp theo created_at giảm dần
+        ->get(['id', 'total_amount', 'created_at']);
+
+        // Kiểm tra xem có đơn hàng mới trong ngày hiện tại không
+        $newOrderCount = Order::where('status_id', '=', 1)
+            ->count();
+
+        return response()->json([
+            'newOrderCount' => $newOrderCount,
+            'newOrders' => $newOrders
+        ]);
     }
 
 

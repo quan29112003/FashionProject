@@ -34,7 +34,7 @@ use \App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoadContentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Middleware\ShareProvinces;
-
+use App\Http\Controllers\OrderControllerCli;
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
     '/',
@@ -54,6 +54,8 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
+Route::post("get-size", [ProductVariantController::class, "getSize"])->name('getSizeProduct');
+
 //profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('share.provinces');
@@ -70,6 +72,47 @@ Route::middleware('auth')->group(function () {
     Route::delete('wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
 });
 
+Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
+Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
+
+
+Route::get('/search', [SearchController::class, 'search'])->name('product.search');
+
+
+Route::get('/order-history', function () {
+    return view('client.layouts.order-history');
+})->name('order.history');
+
+Route::get('/order-detail', function () {
+    return view('client.layouts.order-detail');
+})->name('order.detail');
+
+Route::get('/order-detail2', function () {
+    return view('client.layouts.order-detail2');
+})->name('order.detail2');
+
+
+Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
+Route::get('/blog', function () {
+    return view('client.layouts.blog');
+})->name('blog');
+Route::get('/blog-detail', function () {
+    return view('client.layouts.blog-detail');
+})->name('blog-detail');
+Route::get('/contact', function () {
+    return view('client.layouts.contact');
+})->name('contact');
+
+Route::get('/cart', function () {
+    return view('client.layouts.cart');
+})->name('cart');
+Route::get('/checkout', function () {
+    return view('client.layouts.checkout');
+})->name('checkout');
+// nghi
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin', [Controller::class, 'dashboard']);
@@ -143,47 +186,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
     Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/my-order-history', [OrderControllerCli::class, 'index'])->name('user.orders.history');
+    Route::get('/my-order-detail/{order}', [OrderControllerCli::class, 'show'])->name('user.order.detail');
 
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::resource('wishlists', WishlistController::class);
-        Route::resource('users', UserController::class);
-        Route::post('users/{user}/toggle-lock', 'App\Http\Controllers\Admin\UserController@toggleLock')->name('users.toggleLock');
-        Route::post('users/{user}/permanent-lock', 'App\Http\Controllers\Admin\UserController@permanentLock')->name('users.permanentLock');
-        Route::resource('vouchers', VoucherController::class);
-        Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
-        Route::resource('comments', CommentController::class);
-        Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
-        Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
-        Route::resource('blogs', AdminBlogController::class);
-    });
+
+    Route::resource('wishlists', WishlistController::class);
+    Route::resource('users', UserController::class);
+    Route::post('users/{user}/toggle-lock', 'App\Http\Controllers\Admin\UserController@toggleLock')->name('users.toggleLock');
+    Route::post('users/{user}/permanent-lock', 'App\Http\Controllers\Admin\UserController@permanentLock')->name('users.permanentLock');
+    Route::resource('vouchers', VoucherController::class);
+    Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
+    Route::resource('comments', CommentController::class);
+    Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
+    Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
+    Route::resource('blogs', AdminBlogController::class);
 });
-
-Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
-Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
-
-Route::get('/search', [SearchController::class, 'search'])->name('product.search');
-Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
-Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
-Route::get('/blog', function () {
-    return view('client.layouts.blog');
-})->name('blog');
-Route::get('/blog-detail', function () {
-    return view('client.layouts.blog-detail');
-})->name('blog-detail');
-Route::get('/contact', function () {
-    return view('client.layouts.contact');
-})->name('contact');
-
-Route::get('/cart', function () {
-    return view('client.layouts.cart');
-})->name('cart');
-Route::get('/checkout', function () {
-    return view('client.layouts.checkout');
-})->name('checkout');
-// nghi
-
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog-detail/{id}', [BlogController::class, 'show'])->name('blog-detail');
 

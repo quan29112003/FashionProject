@@ -1,13 +1,10 @@
-
-@extends('client.layouts.app')
-
-@section('content')
-<!-- Bao gồm header phần -->
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
 @endif
+@include('client.partials.header')
+<!-- Bao gồm header phần -->
 
 <!-- Bắt đầu phần danh mục -->
 <section class="categories">
@@ -17,7 +14,7 @@
             <!-- Phần danh mục đầu tiên (item lớn) -->
             <div class="col-lg-6 p-0">
                 <div class="categories__item categories__large__item set-bg"
-                    data-setbg="{{ asset('theme-cli/img/categories/category-1.jpg') }}">
+                     data-setbg="{{ asset('theme-cli/img/categories/category-1.jpg') }}">
                     <!-- Item danh mục lớn với hình nền được đặt thông qua thuộc tính data -->
                     <div class="categories__text">
                         <!-- Nội dung văn bản của danh mục -->
@@ -36,7 +33,7 @@
                     <!-- Lặp lại cho từng item danh mục nhỏ -->
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                         <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-2.jpg') }}">
+                             data-setbg="{{ asset('theme-cli/img/categories/category-2.jpg') }}">
                             <!-- Item danh mục nhỏ với hình nền -->
                             <div class="categories__text">
                                 <!-- Nội dung văn bản của danh mục -->
@@ -50,7 +47,7 @@
                     <!-- Cấu trúc tương tự lặp lại cho các danh mục khác... -->
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                         <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-3.jpg') }}">
+                             data-setbg="{{ asset('theme-cli/img/categories/category-3.jpg') }}">
                             <div class="categories__text">
                                 <h4>Thời trang trẻ em</h4>
                                 <p>273 sản phẩm</p>
@@ -61,7 +58,7 @@
                     <!-- Các danh mục khác... -->
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                         <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-4.jpg') }}">
+                             data-setbg="{{ asset('theme-cli/img/categories/category-4.jpg') }}">
                             <div class="categories__text">
                                 <h4>Mỹ phẩm</h4>
                                 <p>159 sản phẩm</p>
@@ -71,7 +68,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
                         <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-5.jpg') }}">
+                             data-setbg="{{ asset('theme-cli/img/categories/category-5.jpg') }}">
                             <div class="categories__text">
                                 <h4>Phụ kiện</h4>
                                 <p>792 sản phẩm</p>
@@ -86,7 +83,6 @@
     </div>
 </section>
 <!-- Kết thúc phần danh mục -->
-
 
 <!-- Bắt đầu phần sản phẩm -->
 <section class="product spad">
@@ -107,10 +103,10 @@
                 <ul class="filter__controls">
                     <!-- Bộ lọc danh mục sản phẩm -->
                     <li class="active" data-filter="*">Tất cả</li>
-                    {{-- @foreach ($categories as $category)
+                    @foreach ($categories as $category)
                         <!-- Lặp qua các danh mục và tạo các nút bộ lọc -->
                         <li data-filter=".{{ $category->slug }}" value="{{ $category->id }}">{{ $category->name }}</li>
-                    @endforeach --}}
+                    @endforeach
                 </ul>
             </div>
 
@@ -125,10 +121,13 @@
             <!-- Thư viện sản phẩm -->
             @foreach ($products as $product)
                 <!-- Lặp qua các sản phẩm -->
-
+                @php
+                    $colors = $variantProducts[$product->id]->pluck('color')->unique();
+                    $sizes =  $variantProducts[$product->id]->pluck('size')->unique();
+                    $selectedColorId = $colors->first() ? $colors->first()->id : null;
+                @endphp
                 @foreach ($product->variants as $variant)
                     <!-- Lặp qua các biến thể của mỗi sản phẩm -->
-
                     <div
                         class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->slug }} @if ($productCount >= 8) d-none @endif">
                         <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
@@ -137,20 +136,20 @@
                             @if ($product->images->isNotEmpty())
                                 <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
                                 <div class="product__item__pic set-bg"
-                                    data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
-
+                                     data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
                                     <a href="{{ route('detail', $product->id) }}">
                                         <img src="{{ asset('uploads/' . $product->thumbnail) }}"
-                                            alt="img product">
+                                             alt="img product">
+
                                     </a>
 
                                     <!-- Hình ảnh sản phẩm -->
-                                    <ul class="product__hover">
+                                    <ul class="product__hover pd-hover" id="product-hv-{{$product->id}}">
                                         <!-- Các hành động khi hover -->
 
                                         <li>
                                             <a href="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                class="image-popup">
+                                               class="image-popup">
                                                 <span class="arrow_expand"></span>
                                             </a>
                                         </li>
@@ -158,20 +157,22 @@
 
                                         <li>
                                             <form id="wishlist-form-{{ $product->id }}"
-                                                action="{{ route('wishlist.add', $product->id) }}" method="POST"
-                                                style="display: none;">
+                                                  action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                                  style="display: none;">
                                                 @csrf
                                             </form>
                                             <a href="#"
-                                                onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
+                                               onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
                                                 <span class="icon_heart_alt"></span>
                                             </a>
                                         </li>
                                         <!-- Thêm vào danh sách yêu thích -->
 
                                         <li>
-                                            <a href="#">
+                                            <a onclick="handleQuickCard(event,{{$product->id}})"
+                                               href="#">
                                                 <span class="icon_bag_alt">
+
                                                 </span>
                                             </a>
                                         </li>
@@ -181,15 +182,21 @@
 
                                 </div>
                             @endif
-
                             <div class="product__item__text">
                                 <!-- Chi tiết sản phẩm -->
-
+                                <div class="swatch-attribute-options-{{$product->id}}">
+                                    @foreach($colors as $color)
+                                        <div onclick="getSizeByColor(event,{{$color->id}},{{$product->id}})"
+                                             class="swatch-option color {{$color->id == $selectedColorId ? 'selected': ''}}"
+                                             data-color-id="{{$color->id}}"
+                                             id="swichcolor-{{$color->id}}-{{$product->id}}"
+                                             style="background-color: {{$color->color_code}}"></div>
+                                    @endforeach
+                                </div>
                                 <h6>
                                     <a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
                                 </h6>
                                 <!-- Tên sản phẩm -->
-
                                 <div class="rating">
                                     <!-- Đánh giá sản phẩm -->
                                     @for ($i = 0; $i < 5; $i++)
@@ -205,7 +212,7 @@
                                 </div>
 
                                 @if ($variant)
-                                    <div class="product__price">{{ $variant->price }}₫
+                                    <div class="product__price">{{ number_format($variant->price, 0, ',', '.') }}₫
                                     </div>
                                     <!-- Giá sản phẩm -->
                                 @else
@@ -236,6 +243,7 @@
 
 </section>
 <!-- Product Section End -->
+
 <!-- Banner Section Begin -->
 <section class="banner set-bg" data-setbg="{{ asset('theme-cli/img/banner/banner-1.jpg') }}">
     <div class="container">
@@ -298,7 +306,7 @@
                                             <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                         @endfor
                                     </div>
-                                    <div class="product__price">${{ $variant->price }}</div>
+                                    <div class="product__price">${{ number_format($variant->price,0,',','.') }}</div>
                                     <!-- Giá sản phẩm -->
                                 </div>
                             </div>
@@ -329,7 +337,7 @@
                                         <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                     @endfor
                                 </div>
-                                <div class="product__price">${{ $variant->price }}</div>
+                                <div class="product__price">${{ number_format($variant->price,0,',','.') }}</div>
                                 <!-- Giá sản phẩm -->
                             </div>
                         </div>
@@ -360,7 +368,7 @@
                                     @endfor
                                 </div>
                                 @if ($variant)
-                                    <div class="product__price">${{ $variant->price }}</div>
+                                <div class="product__price">${{ number_format($variant->price,0,',','.') }}</div>
                                     <!-- Giá sản phẩm -->
                                 @else
                                     <div class="product__price">Giá chưa cập nhật</div>
@@ -456,14 +464,19 @@
 <!-- Services Section End -->
 
 
+<!-- Phần còn lại của template -->
+
+@include('client.partials.footer')
+<!-- Bao gồm template phần footer -->
+
 <!-- Scripts cho chức năng lọc -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const filterControls = document.querySelectorAll('.filter__controls li');
         const products = document.querySelectorAll('.mix');
 
         filterControls.forEach(control => {
-            control.addEventListener('click', function() {
+            control.addEventListener('click', function () {
                 filterControls.forEach(ctrl => ctrl.classList.remove('active'));
                 this.classList.add('active');
 
@@ -488,12 +501,13 @@
 <!-- Script để lọc sản phẩm theo danh mục -->
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('DOMContentLoaded', function () {
         const loadMoreBtn = document.getElementById('load-more-btn');
         const hiddenProducts = document.querySelectorAll('.property__gallery .mix.d-none');
         let currentCount = 0;
 
-        loadMoreBtn.addEventListener('click', function() {
+        loadMoreBtn.addEventListener('click', function () {
             for (let i = currentCount; i < currentCount + 8; i++) {
                 if (hiddenProducts[i]) {
                     hiddenProducts[i].classList.remove('d-none');
@@ -506,6 +520,83 @@
             currentCount += 8;
         });
     });
-</script>
+    $('.product__hover').each(function () {
+        var $this = $(this);
+        var originProductHover = $this.html();
+        $this.data('originalContent', originProductHover);
+    });
 
-@endsection
+    $(".product__item").hover(
+        function () {
+            $(this).find(".pd-hover").show();
+        },
+        function () {
+            var $pdHover = $(this).find(".pd-hover");
+            var originalContent = $pdHover.closest('.product__item').find('.product__hover').data('originalContent');
+
+            $pdHover.html(originalContent);
+            $pdHover.hide();
+        }
+    );
+
+    function handleQuickCard(e, id, colorId = 0) {
+        e.preventDefault();
+        $(`.swatch-attribute-options-${id}`).children().each(function () {
+            if ($(this).hasClass("selected")) {
+                colorId = $(this).attr("data-color-id")
+            }
+        })
+
+        let htmlContent = '';
+        $.ajax({
+            url: "{{route("getSizeProduct")}}",
+            method: "post",
+            data: {
+                _token: "{{csrf_token()}}",
+                color_id: colorId,
+                product_id: id,
+            },
+            success: function (r) {
+                Object.entries(r.size).forEach(([k, e]) => {
+                    htmlContent += `<li>
+                        <a href="/cart/add?product_id=${id}&variant_id=${k}" class="quick-tocard">
+                            ${e.size}
+                            </a>
+                        </li>`;
+                });
+                $(`#product-hv-${id}`).html(htmlContent);
+                $(".quick-tocard").on("click", function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: $(this).attr("href"),
+                        method: "post",
+                        data: {
+                            _token: "{{csrf_token()}}"
+                        },
+                        success: function () {
+                            location.href = "/cart";
+                        }, error: function (e) {
+                            console.error(e)
+                        }
+                    })
+                })
+
+            }, error: function (e) {
+                console.error(e)
+            }
+        })
+
+    }
+
+    function getSizeByColor(e, colorId, productId) {
+        e.preventDefault();
+        const currentElement = $(`#swichcolor-${colorId}-${productId}`);
+        currentElement.parent().children().each(function () {
+            if ($(this).hasClass("selected")) {
+                $(this).removeClass("selected")
+            }
+        })
+        currentElement.addClass("selected")
+        handleQuickCard(e, productId)
+    }
+</script>

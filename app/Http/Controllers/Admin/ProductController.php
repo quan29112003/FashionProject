@@ -38,6 +38,14 @@ class ProductController extends Controller
     //     return view('admin.products.index', compact('products'));
     // }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $products = Product::where('name_product', 'LIKE', "%$keyword%")->get();
+
+        return view('client.partials.search_results', compact('products', 'keyword'));
+    }
+
     public function index(Request $request)
     {
         $query = Product::with(['variants.color', 'variants.size', 'category', 'images']);
@@ -50,9 +58,8 @@ class ProductController extends Controller
         }
 
         $products = $query->get();
-        $categories = Category::all(); // Get all categories
 
-        return view('admin.products.index', compact('products', 'category'));
+        return view('admin.products.index', compact('products',  'category'));
     }
 
     public function edit($id)

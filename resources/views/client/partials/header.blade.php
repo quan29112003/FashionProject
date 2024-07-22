@@ -273,7 +273,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark fs-5" href="{{ route('cart') }}">
+                                <a class="nav-link text-dark fs-5" href="{{ url('cart') }}">
                                     <span class="icon_bag_alt"></span>
                                 </a>
                             </li>

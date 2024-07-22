@@ -80,7 +80,8 @@
                                 <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
                                 </li>
                                 @foreach (session('cart', []) as $item)
-                                    <li>{{ $item['name'] }} <span>{{ number_format($item['price'] * $item['quantity'],0,',','.') }}₫</span>
+                                    <li>{{ $item['name'] }}
+                                        <span>{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</span>
                                     </li>
                                 @endforeach
                             </ul>

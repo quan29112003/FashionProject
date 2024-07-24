@@ -294,53 +294,7 @@
                         </div> <!-- .card-->
                     </div> <!-- .col-->
                 </div> <!-- end row-->
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header p-0 border-0 bg-info-subtle">
-                                <div class="row g-0 text-center">
-                                    <div class="col-6 col-sm-4">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1"><span class="counter-value"
-                                                    data-target={{ $data->amount }}>0</span></h5>
-                                            <p class="text-muted mb-0">Đơn hàng</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-4">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1">$<span class="counter-value"
-                                                    data-target="{{ $data->earn }}">0</span>k</h5>
-                                            <p class="text-muted mb-0">Thu nhập</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-4">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1"><span class="counter-value"
-                                                    data-target={{ $data->refund }}></span></h5>
-                                            <p class="text-muted mb-0">Hoàn tiền</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                </div>
-                            </div><!-- end card header -->
 
-                            <div class="card-body p-0 pb-2">
-                                <div class="w-100">
-                                    <div id="data_charts" data-orders={{ collect($data->orders)->implode('-') }}
-                                        data-earns={{ collect($data->earns)->implode('-') }}
-                                        data-refunds={{ collect($data->refunds)->implode('-') }}></div>
-                                    <div id="customer_impression_charts"
-                                        data-colors='["--vz-primary", "--vz-success", "--vz-danger"]' class="apex-charts"
-                                        dir="ltr"></div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-
-
-                </div> <!-- end .h-100-->
 
             </div> <!-- end col -->
         </div>
@@ -400,7 +354,7 @@
             });
         </script>
 
-        
+
 
 
         <!-- apexcharts -->

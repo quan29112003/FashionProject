@@ -11,6 +11,7 @@ use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductVariant;
 use App\Models\Product;
+use \stdClass;
 
 
 
@@ -59,6 +60,65 @@ class OrderController extends Controller
             'newOrderCount' => $newOrderCount,
             'newOrders' => $newOrders
         ]);
+    }
+
+    public function statistics(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $totalAmount = Order::whereBetween('created_at', [$start_date, $end_date])
+                            ->sum('total_amount');
+
+        return response()->json(['totalAmount' => $totalAmount]);
+    }
+
+
+    public function chart(){
+        $totalRefund = DB::table('orders')->where('status_id',6)->count('status_id');
+        $totalAmount = DB::table('orders')->where('status_id','!=',6)->sum('total_amount');
+        $totalOrder = DB::table('orders')->count('id');
+        $totalAmounts = [];
+        $totalRefunds = [];
+        $totalOrders = [];
+
+        // Vòng lặp qua từng tháng
+        for ($month = 1; $month <= 12; $month++) {
+            $monthAmount = DB::table('orders')
+                ->whereMonth('created_at', $month)
+                ->whereYear('created_at', date('Y')) // Lọc theo năm hiện tại
+                ->sum('total_amount');
+            $totalAmounts[$month] = $monthAmount;
+        }
+
+        for ($month = 1; $month <= 12; $month++) {
+            $refund = DB::table('orders')
+                ->whereMonth('created_at', $month)
+                ->where('status_id', 6)
+                ->count('status_id');
+            $totalRefunds[$month] = $refund;
+        }
+
+        for ($month = 1; $month <= 12; $month++) {
+            $orders = DB::table('orders')
+                ->whereMonth('created_at', $month)
+                ->count('id');
+            $totalOrders[$month] = $orders;
+        }
+
+        $data = new stdClass();
+        $data->amount = $totalOrder;
+        //chart đơn hàng
+        $data->orders = $totalOrders;
+        $data->earn = $totalAmount;
+        //chart thu nhập
+        $data->earns = $totalAmounts;
+        $data->refund = $totalRefund;
+        //chart hoàn trả
+        $data->refunds = $totalRefunds;
+
+        return view('admin.statistical', ['data'=>$data]);
+
     }
 
 

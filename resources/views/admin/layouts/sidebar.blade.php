@@ -43,6 +43,12 @@
                 </li> <!-- end Dashboard Menu -->
 
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('statistic') }}">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-dashboards">Statistics</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('order') }}">
                         <i class="ri-layout-3-line"></i> <span data-key="t-dashboards">Orders</span>
                     </a>

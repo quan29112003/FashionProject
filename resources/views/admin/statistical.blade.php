@@ -5,8 +5,6 @@
 @endsection
 
 @section('content')
-
-
     <div class="row">
         <div class="col-xl-4 col-md-6">
             <!-- card -->
@@ -20,13 +18,15 @@
                         <div class="flex-shrink-0">
                             <form id="single-date-form">
                                 @csrf
-                                <input type="date" class="form-control" name="single_date" id="single_date" required onchange="fetchSingleDateStatistics()">
+                                <input type="date" class="form-control" name="single_date" id="single_date" required
+                                    onchange="fetchSingleDateStatistics()">
                             </form>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountSingleDate">0</span>k </h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountSingleDate">0</span>k
+                            </h4>
                             <a href="" class="text-decoration-underline">View net earnings</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -52,10 +52,12 @@
                             <form id="date-range-form">
                                 @csrf
                                 <label for="start_date">Start Date:</label>
-                                <input type="date" class="form-control" name="start_date" id="start_date" required onchange="fetchDateRangeStatistics()">
+                                <input type="date" class="form-control" name="start_date" id="start_date" required
+                                    onchange="fetchDateRangeStatistics()">
 
                                 <label for="end_date">End Date:</label>
-                                <input type="date" class="form-control" name="end_date" id="end_date" required onchange="fetchDateRangeStatistics()">
+                                <input type="date" class="form-control" name="end_date" id="end_date" required
+                                    onchange="fetchDateRangeStatistics()">
                             </form>
                         </div>
                     </div>
@@ -185,9 +187,7 @@
                                 @csrf
                                 <label for="status_id">Status:</label>
                                 <select name="status_id" id="status_id">
-                                    <!-- Option should be dynamically populated from database -->
                                     <option value="">Select Status</option>
-                                    <!-- Example: -->
                                     <option value="1">Chờ xác nhận</option>
                                     <option value="2">Chờ lấy hàng</option>
                                     <option value="3">Đang giao</option>
@@ -198,13 +198,10 @@
 
                                 <label for="payment_id">Payment Method:</label>
                                 <select name="payment_id" id="payment_id">
-                                    <!-- Option should be dynamically populated from database -->
                                     <option value="">Select Payment Method</option>
-                                    <!-- Example: -->
                                     <option value="1">Chưa thanh toán</option>
                                     <option value="2">Đã thanh toán</option>
                                 </select>
-
                             </form>
                             <div class="card-body">
                                 <div class="table-responsive table-card">
@@ -220,13 +217,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            <!-- Rows will be inserted here by JavaScript -->
                                         </tbody>
                                     </table>
-
                                 </div>
                             </div>
-                        </div> <!-- .card-->
+                        </div>
                     </div> <!-- .col-->
                 </div> <!-- end row-->
 
@@ -315,7 +311,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-    <script>
+    {{-- <script>
         new DataTable("#example", {
             order: [
                 [0, 'desc']
@@ -334,7 +330,7 @@
             pageLength: 5,
             lengthChange: false
         });
-    </script>
+    </script> --}}
 
     <!-- TotalAmount -->
     <script>
@@ -356,7 +352,7 @@
             var date = document.getElementById('single_date').value;
 
             $.ajax({
-                url: '{{ route("orders.single_date_statistics") }}',
+                url: '{{ route('orders.single_date_statistics') }}',
                 method: 'GET',
                 data: {
                     date: date
@@ -372,7 +368,7 @@
             var end_date = document.getElementById('end_date').value;
 
             $.ajax({
-                url: '{{ route("orders.date_range_statistics") }}',
+                url: '{{ route('orders.date_range_statistics') }}',
                 method: 'GET',
                 data: {
                     start_date: start_date,
@@ -383,30 +379,32 @@
                 }
             });
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#example1').DataTable({
+                order: [
+                    [0, 'desc']
+                ],
+                searching: false,
+                pageLength: 5,
+                lengthChange: false
+            });
 
-        </script>
-        <script>
-            $(document).ready(function() {
-                $('#status_id, #payment_id, #single_date').on('change input', function() {
-                    fetchOrders();
-                });
-
-                // Fetch orders initially on page load
+            $('#status_id, #payment_id').on('change', function() {
                 fetchOrders();
             });
 
             function fetchOrders() {
                 var status_id = $('#status_id').val();
                 var payment_id = $('#payment_id').val();
-                var date = $('#single_date').val();
 
                 $.ajax({
-                    url: '{{ route("orders.filter") }}',
+                    url: '{{ route('orders.filter') }}',
                     method: 'GET',
                     data: {
                         status_id: status_id,
-                        payment_id: payment_id,
-                        date: date
+                        payment_id: payment_id
                     },
                     success: function(response) {
                         var tbody = $('#example1 tbody');
@@ -415,21 +413,28 @@
                         response.forEach(function(order) {
                             tbody.append(
                                 '<tr>' +
-                                    '<td>' + order.total_amount + '</td>' +
-                                    '<td>' + order.name + '</td>' +
-                                    '<td>' + order.address + '</td>' +
-                                    '<td>' + order.phone + '</td>' +
-                                    '<td>' + order.email + '</td>' +
+                                '<td>' + order.total_amount + '</td>' +
+                                '<td>' + order.name + '</td>' +
+                                '<td>' + order.address + '</td>' +
+                                '<td>' + order.phone + '</td>' +
+                                '<td>' + order.email + '</td>' +
                                 '</tr>'
                             );
                         });
+
+                        // Tái khởi tạo DataTables sau khi cập nhật dữ liệu
+                        table.clear().rows.add(tbody.find('tr')).draw();
                     },
                     error: function() {
                         alert('Failed to load orders.');
                     }
                 });
             }
-            </script>
+
+            // Fetch orders initially on page load
+            fetchOrders();
+        });
+    </script>
 
     <!-- apexcharts -->
     <script src="{{ asset('theme/admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
@@ -444,4 +449,3 @@
     <!-- Dashboard init -->
     <script src="{{ asset('theme/admin/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
 @endsection
-

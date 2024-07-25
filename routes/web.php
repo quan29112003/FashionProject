@@ -153,6 +153,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/orders/single_date_statistics', [OrderController::class, 'singleDateStatistics'])->name('orders.single_date_statistics');
     Route::get('/orders/date_range_statistics', [OrderController::class, 'dateRangeStatistics'])->name('orders.date_range_statistics');
     Route::get('/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
+
     Route::get('orders/statistic',[OrderController::class, 'chart'])->name('statistic');
 
     Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');

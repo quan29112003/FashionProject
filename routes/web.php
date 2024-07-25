@@ -150,7 +150,9 @@ Route::prefix('admin')->group(function () {
     Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
     Route::get('/check-new-order', [OrderController::class, 'checkNewOrder'])->name('check-new-order'); //inform order
 
-    Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
+    Route::get('/orders/single_date_statistics', [OrderController::class, 'singleDateStatistics'])->name('orders.single_date_statistics');
+    Route::get('/orders/date_range_statistics', [OrderController::class, 'dateRangeStatistics'])->name('orders.date_range_statistics');
+    Route::get('/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
     Route::get('orders/statistic',[OrderController::class, 'chart'])->name('statistic');
 
     Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');

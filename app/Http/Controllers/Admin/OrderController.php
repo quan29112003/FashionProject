@@ -62,15 +62,40 @@ class OrderController extends Controller
         ]);
     }
 
-    public function statistics(Request $request)
+    public function singleDateStatistics(Request $request)
+    {
+        $date = $request->input('date');
+
+        $totalAmount = Order::whereDate('created_at', $date)->sum('total_amount');
+
+        return response()->json(['totalAmount' => $totalAmount]);
+    }
+
+    public function dateRangeStatistics(Request $request)
     {
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
-        $totalAmount = Order::whereBetween('created_at', [$start_date, $end_date])
-                            ->sum('total_amount');
+        $totalAmount = Order::whereBetween('created_at', [$start_date, $end_date])->sum('total_amount');
 
         return response()->json(['totalAmount' => $totalAmount]);
+    }
+
+    public function filterOrders(Request $request)
+    {
+        $status_id = $request->input('status_id');
+        $payment_id = $request->input('payment_id');
+
+        $orders = Order::when($status_id, function ($query, $status_id) {
+            return $query->where('status_id', $status_id);
+        })
+        ->when($payment_id, function ($query, $payment_id) {
+            return $query->where('payment_id', $payment_id);
+        })
+        ->select('total_amount', 'name', 'address', 'phone', 'email')
+        ->get();
+
+        return response()->json($orders);
     }
 
 

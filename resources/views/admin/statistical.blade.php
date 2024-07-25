@@ -5,8 +5,10 @@
 @endsection
 
 @section('content')
+
+
     <div class="row">
-        <div class="col-xl-6 col-md-6">
+        <div class="col-xl-4 col-md-6">
             <!-- card -->
             <div class="card card-animate">
                 <div class="card-body">
@@ -16,16 +18,15 @@
                                 theo ngày</p>
                         </div>
                         <div class="flex-shrink-0">
-                            <label for="start_date">Start Date:</label>
-                            <input type="date" class="form-control" name="start_date" id="start_date" required onchange="fetchStatistics()">
-
-                            <label for="end_date">End Date:</label>
-                            <input type="date" class="form-control" name="end_date" id="end_date" required onchange="fetchStatistics()">
+                            <form id="single-date-form">
+                                @csrf
+                                <input type="date" class="form-control" name="single_date" id="single_date" required onchange="fetchSingleDateStatistics()">
+                            </form>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmount">0</span>k </h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountSingleDate">0</span>k </h4>
                             <a href="" class="text-decoration-underline">View net earnings</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -38,8 +39,40 @@
             </div><!-- end card -->
         </div><!-- end col -->
 
+        <div class="col-xl-6 col-md-6">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Tổng thu nhập
+                                theo ngày</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <form id="date-range-form">
+                                @csrf
+                                <label for="start_date">Start Date:</label>
+                                <input type="date" class="form-control" name="start_date" id="start_date" required onchange="fetchDateRangeStatistics()">
 
-
+                                <label for="end_date">End Date:</label>
+                                <input type="date" class="form-control" name="end_date" id="end_date" required onchange="fetchDateRangeStatistics()">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountDateRange">0</span>k </h4>
+                            <a href="" class="text-decoration-underline">View net earnings</a>
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-success-subtle rounded fs-3">
+                                <i class="bx bx-dollar-circle text-success"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
 
         <div class="col-xl-3 col-md-6">
             <!-- card -->
@@ -142,28 +175,52 @@
                     </div>
 
                     <div class="col-xl-6">
+
+
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
                                 <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
                             </div><!-- end card header -->
+                            <form id="filter-form">
+                                @csrf
+                                <label for="status_id">Status:</label>
+                                <select name="status_id" id="status_id">
+                                    <!-- Option should be dynamically populated from database -->
+                                    <option value="">Select Status</option>
+                                    <!-- Example: -->
+                                    <option value="1">Chờ xác nhận</option>
+                                    <option value="2">Chờ lấy hàng</option>
+                                    <option value="3">Đang giao</option>
+                                    <option value="4">Đã giao</option>
+                                    <option value="5">Đã hủy</option>
+                                    <option value="6">Trả hàng</option>
+                                </select>
 
+                                <label for="payment_id">Payment Method:</label>
+                                <select name="payment_id" id="payment_id">
+                                    <!-- Option should be dynamically populated from database -->
+                                    <option value="">Select Payment Method</option>
+                                    <!-- Example: -->
+                                    <option value="1">Chưa thanh toán</option>
+                                    <option value="2">Đã thanh toán</option>
+                                </select>
+
+                            </form>
                             <div class="card-body">
                                 <div class="table-responsive table-card">
                                     <table id="example1"
                                         class="table table-borderless table-centered align-middle table-nowrap mb-0">
                                         <thead class="text-muted table-info">
                                             <tr>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Payment</th>
+                                                <th scope="col">Total Amount</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Address</th>
+                                                <th scope="col">Phone</th>
+                                                <th scope="col">Email</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
 
@@ -243,10 +300,11 @@
 @endsection
 
 @section('script-libs')
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!--datatable js-->
+    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
@@ -263,8 +321,8 @@
                 [0, 'desc']
             ],
             searching: false,
-            pageLength: 5, // Mặc định số lượng dòng hiển thị là 5
-            lengthChange: false // Ẩn ô "show entries"
+            pageLength: 5,
+            lengthChange: false
         });
     </script>
     <script>
@@ -273,42 +331,105 @@
                 [0, 'desc']
             ],
             searching: false,
-            pageLength: 5, // Mặc định số lượng dòng hiển thị là 5
-            lengthChange: false // Ẩn ô "show entries"
+            pageLength: 5,
+            lengthChange: false
         });
     </script>
 
-    {{-- TotalAmount --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- TotalAmount -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Set the default date to today
+            // Set the default date to today for single date selection
             var today = new Date().toISOString().substr(0, 10);
+            document.getElementById('single_date').value = today;
+
+            // Set the default date to today for date range selection
             document.getElementById('start_date').value = today;
             document.getElementById('end_date').value = today;
 
-            // Fetch statistics for the default date range
-            fetchStatistics();
+            // Fetch statistics for the default date and date range
+            fetchSingleDateStatistics();
+            fetchDateRangeStatistics();
         });
 
-        function fetchStatistics() {
+        function fetchSingleDateStatistics() {
+            var date = document.getElementById('single_date').value;
+
+            $.ajax({
+                url: '{{ route("orders.single_date_statistics") }}',
+                method: 'GET',
+                data: {
+                    date: date
+                },
+                success: function(response) {
+                    $('#totalAmountSingleDate').text(response.totalAmount);
+                }
+            });
+        }
+
+        function fetchDateRangeStatistics() {
             var start_date = document.getElementById('start_date').value;
             var end_date = document.getElementById('end_date').value;
 
             $.ajax({
-                url: '{{ route('orders.statistics') }}',
+                url: '{{ route("orders.date_range_statistics") }}',
                 method: 'GET',
                 data: {
                     start_date: start_date,
                     end_date: end_date
                 },
                 success: function(response) {
-                    $('#totalAmount').text(response.totalAmount);
+                    $('#totalAmountDateRange').text(response.totalAmount);
                 }
             });
         }
-    </script>
 
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#status_id, #payment_id, #single_date').on('change input', function() {
+                    fetchOrders();
+                });
+
+                // Fetch orders initially on page load
+                fetchOrders();
+            });
+
+            function fetchOrders() {
+                var status_id = $('#status_id').val();
+                var payment_id = $('#payment_id').val();
+                var date = $('#single_date').val();
+
+                $.ajax({
+                    url: '{{ route("orders.filter") }}',
+                    method: 'GET',
+                    data: {
+                        status_id: status_id,
+                        payment_id: payment_id,
+                        date: date
+                    },
+                    success: function(response) {
+                        var tbody = $('#example1 tbody');
+                        tbody.empty();
+
+                        response.forEach(function(order) {
+                            tbody.append(
+                                '<tr>' +
+                                    '<td>' + order.total_amount + '</td>' +
+                                    '<td>' + order.name + '</td>' +
+                                    '<td>' + order.address + '</td>' +
+                                    '<td>' + order.phone + '</td>' +
+                                    '<td>' + order.email + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    },
+                    error: function() {
+                        alert('Failed to load orders.');
+                    }
+                });
+            }
+            </script>
 
     <!-- apexcharts -->
     <script src="{{ asset('theme/admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
@@ -323,3 +444,4 @@
     <!-- Dashboard init -->
     <script src="{{ asset('theme/admin/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
 @endsection
+

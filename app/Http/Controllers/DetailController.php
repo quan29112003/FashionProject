@@ -136,8 +136,12 @@ class DetailController extends Controller
                 return $relatedProduct;
             });
 
+            $newProducts = $relatedProducts->filter(function ($product) {
+                return $product->created_at->greaterThan(now()->subDays(5));
+            });
+
         // Return the product detail view with the necessary data
-        return view('client.layouts.detail', compact('product', 'variant', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
+        return view('client.layouts.detail', compact('product','newProducts', 'variant', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
     }
 
     public function getProductPrice(Request $request)

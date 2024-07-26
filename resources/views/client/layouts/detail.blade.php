@@ -164,12 +164,26 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg"
                             data-setbg="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}">
+                            <!-- Check if the product is new -->
+                            @if ($newProducts->contains($relatedProduct))
+                                <div class="label new">New</div>
+                            @endif
+                            <!-- Check if the product is a good deal -->
+                            @if ($relatedProduct->is_good_deal)
+                                <div class="label sale">Sale</div>
+                            @endif
+                            <!-- Check if the product is a hot trend -->
+                            @if ($product->is_hot)
+                                <div class="label sale">Hot Trend</div>
+                            @endif
                             <ul class="product__hover">
                                 <li><a href="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}"
                                         class="image-popup"><span class="arrow_expand"></span></a></li>
 
                                 <li>
-                                    <form id="wishlist-form-{{ $relatedProduct->id }}" action="{{ route('wishlist.add', $relatedProduct->id) }}" method="POST" style="display: none;">
+                                    <form id="wishlist-form-{{ $relatedProduct->id }}"
+                                        action="{{ route('wishlist.add', $relatedProduct->id) }}" method="POST"
+                                        style="display: none;">
                                         @csrf
                                     </form>
                                     <a href="#" onclick="addToWishlist({{ $relatedProduct->id }});">
@@ -191,16 +205,21 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price">
-                                @if ($relatedProduct->price_sale)
-                                    <span>{{ number_format($relatedProduct->price, 0, ',', '.') }}₫</span>
-                                    {{ number_format($relatedProduct->price_sale, 0, ',', '.') }}₫
-                                @elseif ($relatedProduct->price)
-                                    {{ number_format($relatedProduct->price, 0, ',', '.') }}₫
-                                @else
-                                    <div class="product__price">Giá chưa cập nhật</div>
-                                @endif
-                            </div>
+                            @if ($variant)
+                                <div class="product__price">
+                                    @if ($relatedProduct->is_good_deal)
+                                        <h6 style="color: red; font-weight: bold;">
+                                            {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
+                                        <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
+                                    @else
+                                        {{ number_format($variant->price, 0, ',', '.') }}đ
+                                    @endif
+                                </div>
+                                <!-- Giá sản phẩm -->
+                            @else
+                                <div class="product__price">Giá chưa cập nhật</div>
+                                <!-- Handle case where variant is null -->
+                            @endif
 
                         </div>
                     </div>

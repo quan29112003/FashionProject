@@ -148,18 +148,32 @@
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg"
                                         data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                        <!-- Check if the product is new -->
+                                        @if ($newProducts->contains($product))
+                                            <div class="label new">New</div>
+                                        @endif
+                                        <!-- Check if the product is a good deal -->
+                                        @if ($product->is_good_deal)
+                                            <div class="label sale">Sale</div>
+                                        @endif
+                                        <!-- Check if the product is a hot trend -->
+                                        @if ($product->is_hot)
+                                            <div class="label sale">Hot Trend</div>
+                                        @endif
                                         <ul class="product__hover">
                                             <li><a href="{{ asset('uploads/' . $product->thumbnail) }}"
                                                     class="image-popup"><span class="arrow_expand"></span></a></li>
-                                                    <li>
-                                                        <form id="wishlist-form-{{ $product->id }}" action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                        </form>
-                                                        <a href="#" onclick="addToWishlist({{ $product->id }});">
-                                                            <span class="icon_heart_alt"></span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- Thêm vào danh sách yêu thích -->
+                                            <li>
+                                                <form id="wishlist-form-{{ $product->id }}"
+                                                    action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                <a href="#" onclick="addToWishlist({{ $product->id }});">
+                                                    <span class="icon_heart_alt"></span>
+                                                </a>
+                                            </li>
+                                            <!-- Thêm vào danh sách yêu thích -->
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>
 
@@ -176,9 +190,21 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">
-                                            {{ number_format($variant->price, 0, ',', '.') ?? 'Price not available' }}đ
-                                        </div>
+                                        @if ($variant)
+                                            <div class="product__price">
+                                                @if ($product->is_good_deal)
+                                                    <h6 style="color: red; font-weight: bold;">
+                                                        {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
+                                                    <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
+                                                @else
+                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                @endif
+                                            </div>
+                                            <!-- Giá sản phẩm -->
+                                        @else
+                                            <div class="product__price">Giá chưa cập nhật</div>
+                                            <!-- Handle case where variant is null -->
+                                        @endif
                                     </div>
 
                                 </div>

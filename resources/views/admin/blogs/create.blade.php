@@ -53,7 +53,7 @@
                                 <div class="col-md-4">
                                     <div>
                                     <label for="image" class="form-label">Image</label>
-                                    <input type="file" class="form-control" id="image" name="image">
+                                    <input type="hidden" class="form-control" id="image" name="image">
                                     @error('image')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror

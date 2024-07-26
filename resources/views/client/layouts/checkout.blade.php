@@ -21,8 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a href="#">Have a coupon?</a> Click
-                    here to enter your code.</h6>
+                <h6 class="coupon__link"><span class="icon_tag_alt"></span> <a href="#">Have a coupon?</a> Click here to enter your code.</h6>
             </div>
         </div>
         <form action="{{ route('checkout.process') }}" method="POST" class="checkout__form">
@@ -52,8 +51,7 @@
                             <div class="checkout__form__input">
                                 <p>Address <span>*</span></p>
                                 <input type="text" name="address" placeholder="Street Address">
-                                <input type="text" name="address2"
-                                    placeholder="Apartment. suite, unit etc (optional)">
+                                <input type="text" name="address2" placeholder="Apartment. suite, unit etc (optional)">
                             </div>
                             <div class="checkout__form__input">
                                 <p>Town/City <span>*</span></p>
@@ -83,8 +81,13 @@
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Note about your order, e.g, special note for delivery</p>
-                                <input type="text" name="note"
-                                    placeholder="Note about your order, e.g, special note for delivery">
+                                <input type="text" name="note" placeholder="Note about your order, e.g, special note for delivery">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="checkout__form__input">
+                                <p>Voucher Code</p>
+                                <input type="text" name="voucher_code" placeholder="Enter your voucher code">
                             </div>
                         </div>
                     </div>
@@ -94,8 +97,7 @@
                         <h5>Your order</h5>
                         <div class="checkout__order__product">
                             <ul>
-                                <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
-                                </li>
+                                <li><span class="top__text">Product</span> <span class="top__text__right">Total</span></li>
                                 @foreach (session('cart', []) as $item)
                                     <li>{{ $item['name'] }} <span>${{ $item['price'] * $item['quantity'] }}</span></li>
                                 @endforeach

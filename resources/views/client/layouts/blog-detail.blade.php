@@ -9,7 +9,7 @@
                     <div class="breadcrumb__links">
                         <a href="{{ url('/')}}"><i class="fa fa-home"></i> Home</a>
                         <a href="{{ route('blog')}}">Blog</a>
-                        <span>Being seen: how is age diversity effecting change in fashion and beauty?</span>
+                        <span>Blog-Detail</span>
                     </div>
                 </div>
             </div>

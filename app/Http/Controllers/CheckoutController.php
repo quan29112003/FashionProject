@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Voucher;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-
     public function showCheckout()
     {
         $cart = session()->get('cart', []);
@@ -20,10 +20,9 @@ class CheckoutController extends Controller
 
         return view('client.layouts.checkout', compact('total'));
     }
+
     public function processCheckout(Request $request)
     {
-
-
         // Validate form data
         $request->validate([
             'first_name' => 'required',
@@ -35,15 +34,25 @@ class CheckoutController extends Controller
             'postcode' => 'required',
             'phone' => 'required',
             'email' => 'required|email',
+            'voucher_code' => 'nullable|string',
         ]);
+
+        // Xử lý mã giảm giá
+        $totalAmount = $request->total_amount;
+        $voucherCode = $request->input('voucher_code');
+        $voucher = Voucher::where('code', $voucherCode)->first();
+
+        if ($voucher) {
+            $discount = $voucher->discount_value;
+            $totalAmount -= $totalAmount * ($discount / 100);
+        }
 
         $order = Order::create([
             'user_id' => 1,
-            'status' => 'pending',
+            'status' => 'Đang hoạt động',
             'payment' => 0,
-            'total_amount' => $request->total_amount,
-            'voucher_id' => $request->voucher_id ?? null,
-            'add_points' => $request->add_points ?? 0,
+            'total_amount' => $totalAmount,
+            'voucher_id' => $voucher->id ?? null,
         ]);
 
         foreach (session('cart', []) as $item) {

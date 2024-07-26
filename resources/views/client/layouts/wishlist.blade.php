@@ -58,12 +58,12 @@
                                             <td class="cart__product__item">
                                                 <img src="{{ asset('uploads/' . $wishlist->product->thumbnail) }}" alt="">
                                                 <div class="cart__product__item__title">
-                                                    <a href="{{ route('detail', $wishlist->productID) }}"><h6>{{ $wishlist->product->name_product }}</h6></a>
+                                                    <a href="{{ route('detail', ['id' => $wishlist->product->id, 'name' => str_replace(' ', '-', strtolower($wishlist->product->name_product))]) }}"><h6>{{ $wishlist->product->name_product }}</h6></a>
                                                 </div>
                                             </td>
-                                            <td class="cart__price">${{ number_format($variant->price, 2) }}</td>
+                                            <td class="cart__price">{{ number_format($variant->price,0,',','.') }}đ</td>
                                             <td class="cart__quantity">{{ $variant->quantity }}</td>
-                                            <td class="cart__total">${{ number_format($variant->price_sale, 2) }}</td>
+                                            <td class="cart__total">{{ number_format($variant->price_sale,0,',','.') }}đ</td>
                                             <td class="cart__close">
                                                 <button onclick="deleteWishlistItem({{ $wishlist->id }})" class="btn btn-danger btn-sm">Remove</button>
                                             </td>

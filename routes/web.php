@@ -92,7 +92,8 @@ Route::get('/order-detail2', function () {
 })->name('order.detail2');
 
 
-Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+// Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+Route::get('/detail/{id}-{name}', [DetailController::class, 'showDetail'])->name('detail');
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');

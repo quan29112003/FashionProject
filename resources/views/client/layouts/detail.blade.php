@@ -1,5 +1,8 @@
 @include('client.partials.header')
 
+
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -164,13 +167,22 @@
                             <ul class="product__hover">
                                 <li><a href="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}"
                                         class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+
+                                <li>
+                                    <form id="wishlist-form-{{ $relatedProduct->id }}" action="{{ route('wishlist.add', $relatedProduct->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <a href="#" onclick="addToWishlist({{ $relatedProduct->id }});">
+                                        <span class="icon_heart_alt"></span>
+                                    </a>
+                                </li>
+                                <!-- Thêm vào danh sách yêu thích -->
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
                             <h6><a
-                                    href="{{ route('detail', $relatedProduct->id) }}">{{ $relatedProduct->name_product }}</a>
+                                    href="{{ route('detail', ['id' => $relatedProduct->id, 'name' => str_replace(' ', '-', strtolower($relatedProduct->name_product))]) }}">{{ $relatedProduct->name_product }}</a>
                             </h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
@@ -325,4 +337,54 @@
         // Update price on initial load
         updatePrice();
     });
+</script>
+
+<script>
+    function showToast(message, type) {
+        var toastContainer = $('#toast-container');
+        var autoHideDelay = 3000; // 3 seconds
+
+        var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+        var toast = $('<div class="toast text-white ' + toastClass +
+            '" role="alert" aria-live="assertive" aria-atomic="true">' +
+            '<div class="toast-header">' +
+            '<strong class="me-auto">Notification</strong>' +
+            '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+            '</div>' +
+            '<div class="toast-body">' + message + '</div>' +
+            '</div>');
+
+        // Append toast to container and show it
+        toastContainer.append(toast);
+        var bootstrapToast = new bootstrap.Toast(toast[0], {
+            delay: autoHideDelay
+        });
+        bootstrapToast.show();
+
+        // Remove toast after it's hidden
+        toast.on('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+
+    function addToWishlist(productId) {
+        event.preventDefault();
+        var form = $('#wishlist-form-' + productId);
+
+        $.ajax({
+            url: form.attr('action'),
+            method: form.attr('method'),
+            data: form.serialize(),
+            success: function(response) {
+                showToast('Product added to wishlist!', 'success');
+            },
+            error: function(response) {
+                if (response.status === 400) {
+                    showToast('Product is already in the wishlist.', 'danger');
+                } else {
+                    showToast('Failed to add product to wishlist.', 'danger');
+                }
+            }
+        });
+    }
 </script>

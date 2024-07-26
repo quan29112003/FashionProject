@@ -75,4 +75,14 @@ class HomeController extends Controller
 
         return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts','variantProducts'));
     }
+    public function addToWishlist(Request $request, $productId)
+{
+    // Logic to add the product to the wishlist
+
+    // On success
+    return response()->json(['success' => true]);
+
+    // On failure
+    return response()->json(['error' => 'Failed to add product to wishlist'], 500);
+}
 }

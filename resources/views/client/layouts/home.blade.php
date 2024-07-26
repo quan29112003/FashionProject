@@ -1,10 +1,8 @@
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 @include('client.partials.header')
 <!-- Bao gồm header phần -->
+
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
+
 
 <!-- Bắt đầu phần danh mục -->
 <section class="categories">
@@ -137,7 +135,7 @@
                                 <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
                                 <div class="product__item__pic set-bg"
                                      data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
-                                    <a href="{{ route('detail', $product->id) }}">
+                                    <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
                                         <img src="{{ asset('uploads/' . $product->thumbnail) }}"
                                              alt="img product">
 
@@ -155,7 +153,7 @@
                                         </li>
                                         <!-- Popup hình ảnh -->
 
-                                        <li>
+                                        {{-- <li>
                                             <form id="wishlist-form-{{ $product->id }}"
                                                   action="{{ route('wishlist.add', $product->id) }}" method="POST"
                                                   style="display: none;">
@@ -163,6 +161,14 @@
                                             </form>
                                             <a href="#"
                                                onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
+                                                <span class="icon_heart_alt"></span>
+                                            </a>
+                                        </li> --}}
+                                        <li>
+                                            <form id="wishlist-form-{{ $product->id }}" action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                            <a href="#" onclick="addToWishlist({{ $product->id }});">
                                                 <span class="icon_heart_alt"></span>
                                             </a>
                                         </li>
@@ -194,7 +200,12 @@
                                     @endforeach
                                 </div>
                                 <h6>
-                                    <a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a>
+                                    {{-- <a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a> --}}
+                                    <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
+                                        {{ $product->name_product }}
+                                    </a>
+                                    
+                                    
                                 </h6>
                                 <!-- Tên sản phẩm -->
                                 <div class="rating">
@@ -293,12 +304,12 @@
                         @foreach ($product->variants as $variant)
                             <div class="trend__item">
                                 <div class="trend__item__pic">
-                                    <a href="{{ route('detail', $product->id) }}"><img
+                                    <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}"><img
                                             src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                             alt="{{ $product->name_product }}"></a>
                                 </div>
                                 <div class="trend__item__text">
-                                    <a href="{{ route('detail', $product->id) }}">
+                                    <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
                                         <h6>{{ $product->name_product }}</h6>
                                     </a>
                                     <div class="rating">
@@ -324,12 +335,12 @@
                     @foreach ($bestSellerProducts as $product)
                         <div class="trend__item">
                             <div class="trend__item__pic">
-                                <a href="{{ route('detail', $product->id) }}"><img
+                                <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}"><img
                                         src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                         alt="{{ $product->name_product }}"></a>
                             </div>
                             <div class="trend__item__text">
-                                <a href="{{ route('detail', $product->id) }}">
+                                <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
                                     <h6>{{ $product->name_product }}</h6>
                                 </a>
                                 <div class="rating">
@@ -354,12 +365,12 @@
                     @foreach ($featureProducts as $product)
                         <div class="trend__item">
                             <div class="trend__item__pic">
-                                <a href="{{ route('detail', $product->id) }}"><img
+                                <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}"><img
                                         src="{{ asset('uploads/' . $product->images->first()->url) }}"
                                         alt="{{ $product->name_product }}"></a>
                             </div>
                             <div class="trend__item__text">
-                                <a href="{{ route('detail', $product->id) }}">
+                                <a href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
                                     <h6>{{ $product->name_product }}</h6>
                                 </a>
                                 <div class="rating">
@@ -598,5 +609,55 @@
         })
         currentElement.addClass("selected")
         handleQuickCard(e, productId)
+    }
+
+
+
+    function showToast(message, type) {
+        var toastContainer = $('#toast-container');
+        var autoHideDelay = 3000; // 3 seconds
+
+        var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+        var toast = $('<div class="toast text-white ' + toastClass +
+            '" role="alert" aria-live="assertive" aria-atomic="true">' +
+            '<div class="toast-header">' +
+            '<strong class="me-auto">Notification</strong>' +
+            '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+            '</div>' +
+            '<div class="toast-body">' + message + '</div>' +
+            '</div>');
+
+        // Append toast to container and show it
+        toastContainer.append(toast);
+        var bootstrapToast = new bootstrap.Toast(toast[0], {
+            delay: autoHideDelay
+        });
+        bootstrapToast.show();
+
+        // Remove toast after it's hidden
+        toast.on('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+
+    function addToWishlist(productId) {
+        event.preventDefault();
+        var form = $('#wishlist-form-' + productId);
+
+        $.ajax({
+            url: form.attr('action'),
+            method: form.attr('method'),
+            data: form.serialize(),
+            success: function(response) {
+                showToast('Product added to wishlist!', 'success');
+            },
+            error: function(response) {
+                if (response.status === 400) {
+                    showToast('Product is already in the wishlist.', 'danger');
+                } else {
+                    showToast('Failed to add product to wishlist.', 'danger');
+                }
+            }
+        });
     }
 </script>

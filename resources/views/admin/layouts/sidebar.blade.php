@@ -155,28 +155,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarWishlist" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarWishlist">
-                        <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Wishlists</span>
-
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarWishlist">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.wishlists.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Danh
-                                    sách</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.wishlists.create') }}" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarBlog" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarBlog">
                         <i class="ri-layout-3-line"></i>

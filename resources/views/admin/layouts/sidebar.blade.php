@@ -14,10 +14,10 @@
         <!-- Light Logo-->
         <a href="" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ asset('theme-cli/img/logo.png') }}" alt="" height="30">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('theme/admin/assets/images/logo-light.png') }}" alt="" height="17">
+                <img src="{{ asset('theme-cli/img/logo.png') }}" alt="" height="30">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"

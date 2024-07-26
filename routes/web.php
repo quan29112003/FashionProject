@@ -117,7 +117,7 @@ Route::get('/checkout', function () {
 Route::get('/admin', [Controller::class, 'dashboard']);
 
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [Controller::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
     Route::get('show-product', [ProductController::class, 'index'])->name('product');
     Route::get('create-product', [ProductController::class, 'create'])->name('store-product');
@@ -166,6 +166,13 @@ Route::prefix('admin')->group(function () {
     Route::get('order', [OrderController::class, 'index'])->name('order');
     Route::get('order-item/{id}', [OrderController::class, 'show'])->name('order-item');
     Route::put('edit-order/{id}', [OrderController::class, 'update'])->name('edit-order');
+    Route::get('/check-new-order', [OrderController::class, 'checkNewOrder'])->name('check-new-order'); //inform order
+
+    Route::get('/orders/single_date_statistics', [OrderController::class, 'singleDateStatistics'])->name('orders.single_date_statistics');
+    Route::get('/orders/date_range_statistics', [OrderController::class, 'dateRangeStatistics'])->name('orders.date_range_statistics');
+    Route::get('/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
+
+    Route::get('orders/statistic',[OrderController::class, 'chart'])->name('statistic');
 
     Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');

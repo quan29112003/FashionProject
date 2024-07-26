@@ -81,6 +81,29 @@ class OrderController extends Controller
         return response()->json(['totalAmount' => $totalAmount]);
     }
 
+    public function statistics(Request $request)
+    {
+        $date = $request->input('date');
+
+        // Tính tổng số order trong ngày đã chọn
+        $totalOrders = Order::whereDate('created_at', $date)->count();
+
+        return response()->json([
+            'totalOrders' => $totalOrders
+        ]);
+    }
+
+    public function customerStatistics(Request $request)
+    {
+        $date = $request->input('date');
+
+        $totalCustomers = Order::whereDate('created_at', $date)->distinct('user_id')->count('user_id');
+
+        return response()->json([
+            'totalCustomers' => $totalCustomers
+        ]);
+    }
+
     public function filterOrders(Request $request)
     {
         $status_id = $request->input('status_id');

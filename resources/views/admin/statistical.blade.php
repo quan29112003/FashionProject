@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
     <div class="row">
         <div class="col-xl-4 col-md-6">
             <!-- card -->
@@ -82,18 +83,19 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Đơn hàng</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Tổng đơn hàng</p>
                         </div>
                         <div class="flex-shrink-0">
-                            <h5 class="text-danger fs-14 mb-0">
-                                <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
-                            </h5>
+                            <form id="statistics-form">
+                                @csrf
+                                <input type="date" class="form-control" name="date" id="date" required>
+                            </form>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                    data-target=>0</span></h4>
+                                    id="totalOrders">0</span></h4>
                             <a href="" class="text-decoration-underline">View all orders</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -115,15 +117,16 @@
                             <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Khách hàng</p>
                         </div>
                         <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
-                            </h5>
+                            <form id="customer-statistics-form">
+                                @csrf
+                                <input type="date" class="form-control" name="date" id="date-customer" required>
+                            </form>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                    data-target=>0</span> </h4>
+                                    id="totalCustomers">0</span> </h4>
                             <a href="" class="text-decoration-underline">See details</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -343,6 +346,7 @@
             document.getElementById('start_date').value = today;
             document.getElementById('end_date').value = today;
 
+
             // Fetch statistics for the default date and date range
             fetchSingleDateStatistics();
             fetchDateRangeStatistics();
@@ -435,6 +439,71 @@
             fetchOrders();
         });
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Set the default date to today
+        var today = new Date().toISOString().substr(0, 10);
+        document.getElementById('date').value = today;
+
+        // Fetch statistics for the default date
+        fetchStatistics(today);
+
+        document.getElementById('date').addEventListener('change', function() {
+            var selectedDate = this.value;
+            fetchStatistics(selectedDate);
+        });
+
+        document.getElementById('statistics-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var selectedDate = document.getElementById('date').value;
+            fetchStatistics(selectedDate);
+        });
+
+        function fetchStatistics(date) {
+            $.ajax({
+                url: '{{ route("orders.statistics") }}',
+                method: 'GET',
+                data: { date: date },
+                success: function(response) {
+                    $('#totalOrders').text(response.totalOrders);
+                }
+            });
+        }
+    });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Set the default date to today
+            var today = new Date().toISOString().substr(0, 10);
+            document.getElementById('date-customer').value = today;
+
+            // Fetch statistics for the default date
+            fetchCustomerStatistics(today);
+
+            document.getElementById('date-customer').addEventListener('change', function() {
+                var selectedDate = this.value;
+                fetchCustomerStatistics(selectedDate);
+            });
+
+            document.getElementById('customer-statistics-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var selectedDate = document.getElementById('date-customer').value;
+                fetchCustomerStatistics(selectedDate);
+            });
+
+            function fetchCustomerStatistics(date) {
+                $.ajax({
+                    url: '{{ route("orders.customer_statistics") }}',
+                    method: 'GET',
+                    data: { date: date },
+                    success: function(response) {
+                        $('#totalCustomers').text(response.totalCustomers);
+                    }
+                });
+            }
+        });
+        </script>
 
     <!-- apexcharts -->
     <script src="{{ asset('theme/admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>

@@ -25,6 +25,7 @@
                     here to enter your code.</h6>
             </div>
         </div>
+
         <form action="{{ route('checkout.process') }}" method="POST" class="checkout__form">
             @csrf
             <div class="row">
@@ -89,6 +90,15 @@
                                     value="{{ old('note') }}">
                             </div>
                         </div>
+                        <div class="col-lg-12">
+                            <div class="checkout__form__input">
+                                <p>Voucher Code</p>
+                                <input type="text" id="voucher-code-input" name="voucher_code"
+                                    placeholder="Enter your voucher code">
+                                <button id="apply-voucher-button" class="site-btn">Apply Voucher</button>
+                                <span id="voucher-message"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -119,8 +129,8 @@
                             <label>
                                 <input type="radio" name="payment_method" value="vnpay"> VNPAY
                             </label>
-                        </div>                        
-                        
+                        </div>
+
 
                         <button type="submit" class="site-btn">Place order</button>
                     </div>
@@ -130,10 +140,6 @@
     </div>
 </section>
 <!-- Checkout Section End -->
-
-
-<script></script>
-
 
 <!-- Instagram Begin -->
 <div class="instagram">
@@ -195,20 +201,62 @@
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
 
+<!-- Add CSRF Token for AJAX Requests -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <style>
-.checkout__form__input1 {
-    display: flex;
-    align-items: center;
-}
+    .checkout__form__input1 {
+        display: flex;
+        align-items: center;
+    }
 
-.checkout__form__input1 p {
-    margin-right: 10px; /* Adjust spacing as needed */
-}
+    .checkout__form__input1 p {
+        margin-right: 10px;
+        /* Adjust spacing as needed */
+    }
 
-.checkout__form__input1 label {
-    margin-right: 20px; /* Adjust spacing between radio buttons as needed */
-    display: flex;
-    align-items: center;
-}
-
+    .checkout__form__input1 label {
+        margin-right: 20px;
+        /* Adjust spacing between radio buttons as needed */
+        display: flex;
+        align-items: center;
+    }
 </style>
+<!-- JavaScript để xử lý AJAX -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('apply-voucher-button').addEventListener('click', function(e) {
+            e.preventDefault(); // Ngăn không cho form bị submit
+            
+            let voucherCode = document.getElementById('voucher-code-input').value;
+            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            
+            fetch('{{ route("apply.voucher") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ voucher_code: voucherCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Xử lý kết quả từ server
+                if (data.success) {
+                    // Nếu mã voucher hợp lệ
+                    document.getElementById('voucher-message').innerText = "Mã voucher đã được áp dụng thành công.";
+                    document.getElementById('voucher-message').style.color = 'green';
+                    // Cập nhật tổng số tiền đơn hàng
+                    document.getElementById('total-amount').innerText = data.new_total + '₫';
+                } else {
+                    // Nếu mã voucher không hợp lệ
+                    document.getElementById('voucher-message').innerText = data.message;
+                    document.getElementById('voucher-message').style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+    </script>

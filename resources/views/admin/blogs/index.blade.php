@@ -30,13 +30,13 @@
                     <a href="{{ route('admin.blogs.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table id="vouchers-table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="blogs-table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
                                 <th>Title</th>
                                 <th>Content</th>
-                                <th>Image</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -44,18 +44,23 @@
                             @foreach ($blogs as $blog)
                                 <tr>
                                     <td>{{ $blog->title }}</td>
-                                    <td>{!! Str::limit($blog->content, 10000) !!}</td>
+                                    <td>{!! Str::limit($blog->content, 100) !!}</td>
                                     <td>
-                                        @if ($blog->image)
-                                            <img src="{{ asset('images/' . $blog->image) }}" alt="{{ $blog->title }}"
-                                                width="100">
-                                        @endif
+                                        <!-- Nút chuyển đổi trạng thái -->
+                                        <form action="{{ route('admin.blogs.toggleStatus', $blog->id) }}" method="POST"
+                                            style="display: inline-block;">
+                                            @csrf
+                                            <button type="submit"
+                                                class="btn btn-{{ $blog->status === 'public' ? 'secondary' : 'success' }}">
+                                                {{ $blog->status === 'public' ? 'Nháp' : 'Public' }}
+                                            </button>
+                                        </form>
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.blogs.edit', $blog->id) }}"
                                             class="btn btn-warning">Edit</a>
                                         <form action="{{ route('admin.blogs.destroy', $blog->id) }}" method="POST"
-                                            style="display: inline-block";
+                                            style="display: inline-block"
                                             onsubmit="return confirm('Bạn có chắc chắn muốn xóa Blog này không?');">
                                             @csrf
                                             @method('DELETE')
@@ -81,7 +86,8 @@
 @endsection
 
 @section('script-libs')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -96,7 +102,9 @@
     <script>
         $(document).ready(function() {
             $('#blogs-table').DataTable({
-                order: [[0, 'desc']]
+                order: [
+                    [0, 'desc']
+                ]
             });
         });
     </script>

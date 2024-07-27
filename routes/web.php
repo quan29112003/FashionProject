@@ -179,11 +179,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
     Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
     Route::resource('blogs', AdminBlogController::class);
+    Route::post('blogs/{id}/toggle-status', [AdminBlogController::class, 'toggleStatus'])->name('blogs.toggleStatus');
 });
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog-detail/{id}', [BlogController::class, 'show'])->name('blog-detail');
-
-
-Route::get('/load-content', [LoadContentController::class, 'loadContent'])->name('load-content');
-
+Route::post('/apply-voucher', [CheckoutController::class, 'applyVoucher'])->name('apply.voucher');
 require __DIR__ . '/auth.php';

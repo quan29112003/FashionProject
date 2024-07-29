@@ -1,6 +1,9 @@
 @include('client.partials.header')
 <!-- Header Section End -->
 
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
+
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -36,7 +39,8 @@
                                 @foreach ($categories as $category)
                                     <div class="card">
                                         <div class="card-heading">
-                                            <a href="#category-{{ $category->id }}" data-toggle="collapse" data-target="#category-{{ $category->id }}">
+                                            <a href="#category-{{ $category->id }}" data-toggle="collapse"
+                                                data-target="#category-{{ $category->id }}">
                                                 {{ $category->name }}
                                             </a>
                                         </div>
@@ -64,7 +68,8 @@
                         </div>
 
                         <div class="filter-range-wrap">
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" id="slider-range"></div>
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                id="slider-range"></div>
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
@@ -141,17 +146,43 @@
                         @foreach ($product->variants as $variant)
                             <div class="col-lg-4 col-md-6 product-item @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                    <div class="product__item__pic set-bg"
+                                        data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                        <!-- Check if the product is new -->
+                                        @if ($newProducts->contains($product))
+                                            <div class="label new">New</div>
+                                        @endif
+                                        <!-- Check if the product is a good deal -->
+                                        @if ($product->is_good_deal)
+                                            <div class="label sale">Sale</div>
+                                        @endif
+                                        <!-- Check if the product is a hot trend -->
+                                        @if ($product->is_hot)
+                                            <div class="label sale">Hot Trend</div>
+                                        @endif
                                         <ul class="product__hover">
-                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                    class="image-popup"><span class="arrow_expand"></span></a></li>
+                                            <li>
+                                                <form id="wishlist-form-{{ $product->id }}"
+                                                    action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                <a href="#" onclick="addToWishlist({{ $product->id }});">
+                                                    <span class="icon_heart_alt"></span>
+                                                </a>
+                                            </li>
+                                            <!-- Thêm vào danh sách yêu thích -->
                                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                         </ul>
 
                                     </div>
 
                                     <div class="product__item__text">
-                                        <h6><a href="{{ route('detail', $product->id) }}">{{ $product->name_product }}</a></h6>
+                                        <h6><a
+                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">{{ $product->name_product }}</a>
+                                        </h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -159,7 +190,21 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">{{ number_format($variant->price, 0, ',', '.') ?? 'Price not available' }}đ</div>
+                                        @if ($variant)
+                                            <div class="product__price">
+                                                @if ($product->is_good_deal)
+                                                    <h6 style="color: red; font-weight: bold;">
+                                                        {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
+                                                    <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
+                                                @else
+                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                @endif
+                                            </div>
+                                            <!-- Giá sản phẩm -->
+                                        @else
+                                            <div class="product__price">Giá chưa cập nhật</div>
+                                            <!-- Handle case where variant is null -->
+                                        @endif
                                     </div>
 
                                 </div>
@@ -312,7 +357,7 @@
 
         // Sorting filter
         // Lấy giá trị sort_by từ query parameter
-        var sortBy = '{{ request()->get('sort_by', '') }}';
+        var sortBy = '{{ request()->get('sort_by', 'newest') }}'; // Default to 'newest' if not set
 
         // Thiết lập giá trị ban đầu cho select box sort-by
         $('#sort-by').val(sortBy);
@@ -346,4 +391,53 @@
             currentCount += 12;
         });
     });
+</script>
+<script>
+    function showToast(message, type) {
+        var toastContainer = $('#toast-container');
+        var autoHideDelay = 3000; // 3 seconds
+
+        var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+        var toast = $('<div class="toast text-white ' + toastClass +
+            '" role="alert" aria-live="assertive" aria-atomic="true">' +
+            '<div class="toast-header">' +
+            '<strong class="me-auto">Notification</strong>' +
+            '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+            '</div>' +
+            '<div class="toast-body">' + message + '</div>' +
+            '</div>');
+
+        // Append toast to container and show it
+        toastContainer.append(toast);
+        var bootstrapToast = new bootstrap.Toast(toast[0], {
+            delay: autoHideDelay
+        });
+        bootstrapToast.show();
+
+        // Remove toast after it's hidden
+        toast.on('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+
+    function addToWishlist(productId) {
+        event.preventDefault();
+        var form = $('#wishlist-form-' + productId);
+
+        $.ajax({
+            url: form.attr('action'),
+            method: form.attr('method'),
+            data: form.serialize(),
+            success: function(response) {
+                showToast('Product added to wishlist!', 'success');
+            },
+            error: function(response) {
+                if (response.status === 400) {
+                    showToast('Product is already in the wishlist.', 'danger');
+                } else {
+                    showToast('Failed to add product to wishlist.', 'danger');
+                }
+            }
+        });
+    }
 </script>

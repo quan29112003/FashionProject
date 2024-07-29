@@ -92,7 +92,8 @@ Route::get('/order-detail2', function () {
 })->name('order.detail2');
 
 
-Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+// Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
+Route::get('/detail/{id}-{name}', [DetailController::class, 'showDetail'])->name('detail');
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
@@ -180,6 +181,15 @@ Route::prefix('admin')->group(function () {
 
     // viet
 
+    Route::get('/orders/single_date_statistics', [OrderController::class, 'singleDateStatistics'])->name('orders.single_date_statistics');
+    Route::get('/orders/date_range_statistics', [OrderController::class, 'dateRangeStatistics'])->name('orders.date_range_statistics');
+    Route::get('/orders/filter', [OrderController::class, 'filterOrders'])->name('orders.filter');
+    Route::get('/orders/statistics', [OrderController::class, 'statistics'])->name('orders.statistics');
+    Route::get('/orders/customer_statistics', [OrderController::class, 'customerStatistics'])->name('orders.customer_statistics');
+
+
+
+    Route::get('orders/statistic',[OrderController::class, 'chart'])->name('statistic');
 
     Route::resource('wishlists', WishlistController::class);
     Route::resource('users', UserController::class);

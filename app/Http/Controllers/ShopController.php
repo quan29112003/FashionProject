@@ -83,8 +83,10 @@ class ShopController extends Controller
                 $product->setRelation('variants', collect([$product->variant]));
                 return $product;
             });
-
-        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products'));
+        $newProducts = $products->filter(function ($product) {
+            return $product->created_at->greaterThan(now()->subDays(5));
+        });
+        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products','newProducts'));
     }
 
 

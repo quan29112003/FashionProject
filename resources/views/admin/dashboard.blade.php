@@ -9,52 +9,8 @@
         <div class="col">
 
             <div class="h-100">
-                <div class="row mb-3 pb-1">
-                    <div class="col-12">
-                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
-                            <div class="flex-grow-1">
-                                <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
-                                <p class="text-muted mb-0">Here's what's happening with your store today.</p>
-                            </div>
-                            <div class="mt-3 mt-lg-0">
-                                <form action="javascript:void(0);">
-                                    <div class="row g-3 mb-0 align-items-center">
-                                        <div class="col-sm-auto">
-                                            <div class="input-group">
-                                                <input type="text"
-                                                    class="form-control border-0 dash-filter-picker shadow"
-                                                    data-provider="flatpickr" data-range-date="true"
-                                                    data-date-format="d M, Y"
-                                                    data-deafult-date="01 Jan 2022 to 31 Jan 2022">
-                                                <div class="input-group-text bg-primary border-primary text-white">
-                                                    <i class="ri-calendar-2-line"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-auto">
-                                            <button type="button" class="btn btn-soft-success"><i
-                                                    class="ri-add-circle-line align-middle me-1"></i> Add Product</button>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-auto">
-                                            <button type="button"
-                                                class="btn btn-soft-info btn-icon waves-effect waves-light layout-rightside-btn"><i
-                                                    class="ri-pulse-line"></i></button>
-                                        </div>
-                                        <!--end col-->
-                                    </div>
-                                    <!--end row-->
-                                </form>
-                            </div>
-                        </div><!-- end card header -->
-                    </div>
-                    <!--end col-->
-                </div>
-                <!--end row-->
-
                 <div class="row">
-                    <div class="col-xl-6 col-md-6">
+                    <div class="col-xl-4 col-md-6">
                         <!-- card -->
                         <div class="card card-animate">
                             <div class="card-body">
@@ -83,10 +39,7 @@
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
-                    </div><!-- end col -->
 
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
                         <div class="card card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -113,10 +66,7 @@
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
-                    </div><!-- end col -->
 
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
                         <div class="card card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -144,66 +94,7 @@
                             </div><!-- end card body -->
                         </div><!-- end card -->
                     </div><!-- end col -->
-
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
-
-                    </div><!-- end col -->
-                </div> <!-- end row-->
-
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Best Selling Products</h4>
-                            </div><!-- end card header -->
-
-                            <div class="card-body">
-                                <div class="table-responsive table-card">
-                                    <table id="example"
-                                        class="table table-hover table-centered align-middle table-nowrap mb-0">
-                                        <thead class="text-muted table-info">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Product</th>
-                                                <th>Price</th>
-                                                <th>Orders</th>
-                                                <th>Stock</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($results as $r)
-                                                <tr>
-                                                    <td><p class="fw-medium link-primary">#{{ $r->id }}</p></td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                                <img src="{{ asset('uploads/' . $r->thumbnail) }}"
-                                                                    alt="" class="img-fluid d-block" />
-                                                            </div>
-                                                            <div>
-                                                                <h5 class="fs-14 my-1"><a
-
-                                                                        class="text-reset">{{ $r->name_product }}
-                                                                        ({{ $r->color }} {{ $r->size }})</a></h5>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>{{ $r->price }}</td>
-                                                    <td>{{ $r->total_quantity }}</td>
-                                                    <td>{{ $r->quantity }}</td>
-                                                    <td>{{ $r->quantity * $r->price }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6">
+                    <div class="col-xl-8">
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
                                 <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
@@ -294,54 +185,6 @@
                         </div> <!-- .card-->
                     </div> <!-- .col-->
                 </div> <!-- end row-->
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-header p-0 border-0 bg-info-subtle">
-                                <div class="row g-0 text-center">
-                                    <div class="col-6 col-sm-4">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1"><span class="counter-value"
-                                                    data-target={{ $data->amount }}>0</span></h5>
-                                            <p class="text-muted mb-0">Đơn hàng</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-4">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1">$<span class="counter-value"
-                                                    data-target="{{ $data->earn }}">0</span>k</h5>
-                                            <p class="text-muted mb-0">Thu nhập</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-4">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1"><span class="counter-value"
-                                                    data-target={{ $data->refund }}></span></h5>
-                                            <p class="text-muted mb-0">Hoàn tiền</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                </div>
-                            </div><!-- end card header -->
-
-                            <div class="card-body p-0 pb-2">
-                                <div class="w-100">
-                                    <div id="data_charts" data-orders={{ collect($data->orders)->implode('-') }}
-                                        data-earns={{ collect($data->earns)->implode('-') }}
-                                        data-refunds={{ collect($data->refunds)->implode('-') }}></div>
-                                    <div id="customer_impression_charts"
-                                        data-colors='["--vz-primary", "--vz-success", "--vz-danger"]' class="apex-charts"
-                                        dir="ltr"></div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-
-
-                </div> <!-- end .h-100-->
-
             </div> <!-- end col -->
         </div>
     @endsection
@@ -400,7 +243,7 @@
             });
         </script>
 
-        
+
 
 
         <!-- apexcharts -->

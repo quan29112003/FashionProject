@@ -11,6 +11,7 @@ use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductVariant;
 use App\Models\Product;
+use \stdClass;
 
 
 
@@ -59,6 +60,113 @@ class OrderController extends Controller
             'newOrderCount' => $newOrderCount,
             'newOrders' => $newOrders
         ]);
+    }
+
+    public function singleDateStatistics(Request $request)
+    {
+        $date = $request->input('date');
+
+        $totalAmount = Order::whereDate('created_at', $date)->sum('total_amount');
+
+        return response()->json(['totalAmount' => $totalAmount]);
+    }
+
+    public function dateRangeStatistics(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $totalAmount = Order::whereBetween('created_at', [$start_date, $end_date])->sum('total_amount');
+
+        return response()->json(['totalAmount' => $totalAmount]);
+    }
+
+    public function statistics(Request $request)
+    {
+        $date = $request->input('date');
+
+        // Tính tổng số order trong ngày đã chọn
+        $totalOrders = Order::whereDate('created_at', $date)->count();
+
+        return response()->json([
+            'totalOrders' => $totalOrders
+        ]);
+    }
+
+    public function customerStatistics(Request $request)
+    {
+        $date = $request->input('date');
+
+        $totalCustomers = Order::whereDate('created_at', $date)->distinct('user_id')->count('user_id');
+
+        return response()->json([
+            'totalCustomers' => $totalCustomers
+        ]);
+    }
+
+    public function filterOrders(Request $request)
+    {
+        $status_id = $request->input('status_id');
+        $payment_id = $request->input('payment_id');
+
+        $orders = Order::when($status_id, function ($query, $status_id) {
+            return $query->where('status_id', $status_id);
+        })
+        ->when($payment_id, function ($query, $payment_id) {
+            return $query->where('payment_id', $payment_id);
+        })
+        ->select('total_amount', 'name', 'address', 'phone', 'email')
+        ->get();
+
+        return response()->json($orders);
+    }
+
+
+    public function chart(){
+        $totalRefund = DB::table('orders')->where('status_id',6)->count('status_id');
+        $totalAmount = DB::table('orders')->where('status_id','!=',6)->sum('total_amount');
+        $totalOrder = DB::table('orders')->count('id');
+        $totalAmounts = [];
+        $totalRefunds = [];
+        $totalOrders = [];
+
+        // Vòng lặp qua từng tháng
+        for ($month = 1; $month <= 12; $month++) {
+            $monthAmount = DB::table('orders')
+                ->whereMonth('created_at', $month)
+                ->whereYear('created_at', date('Y')) // Lọc theo năm hiện tại
+                ->sum('total_amount');
+            $totalAmounts[$month] = $monthAmount;
+        }
+
+        for ($month = 1; $month <= 12; $month++) {
+            $refund = DB::table('orders')
+                ->whereMonth('created_at', $month)
+                ->where('status_id', 6)
+                ->count('status_id');
+            $totalRefunds[$month] = $refund;
+        }
+
+        for ($month = 1; $month <= 12; $month++) {
+            $orders = DB::table('orders')
+                ->whereMonth('created_at', $month)
+                ->count('id');
+            $totalOrders[$month] = $orders;
+        }
+
+        $data = new stdClass();
+        $data->amount = $totalOrder;
+        //chart đơn hàng
+        $data->orders = $totalOrders;
+        $data->earn = $totalAmount;
+        //chart thu nhập
+        $data->earns = $totalAmounts;
+        $data->refund = $totalRefund;
+        //chart hoàn trả
+        $data->refunds = $totalRefunds;
+
+        return view('admin.statistical', ['data'=>$data]);
+
     }
 
 

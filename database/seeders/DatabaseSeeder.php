@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             ProductVariantSeeder::class,
             // UserSeeder::class,
             WebsiteMenusSeeder::class,
-            CategoryGenderSeeder::class
+            CategoryGenderSeeder::class,
+            cataloguesSeeder::class
         ]);
 
     }

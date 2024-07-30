@@ -13,10 +13,12 @@ class WebsiteMenusSeeder extends Seeder
      */
     public function run(): void
     {
-        WebsiteMenu::create(['menu_item' => 'Home', 'url' => '/']);
-        WebsiteMenu::create(['menu_item' => 'blog', 'url' => 'blog']);
-        WebsiteMenu::create(['menu_item' => 'shop', 'url' => 'shop']);
-        WebsiteMenu::create(['menu_item' => 'contact', 'url' => 'contact']);
-        WebsiteMenu::create(['menu_item' => 'about us', 'url' => 'about-us']);
+        WebsiteMenu::create(['menu_item' => 'HOME', 'url' => '/']);
+        WebsiteMenu::create(['menu_item' => 'BLOG', 'url' => 'blog']);
+        WebsiteMenu::create(['menu_item' => "WOMEN'S", 'url' => '/']);
+        WebsiteMenu::create(['menu_item' => "MEN'S", 'url' => '/']);
+        WebsiteMenu::create(['menu_item' => 'SHOP', 'url' => 'shop']);
+        WebsiteMenu::create(['menu_item' => 'CONTACT', 'url' => 'contact']);
+        WebsiteMenu::create(['menu_item' => 'ABOUT', 'url' => 'about-us']);
     }
 }

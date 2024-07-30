@@ -86,7 +86,21 @@
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
         <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+            <form role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"
+                  class="search-form">
+                <!-- Input tìm kiếm -->
+{{--                <input class="search-input" type="search" name="keyword" id="searchInput"--}}
+{{--                       placeholder="Search" aria-label="Search">--}}
+                <input type="text" id="search-input" name="keyword" placeholder="Search here.....">
+                <!-- Gạch chân dưới -->
+{{--                <div class="underline"></div>--}}
+                <!-- Nút tìm kiếm -->
+{{--                <button class="search-btn" type="submit">--}}
+{{--                    <!-- Icon tìm kiếm -->--}}
+{{--                    <i class="fa fa-search"></i>--}}
+{{--                </button>--}}
+            </form>
+
         </form>
     </div>
 </div>

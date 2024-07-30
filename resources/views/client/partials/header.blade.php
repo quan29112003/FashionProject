@@ -49,8 +49,8 @@
             min-width: 24px;
             display: inline-block;
             border-radius: 100%;
-            margin-right: 8px;
-            margin-bottom: 10px;
+            /*margin-right: 8px;*/
+            /*margin-bottom: 10px;*/
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;

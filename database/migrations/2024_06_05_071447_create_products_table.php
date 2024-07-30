@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_hot')->nullable();
             $table->boolean('is_good_deal')->nullable();
             $table->boolean('is_show_home')->nullable();
-
+            $table->tinyInteger('gender_id')->default(1);
             // Thiết lập khóa ngoại
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });

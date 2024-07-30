@@ -212,7 +212,7 @@
                                 </div>
 
                                 @if ($variant)
-                                    <div class="product__price">{{ $variant->price }}₫
+                                    <div class="product__price">{{ number_format($variant->price) }} ₫
                                     </div>
                                     <!-- Giá sản phẩm -->
                                 @else
@@ -306,7 +306,7 @@
                                             <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                         @endfor
                                     </div>
-                                    <div class="product__price">${{ $variant->price }}</div>
+                                    <div class="product__price">{{ number_format($variant->price) }} ₫</div>
                                     <!-- Giá sản phẩm -->
                                 </div>
                             </div>
@@ -337,7 +337,7 @@
                                         <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                     @endfor
                                 </div>
-                                <div class="product__price">${{ $variant->price }}</div>
+                                <div class="product__price">{{ number_format($variant->price) }} ₫</div>
                                 <!-- Giá sản phẩm -->
                             </div>
                         </div>
@@ -368,7 +368,7 @@
                                     @endfor
                                 </div>
                                 @if ($variant)
-                                    <div class="product__price">${{ $variant->price }}</div>
+                                    <div class="product__price">{{ number_format($variant->price) }} ₫</div>
                                     <!-- Giá sản phẩm -->
                                 @else
                                     <div class="product__price">Giá chưa cập nhật</div>

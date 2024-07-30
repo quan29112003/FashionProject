@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Nette\Utils\Random;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -27,6 +28,7 @@ class ProductFactory extends Factory
             'is_hot' => $this->faker->boolean(20), // 20% cơ hội là true
             'is_good_deal' => $this->faker->boolean(30), // 30% cơ hội là true
             'is_show_home' => $this->faker->boolean(50), // 50% cơ hội là true
+            'gender_id' => rand(1,2)
         ];
     }
 }

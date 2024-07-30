@@ -15,8 +15,8 @@ class WebsiteMenusSeeder extends Seeder
     {
         WebsiteMenu::create(['menu_item' => 'HOME', 'url' => '/']);
         WebsiteMenu::create(['menu_item' => 'BLOG', 'url' => 'blog']);
-        WebsiteMenu::create(['menu_item' => "WOMEN'S", 'url' => '/']);
-        WebsiteMenu::create(['menu_item' => "MEN'S", 'url' => '/']);
+        WebsiteMenu::create(['menu_item' => "WOMEN'S", 'url' => 'wonman']);
+        WebsiteMenu::create(['menu_item' => "MEN'S", 'url' => 'mens']);
         WebsiteMenu::create(['menu_item' => 'SHOP', 'url' => 'shop']);
         WebsiteMenu::create(['menu_item' => 'CONTACT', 'url' => 'contact']);
         WebsiteMenu::create(['menu_item' => 'ABOUT', 'url' => 'about-us']);

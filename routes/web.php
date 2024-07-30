@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MenShopController;
+use App\Http\Controllers\WonmanShopController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -79,6 +81,8 @@ Route::get('/search', [SearchController::class, 'search'])->name('product.search
 Route::get('/detail/{id}', [DetailController::class, 'showDetail'])->name('detail');
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/mens', [MenShopController::class, 'index'])->name('mens');
+Route::get('/wonman', [WonmanShopController::class, 'index'])->name('mens');
 Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
 Route::get('/blog', function () {
     return view('client.layouts.blog');

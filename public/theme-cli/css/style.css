@@ -1190,10 +1190,14 @@ ol {
 
 .product__item.sale .product__item__text .product__price {
 	color: #ca1515;
+    font-size: 10px;
 }
-
+.product__item.sale .product__item__text1 .product__price {
+    color: #ca1515;
+    font-size: 10px;
+}
 .product__item__pic {
-	height: 360px;
+	height: 290px;
 	position: relative;
 	overflow: hidden;
 }
@@ -1308,7 +1312,7 @@ ol {
 }
 
 .product__item__text h6 a {
-	font-size: 14px;
+	font-size: 20px;
 	color: #111111;
 }
 
@@ -1329,7 +1333,7 @@ ol {
 
 .product__item__text .product__price {
 	color: #111111;
-	font-weight: 600;
+	font-weight: 200;
 }
 
 .product__item__text .product__price span {
@@ -1338,6 +1342,80 @@ ol {
 	text-decoration: line-through;
 	margin-left: 4px;
 }
+
+
+/*---- style customer*/
+
+
+.product__item-custome {
+   position: relative;
+}
+
+.product__item-custome .status-product {
+    position: absolute;
+    background: rgb(210, 15, 0);
+    color: #fff;
+    padding: 0 4px;
+    border-radius: 20px;
+    top: 0;
+    right: 0;
+}
+
+.truncate {
+    display: inline-block;
+    max-width: 100%; /* Adjust this value to set the maximum width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.title-product-item-custom a {
+    color: #111111;
+    font-size: 20px;
+
+}
+
+.product__item__text1 {
+    /*text-align: center;*/
+}
+
+.product__item__text1 h6 a {
+    font-size: 20px;
+    color: #111111;
+    margin-bottom: 5px;
+    /*font-weight: 600;*/
+}
+
+.product__item__text1 .rating {
+    line-height: 18px;
+    margin-bottom: 5px;
+}
+
+.product__item__text1 .rating i {
+    font-size: 10px;
+    color: #e3c01c;
+    margin-right: -4px;
+}
+
+.product__item__text1 .rating i:last-child {
+    margin-right: 0;
+}
+
+.product__item__text1 .product__price {
+    color: #111111;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.product__item__text1 .product__price span {
+    font-size: 14px;
+    color: #b1b0b0;
+    text-decoration: line-through;
+    margin-left: 4px;
+}
+
+
+
 
 /*---------------------
   Shop
@@ -3754,9 +3832,9 @@ ol {
 }
 .shop__sorting {
 	position: relative;
-	right: -740px;
-	top: -60px;
-	width: 200px;
+    right: -78%;
+    top: -60px;
+    width: 200px;
 	background-color: transparent;
 }
 

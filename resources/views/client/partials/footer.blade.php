@@ -170,23 +170,23 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
-        function loadContent() {
-            $.ajax({
-                url: "{{ url('login') }}",
-                method: "GET",
-                success: function(data) {
-                    $('#content').html(data);
-                },
-                error: function() {
-                    alert('Có lỗi xảy ra trong quá trình load content.');
-                }
-            });
-        }
+    {{--$(document).ready(function() {--}}
+    {{--    function loadContent() {--}}
+    {{--        $.ajax({--}}
+    {{--            url: "{{ url('login') }}",--}}
+    {{--            method: "GET",--}}
+    {{--            success: function(data) {--}}
+    {{--                $('#content').html(data);--}}
+    {{--            },--}}
+    {{--            error: function() {--}}
+    {{--                alert('Có lỗi xảy ra trong quá trình load content.');--}}
+    {{--            }--}}
+    {{--        });--}}
+    {{--    }--}}
 
-        // Gọi hàm loadContent() khi cần thiết
-        loadContent();
-    });
+    {{--    // Gọi hàm loadContent() khi cần thiết--}}
+    {{--    loadContent();--}}
+    {{--});--}}
 </script>
 
 <script src="{{ asset('theme-cli/js/jquery-3.3.1.min.js') }}"></script>

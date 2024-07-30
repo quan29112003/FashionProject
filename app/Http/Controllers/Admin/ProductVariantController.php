@@ -37,4 +37,14 @@ class ProductVariantController extends Controller
         return redirect()->route('product');
 
     }
+
+    public function getSize(Request $request)
+    {
+        $productId = $request->get('product_id');
+        $colorId = $request->get('color_id') ?? null;
+        $productVariant = ProductVariant::with("size")->where('product_id', $productId)->where("quantity", ">", 0)->where('color_id', $colorId)->get();
+        return response()->json(["size" => $productVariant->pluck("size","id")->unique()]);
+
+
+    }
 }

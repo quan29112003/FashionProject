@@ -34,11 +34,10 @@ class AppServiceProvider extends ServiceProvider
 //        $CategoryGenders = CategoryGender::all();
 //        View::share('CategoryGenders', $CategoryGenders);
 
-//        dd(empty(Category::with('catalogues')->get()[1]->catalogues));
         View::composer('*', function ($view) {
             if (!\App::runningInConsole()) {
                 $view->with('menus', WebsiteMenu::all());
-                $view->with('categories', Category::with('catalogues')->get());
+                $view->with('categories', Category::all());
                 $view->with('CategoryGenders', CategoryGender::all());
             }
         });

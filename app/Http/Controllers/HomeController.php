@@ -22,6 +22,11 @@ class HomeController extends Controller
             ->has('variants')
             ->get();
 
+        $variantProducts = collect();
+        foreach ($products as $product) {
+            $variantProducts[$product->id] = $product->variants;
+        }
+
         // Attach the first variant to each product
         $products->each(function ($product) {
             // Order variants by price and attach the first one (you can adjust the criteria)
@@ -68,6 +73,6 @@ class HomeController extends Controller
 
 
 
-        return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts'));
+        return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts','variantProducts'));
     }
 }

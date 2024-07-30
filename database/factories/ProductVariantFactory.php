@@ -29,8 +29,9 @@ class ProductVariantFactory extends Factory
             'size_id' => $this->faker->randomElement($sizeIds),
 
             'quantity' => $this->faker->numberBetween(0, 100),
-            'price' => $this->faker->randomFloat(2, 10, 200),
-            'price_sale' => $this->faker->randomFloat(2, 5, 150),
+            'price' => $this->faker->numberBetween(100000, 10000000),
+            'price_sale' => $this->faker->numberBetween(50000, 9500000),
+
             'SKU' => $this->faker->unique()->regexify('[A-Z0-9]{8}'),
             'is_active' => $this->faker->boolean(80), // 80% cơ hội là true
         ];

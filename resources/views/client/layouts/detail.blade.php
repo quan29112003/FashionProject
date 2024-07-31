@@ -258,12 +258,14 @@
     $(document).ready(function() {
         $('#commentForm').on('submit', function(e) {
             e.preventDefault();
+
             $.ajax({
                 type: 'POST',
                 url: '{{ route('comments.send') }}',
                 data: $(this).serialize(),
                 success: function(response) {
-                    $('#comments').append('<p>' + response.comment + ' - bởi ' + response.user.name_user + '</p>');
+                    $('#comments').append('<p>' + response.comment + ' - bởi ' + response
+                        .user.name_user + '</p>');
                     $('#commentForm')[0].reset();
                 },
                 error: function(error) {
@@ -271,6 +273,10 @@
                 }
             });
         });
+        window.Echo.channel('comments')
+            .listen('CommentPosted', (e) => {
+                $('#comments').append('<p>' + e.comment + ' - bởi ' + e.user.name_user + '</p>');
+            });
     });
 </script>
 

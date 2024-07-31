@@ -73,7 +73,7 @@ class CommentController extends Controller
 
         $comment->load('user');
 
-        // broadcast(new CommentPosted($comment))->toOthers();
+        broadcast(new CommentPosted($comment))->toOthers();
 
         return response()->json([
             'comment' => $comment->comment,

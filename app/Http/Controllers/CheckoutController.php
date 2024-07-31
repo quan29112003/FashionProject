@@ -38,17 +38,24 @@ class CheckoutController extends Controller
                 return response()->json(['success' => false, 'message' => 'Tổng giá trị đơn hàng không đạt yêu cầu của mã Voucher.']);
             }
 
-            // Mã voucher hợp lệ, tính lại tổng số tiền đơn hàng
-            $discount = $voucher->discount_value; // Giả sử discount_value là giá trị giảm giá
-            $newTotal = $total - $discount;
+            // Lưu mã voucher vào session
+            session(['voucher_code' => $voucherCode, 'voucher_discount' => $voucher->discount_value]);
 
-            // Cập nhật lại session với tổng mới sau khi giảm giá
-            session(['total' => $newTotal]);
+            $discount = $voucher->discount_value;
+            $finalTotal = $total - $discount;
 
-            return response()->json(['success' => true, 'new_total' => $newTotal]);
+            session(['final_total' => $finalTotal]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Mã voucher được áp dụng thành công.',
+                'subtotal' => $total,
+                'discount' => $discount,
+                'new_total' => $finalTotal
+            ]);
         } else {
             // Mã voucher không hợp lệ
-            return response()->json(['success' => false, 'message' => 'Mã voucher không hợp lệ.']);
+            return response()->json(['success' => false, 'message' => 'Mã voucher không hợp lệ.', 'subtotal' => $total]);
         }
     }
     //code cũ
@@ -59,9 +66,16 @@ class CheckoutController extends Controller
             return $sum + $item['price'] * $item['quantity'];
         }, 0);
 
-        return view('client.layouts.checkout', compact('total'));
-    }
+        // Lấy mã voucher từ session hoặc yêu cầu người dùng
+        $voucherCode = session('voucher_code', null);
+        $discount = session('voucher_discount', 0);
 
+        $finalTotal = $total - $discount;
+
+        session(['total' => $total, 'final_total' => $finalTotal]);
+
+        return view('client.layouts.checkout', compact('total', 'finalTotal', 'discount', 'voucherCode'));
+    }
     public function processCheckout(Request $request)
     {
         $request->validate([

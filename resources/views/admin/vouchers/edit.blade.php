@@ -46,12 +46,12 @@
                                     <div>
                                         <label for="discount_type" class="form-label">Discount Type</label>
                                         <select class="form-select" name="discount_type" required>
-                                            <option value="Giảm giá cho đồ thời trang"
-                                                {{ $voucher->discount_type == 'Giảm giá cho đồ thời trang' ? 'selected' : '' }}>
-                                                Giảm giá cho đồ thời trang</option>
-                                            <option value="Miễn phí vận chuyển"
-                                                {{ $voucher->discount_type == 'Miễn phí vận chuyển' ? 'selected' : '' }}>
-                                                Miễn phí vận chuyển</option>
+                                            <option value="Giảm giá cho đồ thời trang Nam"
+                                                {{ $voucher->discount_type == 'Giảm giá cho đồ thời trang Nam' ? 'selected' : '' }}>
+                                                Giảm giá cho đồ thời trang Nam</option>
+                                            <option value="Giảm giá cho đồ thời trang Nữ"
+                                                {{ $voucher->discount_type == 'Giảm giá cho đồ thời trang Nữ' ? 'selected' : '' }}>
+                                                Giảm giá cho đồ thời trang Nữ</option>
                                             <option value="Discount"
                                                 {{ $voucher->discount_type == 'Discount' ? 'selected' : '' }}>Discount
                                             </option>

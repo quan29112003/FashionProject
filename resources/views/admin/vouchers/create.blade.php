@@ -44,8 +44,8 @@
                                     <div>
                                         <label for="discount_type" class="form-label">Discount Type</label>
                                         <select class="form-select" name="discount_type" required>
-                                            <option value="Giảm giá cho đồ thời trang">Giảm giá cho đồ thời trang</option>
-                                            <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
+                                            <option value="Giảm giá cho đồ thời trang Nam">Giảm giá cho đồ thời trang Nam</option>
+                                            <option value="Giảm giá cho đồ thời trang Nữ">Giảm giá cho đồ thời trang Nữ</option>
                                             <option value="Discount">Discount</option>
                                         </select>
                                         @error('discount_type')

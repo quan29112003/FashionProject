@@ -106,21 +106,21 @@
                         <h5>Your order</h5>
                         <div class="checkout__order__product">
                             <ul>
-                                <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
-                                </li>
+                                <li><span class="top__text">Product</span> <span class="top__text__right">Total</span></li>
                                 @foreach (session('cart', []) as $item)
-                                    <li>{{ $item['name'] }} <span>{{ $item['price'] * $item['quantity'] }}₫</span>
-                                    </li>
+                                    <li>{{ $item['name'] }} <span>{{ $item['price'] * $item['quantity'] }}₫</span></li>
                                 @endforeach
                             </ul>
                         </div>
                         <div class="checkout__order__total">
                             <ul>
-                                <li>Total <span>{{ $total }}₫</span></li>
+                                <li>Subtotal <span id="subtotal">{{ $total }}₫</span></li>
+                                <li id="discount-row" style="display: {{ $discount > 0 ? 'block' : 'none' }};">
+                                    Discount <span id="discount">-{{ $discount }}₫</span>
+                                </li>
+                                <li>Total <span id="total">{{ $finalTotal }}₫</span></li>
                             </ul>
                         </div>
-                        <input type="hidden" name="total_amount" value="{{ $total }}">
-
                         <div class="checkout__form__input1">
                             <p>Payment Method <span>*</span></p>
                             <label>
@@ -130,11 +130,9 @@
                                 <input type="radio" name="payment_method" value="vnpay"> VNPAY
                             </label>
                         </div>
-
-
                         <button type="submit" class="site-btn">Place order</button>
                     </div>
-                </div>
+                </div>                                                              
             </div>
         </form>
     </div>
@@ -242,16 +240,28 @@
             .then(response => response.json())
             .then(data => {
                 // Xử lý kết quả từ server
+                let voucherMessage = document.getElementById('voucher-message');
                 if (data.success) {
                     // Nếu mã voucher hợp lệ
-                    document.getElementById('voucher-message').innerText = "Mã voucher đã được áp dụng thành công.";
-                    document.getElementById('voucher-message').style.color = 'green';
+                    voucherMessage.innerText = "Mã voucher đã được áp dụng thành công.";
+                    voucherMessage.style.color = 'green';
+                    
                     // Cập nhật tổng số tiền đơn hàng
-                    document.getElementById('total-amount').innerText = data.new_total + '₫';
+                    document.getElementById('subtotal').innerText = data.subtotal + '₫';
+                    document.getElementById('discount').innerText = '-' + data.discount + '₫';
+                    document.getElementById('total').innerText = data.new_total + '₫';
+                    
+                    // Hiển thị hàng giảm giá nếu chưa hiển thị
+                    document.getElementById('discount-row').style.display = 'block';
                 } else {
                     // Nếu mã voucher không hợp lệ
-                    document.getElementById('voucher-message').innerText = data.message;
-                    document.getElementById('voucher-message').style.color = 'red';
+                    voucherMessage.innerText = data.message;
+                    voucherMessage.style.color = 'red';
+                    
+                    // Ẩn hàng giảm giá nếu mã không hợp lệ
+                    document.getElementById('discount-row').style.display = 'none';
+                    document.getElementById('discount').innerText = '0₫';
+                    document.getElementById('total').innerText = data.subtotal + '₫';
                 }
             })
             .catch(error => {

@@ -28,7 +28,7 @@
                     <h6>Quick links</h6>
                     <ul>
                         <li><a href="#">About</a></li>
-                        <li><a href="{{ route('blog')}}">Blogs</a></li>
+                        <li><a href="{{ route('blog') }}">Blogs</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
@@ -70,8 +70,8 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        All rights reserved | This template is made with <i class="fa fa-heart"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i>
+                        by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                     </p>
                 </div>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -174,6 +174,8 @@
         loadContent();
     });
 </script>
+
+
 
 <script src="{{ asset('theme-cli/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/bootstrap.min.js') }}"></script>

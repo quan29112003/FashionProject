@@ -70,6 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
     // Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::delete('wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
+
+    Route::post('/sendcomments', [CommentController::class, 'send'])->name('comments.send');
+
 });
 
 Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);

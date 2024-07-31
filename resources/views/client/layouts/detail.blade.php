@@ -150,6 +150,22 @@
                 </div>
             </div>
         </div>
+
+        <h2>Bình luận</h2>
+        <form id="commentForm">
+            @csrf
+            <textarea name="comment" rows="4" required></textarea>
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <button type="submit">Gửi bình luận</button>
+        </form>
+
+        <h3>Các bình luận:</h3>
+        <div id="comments">
+            @foreach ($product->comments as $comment)
+                <p>{{ $comment->comment }} - bởi {{ $comment->user->name_user }}</p>
+            @endforeach
+        </div>
+
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="related__title">
@@ -237,6 +253,26 @@
 </section>
 <!-- Product Details Section End -->
 
+{{-- comment --}}
+<script>
+    $(document).ready(function() {
+        $('#commentForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('comments.send') }}',
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#comments').append('<p>' + response.comment + ' - bởi ' + response.user.name_user + '</p>');
+                    $('#commentForm')[0].reset();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
 
 
 @include('client.partials.footer')

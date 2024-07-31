@@ -60,4 +60,9 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductSize::class, 'product_id', 'size_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

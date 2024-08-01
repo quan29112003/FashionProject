@@ -30,39 +30,79 @@
                     <h5 class="card-title mb-0">Danh sách</h5>
                 </div>
                 <div class="card-body">
-                    <table id="example"
-                           class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                           style="width:100%">
+                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        style="width:100%">
 
                         <thead>
-                        <tr>
+                            <tr>
 
-                            <th>ID</th>
-                            <th>ID User</th>
-                            <th>Name Client</th>
-                            <th>Address</th>
-                            <th>Phone Number</th>
-                            <th>Total Amount</th>
-                            <th>Status</th>
-                            <th>Payment</th>
-                            <th>Voucher ID</th>
-                            <th>Action</th>
-                        </tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                <th>Action</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            @foreach($orders as $od)
+                            @foreach ($orders as $od)
                                 <tr>
                                     <td>{{ $od->id }}</td>
-                                    <td>{{ $od->user_id }}</td>
                                     <td>{{ $od->name }}</td>
                                     <td>{{ $od->address }}</td>
                                     <td>{{ $od->phone }}</td>
                                     <td>{{ $od->total_amount }}</td>
-                                    <td>{{ $od->status->name }}</td>
-                                    <td>{{ $od->payment->name }}</td>
-                                    <td>{{ $od->voucher_id }}</td>
+                                    @php
+                                        $statusClass = '';
+                                        switch ($od->status->name) {
+                                            case 'Chờ xác nhận':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Chờ lấy hàng':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Đang giao':
+                                                $statusClass = 'bg-info-subtle text-info';
+                                                break;
+                                            case 'Đã giao':
+                                                $statusClass = 'bg-success-subtle text-success';
+                                                break;
+                                            case 'Đã hủy':
+                                                $statusClass = 'bg-danger-subtle text-danger';
+                                                break;
+                                            case 'Trả hàng':
+                                                $statusClass = 'bg-danger-subtle text-danger';
+                                                break;
+                                            default:
+                                                $statusClass = 'bg-success-subtle text-success';
+                                                break;
+                                        }
+                                    @endphp
                                     <td>
-                                        <a href="{{ route('order-item',$od->id) }}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
+                                        <span class="badge {{ $statusClass }}">{{ $od->status->name }}</span>
+                                    </td>
+                                    @php
+                                        $paymentClass = '';
+                                        switch ($od->payment->name) {
+                                            case 'Chưa thanh toán':
+                                                $paymentClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Đã thanh toán':
+                                                $paymentClass = 'bg-success-subtle text-success';
+                                                break;
+                                            default:
+                                                $paymentClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                        }
+                                    @endphp
+                                    <td>
+                                        <span class="badge {{ $paymentClass }}">{{ $od->payment->name }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('order-item', $od->id) }}" class="dropdown-item"><i
+                                                class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
                                         <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
                                             data-id="{{ $od->id }}" data-status="{{ $od->status->id }}"
                                             data-payment="{{ $od->payment->id }}">
@@ -74,15 +114,14 @@
                             @endforeach
                         </tbody>
 
-                        </table>
-                    </div>
+                    </table>
                 </div>
-            </div><!--end col-->
-        </div>
+            </div>
+        </div><!--end col-->
+    </div>
 
-        <!-- Edit Item Modal Pop up-->
-        <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel"
-        aria-hidden="true">
+    <!-- Edit Item Modal Pop up-->
+    <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="editItemForm" method="POST">
@@ -90,8 +129,7 @@
                     @method('PUT')
                     <div class="modal-header">
                         <h5 class="modal-title" id="editItemModalLabel">Chỉnh sửa Trạng thái</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="editOrderId" name="id">
@@ -99,7 +137,7 @@
                         <div class="mb-3">
                             <label for="editOrderStatus" class="form-label">Status</label>
                             <select class="form-select" id="editOrderStatus" name="status_id" required>
-                                @foreach ($status as $st )
+                                @foreach ($status as $st)
                                     <option value="{{ $st->id }}">{{ $st->name }}</option>
                                 @endforeach
                             </select>
@@ -108,7 +146,7 @@
                         <div class="mb-3">
                             <label for="editOrderPayment" class="form-label">Payment</label>
                             <select class="form-select" id="editOrderPayment" name="payment_id" required>
-                                @foreach ($payment as $pm )
+                                @foreach ($payment as $pm)
                                     <option value="{{ $pm->id }}">{{ $pm->name }}</option>
                                 @endforeach
                             </select>
@@ -116,28 +154,26 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 @section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('script-libs')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -151,68 +187,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
-        new DataTable("#example", {
-            order: [ [0, 'desc'] ] }
-        );
-    </script>
+        // Truyền danh sách trạng thái từ PHP vào JavaScript
+        const statusOrder = @json($status->pluck('name'));
 
-<script>
-    $(document).ready(function() {
-    $('.edit-item-btn').on('click', function() {
-        let id = $(this).data('id');
-        let status = $(this).data('status');
-        let payment = $(this).data('payment');
+        $(document).ready(function() {
+            $('.edit-item-btn').on('click', function() {
+                let id = $(this).data('id');
+                let statusId = $(this).data('status');
+                let paymentId = $(this).data('payment');
 
-        $('#editOrderId').val(id);
-        $('#editOrderStatus').val(status);
-        $('#editOrderPayment').val(payment);
-        $('#editItemForm').attr('action', 'edit-order/' + id);
+                $('#editOrderId').val(id);
+                $('#editOrderStatus').val(statusId);
+                $('#editOrderPayment').val(paymentId);
+                $('#editItemForm').attr('action', 'edit-order/' + id);
 
-        // Disable select if status_id is 1
-        if (status == 4 || status == 5 || status ==6) {
-            $('#editOrderStatus').prop('disabled', true);
-        } else {
-            $('#editOrderStatus').prop('disabled', false);
-        }
+                // Lấy tên trạng thái hiện tại từ ID
+                let currentStatus = statusOrder[statusId - 1];
 
-        if (payment == 2) {
-            $('#editOrderPayment').prop('disabled', true);
-        } else {
-            $('#editOrderPayment').prop('disabled', false);
-        }
+                // Disable previous status options
+                $('#editOrderStatus option').each(function() {
+                    let optionText = $(this).text();
+                    if (statusOrder.indexOf(optionText) < statusOrder.indexOf(currentStatus)) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
 
-        $('#editItemModal').modal('show');
-    });
-
-    $('#editItemForm').on('submit', function(e) {
-        e.preventDefault();
-
-        if ($('#editOrderStatus').prop('disabled')) {
-            $('#editOrderStatus').prop('disabled', false);
-        }
-
-        let formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: formData,
-            success: function(response) {
-                if (response.success) {
-                    $('#editItemModal').modal('hide');
-                    location.reload(); // Reload the page to reflect updated data
+                if (paymentId == 2) {
+                    $('#editOrderPayment').prop('disabled', true);
                 } else {
-                    alert('An error occurred');
+                    $('#editOrderPayment').prop('disabled', false);
                 }
-            },
-            error: function(response) {
-                console.log(response.responseText); // Print error response
-                alert('An error occurred');
-            }
+
+                $('#editItemModal').modal('show');
+            });
+
+            $('#editItemForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Enable all status options before submit
+                $('#editOrderStatus option').prop('disabled', false);
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editItemModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response.responseText);
+                        alert('An error occurred');
+                    }
+                });
+            });
         });
-    });
-});
-
-
-</script>
+    </script>
 @endsection

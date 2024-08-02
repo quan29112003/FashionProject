@@ -37,12 +37,14 @@
                             <tr>
 
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>ID User</th>
+                                <th>Name Client</th>
                                 <th>Address</th>
                                 <th>Phone Number</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
                                 <th>Payment</th>
+                                <th>Voucher ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -50,6 +52,7 @@
                             @foreach ($orders as $od)
                                 <tr>
                                     <td>{{ $od->id }}</td>
+                                    <td>{{ $od->user_id }}</td>
                                     <td>{{ $od->name }}</td>
                                     <td>{{ $od->address }}</td>
                                     <td>{{ $od->phone }}</td>
@@ -100,6 +103,7 @@
                                     <td>
                                         <span class="badge {{ $paymentClass }}">{{ $od->payment->name }}</span>
                                     </td>
+                                    <td>{{ $od->voucher_id }}</td>
                                     <td>
                                         <a href="{{ route('order-item', $od->id) }}" class="dropdown-item"><i
                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
@@ -145,7 +149,7 @@
 
                         <div class="mb-3">
                             <label for="editOrderPayment" class="form-label">Payment</label>
-                            <select class="form-select" id="editOrderPayment" name="payment_id" required>
+                            <select class="form-select" id="editOrderPayment">
                                 @foreach ($payment as $pm)
                                     <option value="{{ $pm->id }}">{{ $pm->name }}</option>
                                 @endforeach
@@ -191,64 +195,66 @@
         const statusOrder = @json($status->pluck('name'));
 
         $(document).ready(function() {
-            $('.edit-item-btn').on('click', function() {
-                let id = $(this).data('id');
-                let statusId = $(this).data('status');
-                let paymentId = $(this).data('payment');
+    $('.edit-item-btn').on('click', function() {
+        let id = $(this).data('id');
+        let statusId = $(this).data('status');
+        let paymentId = $(this).data('payment');
 
-                $('#editOrderId').val(id);
-                $('#editOrderStatus').val(statusId);
-                $('#editOrderPayment').val(paymentId);
-                $('#editItemForm').attr('action', 'edit-order/' + id);
+        $('#editOrderId').val(id);
+        $('#editOrderStatus').val(statusId);
+        $('#editOrderPayment').val(paymentId);
+        $('#editItemForm').attr('action', 'edit-order/' + id);
 
-                // Lấy tên trạng thái hiện tại từ ID
-                let currentStatus = statusOrder[statusId - 1];
+        // Lấy tên trạng thái hiện tại từ ID
+        let currentStatus = statusOrder[statusId - 1];
 
-                // Disable previous status options
-                $('#editOrderStatus option').each(function() {
-                    let optionText = $(this).text();
-                    if (statusOrder.indexOf(optionText) < statusOrder.indexOf(currentStatus)) {
-                        $(this).prop('disabled', true);
-                    } else {
-                        $(this).prop('disabled', false);
-                    }
-                });
-
-                if (paymentId == 2) {
-                    $('#editOrderPayment').prop('disabled', true);
-                } else {
-                    $('#editOrderPayment').prop('disabled', false);
-                }
-
-                $('#editItemModal').modal('show');
-            });
-
-            $('#editItemForm').on('submit', function(e) {
-                e.preventDefault();
-
-                // Enable all status options before submit
-                $('#editOrderStatus option').prop('disabled', false);
-
-                let formData = $(this).serialize();
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: formData,
-                    success: function(response) {
-                        if (response.success) {
-                            $('#editItemModal').modal('hide');
-                            location.reload();
-                        } else {
-                            alert('An error occurred');
-                        }
-                    },
-                    error: function(response) {
-                        console.log(response.responseText);
-                        alert('An error occurred');
-                    }
-                });
-            });
+        // Vô hiệu hóa các tùy chọn trạng thái trước trạng thái hiện tại
+        $('#editOrderStatus option').each(function() {
+            let optionText = $(this).text();
+            if (statusOrder.indexOf(optionText) < statusOrder.indexOf(currentStatus)) {
+                $(this).prop('disabled', true);
+            } else {
+                $(this).prop('disabled', false);
+            }
         });
+
+        // Cho phép người dùng chọn để thay đổi payment từ 1 sang 2
+        $('#editOrderPayment').prop('disabled', false).attr('name', 'payment_id');
+
+        $('#editItemModal').modal('show');
+    });
+
+    $('#editItemForm').on('submit', function(e) {
+        e.preventDefault();
+
+        // Kiểm tra giá trị của payment trước khi gửi form
+        let paymentSelect = $('#editOrderPayment');
+        let paymentValue = paymentSelect.val();
+        if (paymentValue == 2 && paymentSelect.data('original-value') == 2) {
+            paymentSelect.removeAttr('name');
+        }
+
+        let formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    $('#editItemModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('An error occurred');
+                }
+            },
+            error: function(response) {
+                console.log(response.responseText);
+                alert('An error occurred');
+            }
+        });
+    });
+});
+
     </script>
 @endsection

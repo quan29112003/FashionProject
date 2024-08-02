@@ -195,6 +195,10 @@
         const statusOrder = @json($status->pluck('name'));
 
         $(document).ready(function() {
+    // Danh sách các trạng thái và payment
+    let statusOrder = ['Chờ xác nhận', 'Chờ lấy hàng', 'Đang giao', 'Đã giao', 'Đã hủy', 'Trả hàng'];
+    let paymentStatus = ['Chưa thanh toán', 'Đã thanh toán'];
+
     $('.edit-item-btn').on('click', function() {
         let id = $(this).data('id');
         let statusId = $(this).data('status');
@@ -203,10 +207,12 @@
         $('#editOrderId').val(id);
         $('#editOrderStatus').val(statusId);
         $('#editOrderPayment').val(paymentId);
+        $('#editOrderPayment').data('original-value', paymentId);  // Lưu giá trị gốc của payment
         $('#editItemForm').attr('action', 'edit-order/' + id);
 
         // Lấy tên trạng thái hiện tại từ ID
         let currentStatus = statusOrder[statusId - 1];
+        let currentPayment = paymentStatus[paymentId - 1];
 
         // Vô hiệu hóa các tùy chọn trạng thái trước trạng thái hiện tại
         $('#editOrderStatus option').each(function() {
@@ -218,8 +224,22 @@
             }
         });
 
-        // Cho phép người dùng chọn để thay đổi payment từ 1 sang 2
-        $('#editOrderPayment').prop('disabled', false).attr('name', 'payment_id');
+        // Vô hiệu hóa các tùy chọn payment trước payment hiện tại
+        $('#editOrderPayment option').each(function() {
+            let optionText = $(this).text();
+            if (paymentStatus.indexOf(optionText) < paymentStatus.indexOf(currentPayment)) {
+                $(this).prop('disabled', true);
+            } else {
+                $(this).prop('disabled', false);
+            }
+        });
+
+        // Vô hiệu hóa dropdown payment nếu paymentId là giá trị cuối cùng
+        if (paymentId == 2) {
+            $('#editOrderPayment').prop('disabled', true).removeAttr('name');
+        } else {
+            $('#editOrderPayment').prop('disabled', false).attr('name', 'payment_id');
+        }
 
         $('#editItemModal').modal('show');
     });
@@ -227,10 +247,13 @@
     $('#editItemForm').on('submit', function(e) {
         e.preventDefault();
 
+        // Kích hoạt lại tất cả các tùy chọn trạng thái và payment trước khi gửi form
+        $('#editOrderStatus option').prop('disabled', false);
+        $('#editOrderPayment option').prop('disabled', false);
+
         // Kiểm tra giá trị của payment trước khi gửi form
         let paymentSelect = $('#editOrderPayment');
-        let paymentValue = paymentSelect.val();
-        if (paymentValue == 2 && paymentSelect.data('original-value') == 2) {
+        if (paymentSelect.prop('disabled')) {
             paymentSelect.removeAttr('name');
         }
 
@@ -255,6 +278,8 @@
         });
     });
 });
+
+
 
     </script>
 @endsection

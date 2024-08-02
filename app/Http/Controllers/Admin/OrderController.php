@@ -32,18 +32,25 @@ class OrderController extends Controller
         return view('admin.orders.item', compact('order_items'));
     }
 
-    public function update(Request $request,$id){
-        $status = $request->status_id;
-        $payment = $request->payment_id;
-        $status ??= 4;
-        $payment ??= 1;
-        Order::where('id',$id)->update([
-            'status_id' => $status,
-            'payment_id' => $payment,
-        ]);
+    public function update(Request $request, $id)
+{
+    $order = Order::find($id);
 
-        return response()->json(['success' => true]);
+    // Cập nhật trạng thái
+    $order->status_id = $request->input('status_id');
+
+    // Cập nhật payment nếu giá trị mới không phải là giá trị cuối cùng
+    if ($request->has('payment_id')) {
+        $newPaymentId = $request->input('payment_id');
+        if ($order->payment_id != 2 || $newPaymentId != 2) {
+            $order->payment_id = $newPaymentId;
+        }
     }
+
+    $order->save();
+
+    return response()->json(['success' => true]);
+}
 
     public function checkNewOrder(Request $request)
     {

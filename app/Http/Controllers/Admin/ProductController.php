@@ -48,16 +48,8 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $query = Product::with(['variants.color', 'variants.size', 'category', 'images']);
-        $category = Category::all();
-
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $startDate = $request->input('start_date');
-            $endDate = $request->input('end_date');
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-
-        $products = $query->get();
+        $products = Product::with(['variants.color', 'variants.size', 'category', 'images'])->orderBy('is_active','desc')->get();
+        $category = Category::all();;
 
         return view('admin.products.index', compact('products',  'category'));
     }

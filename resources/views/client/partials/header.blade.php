@@ -18,7 +18,6 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Css Styles -->
     <style>
@@ -37,34 +36,6 @@
         .custom-radio input[type="radio"] {
             margin-right: 10px;
         }
-
-        .swatch-attribute-options {
-            flex-wrap: wrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .swatch-option {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            display: inline-block;
-            border-radius: 100%;
-            margin-right: 8px;
-            margin-bottom: 10px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            border: 1px solid #e6e7e8;
-            padding: 2px;
-            background-clip: content-box !important;
-            cursor: pointer;
-        }
-
-        .swatch-option.selected {
-            border-color: #333f48;
-        }
     </style>
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">
@@ -81,12 +52,6 @@
 
     <!-- JS của Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
 </head>
 
 <body>
@@ -99,67 +64,21 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
-        <div class="offcanvas__logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
-        </div>
         <ul class="offcanvas__widget">
-            <li>
-                <form hidden role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"
-                    class="search-form">
-                    <!-- Input tìm kiếm -->
-                    <input class="search-input" type="search" name="keyword" id="searchInput" placeholder="Search"
-                        aria-label="Search">
-                    <!-- Gạch chân dưới -->
-                    <div class="underline"></div>
-                    <!-- Nút tìm kiếm -->
-                    <button class="search-btn" type="submit">
-                        <!-- Icon tìm kiếm -->
-                        <i class="fa fa-search"></i>
-                    </button>
-                </form>
-            </li>
+            <li><span class="icon_search search-switch"></span></li>
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
             <li><a href="#"><span class="icon_bag_alt"></span>
                 </a></li>
         </ul>
-
+        <div class="offcanvas__logo">
+            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+        </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <ul style="list-style-type:none;float: left;">
-                @auth
-
-                    <li class="nav-item">
-                        <a href="{{ route('order.history') }}" class="nav-link text-dark fs-5">
-                            <span>Orders</span>
-                        </a>
-
-                    </li>
-
-                    {{-- edit profile --}}
-                    <li class="nav-item">
-                        <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
-                            <span>Edit Profile</span>
-                        </a>
-                    </li>
-                    {{-- logout --}}
-                    <li class="nav-item">
-                        <a href="#" class="nav-link text-dark fs-6"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                @else
-                    {{-- login --}}
-
-                    <li class="nav-item">
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    </li>
-                @endauth
-            </ul>
+            <a href="{{ route('login') }}">Login</a>
+            <a href="{{ route('register') }}">Register</a>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -224,61 +143,61 @@
                                     </a>
                                 </li>
                             @endforeach
-
-
                         </ul>
                     </nav>
                 </div>
 
-                {{-- login, cart, wishlist --}}
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <ul class="nav justify-content-end">
-                            @auth
+                {{-- search, login, cart, wishlist --}}
+                <div class="col-xl-3">
+                    <div class="row">
+                        {{-- User actions (login, profile, logout) --}}
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <ul class="nav justify-content-end">
+                                        @auth
+                                            {{-- edit profile --}}
+                                            <li class="nav-item">
+                                                <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
+                                                    <i class="bi bi-person-badge"></i>
+                                                </a>
+                                            </li>
+                                            {{-- logout --}}
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link text-dark fs-6"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        @else
+                                            {{-- login --}}
 
-                                <li class="nav-item">
-                                    <a href="{{ route('user.orders.history') }}" class="nav-link text-dark fs-5">
-                                        <i class="bi bi-receipt-cutoff"></i>
-                                    </a>
-                                </li>
-                                {{-- edit profile --}}
-                                <li class="nav-item">
-                                    <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
-                                        <i class="bi bi-person-badge"></i>
-                                    </a>
-                                </li>
-                                {{-- logout --}}
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-dark fs-6"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
-                            @else
-                                {{-- login --}}
+                                            <li class="nav-item">
+                                                <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class="nav-link text-dark fs-5"
+                                                    onclick="showLoginModal()">
+                                                    <i class="bi bi-person-badge"></i>
+                                                </a>
+                                            </li>
+                                        @endauth
 
-                                <li class="nav-item">
-                                    <a href="{{--  javascript:void(0); --}}{{ url('login') }}" class="nav-link text-dark fs-5"
-                                        onclick="showLoginModal()">
-                                        <i class="bi bi-person-badge"></i>
-                                    </a>
-                                </li>
-                            @endauth
+                                        {{-- Cart icons --}}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">
+                                                <span class="icon_heart_alt"></span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark fs-5" href="{{ url('cart') }}">
+                                                <span class="icon_bag_alt"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
 
-                            {{-- Cart icons --}}
-                            <li class="nav-item">
-                                <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">
-                                    <span class="icon_heart_alt"></span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark fs-5" href="{{ url('cart') }}">
-                                    <span class="icon_bag_alt"></span>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,6 +223,19 @@
             <i class="fa fa-bars"></i>
         </div>
     </header>
+
+    <!-- Search Popup -->
+    <div class="search-popup" id="searchPopup" style="display: none;">
+        <div class="search-popup__overlay" id="closeSearchPopup"></div>
+        <div class="search-popup__content">
+            <div class="search-popup__close" id="closeSearchPopupBtn">&times;</div>
+            <div class="search-popup__body">
+                <div id="searchResults"></div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 </html>

@@ -22,7 +22,7 @@
         // Hàm kiểm tra đơn hàng mới
         function checkNewOrder() {
             $.ajax({
-                url: '{{ route('check-new-order') }}', // Sử dụng route đã định nghĩa
+                url: '{{ url('check-new-order') }}', // Sử dụng route đã định nghĩa
                 method: 'GET',
                 success: function(response) {
                     if (response.newOrderCount > 0 && response.newOrders.length > 0) {

@@ -60,9 +60,9 @@
                                                 <h6>{{ $item['name'] }}</h6>
                                             </div>
                                         </td>
-                                        <td>{{ $item['size'] }}</td>
+                                        {{-- <td>{{ $item['size'] }}</td> --}}
                                         <td><span class="swatch-option color"
-                                                style="background-color: {{ $item['color_code'] }}"></span></td>
+                                                {{-- style="background-color: {{ $item['color_code'] }}"></span></td> --}}
                                         <td class="cart__price">
                                             {{ number_format($item['price'], 0, ',', '.') }}₫
                                         </td>

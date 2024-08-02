@@ -20,7 +20,18 @@ class HomeController extends Controller
             ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
             ->where('is_active', 1) // Chỉ lấy sản phẩm có is_active = 1
             ->has('variants')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('is_good_deal', 'desc')
             ->get();
+
+        $newProducts = $products->filter(function ($product) {
+            return $product->created_at->greaterThan(now()->subDays(5));
+        });
+
+        $variantProducts = collect();
+        foreach ($products as $product) {
+            $variantProducts[$product->id] = $product->variants;
+        }
 
         // Attach the first variant to each product
         $products->each(function ($product) {
@@ -68,6 +79,6 @@ class HomeController extends Controller
 
 
 
-        return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts'));
+        return view('client.layouts.home', compact('products','newProducts', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts', 'variantProducts'));
     }
 }

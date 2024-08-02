@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        $cart = session()->get('cart', []);
+        $total = array_reduce($cart, function ($sum, $item) {
+            return $sum + $item['price'] * $item['quantity'];
+        }, 0);
+
+        return view('client.layouts.cart', compact('cart', 'total'));
+    }
+
     public function addToCart(Request $request)
     {
         $productId = $request->input('product_id');
@@ -20,7 +30,7 @@ class CartController extends Controller
         $variant = ProductVariant::find($variantId);
 
         if (!$product || !$variant) {
-            return redirect()->back()->with('error', 'Invalid product or variant');
+            return response()->json(['success' => false, 'message' => 'Invalid product or variant']);
         }
 
         // Lấy giỏ hàng từ session, nếu không tồn tại thì khởi tạo mảng rỗng
@@ -44,14 +54,17 @@ class CartController extends Controller
                 'quantity' => $quantity,
                 'price' => $variant->price,
                 'name' => $product->name_product,
-                'image' => $product->images->first()->url ?? null,
+                'image' => $product->thumbnail, // Cập nhật thumbnail từ product
+                'size' => $variant->size->size ?? '', // Cập nhật size từ variant
+                'color' => $variant->color->color ?? '', // Cập nhật color từ variant
+                'color_code' => $variant->color->color_code ?? '', // Cập nhật color_code từ variant
             ];
         }
 
         // Lưu lại giỏ hàng vào session
         session()->put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Product added to cart');
+        return response()->json(['success' => true, 'message' => 'Product added to cart']);
     }
 
 

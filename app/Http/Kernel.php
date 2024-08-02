@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
     // share dữ liệu các tỉnh cho nhiều view để không cần khai báo trong controller
     protected $routeMiddleware = [
         'share.provinces' => \App\Http\Middleware\ShareProvinces::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

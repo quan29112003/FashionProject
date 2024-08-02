@@ -25,6 +25,12 @@ class User extends Authenticatable
         'type',
     ];
 
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     // protected static function boot()
     // {
     //     parent::boot();
@@ -56,5 +62,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
 }

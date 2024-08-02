@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('password');
-            $table->integer('role')->default(1);
+            $table->string('role')->default(1);
             $table->string('status')->default('Đang hoạt động');
             $table->timestamps();
         });

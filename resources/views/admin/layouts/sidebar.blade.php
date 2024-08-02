@@ -14,10 +14,10 @@
         <!-- Light Logo-->
         <a href="" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ asset('theme-cli/img/logo.png') }}" alt="" height="30">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('theme/admin/assets/images/logo-light.png') }}" alt="" height="17">
+                <img src="{{ asset('theme-cli/img/logo.png') }}" alt="" height="30">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -37,17 +37,22 @@
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="/">
+                    <a class="nav-link menu-link" href="{{ route('dashboard') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
                 </li> <!-- end Dashboard Menu -->
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('statistic') }}">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-dashboards">Statistics</span>
+                    </a>
+                </li>
 
-
-
-
-
-
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('order') }}">
+                        <i class="ri-layout-3-line"></i> <span data-key="t-dashboards">Orders</span>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
@@ -74,9 +79,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('category') }}" class="nav-link" data-key="t-horizontal">Category</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('order') }}" class="nav-link" data-key="t-horizontal">Order</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
@@ -149,28 +154,6 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarWishlist" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarWishlist">
-                        <i class="ri-layout-3-line"></i>
-                        <span data-key="t-layouts">Wishlists</span>
-
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarWishlist">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.wishlists.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Danh
-                                    sách</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.wishlists.create') }}" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarBlog" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarBlog">

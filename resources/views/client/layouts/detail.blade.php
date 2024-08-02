@@ -1,5 +1,8 @@
 @include('client.partials.header')
 
+
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -54,7 +57,7 @@
                     </div>
                     <!-- Widget thêm vào giỏ hàng -->
                     <div class="product__details__button">
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <form id="add-to-cart-form" action="{{ route('cart.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             @if (isset($variant))
@@ -147,6 +150,22 @@
                 </div>
             </div>
         </div>
+
+        <h2>Bình luận</h2>
+        <form id="commentForm">
+            @csrf
+            <textarea name="comment" rows="4" required></textarea>
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <button type="submit">Gửi bình luận</button>
+        </form>
+
+        <h3>Các bình luận:</h3>
+        <div id="comments">
+            @foreach ($product->comments as $comment)
+                <p>{{ $comment->comment }} - bởi {{ $comment->user->name_user }}</p>
+            @endforeach
+        </div>
+
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="related__title">
@@ -161,16 +180,39 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg"
                             data-setbg="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}">
+                            <!-- Check if the product is new -->
+                            @if ($newProducts->contains($relatedProduct))
+                                <div class="label new">New</div>
+                            @endif
+                            <!-- Check if the product is a good deal -->
+                            @if ($relatedProduct->is_good_deal)
+                                <div class="label sale">Sale</div>
+                            @endif
+                            <!-- Check if the product is a hot trend -->
+                            @if ($product->is_hot)
+                                <div class="label sale">Hot Trend</div>
+                            @endif
                             <ul class="product__hover">
                                 <li><a href="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}"
                                         class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+
+                                <li>
+                                    <form id="wishlist-form-{{ $relatedProduct->id }}"
+                                        action="{{ route('wishlist.add', $relatedProduct->id) }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <a href="#" onclick="addToWishlist({{ $relatedProduct->id }});">
+                                        <span class="icon_heart_alt"></span>
+                                    </a>
+                                </li>
+                                <!-- Thêm vào danh sách yêu thích -->
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
                             <h6><a
-                                    href="{{ route('detail', $relatedProduct->id) }}">{{ $relatedProduct->name_product }}</a>
+                                    href="{{ route('detail', ['id' => $relatedProduct->id, 'name' => str_replace(' ', '-', strtolower($relatedProduct->name_product))]) }}">{{ $relatedProduct->name_product }}</a>
                             </h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
@@ -179,16 +221,21 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price">
-                                @if ($relatedProduct->price_sale)
-                                    <span>{{ number_format($relatedProduct->price, 0, ',', '.') }}₫</span>
-                                    {{ number_format($relatedProduct->price_sale, 0, ',', '.') }}₫
-                                @elseif ($relatedProduct->price)
-                                    {{ number_format($relatedProduct->price, 0, ',', '.') }}₫
-                                @else
-                                    <div class="product__price">Giá chưa cập nhật</div>
-                                @endif
-                            </div>
+                            @if ($variant)
+                                <div class="product__price">
+                                    @if ($relatedProduct->is_good_deal)
+                                        <h6 style="color: red; font-weight: bold;">
+                                            {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
+                                        <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
+                                    @else
+                                        {{ number_format($variant->price, 0, ',', '.') }}đ
+                                    @endif
+                                </div>
+                                <!-- Giá sản phẩm -->
+                            @else
+                                <div class="product__price">Giá chưa cập nhật</div>
+                                <!-- Handle case where variant is null -->
+                            @endif
 
                         </div>
                     </div>
@@ -206,10 +253,58 @@
 </section>
 <!-- Product Details Section End -->
 
+{{-- comment --}}
+<script>
+    $(document).ready(function() {
+        $('#commentForm').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('comments.send') }}',
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#comments').append('<p>' + response.comment + ' - bởi ' + response
+                        .user.name_user + '</p>');
+                    $('#commentForm')[0].reset();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+        window.Echo.channel('comments')
+            .listen('CommentPosted', (e) => {
+                $('#comments').append('<p>' + e.comment + ' - bởi ' + e.user.name_user + '</p>');
+            });
+    });
+</script>
 
 
 @include('client.partials.footer')
 <script>
+    $(document).ready(function() {
+        $('#add-to-cart-form').on('submit', function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = '{{ route('cart.index') }}';
+                    } else {
+                        alert('Error adding product to cart.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                    alert('Error adding product to cart.');
+                }
+            });
+        });
+    });
     document.addEventListener('DOMContentLoaded', function() {
         const loadMoreBtn = document.getElementById('load-more-btn');
         const hiddenProducts = document.querySelectorAll('.product-item.d-none');
@@ -234,18 +329,45 @@
         const productDetails = document.querySelector('.product__details__text');
         const productId = productDetails.dataset.productId;
 
+        function numberFormat(number, decimals, decPoint, thousandsSep) {
+            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+            const n = !isFinite(+number) ? 0 : +number;
+            const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals);
+            const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep;
+            const dec = (typeof decPoint === 'undefined') ? '.' : decPoint;
+            let s = '';
+
+            const toFixedFix = function(n, prec) {
+                const k = Math.pow(10, prec);
+                return '' + (Math.round(n * k) / k).toFixed(prec);
+            };
+
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+
         function updatePrice() {
             const selectedColor = document.querySelector('input[name="color__radio"]:checked');
             const selectedSize = document.querySelector('input[name="size__radio"]:checked');
 
             if (!selectedColor || !selectedSize) {
-                return; // Nếu chưa chọn đủ màu sắc và kích cỡ thì không làm gì cả
+                return; // If color and size are not selected, do nothing
             }
 
             const colorId = selectedColor.value;
             const sizeId = selectedSize.value;
 
-            // Gửi yêu cầu AJAX để lấy giá của biến thể sản phẩm
+            // Display loading indicator
+            productPrice.innerHTML = 'Loading...';
+
+            // Fetch the product variant price
             fetch(`/getProductPrice?product_id=${productId}&color=${colorId}&size=${sizeId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -254,7 +376,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    productPrice.innerHTML = `$${data.price} <span>$${data.price_sale}</span>`;
+                    const formattedPrice = numberFormat(data.price, 0, ',', '.') + '₫';
+                    const formattedPriceSale = data.price_sale ? numberFormat(data.price_sale, 0, ',',
+                        '.') + '₫' : '';
+                    productPrice.innerHTML = `${formattedPrice} <span>${formattedPriceSale}</span>`;
                 })
                 .catch(error => {
                     console.error('Error fetching price:', error);
@@ -270,7 +395,57 @@
             radio.addEventListener('change', updatePrice);
         });
 
-        // Cập nhật giá ban đầu khi tải trang
+        // Update price on initial load
         updatePrice();
     });
+</script>
+
+<script>
+    function showToast(message, type) {
+        var toastContainer = $('#toast-container');
+        var autoHideDelay = 3000; // 3 seconds
+
+        var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+        var toast = $('<div class="toast text-white ' + toastClass +
+            '" role="alert" aria-live="assertive" aria-atomic="true">' +
+            '<div class="toast-header">' +
+            '<strong class="me-auto">Notification</strong>' +
+            '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+            '</div>' +
+            '<div class="toast-body">' + message + '</div>' +
+            '</div>');
+
+        // Append toast to container and show it
+        toastContainer.append(toast);
+        var bootstrapToast = new bootstrap.Toast(toast[0], {
+            delay: autoHideDelay
+        });
+        bootstrapToast.show();
+
+        // Remove toast after it's hidden
+        toast.on('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+
+    function addToWishlist(productId) {
+        event.preventDefault();
+        var form = $('#wishlist-form-' + productId);
+
+        $.ajax({
+            url: form.attr('action'),
+            method: form.attr('method'),
+            data: form.serialize(),
+            success: function(response) {
+                showToast('Product added to wishlist!', 'success');
+            },
+            error: function(response) {
+                if (response.status === 400) {
+                    showToast('Product is already in the wishlist.', 'danger');
+                } else {
+                    showToast('Failed to add product to wishlist.', 'danger');
+                }
+            }
+        });
+    }
 </script>

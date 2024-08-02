@@ -35,7 +35,7 @@
                             <div class="col-md-4">
                                 <div>
                                     <label for="nameUser" class="form-label">Name</label>
-                                    <input type="text" class="form-control" name="nameUser" value="{{ $user->nameUser }}" required>
+                                    <input type="text" class="form-control" name="nameUser" value="{{ $user->name_user }}" required>
                                     @error('nameUser')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror

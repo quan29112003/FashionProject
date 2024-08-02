@@ -37,10 +37,12 @@
             <div class="col-lg-12">
                 <div class="shop__cart__table">
                     @if (count(session('cart', [])) > 0)
-                        <table class="table">
+                        <table class="table" style="text-align: center; align-item: center">
                             <thead>
                                 <tr>
                                     <th>Product</th>
+                                    <th>Size</th>
+                                    <th>Color</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
                                     <th>Total</th>
@@ -58,24 +60,34 @@
                                                 <h6>{{ $item['name'] }}</h6>
                                             </div>
                                         </td>
-                                        <td class="cart__price">{{ $item['price'] }}₫</td>
+                                        <td>{{ $item['size'] }}</td>
+                                        <td><span class="swatch-option color"
+                                                style="background-color: {{ $item['color_code'] }}"></span></td>
+                                        <td class="cart__price">
+                                            {{ number_format($item['price'], 0, ',', '.') }}₫
+                                        </td>
                                         <td class="cart__quantity">
                                             <div class="input-group quantity">
                                                 <div class="input-group-prepend">
-                                                    <button style="border: 1px solid #ccc" type="button" class="btn btn-outline-secondary btn-number"
+                                                    <button style="border: none" type="button" class="btn btn-number"
                                                         data-type="minus">-</button>
                                                 </div>
-                                                <input type="number" class="form-control input-number update-cart"
+                                                <input disabled
+                                                    style="border: none; background-color: #fff; text-align: center;"
+                                                    type="text" class="form-control input-number update-cart"
                                                     name="quantity" data-product-id="{{ $item['product_id'] }}"
                                                     data-variant-id="{{ $item['variant_id'] }}"
                                                     value="{{ $item['quantity'] }}" min="1">
                                                 <div class="input-group-append">
-                                                    <button style="border: 1px solid #ccc" type="button" class="btn btn-outline-secondary btn-number"
+                                                    <button style="border: none" type="button" class="btn btn-number"
                                                         data-type="plus">+</button>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__total">{{ $item['price'] * $item['quantity'] }}₫</td>
+                                        <td class="cart__total">
+                                            {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                            ₫
+                                        </td>
                                         <td class="cart__close">
                                             <form action="{{ route('cart.remove') }}" method="POST"
                                                 style="display:inline;">
@@ -98,10 +110,14 @@
                                 <div class="cart__total__procced">
                                     <h6>Cart total</h6>
                                     <ul>
-                                        <li>Subtotal <span id="subtotal">{{ $total }}₫</span></li>
-                                        <li>Total <span id="total">{{ $total }}₫</span></li>
+                                        <li>Subtotal <span
+                                                id="subtotal">{{ number_format($total, 0, ',', '.') }}₫</span>
+                                        </li>
+                                        <li>Total <span id="total">{{ number_format($total, 0, ',', '.') }}₫</span>
+                                        </li>
                                     </ul>
-                                    <a href="{{ route('checkout') }}" class="primary-btn">Proceed to checkout</a>
+                                    <a href="{{ route('checkout') }}" class="primary-btn">Proceed to
+                                        checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -156,9 +172,10 @@
                         var cartTotalPrice = response.cart_total;
 
                         $('tr[data-product-id="' + productId + '"][data-variant-id="' + variantId +
-                            '"] .cart__total').text(itemTotalPrice + '₫');
-                        $('#subtotal').text(cartTotalPrice + '₫');
-                        $('#total').text(cartTotalPrice + '₫');
+                            '"] .cart__total').text(itemTotalPrice.toLocaleString('vi-VN') +
+                            '₫');
+                        $('#subtotal').text(cartTotalPrice.toLocaleString('vi-VN') + '₫');
+                        $('#total').text(cartTotalPrice.toLocaleString('vi-VN') + '₫');
                     }
                 },
                 error: function(xhr, status, error) {
@@ -193,8 +210,6 @@
         });
     });
 </script>
-
-
 
 <!-- Instagram Begin -->
 <div class="instagram">

@@ -65,14 +65,17 @@ class CheckoutController extends Controller
         $total = array_reduce($cart, function ($sum, $item) {
             return $sum + $item['price'] * $item['quantity'];
         }, 0);
+        
+        // Xóa giá trị giảm giá và mã voucher khỏi session
+        session()->forget(['voucher_code', 'voucher_discount', 'final_total']);
 
-        // Lấy mã voucher từ session hoặc yêu cầu người dùng
-        $voucherCode = session('voucher_code', null);
-        $discount = session('voucher_discount', 0);
+        // Đặt giá trị tổng vào session
+        session(['total' => $total]);
 
-        $finalTotal = $total - $discount;
-
-        session(['total' => $total, 'final_total' => $finalTotal]);
+        // Khởi tạo các biến để tránh lỗi undefined variable
+        $discount = 0;
+        $voucherCode = null;
+        $finalTotal = $total;
 
         return view('client.layouts.checkout', compact('total', 'finalTotal', 'discount', 'voucherCode'));
     }

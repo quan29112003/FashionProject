@@ -77,16 +77,7 @@
                             <li>
                                 <span>Availability:</span>
                                 <div class="stock__checkbox">
-                                    <label for="stockin">
-                                        @if ($product->is_in_stock)
-                                            In Stock
-                                        @else
-                                            Out of Stock
-                                        @endif
-                                        <input type="checkbox" id="stockin"
-                                            {{ $product->is_in_stock ? 'checked' : '' }}>
-                                        <span class="checkmark"></span>
-                                    </label>
+                                    {{ $variant->quantity}}
                                 </div>
                             </li>
                             <li>

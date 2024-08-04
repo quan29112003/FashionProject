@@ -37,7 +37,6 @@ class CheckoutController extends Controller
             'payment_method' => 'required',
         ]);
 
-        // Lưu thông tin order tạm thời vào session
         session()->put('checkout_name', $request->name);
         session()->put('checkout_address', $request->address);
         session()->put('checkout_state', $request->state);
@@ -48,14 +47,23 @@ class CheckoutController extends Controller
         session()->put('checkout_voucher_id', $request->voucher_id);
         session()->put('total_amount', $request->total_amount);
 
+        $order = $this->createOrder($request, 1);
+
+        // Lưu order_id vào session để sử dụng sau
+        session()->put('order_id', $order->id);
+
         if ($request->payment_method === 'vnpay') {
             Log::info('Starting VNPAY payment process');
             return $this->createVnpayPayment($request);
         }
 
-        // Xử lý thanh toán khi nhận hàng (COD)
-        return $this->createOrder($request, 1);
+
+        $order->status_id = 2; // Chờ xác nhận
+        $order->save();
+        return redirect('/')->with('success', 'Đặt hàng thành công!');
     }
+
+
 
     private function createVnpayPayment(Request $request)
     {
@@ -134,9 +142,14 @@ class CheckoutController extends Controller
 
         if ($secureHash === $vnp_SecureHash) {
             if ($request->vnp_ResponseCode == '00') {
-                Log::info('VNPAY payment successful, creating order');
-                $totalAmount = session()->pull('total_amount');
-                return $this->createOrder($request, 2, $totalAmount); // Payment method = 2 for online payment
+                Log::info('VNPAY payment successful, updating order status');
+                $orderId = session()->pull('order_id');
+                $order = Order::find($orderId);
+                $order->status_id = 2;
+                $order->payment_id = 2;
+                $order->save();
+
+                return redirect('/')->with('success', 'Thanh toán thành công!');
             } else {
                 Log::error('VNPAY payment failed with response code: ' . $request->vnp_ResponseCode);
                 return redirect('/')->with('error', 'Thanh toán không thành công!');
@@ -147,14 +160,16 @@ class CheckoutController extends Controller
         }
     }
 
+
+
     private function createOrder($request, $paymentMethod, $totalAmount = null)
     {
         DB::beginTransaction();
         try {
             $order = Order::create([
                 'user_id' => auth()->user()->id,
-                'status_id' => 1, // Mặc định là 1 cho trạng thái "Chờ xác nhận"
-                'payment_id' => $paymentMethod, // 1 cho COD, 2 cho thanh toán online
+                'status_id' => 1,
+                'payment_id' => 1,
                 'total_amount' => $totalAmount ?? $request->total_amount,
                 'voucher_id' => session()->get('checkout_voucher_id'),
                 'name' => session()->pull('checkout_name'),
@@ -176,19 +191,16 @@ class CheckoutController extends Controller
                     $item['name'] = 'Unnamed Product'; // Gán giá trị mặc định
                 }
 
-
-
                 try {
-                    // Chèn dữ liệu vào bảng order_items
                     OrderItem::create([
                         'order_id' => $order->id,
                         'product_id' => $item['product_id'],
-                        'name_product' => $item['name'], // Đảm bảo cột này được điền
-                        'thumbnail' => $item['image'] ?? '', // Đảm bảo cột này được điền
+                        'name_product' => $item['name'],
+                        'thumbnail' => $item['image'] ?? '',
                         'quantity' => $item['quantity'],
-                        'size' => $item['size'] ?? '',  // Đảm bảo cột này được điền
-                        'color' => $item['color'] ?? '', // Đảm bảo cột này được điền
-                        'color_code' => $item['color_code'] ?? '', // Đảm bảo cột này được điền
+                        'size' => $item['size'] ?? '',
+                        'color' => $item['color'] ?? '',
+                        'color_code' => $item['color_code'] ?? '',
                         'price' => $item['price'],
                     ]);
                 } catch (\Exception $e) {
@@ -198,13 +210,11 @@ class CheckoutController extends Controller
                 }
             }
 
-            session()->forget('cart');
             DB::commit();
-
+            session()->forget('cart');
             Log::info('Order created successfully: ', ['order_id' => $order->id]);
 
-            return redirect('/')->with('success', 'Đặt hàng thành công!');
-            // return redirect()->back()->with('success', 'Đặt hàng thành công!');
+            return $order;
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Error creating order: ' . $e->getMessage());

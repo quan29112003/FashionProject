@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/wishlist/add/{productId}', [WishlistController::class, 'add'])->name('wishlist.add');
     // Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::delete('wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
+
+    Route::post('/orders/{order}/cancel', [OrderControllerCli::class, 'cancel'])->name('orders.cancel');
 });
 
 Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
@@ -177,7 +179,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-    Route::get('orders/statistic',[OrderController::class, 'chart'])->name('statistic');
+    Route::get('orders/statistic', [OrderController::class, 'chart'])->name('statistic');
 
     Route::get('catalogue', [CatalogueController::class, 'index'])->name('catalogue');
     Route::post('store-catalogue', [CatalogueController::class, 'store'])->name('store-catalogue');

@@ -14,9 +14,10 @@ class StatusesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('statuses')->insert([
+            ['name' => 'Chờ xử lý'],
             ['name' => 'Chưa xác nhận'],
-            ['name' => 'Đã xác nhận'],
-            ['name' => 'Đang xử lý'],
+            ['name' => 'Xác nhận'],
+            ['name' => 'Đang chuẩn bị hàng'],
             ['name' => 'Đang giao hàng'],
             ['name' => 'Đã giao hàng'],
             ['name' => 'Đã hoàn thành'],

@@ -9,7 +9,7 @@ class OrderControllerCli extends Controller
 {
     public function index()
     {
-        $orders = auth()->user()->orders()->with('status', 'payment', 'orderItems.product.images')->get();
+        $orders = auth()->user()->orders()->with('status', 'payment', 'orderItems.product.images')->orderBy('created_at', 'desc')->get();
         return view('client.layouts.order-history', compact('orders'));
     }
 

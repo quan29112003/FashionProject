@@ -9,10 +9,12 @@
 
     .order-container {
         margin: 2rem auto;
-        max-width: 800px;
+        /* max-width: 1200px; */
+        max-width: 70%;
         background: #fff;
         padding: 2rem;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 15px
     }
 
     .order-header {
@@ -49,8 +51,8 @@
 
     .order-product {
         display: flex;
-        align-items: flex-start;
-        margin-bottom: 1.5rem;
+        align-items: center;
+        /* margin-bottom: 1.5rem; */
     }
 
     .order-product img {
@@ -135,7 +137,7 @@
             <div class="order-card">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
-                        <div class="font-weight-bold">Mã đơn hàng {{ $order->id }}</div>
+                        <div class="font-weight-bold">Mã đơn hàng #{{ $order->id }}</div>
                         <div class="order-info">Ngày đặt: {{ $order->created_at->format('d-m-Y') }}</div>
                         <div class="order-info order-total">Tổng tiền:
                             {{ number_format($order->total_amount, 0, ',', '.') }}₫</div>

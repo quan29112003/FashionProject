@@ -30,29 +30,31 @@
                     <h5 class="card-title mb-0">Danh sách</h5>
                 </div>
                 <div class="card-body">
-                    <table id="example"
-                           class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                           style="width:100%">
+                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        style="width:100%">
 
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name Product</th>
-                            <th>Size</th>
-                            <th>Color</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Created at</th>
-                            <th>Updated at</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name Product</th>
+                                <th>Size</th>
+                                <th>Color</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Created at</th>
+                                <th>Updated at</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                            @foreach($order_items as $od)
-
+                            @foreach ($order_items as $od)
                                 <tr>
-                                    <<td>{{ $od->id }}</td>
+                                    <td>
+                                        <img src="{{ asset('uploads/' . $od->thumbnail) }}" width="70px" alt="">
+                                    </td>
+                                    <td>{{ $od->id }}</td>
                                     <td>{{ $od->name_product }}</td>
-                                    <td>{{ $od->size}}</td>
+                                    <td>{{ $od->size }}</td>
                                     <td>{{ $od->color }}</td>
                                     <td>{{ $od->quantity }}</td>
                                     <td>{{ $od->price }}</td>
@@ -60,29 +62,27 @@
                                     <td>{{ $od->updated_at }}</td>
                                     <td>
                                 </tr>
-
                             @endforeach
                         </tbody>
 
-                        </table>
-                    </div>
+                    </table>
                 </div>
-            </div><!--end col-->
-        </div>
-
+            </div>
+        </div><!--end col-->
+    </div>
 @endsection
 @section('style-libs')
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
 @section('script-libs')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -97,7 +97,9 @@
 
     <script>
         new DataTable("#example", {
-            order: [ [0, 'desc'] ] }
-        );
+            order: [
+                [0, 'desc']
+            ]
+        });
     </script>
 @endsection

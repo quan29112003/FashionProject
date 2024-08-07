@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div>
                                         <label for="title" class="form-label">Title</label>
                                         <input type="text" class="form-control" id="title" name="title" required>
@@ -40,7 +40,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div>
                                         <label for="content" class="form-label">Content</label>
                                         <textarea class="form-control" id="content" name="content" rows="5" required></textarea>

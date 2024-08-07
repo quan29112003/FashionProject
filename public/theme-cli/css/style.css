@@ -3842,7 +3842,7 @@ ol {
 /* Nút tìm kiếm */
 .search-btn {
     position: absolute; /* Vị trí tuyệt đối */
-    right: 50px; /* Cách mép phải 50px */
+    right: 100px; /* Cách mép phải 50px */
     background: transparent; /* Nền trong suốt */
     border: none; /* Không có viền */
     color: #000; /* Màu chữ đen */

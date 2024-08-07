@@ -149,62 +149,60 @@
 
                 {{-- search, login, cart, wishlist --}}
                 <div class="col-xl-3">
-                    <div class="row">
-                        {{-- User actions (login, profile, logout) --}}
-                        <div class="col">
-                            <div class="row">
-                                <div class="col">
-                                    <ul class="nav justify-content-end">
-                                        @auth
-                                            {{-- edit profile --}}
-                                            <li class="nav-item">
-                                                <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
-                                                    <i class="bi bi-person-badge"></i>
-                                                </a>
-                                            </li>
-                                            {{-- logout --}}
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link text-dark fs-6"
-                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                    style="display: none;">
-                                                    @csrf
-                                                </form>
-                                            </li>
-                                        @else
-                                            {{-- login --}}
+                    <div class="header__right">
+                        <ul class="nav justify-content-end">
+                            @auth
 
-                                            <li class="nav-item">
-                                                <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class="nav-link text-dark fs-5"
-                                                    onclick="showLoginModal()">
-                                                    <i class="bi bi-person-badge"></i>
-                                                </a>
-                                            </li>
-                                        @endauth
+                                <li class="nav-item">
+                                    <a href="{{ route('user.orders.history') }}" class="nav-link text-dark fs-5">
+                                        <i class="bi bi-receipt-cutoff"></i>
+                                    </a>
+                                </li>
+                                {{-- edit profile --}}
+                                <li class="nav-item">
+                                    <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
+                                        <i class="bi bi-person-badge"></i>
+                                    </a>
+                                </li>
+                                {{-- logout --}}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link text-dark fs-6"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </li>
+                            @else
+                                {{-- login --}}
 
-                                        {{-- Cart icons --}}
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">
-                                                <span class="icon_heart_alt"></span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark fs-5" href="{{ url('cart') }}">
-                                                <span class="icon_bag_alt"></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <li class="nav-item">
+                                    <a href="{{--  javascript:void(0); --}}{{ url('login') }}" class="nav-link text-dark fs-5"
+                                        onclick="showLoginModal()">
+                                        <i class="bi bi-person-badge"></i>
+                                    </a>
+                                </li>
+                            @endauth
 
-                            </div>
-                        </div>
+                            {{-- Cart icons --}}
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">
+                                    <span class="icon_heart_alt"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fs-5" href="{{ url('cart') }}">
+                                    <span class="icon_bag_alt"></span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="row align-items-center">
+            {{-- <div class="row align-items-center"> --}}
                 {{-- category --}}
-                <div class="col">
+                {{-- <div class="col">
                     <nav>
                         <ul class="nav justify-content-center">
                             @foreach ($categories as $categorie)
@@ -216,8 +214,8 @@
                             @endforeach
                         </ul>
                     </nav>
-                </div>
-            </div>
+                </div> --}}
+            {{-- </div> --}}
         </div>
         <div class="canvas__open">
             <i class="fa fa-bars"></i>

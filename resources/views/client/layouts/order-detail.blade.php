@@ -85,6 +85,9 @@
                     <tbody>
                         @foreach ($orderItems as $item)
                             <tr>
+                                <td>
+                                    <img src="{{ asset('uploads/' . $item->thumbnail) }}" width="70px" alt="">
+                                </td>
                                 <td>{{ $item->name_product }}<br><small>{{ $item->product ? $item->product->name : 'No product' }}</small>
                                 </td>
                                 <td>{{ number_format($item->price, 0, ',', '.') }}₫</td>

@@ -37,13 +37,13 @@
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ url('dashboard') }}">
+                    <a class="nav-link menu-link" href="{{ route('dashboard') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
                     </a>
                 </li> <!-- end Dashboard Menu -->
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ url('statistic') }}">
+                    <a class="nav-link menu-link" href="{{ route('statistic') }}">
                         <i class="ri-layout-3-line"></i> <span data-key="t-dashboards">Statistics</span>
                     </a>
                 </li>
@@ -64,23 +64,23 @@
                     <div class="collapse menu-dropdown" id="sidebarProduct">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ url('product') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('product') }}" class="nav-link" data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('color') }}" class="nav-link" data-key="t-horizontal">Color</a>
+                                <a href="{{ route('color') }}" class="nav-link" data-key="t-horizontal">Color</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('size') }}" class="nav-link" data-key="t-horizontal">Size</a>
+                                <a href="{{ route('size') }}" class="nav-link" data-key="t-horizontal">Size</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('catalogue') }}" class="nav-link"
+                                <a href="{{ route('catalogue') }}" class="nav-link"
                                     data-key="t-horizontal">Catalogues</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('category') }}" class="nav-link" data-key="t-horizontal">Category</a>
+                                <a href="{{ route('category') }}" class="nav-link" data-key="t-horizontal">Category</a>
                             </li>
                             {{-- <li class="nav-item">
-                                <a href="{{ url('order') }}" class="nav-link" data-key="t-horizontal">Order</a>
+                                <a href="{{ route('order') }}" class="nav-link" data-key="t-horizontal">Order</a>
                             </li> --}}
                         </ul>
                     </div>
@@ -96,11 +96,11 @@
                     <div class="collapse menu-dropdown" id="sidebarUser">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ url('admin.users.index') }}" class="nav-link"
+                                <a href="{{ route('admin.users.index') }}" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('admin.users.create') }}" class="nav-link"
+                                <a href="{{ route('admin.users.create') }}" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -116,12 +116,12 @@
                     <div class="collapse menu-dropdown" id="sidebarVoucher">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ url('admin.vouchers.index') }}" class="nav-link"
+                                <a href="{{ route('admin.vouchers.index') }}" class="nav-link"
                                     data-key="t-horizontal">Danh sách
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('admin.vouchers.create') }}" class="nav-link"
+                                <a href="{{ route('admin.vouchers.create') }}" class="nav-link"
                                     data-key="t-horizontal">Thêm mới
                                 </a>
                             </li>
@@ -140,12 +140,12 @@
                     <div class="collapse menu-dropdown" id="sidebarComment">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ url('admin.comments.index') }}" class="nav-link"
+                                <a href="{{ route('admin.comments.index') }}" class="nav-link"
                                     data-key="t-horizontal">Danh
                                     sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('admin.comments.create') }}" class="nav-link"
+                                <a href="{{ route('admin.comments.create') }}" class="nav-link"
                                     data-key="t-horizontal">Thêm
                                     mới</a>
                             </li>
@@ -164,12 +164,12 @@
                     <div class="collapse menu-dropdown" id="sidebarBlog">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ url('admin.blogs.index') }}" class="nav-link"
+                                <a href="{{ route('admin.blogs.index') }}" class="nav-link"
                                     data-key="t-horizontal">Danh
                                     sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('admin.blogs.create') }}" class="nav-link"
+                                <a href="{{ route('admin.blogs.create') }}" class="nav-link"
                                     data-key="t-horizontal">Thêm
                                     mới</a>
                             </li>

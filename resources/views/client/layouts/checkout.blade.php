@@ -69,6 +69,15 @@
                                 <p>Voucher Code</p>
                                 <input type="text" name="voucher_id" value="{{ old('voucher_id') }}">
                             </div>
+                            <div class="col-lg-12">
+                                <div class="checkout__form__input">
+                                    <p>Voucher Code</p>
+                                    <input type="text" id="voucher-code-input" name="voucher_code"
+                                        placeholder="Enter your voucher code">
+                                    <button id="apply-voucher-button" class="site-btn">Apply Voucher</button>
+                                    <span id="voucher-message"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -406,5 +415,56 @@
         @if (session('success'))
             $('#successModal').modal('show');
         @endif
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('apply-voucher-button').addEventListener('click', function(e) {
+            e.preventDefault(); // Ngăn không cho form bị submit
+
+            let voucherCode = document.getElementById('voucher-code-input').value;
+            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('{{ route('apply.voucher') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        voucher_code: voucherCode
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Xử lý kết quả từ server
+                    let voucherMessage = document.getElementById('voucher-message');
+                    if (data.success) {
+                        // Nếu mã voucher hợp lệ
+                        voucherMessage.innerText = "Mã voucher đã được áp dụng thành công.";
+                        voucherMessage.style.color = 'green';
+
+                        // Cập nhật tổng số tiền đơn hàng
+                        document.getElementById('subtotal').innerText = data.subtotal + '₫';
+                        document.getElementById('discount').innerText = '-' + data.discount + '₫';
+                        document.getElementById('total').innerText = data.new_total + '₫';
+
+                        // Hiển thị hàng giảm giá nếu chưa hiển thị
+                        document.getElementById('discount-row').style.display = 'block';
+                    } else {
+                        // Nếu mã voucher không hợp lệ
+                        voucherMessage.innerText = data.message;
+                        voucherMessage.style.color = 'red';
+
+                        // Ẩn hàng giảm giá nếu mã không hợp lệ
+                        document.getElementById('discount-row').style.display = 'none';
+                        document.getElementById('discount').innerText = '0₫';
+                        document.getElementById('total').innerText = data.subtotal + '₫';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
     });
 </script>

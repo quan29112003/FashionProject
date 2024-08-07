@@ -35,28 +35,27 @@
 
                         <thead>
                             <tr>
-
                                 <th>ID</th>
-                                <th>ID User</th>
-                                <th>Name Client</th>
-                                <th>Address</th>
-                                <th>Phone Number</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                                <th>Payment</th>
-                                <th>Voucher ID</th>
-                                <th>Action</th>
+                                <th>Họ Tên</th>
+                                <th>Địa chỉ</th>
+                                <th>Số điện thoại</th>
+                                <th>Thời gian</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Trạng thái thanh toán</th>
+                                {{-- <th>Mã giảm giá</th> --}}
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($orders as $od)
                                 <tr>
                                     <td>{{ $od->id }}</td>
-                                    <td>{{ $od->user_id }}</td>
                                     <td>{{ $od->name }}</td>
                                     <td>{{ $od->address }}</td>
                                     <td>{{ $od->phone }}</td>
-                                    <td>{{ $od->total_amount }}</td>
+                                    <td>{{ $od->created_at }}</td>
+                                    <td>{{ number_format($od->total_amount) }}đ</td>
                                     @php
                                         $statusClass = '';
                                         switch ($od->status->name) {
@@ -103,7 +102,7 @@
                                     <td>
                                         <span class="badge {{ $paymentClass }}">{{ $od->payment->name }}</span>
                                     </td>
-                                    <td>{{ $od->voucher_id }}</td>
+                                    {{-- <td>{{ $od->voucher_id }}</td> --}}
                                     <td>
                                         <a href="{{ route('order-item', $od->id) }}" class="dropdown-item"><i
                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('size');
             $table->string('color');
             $table->string('color_code')->nullable();
-            $table->decimal('price', 8, 2);
+            $table->integer('price');
             $table->timestamps();
 
             // Thiết lập khóa ngoại

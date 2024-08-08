@@ -102,21 +102,7 @@
             <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
         </div>
         <ul class="offcanvas__widget">
-            <li>
-                <form hidden role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"
-                    class="search-form">
-                    <!-- Input tìm kiếm -->
-                    <input class="search-input" type="search" name="keyword" id="searchInput" placeholder="Search"
-                        aria-label="Search">
-                    <!-- Gạch chân dưới -->
-                    <div class="underline"></div>
-                    <!-- Nút tìm kiếm -->
-                    <button class="search-btn" type="submit">
-                        <!-- Icon tìm kiếm -->
-                        <i class="fa fa-search"></i>
-                    </button>
-                </form>
-            </li>
+            <li><span class="icon_search search-switch"></span></li>
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
@@ -303,6 +289,19 @@
             <i class="fa fa-bars"></i>
         </div>
     </header>
+
+    <!-- Search Popup -->
+    <div class="search-popup" id="searchPopup" style="display: none;">
+        <div class="search-popup__overlay" id="closeSearchPopup"></div>
+        <div class="search-popup__content">
+            <div class="search-popup__close" id="closeSearchPopupBtn">&times;</div>
+            <div class="search-popup__body">
+                <div id="searchResults"></div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 </html>

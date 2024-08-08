@@ -180,7 +180,7 @@
             <div class="row align-items-center">
                 <div class="col-xl-3 d-flex justify-content-between">
                     {{-- logo --}}
-                    <div class="w-50">
+                    <div style="width: 35%">
                         <a href="{{ url('/') }}">
                             <img src="{{ asset('theme-cli/img/1.png') }}" alt="Logo">
                         </a>

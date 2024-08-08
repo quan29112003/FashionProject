@@ -204,8 +204,8 @@
                                     <!--end col-->
                                     <div class="col-6 col-sm-4">
                                         <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1">$<span class="counter-value"
-                                                    data-target="{{ $data->earn }}">0</span>k</h5>
+                                            <h5 class="mb-1"><span class="counter-value"
+                                                    data-target="{{ $data->earn }}">0</span>đ</h5>
                                             <p class="text-muted mb-0">Thu nhập</p>
                                         </div>
                                     </div>
@@ -324,7 +324,7 @@
                 success: function(response) {
                     var formatter = new Intl.NumberFormat('en-US', {
                         style: 'currency',
-                        currency: 'USD',
+                        currency: 'VND',
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 2
                     });

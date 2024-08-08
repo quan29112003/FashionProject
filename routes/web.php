@@ -49,11 +49,19 @@ Route::prefix('api')->group(function () {
     Route::get('wards/{districtId}', [LocationController::class, 'getWards']);
 });
 // xem lịch sử đơn hàng
-Route::prefix('order-')->name('')->group(function () {
-    Route::view('history', 'client.layouts.order-history')->name('order.history');
-    Route::view('detail', 'client.layouts.order-detail')->name('user.order.detail');
-    Route::view('detail2', 'client.layouts.order-detail2')->name('order.detail2');
-});
+
+Route::get('/order-history', function () {
+    return view('client.layouts.order-history');
+})->name('order.history');
+
+Route::get('/order-detail', function () {
+    return view('client.layouts.order-detail');
+})->name('order.detail');
+
+Route::get('/order-detail2', function () {
+    return view('client.layouts.order-detail2');
+})->name('order.detail2');
+
 // phần giỏ hàng
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::post('/add', [CartController::class, 'addToCart'])->name('add');
@@ -67,11 +75,17 @@ Route::prefix('cart')->name('cart.')->group(function () {
 // vnpay
 Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 // checkout
-Route::prefix('checkout')->name('checkout.')->group(function () {
-    Route::get('/', [CheckoutController::class, 'showCheckout'])->name('show');
-    Route::post('/process', [CheckoutController::class, 'processCheckout'])->name('process');
-    Route::view('/', 'client.layouts.checkout')->name('checkout');
-});
+// Route::prefix('checkout')->name('checkout.')->group(function () {
+//     Route::get('/', [CheckoutController::class, 'showCheckout'])->name('show');
+//     Route::post('/process', [CheckoutController::class, 'processCheckout'])->name('process');
+//     Route::view('/', 'client.layouts.checkout')->name('checkout');
+// });
+
+Route::get('/checkout', function () {
+    return view('client.layouts.checkout');
+})->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 // lịch sử đơn hàng
 Route::name('user.orders.')->group(function () {
     Route::get('/my-order-history', [OrderControllerCli::class, 'index'])->name('history');

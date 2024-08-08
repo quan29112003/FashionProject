@@ -125,7 +125,7 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <span class="text">{{ $to->total_amount }}</span>
+                                                        <span class="text">{{ number_format($to->total_amount) }}đ</span>
                                                     </td>
                                                     @php
                                                         $statusClass = '';

@@ -24,7 +24,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountSingleDate">0</span>k
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountSingleDate">0</span>đ
                             </h4>
                             <a href="" class="text-decoration-underline">View net earnings</a>
                         </div>
@@ -322,7 +322,14 @@
                     date: date
                 },
                 success: function(response) {
-                    $('#totalAmountSingleDate').text(response.totalAmount);
+                    var formatter = new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    });
+
+                    $('#totalAmountSingleDate').text(formatter.format(response.totalAmount));
                 }
             });
         }

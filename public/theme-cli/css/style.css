@@ -3623,28 +3623,12 @@ ol {
 		font-size: 24px;
 	}
 }
-	margin-left: -200px;
-}
-/* Add these styles in your CSS file (style.css) */
-#searchForm {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 400px; /* Limit the maximum width */
-    margin: 0 auto; /* Center the form */
-}
-
 #searchForm input[type="text"] {
     flex: 1;
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 4px 0 0 4px;
     min-width: 0; /* Prevent input from growing too large */
-}
-
-#searchForm button {
-    cursor: pointer;
 }
 
 /* Responsive adjustments */

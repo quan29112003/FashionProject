@@ -13,10 +13,10 @@ class WebsiteMenusSeeder extends Seeder
      */
     public function run(): void
     {
-        WebsiteMenu::create(['menu_item' => 'Home', 'url' => '/']);
-        WebsiteMenu::create(['menu_item' => 'blog', 'url' => 'blog']);
-        WebsiteMenu::create(['menu_item' => 'shop', 'url' => 'shop']);
-        WebsiteMenu::create(['menu_item' => 'contact', 'url' => 'contact']);
-        WebsiteMenu::create(['menu_item' => 'about us', 'url' => 'about-us']);
+        WebsiteMenu::create(['menu_item' => 'Trang chủ', 'url' => '/']);
+        WebsiteMenu::create(['menu_item' => 'Tin tức', 'url' => 'blog']);
+        WebsiteMenu::create(['menu_item' => 'Sản phẩm', 'url' => 'shop']);
+        WebsiteMenu::create(['menu_item' => 'Liện hệ', 'url' => 'contact']);
+        WebsiteMenu::create(['menu_item' => 'Về chúng tôi', 'url' => 'about-us']);
     }
 }

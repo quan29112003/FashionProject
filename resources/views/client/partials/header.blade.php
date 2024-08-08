@@ -99,7 +99,7 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
         <div class="offcanvas__logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/1.png') }}" alt="" width="70%"></a>
         </div>
         <ul class="offcanvas__widget">
             <li><span class="icon_search search-switch"></span></li>
@@ -180,13 +180,13 @@
             <div class="row align-items-center">
                 <div class="col-xl-3 d-flex justify-content-between">
                     {{-- logo --}}
-                    <div>
+                    <div class="w-50">
                         <a href="{{ url('/') }}">
-                            <img src="{{ asset('theme-cli/img/logo.png') }}" alt="Logo">
+                            <img src="{{ asset('theme-cli/img/1.png') }}" alt="Logo">
                         </a>
                     </div>
                     {{-- categorygender --}}
-                    <nav>
+                    <nav class="d-flex align-items-center">
                         <ul class="nav ">
                             @foreach ($CategoryGenders as $CategoryGender)
                                 <li class="nav-item">

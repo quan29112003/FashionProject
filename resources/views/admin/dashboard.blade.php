@@ -56,7 +56,7 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
                                                 data-target={{ $data->dayOrder }}>0</span></h4>
-                                        <a href="" class="text-decoration-underline">View all orders</a>
+                                        <a href="{{ route('order') }}" class="text-decoration-underline">xem đơn hàng</a>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-info-subtle rounded fs-3">
@@ -83,7 +83,7 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
                                                 data-target={{ $data->customer }}>0</span> </h4>
-                                        <a href="" class="text-decoration-underline">See details</a>
+                                        <a href="{{ route('admin.users.index') }}" class="text-decoration-underline">Xem người dùng</a>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-warning-subtle rounded fs-3">
@@ -97,7 +97,7 @@
                     <div class="col-xl-8">
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">những đơn đặt hàng gần đây</h4>
                             </div><!-- end card header -->
 
                             <div class="card-body">
@@ -106,11 +106,11 @@
                                         class="table table-borderless table-centered align-middle table-nowrap mb-0">
                                         <thead class="text-muted table-info">
                                             <tr>
-                                                <th scope="col">Order ID</th>
-                                                <th scope="col">Customer</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Payment</th>
+                                                <th scope="col">Mã đơn hàng</th>
+                                                <th scope="col">Khách hàng</th>
+                                                <th scope="col">Tổng tiền</th>
+                                                <th scope="col">Trạng thái</th>
+                                                <th scope="col">Trạng thái thanh toán</th>
                                             </tr>
                                         </thead>
                                         <tbody>

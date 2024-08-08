@@ -37,7 +37,6 @@
                             <tr>
 
                                 <th>ID</th>
-                                <th>ID User</th>
                                 <th>Name Client</th>
                                 <th>Address</th>
                                 <th>Phone Number</th>
@@ -52,11 +51,10 @@
                             @foreach ($orders as $od)
                                 <tr>
                                     <td>{{ $od->id }}</td>
-                                    <td>{{ $od->user_id }}</td>
                                     <td>{{ $od->name }}</td>
                                     <td>{{ $od->address }}</td>
                                     <td>{{ $od->phone }}</td>
-                                    <td>{{ $od->total_amount }}</td>
+                                    <td>{{ number_format($od->total_amount) }}đ</td>
                                     @php
                                         $statusClass = '';
                                         switch ($od->status->name) {

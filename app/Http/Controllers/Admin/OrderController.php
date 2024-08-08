@@ -19,7 +19,7 @@ class OrderController extends Controller
 {
     //
     public function index(){
-        $orders = Order::with('status','payment')->get();
+        $orders = Order::with('status','payment')->orderBy('updated_at', 'desc')->get();
         $status = Status::all();
         $payment = Payment::all();
         return view('admin.orders.index',compact('orders','status','payment'));

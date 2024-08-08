@@ -19,6 +19,7 @@ class OrderControllerCli extends Controller
         $orderItems = $order->orderItems()->with('product.images')->get();
         return view('client.layouts.order-detail', compact('order', 'orderItems'));
     }
+
     public function cancel(Order $order)
     {
         $this->authorize('update', $order);

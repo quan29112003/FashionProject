@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 namespace App\Models;
@@ -11,21 +12,21 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'productID',
-        'userID',
+        'product_id',
+        'user_id',
         'comment',
         'createAt',
         'rating',
         'visible',
     ];
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'productID');
-    }
-
     public function user()
     {
-        return $this->belongsTo(User::class, 'userID');
+        return $this->belongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

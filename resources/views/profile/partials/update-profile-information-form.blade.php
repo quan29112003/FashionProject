@@ -20,7 +20,7 @@
         <div class="row">
             {{-- user name --}}
             <div class="col-6 my-2">
-                <x-input-label for="name_user" :value="__('Name')" />
+                <x-input-label for="name_user" :value="__('Họ và Tên')" />
                 <x-text-input id="name_user" name="name_user" type="text" class="mt-1 block w-full" :value="old('name_user', $user->name_user)"
                     autofocus autocomplete="name_user" />
                 <x-input-error class="mt-2" :messages="$errors->get('name_user')" />
@@ -28,7 +28,7 @@
 
             {{-- number phone --}}
             <div class="col-6 my-2">
-                <x-input-label for="number_phone" :value="__('Number phone')" />
+                <x-input-label for="number_phone" :value="__('Số điện thoại')" />
                 <x-text-input id="number_phone" name="number_phone" type="text" class="mt-1 block w-full"
                     :value="old('number_phone', $user->number_phone)" autofocus autocomplete="number_phone" />
                 <x-input-error class="mt-2" :messages="$errors->get('number_phone')" />
@@ -36,7 +36,7 @@
 
             {{-- birthday --}}
             <div class="col-3 my-2">
-                <x-input-label for="birthday" :value="__('Birthday')" />
+                <x-input-label for="birthday" :value="__('Ngày sinh')" />
                 <x-text-input id="birthday" name="birthday" type="text" class="mt-1 block w-full flatpickr"
                     value="{{ old('birthday', $user->birthday) }}" autocomplete="birthday" />
                 <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
@@ -45,7 +45,7 @@
 
             {{-- age --}}
             <div class="col-3 my-2">
-                <x-input-label for="age" :value="__('Age')" />
+                <x-input-label for="age" :value="__('Tuổi')" />
                 <x-text-input id="age" name="age" type="number" class="mt-1 block w-full" :value="old('age', $user->age)"
                     autocomplete="age" readonly />
                 <x-input-error class="mt-2" :messages="$errors->get('age')" />
@@ -82,7 +82,7 @@
             <div class="col-12">
                 <div class="row">
                     <div class="col-12 my-2" id="currentAddressSection" onclick="showEditForm()">
-                        <x-input-label for="address" :value="__('address')" />
+                        <x-input-label for="address" :value="__('Địa chỉ')" />
                         <textarea id="address" name="address"
                             class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                             autocomplete="address" readonly>{{ old('address', $user->address) }}</textarea>
@@ -94,14 +94,14 @@
             <div id="editAddressSection" class="col-12">
                 <div class="row">
                     <div class="col-3 my-2">
-                        <x-input-label for="specific_address" :value="__('specific_address')" />
+                        <x-input-label for="specific_address" :value="__('Số nhà/Tên đường')" />
                         <x-text-input id="specific_address" name="specific_address" type="text"
                             class="mt-1 block w-full" :value="$specific_addressName" autofocus autocomplete="specific_address" />
                         <x-input-error class="mt-2" :messages="$errors->get('specific_address')" />
                     </div>
 
                     <div class="col-3 my-2">
-                        <x-input-label for="ward" :value="__('Ward')" />
+                        <x-input-label for="ward" :value="__('Xã/Phường')" />
                         <select id="ward" name="ward"
                             class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <option value="">Select Ward</option>
@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="col-3 my-2">
-                        <x-input-label for="district" :value="__('District')" />
+                        <x-input-label for="district" :value="__('Quận/huyện')" />
                         <select id="district" name="district"
                             class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <option value="">Select District</option>
@@ -119,7 +119,7 @@
                     </div>
 
                     <div class="col-3 my-2">
-                        <x-input-label for="province" :value="__('Province')" />
+                        <x-input-label for="province" :value="__('Tỉnh/Thành Phố')" />
                         <select id="province" name="province"
                             class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <option value="">Select Province</option>

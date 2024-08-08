@@ -164,7 +164,7 @@
                             class="search-form">
                             <!-- Input tìm kiếm -->
                             <input class="search-input" type="search" name="keyword" id="searchInput"
-                                placeholder="Search" aria-label="Search">
+                                placeholder="Tìm kiếm" aria-label="Search">
                             <!-- Gạch chân dưới -->
                             <div class="underline"></div>
                             <!-- Nút tìm kiếm -->
@@ -235,7 +235,7 @@
                                 {{-- logout --}}
                                 <li class="nav-item">
                                     <a href="#" class="nav-link text-dark fs-6"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Đăng xuất') }}</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         style="display: none;">
                                         @csrf

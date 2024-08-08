@@ -17,7 +17,7 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-input-label for="password" :value="__('Mật khẩu')" />
 
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
                 autocomplete="current-password" />
@@ -31,12 +31,12 @@
                 <input id="remember_me" type="checkbox"
                     class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
                     name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
+                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Ghi nhớ tôi') }}</span>
             </label>
         </div>
         <div class="d-flex justify-content-center">
             <x-primary-button class="ms-3">
-                {{ __('Log in') }}
+                {{ __('Đăng nhập') }}
             </x-primary-button>
         </div>
         <div class="d-flex justify-content-between mt-4">
@@ -45,7 +45,7 @@
                 <div class="w-50">
                     <a class="text-start text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                         href="{{ route('register') }}">
-                        {{ __('Don\'t have an account? Register') }}
+                        {{ __('Bạn chưa có tài khoản? Tạo tài khoản') }}
                     </a>
                 </div>
             @endif
@@ -54,7 +54,7 @@
                 <div class="w-50 text-end">
                     <a class=" text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                         href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                        {{ __('Bạn quên mật khẩu?') }}
                     </a>
                 </div>
             @endif

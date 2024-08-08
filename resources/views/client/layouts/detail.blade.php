@@ -77,7 +77,7 @@
                             <li>
                                 <span>Availability:</span>
                                 <div class="stock__checkbox">
-                                    {{ $variant->quantity}}
+                                    {{ $variant->quantity }}
                                 </div>
                             </li>
                             <li>
@@ -154,7 +154,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 product-item @if ($productCount >= 8) d-none @endif">
                     <div class="product__item">
                         <div class="product__item__pic set-bg"
-                            data-setbg="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}">
+                            data-setbg="{{ asset('uploads/' . optional($relatedProduct->images->first())->url) }}">
                             <!-- Check if the product is new -->
                             @if ($newProducts->contains($relatedProduct))
                                 <div class="label new">New</div>
@@ -168,8 +168,12 @@
                                 <div class="label sale">Hot Trend</div>
                             @endif
                             <ul class="product__hover">
-                                <li><a href="{{ asset('uploads/' . $relatedProduct->images->first()->url) }}"
-                                        class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li>
+                                    <a href="{{ asset('uploads/' . optional($relatedProduct->images->first())->url) }}"
+                                        class="image-popup">
+                                        <span class="arrow_expand"></span>
+                                    </a>
+                                </li>
 
                                 <li>
                                     <form id="wishlist-form-{{ $relatedProduct->id }}"

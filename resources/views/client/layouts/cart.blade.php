@@ -116,7 +116,7 @@
                                         <li>Total <span id="total">{{ number_format($total, 0, ',', '.') }}₫</span>
                                         </li>
                                     </ul>
-                                    <a href="{{ route('checkout') }}" class="primary-btn">Proceed to
+                                    <a href="{{ url('checkout') }}" class="primary-btn">Proceed to
                                         checkout</a>
                                 </div>
                             </div>

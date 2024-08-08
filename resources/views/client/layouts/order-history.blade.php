@@ -146,7 +146,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="{{ route('user.order.detail', $order->id) }}" class="btn btn-outline-primary mr-2">Xem
+                        <a href="{{ route('order.detail', $order->id) }}" class="btn btn-outline-primary mr-2">Xem
                             đơn hàng</a>
                         <a href="#" class="btn btn-outline-primary">Xem hóa đơn</a>
                         @if ($order->status_id == 1 || $order->status_id == 2)

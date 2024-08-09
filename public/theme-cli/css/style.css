@@ -3862,3 +3862,33 @@ ol {
 .search-input:focus ~ .search-btn {
     right: 0; /* Dịch chuyển nút tìm kiếm về phía phải */
 }
+
+/* Hiển thị dropdown khi hover */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-menu {
+    display: none;
+    opacity: 0;
+    top: 100%;  /* Hiển thị ngay dưới phần tử cha */
+    visibility: hidden;
+    position: absolute;
+    left: 50%;
+    transform: none;  /* Loại bỏ bất kỳ thuộc tính transform nào */
+    transform: translateX(-50%);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-item.dropdown:hover .dropdown-menu,
+.nav-item.dropdown:focus .dropdown-menu{
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-item.dropdown {
+    position: relative;
+}

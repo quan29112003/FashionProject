@@ -99,15 +99,22 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
         <div class="offcanvas__logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/1.png') }}" alt="" width="70%"></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/1.png') }}" alt=""
+                    width="70%"></a>
         </div>
         <ul class="offcanvas__widget">
             <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
+            <li>
+                <a href="#">
+                    <span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
-                </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                </a></li>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon_bag_alt"></span>
+                </a>
+            </li>
         </ul>
 
         <div id="mobile-menu-wrap"></div>
@@ -209,49 +216,95 @@
                                     </a>
                                 </li>
                             @endforeach
-
-
                         </ul>
                     </nav>
                 </div>
-
                 {{-- login, cart, wishlist --}}
                 <div class="col-lg-3">
-                    <div class="header__right">
-                        <ul class="nav justify-content-end">
-                            @auth
+                    <div class="">
+                        <ul class="nav justify-content-end" style="min-width: 200px">
+                            <li class="nav-item dropdown">
 
-                                <li class="nav-item">
-                                    <a href="{{ route('user.orders.history') }}" class="nav-link text-dark fs-5">
-                                        <i class="bi bi-receipt-cutoff"></i>
-                                    </a>
-                                </li>
-                                {{-- edit profile --}}
-                                <li class="nav-item">
-                                    <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">
-                                        <i class="bi bi-person-badge"></i>
-                                    </a>
-                                </li>
-                                {{-- logout --}}
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link text-dark fs-6"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Đăng xuất') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
-                            @else
-                                {{-- login --}}
-
-                                <li class="nav-item">
-                                    <a href="{{--  javascript:void(0); --}}{{ url('login') }}" class="nav-link text-dark fs-5"
-                                        onclick="showLoginModal()">
-                                        <i class="bi bi-person-badge"></i>
-                                    </a>
-                                </li>
-                            @endauth
-
+                                <a class="nav-link text-dark fs-5" href="{{ route('profile.edit') }}" role="button"
+                                    aria-expanded="false">
+                                    <i class="bi bi-person-badge"></i>
+                                </a>
+                                <ul class="dropdown-menu" style="min-width: 200px">
+                                    @auth
+                                        <li>
+                                            <a href="{{ route('user.orders.history') }}" class="nav-link p-0">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><i
+                                                            class="bi bi-receipt-cutoff"></i>
+                                                    </p>
+                                                    <p class=" text-dark fs-6 mb-3 ">đơn hàng</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ route('profile.edit') }}" class="nav-link p-0">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3 me-3"><i
+                                                            class="bi bi-person-lines-fill"></i></p>
+                                                    <p class=" text-dark fs-6 mb-3 ">thông tin</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-0" href="{{ route('wishlist.index') }}">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><span
+                                                            class="icon_heart_alt"></span></p>
+                                                    <p class=" text-dark fs-6 mb-3 ">yêu thích</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-0" href="{{ url('cart') }}">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><span
+                                                            class="icon_bag_alt"></span></p>
+                                                    <p class=" text-dark fs-6 mb-3 ">giỏ hàng</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="nav-link p-0"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><i class="bi bi-door-open"></i>
+                                                    </p>
+                                                    <p class=" text-dark fs-6 mb-3 ">{{ __('Đăng xuất') }}</p>
+                                                </div>
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ url('login') }}" class="nav-link p-0">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><i class="bi bi-door-closed"></i></p>
+                                                    <p class=" text-dark fs-6 mb-3">Đăng nhập</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('register') }}" class="nav-link p-0">
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><i class="bi bi-person-plus"></i></p>
+                                                    <p class=" text-dark fs-6 mb-3">Đăng ký</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    @endauth
+                                </ul>
+                            </li>
                             {{-- Cart icons --}}
                             <li class="nav-item">
                                 <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">

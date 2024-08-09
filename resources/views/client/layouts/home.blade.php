@@ -623,8 +623,6 @@
         handleQuickCard(e, productId)
     }
 
-
-
     function showToast(message, type) {
         var toastContainer = $('#toast-container');
         var autoHideDelay = 3000; // 3 seconds
@@ -649,27 +647,6 @@
         // Remove toast after it's hidden
         toast.on('hidden.bs.toast', function() {
             toast.remove();
-        });
-    }
-
-    function addToWishlist(productId) {
-        event.preventDefault();
-        var form = $('#wishlist-form-' + productId);
-
-        $.ajax({
-            url: form.attr('action'),
-            method: form.attr('method'),
-            data: form.serialize(),
-            success: function(response) {
-                showToast('Product added to wishlist!', 'success');
-            },
-            error: function(response) {
-                if (response.status === 400) {
-                    showToast('Product is already in the wishlist.', 'danger');
-                } else {
-                    showToast('Failed to add product to wishlist.', 'danger');
-                }
-            }
         });
     }
 </script>

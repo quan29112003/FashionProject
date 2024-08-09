@@ -14,58 +14,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Css Styles -->
-    <style>
-        .payment-method {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .custom-radio {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .custom-radio input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        .swatch-attribute-options {
-            flex-wrap: wrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .swatch-option {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            display: inline-block;
-            border-radius: 100%;
-            margin-right: 8px;
-            margin-bottom: 10px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            border: 1px solid #e6e7e8;
-            padding: 2px;
-            background-clip: content-box !important;
-            cursor: pointer;
-        }
-
-        .swatch-option.selected {
-            border-color: #333f48;
-        }
-    </style>
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/elegant-icons.css') }}" type="text/css">
@@ -219,7 +173,6 @@
                         </ul>
                     </nav>
                 </div>
-                {{-- login, cart, wishlist --}}
                 <div class="col-lg-3">
                     <div class="">
                         <ul class="nav justify-content-end" style="min-width: 200px">
@@ -251,7 +204,9 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link p-0" href="{{ route('wishlist.index') }}">
+                                            <a class="nav-link p-0" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                                                href="#">
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <p class=" text-dark fs-6 mb-3  me-3"><span
                                                             class="icon_heart_alt"></span></p>
@@ -289,7 +244,8 @@
                                         <li>
                                             <a href="{{ url('login') }}" class="nav-link p-0">
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                    <p class=" text-dark fs-6 mb-3  me-3"><i class="bi bi-door-closed"></i></p>
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><i
+                                                            class="bi bi-door-closed"></i></p>
                                                     <p class=" text-dark fs-6 mb-3">Đăng nhập</p>
                                                 </div>
                                             </a>
@@ -297,7 +253,8 @@
                                         <li>
                                             <a href="{{ route('register') }}" class="nav-link p-0">
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                    <p class=" text-dark fs-6 mb-3  me-3"><i class="bi bi-person-plus"></i></p>
+                                                    <p class=" text-dark fs-6 mb-3  me-3"><i
+                                                            class="bi bi-person-plus"></i></p>
                                                     <p class=" text-dark fs-6 mb-3">Đăng ký</p>
                                                 </div>
                                             </a>
@@ -307,7 +264,9 @@
                             </li>
                             {{-- Cart icons --}}
                             <li class="nav-item">
-                                <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">
+                                <a class="nav-link text-dark fs-5" class="nav-link p-0" type="button"
+                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight" href="#">
                                     <span class="icon_heart_alt"></span>
                                 </a>
                             </li>
@@ -353,7 +312,97 @@
             </div>
         </div>
     </div>
+    {{-- login, cart, wishlist --}}
+    <div class="offcanvas offcanvas-end" tabindex="-1" style="min-width: 35%" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">sản phẩm yêu thích</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
 
+            <!-- Breadcrumb Begin -->
+            <div class="breadcrumb-option">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb__links">
+                                <a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
+                                <span>Wishlist</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Breadcrumb End -->
+
+            <!-- Wishlist Section Begin -->
+            <section class="shop-cart spad">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="shop__cart__table">
+                                @if ($wishlists && count($wishlists) > 0)
+                                    @foreach ($wishlists as $wishlist)
+                                        @if ($wishlist->product && $wishlist->product->variants->isNotEmpty())
+                                            @php
+                                                $variant = $wishlist->product->variants->first();
+                                            @endphp
+                                            <div id="wishlist-item-{{ $wishlist->id }}"
+                                                class="d-flex align-items-center mb-3">
+                                                <div class="me-3">
+                                                    <a
+                                                        href="{{ route('detail', ['id' => $wishlist->product->id, 'name' => str_replace(' ', '-', strtolower($wishlist->product->name_product))]) }}">
+                                                        <img src="{{ asset('uploads/' . $wishlist->product->thumbnail) }}"
+                                                            alt="" class="img-thumbnail"
+                                                            style="max-width: 100px;">
+                                                    </a>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <a href="{{ route('detail', ['id' => $wishlist->product->id, 'name' => str_replace(' ', '-', strtolower($wishlist->product->name_product))]) }}"
+                                                        class="text-decoration-none">
+                                                        <h6 class="mb-2">{{ $wishlist->product->name_product }}</h6>
+                                                    </a>
+                                                    <p class="mb-1">số lượng: {{ $variant->quantity }}</p>
+                                                    <p class="mb-1 text-danger fw-bold">chỉ còn:
+                                                        {{ number_format($variant->price_sale, 0, ',', '.') }}đ</p>
+                                                    <p class="mb-1 text-decoration-line-through">giá gốc:
+                                                        {{ number_format($variant->price, 0, ',', '.') }}đ</p>
+                                                </div>
+                                                <div>
+                                                    <button onclick="deleteWishlistItem({{ $wishlist->id }})"
+                                                        class="btn btn-danger btn-sm">Remove</button>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <p colspan="5" class="text-center">No product in wishlist</p>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="cart__btn">
+                                                <a class="site-btn" href="{{ url('/') }}">Continue Shopping</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="alert alert-info">
+                                        No products in the wishlist.
+                                    </div>
+                                    <div class="cart__btn">
+                                        <a class="site-btn" href="{{ url('/') }}">Continue Shopping</a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Wishlist Section End -->
+        </div>
+    </div>
 
 </body>
 

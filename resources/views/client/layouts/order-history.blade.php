@@ -168,7 +168,6 @@
                             <div class="product-description">{{ $item->description ?? 'Không có mô tả' }}</div>
                             <a href="{{ route('detail', ['id' => $item->product_id, 'name' => Str::slug($item->name_product)]) }}"
                                 class="btn btn-link">Xem sản phẩm</a>
-
                         </div>
                         <div class="product-price">{{ number_format($item->price, 0, ',', '.') }}₫</div>
                     </div>

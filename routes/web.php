@@ -29,6 +29,7 @@ use App\Http\Controllers\{
     LocationController,
     OrderControllerCli,
 };
+use App\Http\Middleware\CheckWishlist;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
@@ -119,11 +120,10 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
     Route::prefix('wishlist')->name('wishlist.')->group(function () {
-        Route::get('/', [WishlistController::class, 'index'])->name('index');
+        // Route::get('/', 'WishlistController@index')->name('index');
         Route::post('/add/{productId}', [WishlistController::class, 'add'])->name('add');
         Route::delete('/{id}', [WishlistController::class, 'destroy'])->name('remove');
     });
-
     Route::post('/orders/{order}/cancel', [OrderControllerCli::class, 'cancel'])->name('orders.cancel');
 });
 // đăng nhập admin

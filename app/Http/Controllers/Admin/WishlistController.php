@@ -10,7 +10,7 @@
 
 // class WishlistController extends Controller
 // {
-    
+
 //     public function index()
 //     {
 //         $wishlists = Wishlist::where('user_id', Auth::id())
@@ -77,16 +77,17 @@ use App\Models\User;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class WishlistController extends Controller
 {
-    public function index()
-    {
-        $wishlists = Wishlist::where('user_id', Auth::id())
-            ->with(['product.variants.color', 'product.variants.size', 'product.images'])
-            ->get();
-        return view('client.layouts.wishlist', compact('wishlists'));
-    }
+    // public function index()
+    // {
+    //     $wishlists = Wishlist::where('user_id', Auth::id())
+    //         ->with(['product.variants.color', 'product.variants.size', 'product.images'])
+    //         ->get();
+    //     return view('client.partials.header', compact('wishlists'));
+    // }
 
     public function create()
     {

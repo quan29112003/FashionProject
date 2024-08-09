@@ -94,15 +94,6 @@
 
 <!-- Js Plugins -->
 <!-- JS Plugins -->
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
         // Show search popup when clicking on search icon
@@ -124,7 +115,6 @@
                 // searchProducts(query);
             }
         });
-
         // Function to perform AJAX search
         function searchProducts(query) {
             $.ajax({
@@ -143,9 +133,6 @@
             });
         }
     });
-</script>
-
-<script>
     document.addEventListener('DOMContentLoaded', function() {
         var searchInput = document.getElementById('searchInput');
         var searchForm = document.getElementById('searchForm');
@@ -160,10 +147,6 @@
             }
         });
     });
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
     $(document).ready(function() {
         function loadContent() {
             $.ajax({
@@ -181,8 +164,84 @@
         // Gọi hàm loadContent() khi cần thiết
         loadContent();
     });
-</script>
+    function deleteWishlistItem(id) {
+        $.ajax({
+            url: '/wishlist/' + id,
+            type: 'DELETE',
+            data: {
+                _token: '{{ csrf_token() }}',
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Xóa hàng trong bảng
+                    $('#wishlist-item-' + id).remove();
+                    showToast(response.message, 'success');
+                } else {
+                    showToast(response.message, 'error');
+                }
+            },
+            error: function(xhr) {
+                showToast('An error occurred. Please try again later.', 'error');
+            }
+        });
+    }
 
+    function showToast(message, type) {
+        var toastContainer = $('#toast-container');
+        var autoHideDelay = 5000; // 5 seconds
+
+        var toastClass = 'bg-' + (type === 'success' ? 'success' : 'danger');
+        var toast = $('<div class="toast text-white ' + toastClass +
+            '" role="alert" aria-live="assertive" aria-atomic="true">' +
+            '<div class="toast-header">' +
+            '<strong class="me-auto">Notification</strong>' +
+            '<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>' +
+            '</div>' +
+            '<div class="toast-body">' + message + '</div>' +
+            '</div>');
+
+        // Append toast to container and show it
+        toastContainer.append(toast);
+        var bootstrapToast = new bootstrap.Toast(toast[0], {
+            delay: autoHideDelay
+        });
+        bootstrapToast.show();
+
+        // Remove toast after it's hidden
+        toast.on('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+
+    function addToWishlist(productId) {
+        event.preventDefault();
+        var form = $('#wishlist-form-' + productId);
+
+        $.ajax({
+            url: form.attr('action'),
+            method: form.attr('method'),
+            data: form.serialize(),
+            success: function(response) {
+                showToast('Product added to wishlist!', 'success');
+                updateWishlist();
+            },
+            error: function(response) {
+                if (response.status === 400) {
+                    showToast('Product is already in the wishlist.', 'danger');
+                } else {
+                    showToast('Failed to add product to wishlist.', 'danger');
+                }
+            }
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{ asset('theme-cli/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/jquery.magnific-popup.min.js') }}"></script>

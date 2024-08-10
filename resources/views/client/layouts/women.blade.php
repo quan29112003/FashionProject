@@ -1,6 +1,9 @@
 @include('client.partials.header')
 <!-- Header Section End -->
-
+<img
+    style="width: 100%"
+    src="{{$banner?asset($banner->image):'https://media.canifa.com/Simiconnector/Nu_banner-cate_desktop-19.04a.webp'}}"
+    alt="">
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">

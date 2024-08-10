@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductColor;
@@ -16,7 +17,7 @@ class WonmanShopController extends Controller
         $categories = Category::all();
         $sizes = ProductSize::all();
         $colors = ProductColor::all();
-
+        $banner = Banner::where('position', 2)->where('status', 1)->first();
 
         $query = Product::with('variants', 'images');
 
@@ -50,7 +51,7 @@ class WonmanShopController extends Controller
         $products = $query->with(['variants' => function ($query) {
             $query->orderBy('price'); // Assuming you want to order variants by price
         }, 'images'])->has('variants')
-            ->where([['is_active', 1],['gender_id',2]]) // Chỉ lấy sản phẩm có is_active = 1
+            ->where([['is_active', 1], ['gender_id', 2]]) // Chỉ lấy sản phẩm có is_active = 1
             ->get()
             ->map(function ($product) {
                 // Attach the first variant to the product (if exists)
@@ -64,6 +65,6 @@ class WonmanShopController extends Controller
             $variantProducts[$product->id] = $product->variants;
         }
 
-        return view('client.layouts.women', compact('categories', 'sizes', 'colors', 'products','variantProducts'));
+        return view('client.layouts.women', compact('categories', 'sizes', 'colors', 'products', 'variantProducts', 'banner'));
     }
 }

@@ -1,6 +1,9 @@
 @include('client.partials.header')
 <!-- Header Section End -->
-
+<img
+    style="width: 100%"
+    src="{{$banner?asset($banner->image):'https://media.canifa.com/Simiconnector/Nam_banner-cate_desktop-19.04a.webp'}}"
+    alt="">
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -14,6 +17,7 @@
         </div>
     </div>
 </div>
+
 <!-- Breadcrumb End -->
 
 <!-- Shop Section Begin -->
@@ -36,7 +40,8 @@
                                 @foreach ($categories as $category)
                                     <div class="card">
                                         <div class="card-heading">
-                                            <a href="#category-{{ $category->id }}" data-toggle="collapse" data-target="#category-{{ $category->id }}">
+                                            <a href="#category-{{ $category->id }}" data-toggle="collapse"
+                                               data-target="#category-{{ $category->id }}">
                                                 {{ $category->name }}
                                             </a>
                                         </div>
@@ -64,7 +69,9 @@
                         </div>
 
                         <div class="filter-range-wrap">
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" id="slider-range"></div>
+                            <div
+                                class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                id="slider-range"></div>
                             <div class="range-slider">
                                 <div class="price-input">
                                     <p>Price:</p>
@@ -141,23 +148,29 @@
                             $selectedColorId = $colors->first() ? $colors->first()->id : null;
                         @endphp
                         @foreach ($product->variants as $variant)
-                            <div class="col-lg-4 col-md-6 product-item product__item-custome @if ($productCount >= 12) d-none @endif">
+                            <div
+                                class="col-lg-4 col-md-6 product-item product__item-custome @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
+                                    <div class="product__item__pic set-bg"
+                                         data-setbg="{{ asset('uploads/' . $product->images->first()->url) }}">
 
                                         <ul class="product__hover">
                                             <li>
-                                                <a href="{{ asset('uploads/' . $product->images->first()->url) }}" class="image-popup">
+                                                <a href="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                                   class="image-popup">
                                                     <span class="arrow_expand"></span>
                                                 </a>
                                             </li>
 
                                             {{-- thêm sảm phẩm vào wishlist --}}
                                             <li>
-                                                <form id="wishlist-form-{{ $product->id }}" action="{{ route('wishlist.add', $product->id) }}" method="POST" style="display: none;">
+                                                <form id="wishlist-form-{{ $product->id }}"
+                                                      action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                                      style="display: none;">
                                                     @csrf
                                                 </form>
-                                                <a href="#" onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
+                                                <a href="#"
+                                                   onclick="event.preventDefault(); document.getElementById('wishlist-form-{{ $product->id }}').submit();">
                                                     <span class="icon_heart_alt"></span>
                                                 </a>
                                             </li>
@@ -174,14 +187,15 @@
                                     <div class="product__item__text1">
 
                                         <h6>
-                                            <a href="{{ route('detail', $product->id) }}" class="truncate">{{ $product->name_product }}</a>
+                                            <a href="{{ route('detail', $product->id) }}"
+                                               class="truncate">{{ $product->name_product }}</a>
                                         </h6>
-{{--                                        <i class="fa fa-star"></i>--}}
-{{--                                        <i class="fa fa-star"></i>--}}
-{{--                                        <i class="fa fa-star"></i>--}}
-{{--                                        <i class="fa fa-star"></i>--}}
-{{--                                        <i class="fa fa-star"></i>--}}
-{{--                                    </div>       <div class="rating">--}}
+                                        {{--                                        <i class="fa fa-star"></i>--}}
+                                        {{--                                        <i class="fa fa-star"></i>--}}
+                                        {{--                                        <i class="fa fa-star"></i>--}}
+                                        {{--                                        <i class="fa fa-star"></i>--}}
+                                        {{--                                        <i class="fa fa-star"></i>--}}
+                                        {{--                                    </div>       <div class="rating">--}}
                                         <div class="swatch-attribute-options-{{$product->id}} text-center">
                                             @foreach($colors as $color)
                                                 <div onclick="getSizeByColor(event,{{$color->id}},{{$product->id}})"
@@ -198,10 +212,10 @@
 
                                 </div>
                                 @if($product->is_hot == 1)
-                                <div class="status-product">
-                                    new
-                                </div>
-                                    @endif
+                                    <div class="status-product">
+                                        new
+                                    </div>
+                                @endif
                             </div>
                             @php
                                 $productCount++;
@@ -212,7 +226,8 @@
                 <!-- Load More Button -->
                 <div class="col-lg-12 text-center">
                     <button id="load-more-btn"
-                            class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem thêm</button>
+                            class="btn btn-primary @if ($productCount <= 12) d-none @endif">Xem thêm
+                    </button>
                 </div>
             </div>
             <!-- Products Section End -->
@@ -269,8 +284,6 @@
 <!-- Instagram End -->
 
 
-
-
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
 <!-- Footer Section End -->
@@ -280,7 +293,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
-    $(function() {
+    $(function () {
         var minPrice = {{ request()->get('min_price', 0) }};
         var maxPrice = {{ request()->get('max_price', 500) }};
         $("#slider-range").slider({
@@ -288,7 +301,7 @@
             min: 0,
             max: 500,
             values: [minPrice, maxPrice],
-            slide: function(event, ui) {
+            slide: function (event, ui) {
                 $("#minamount").val(ui.values[0]);
                 $("#maxamount").val(ui.values[1]);
             }
@@ -296,7 +309,7 @@
         $("#minamount").val($("#slider-range").slider("values", 0));
         $("#maxamount").val($("#slider-range").slider("values", 1));
 
-        $('#filter-btn').on('click', function() {
+        $('#filter-btn').on('click', function () {
             var min = $("#minamount").val();
             var max = $("#maxamount").val();
             var url = new URL(window.location.href);
@@ -306,7 +319,7 @@
         });
 
         // Sorting filter
-        $('#sort-by').on('change', function() {
+        $('#sort-by').on('change', function () {
             var sortBy = $(this).val();
             var url = new URL(window.location.href);
             url.searchParams.set('sort_by', sortBy);
@@ -316,12 +329,12 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const loadMoreBtn = document.getElementById('load-more-btn');
         const hiddenProducts = document.querySelectorAll('.product-item.d-none');
         let currentCount = 0;
 
-        loadMoreBtn.addEventListener('click', function() {
+        loadMoreBtn.addEventListener('click', function () {
             for (let i = currentCount; i < currentCount + 12; i++) {
                 if (hiddenProducts[i]) {
                     hiddenProducts[i].classList.remove('d-none');

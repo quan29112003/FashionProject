@@ -12,56 +12,58 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Css Styles -->
     <style>
-        .payment-method {
+        .menu {
+            position: absolute;
+            width: 100%;
+            margin-top: .825rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-direction: column;
-        }
-
-        .custom-radio {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .custom-radio input[type="radio"] {
-            margin-right: 10px;
-        }
-        .swatch-attribute-options {
-            flex-wrap: wrap;
-            display: flex;
-            align-items: center;
             justify-content: center;
+            background-color: #FFFFFF;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            z-index: 99;
+            visibility: hidden;
+            top: 3.85rem;
         }
 
-        .swatch-option {
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            display: inline-block;
-            border-radius: 100%;
-            /*margin-right: 8px;*/
-            /*margin-bottom: 10px;*/
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            border: 1px solid #e6e7e8;
-            padding: 2px;
-            background-clip: content-box !important;
+        .menu .item {
+            font-size: medium;
+            font-weight: bold;
+            padding: 1.5rem 2rem;
+        }
+
+        .menu .item .title {
+            color: black;
             cursor: pointer;
         }
 
-        .swatch-option.selected {
-            border-color: #333f48;
+        .menu .item:last-child {
+            border-right: none;
+        }
+
+        .menu-group-item .menu-item {
+            list-style: none;
+        }
+
+        .menu-item-link {
+            font-size: .875rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: black;
+        }
+
+        .menu-item:hover .menu-item-link {
+            color: black;
+            border-bottom: 2px solid #ca1515;
         }
     </style>
     <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
@@ -82,284 +84,151 @@
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+                <div class="tip">2</div>
+            </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+            </a></li>
+    </ul>
+    <div class="offcanvas__logo">
+        <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
     </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <li><a href="#"><span class="icon_heart_alt"></span>
-                    <div class="tip">2</div>
-                </a></li>
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                </a></li>
-        </ul>
-        <div class="offcanvas__logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="{{ route('login') }}">Login</a>
-            <a href="{{ route('register') }}">Register</a>
-        </div>
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__auth">
+        <a href="{{ route('login') }}">Login</a>
+        <a href="{{ route('register') }}">Register</a>
     </div>
-    <!-- Offcanvas Menu End -->
+</div>
+<!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
-{{--    <header class="header ">--}}
+<header class="header">
+    <div class="container-fluid">
 
-{{--        <div class="p-2 header__desktop ">--}}
-
-{{--            <div class="row align-items-center">--}}
-
-{{--                --}}{{-- tìm kiếm --}}
-{{--                <div class="col-12 my-3">--}}
-{{--                    <div class="col d-flex justify-content-center">--}}
-{{--                        <!-- Form tìm kiếm -->--}}
-{{--                        <form role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"--}}
-{{--                            class="search-form">--}}
-{{--                            <!-- Input tìm kiếm -->--}}
-{{--                            <input class="search-input" type="search" name="keyword" id="searchInput"--}}
-{{--                                placeholder="Search" aria-label="Search">--}}
-{{--                            <!-- Gạch chân dưới -->--}}
-{{--                            <div class="underline"></div>--}}
-{{--                            <!-- Nút tìm kiếm -->--}}
-{{--                            <button class="search-btn" type="submit">--}}
-{{--                                <!-- Icon tìm kiếm -->--}}
-{{--                                <i class="fa fa-search"></i>--}}
-{{--                            </button>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--            <div class="row align-items-center">--}}
-{{--                <div class="col-xl-3 d-flex justify-content-between">--}}
-{{--                    --}}{{-- logo --}}
-{{--                    <div>--}}
-{{--                        <a href="{{ url('/') }}">--}}
-{{--                            <img src="{{ asset('theme-cli/img/logo.png') }}" alt="Logo">--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-{{--                    --}}{{-- categorygender --}}
-{{--                    <nav>--}}
-{{--                        <ul class="nav ">--}}
-{{--                            @foreach ($CategoryGenders as $CategoryGender)--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link fs-5 text-dark fw-bold custom-hover"--}}
-{{--                                        href="#">{{ $CategoryGender->name }}</a>--}}
-{{--                                </li>--}}
-{{--                            @endforeach--}}
-{{--                        </ul>--}}
-{{--                    </nav>--}}
-{{--                </div>--}}
-{{--                --}}{{-- main menu --}}
-{{--                <div class="col-xl-6">--}}
-{{--                    <nav>--}}
-{{--                        <ul class="nav justify-content-center">--}}
-{{--                            @foreach ($menus as $menu)--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{ url($menu->url) }}"--}}
-{{--                                        class="{{ Request::is($menu->url) ? 'active' : '' }} nav-link fs-6 text-dark custom-hover">--}}
-{{--                                        {{ $menu->menu_item }}--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                            @endforeach--}}
-{{--                        </ul>--}}
-{{--                    </nav>--}}
-{{--                </div>--}}
-
-{{--                --}}{{-- search, login, cart, wishlist --}}
-{{--                <div class="col-xl-3">--}}
-{{--                    <div class="row">--}}
-{{--                        --}}{{-- User actions (login, profile, logout) --}}
-{{--                        <div class="col">--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col">--}}
-{{--                                    <ul class="nav justify-content-end">--}}
-{{--                                        @auth--}}
-{{--                                            --}}{{-- edit profile --}}
-{{--                                            <li class="nav-item">--}}
-{{--                                                <a href="{{ route('profile.edit') }}" class="nav-link text-dark fs-5">--}}
-{{--                                                    <i class="bi bi-person-badge"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            --}}{{-- logout --}}
-{{--                                            <li class="nav-item">--}}
-{{--                                                <a href="#" class="nav-link text-dark fs-6"--}}
-{{--                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>--}}
-{{--                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"--}}
-{{--                                                    style="display: none;">--}}
-{{--                                                    @csrf--}}
-{{--                                                </form>--}}
-{{--                                            </li>--}}
-{{--                                        @else--}}
-{{--                                            --}}{{-- login --}}
-
-{{--                                            <li class="nav-item">--}}
-{{--                                                <a href="--}}{{--  javascript:void(0);--}}{{--{{ url('login') }}" class="nav-link text-dark fs-5"--}}
-{{--                                                    onclick="showLoginModal()">--}}
-{{--                                                    <i class="bi bi-person-badge"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                        @endauth--}}
-
-{{--                                        --}}{{-- Cart icons --}}
-{{--                                        <li class="nav-item">--}}
-{{--                                            <a class="nav-link text-dark fs-5" href="{{ route('wishlist.index') }}">--}}
-{{--                                                <span class="icon_heart_alt"></span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                        <li class="nav-item">--}}
-{{--                                            <a class="nav-link text-dark fs-5" href="{{ route('cart') }}">--}}
-{{--                                                <span class="icon_bag_alt"></span>--}}
-{{--                                            </a>--}}
-{{--                                        </li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-{{--            <div class="row align-items-center">--}}
-{{--                --}}{{-- category --}}
-{{--                <div class="col">--}}
-{{--                    <nav>--}}
-{{--                        <ul class="nav justify-content-center">--}}
-{{--                            @foreach ($categories as $categorie)--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="#" class="nav-link fs-6 text-dark custom-hover">--}}
-{{--                                        {{ $categorie->name }}--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                            @endforeach--}}
-{{--                        </ul>--}}
-{{--                    </nav>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="canvas__open">--}}
-{{--            <i class="fa fa-bars"></i>--}}
-{{--        </div>--}}
-{{--    </header>--}}
-
-    <header class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-3 col-lg-2">
-                    <div class="header__logo">
-                        <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
-                    </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/logo.png') }}" alt=""></a>
                 </div>
-                <div class="col-xl-6 col-lg-7">
-                    <nav class="header__menu">
-                        <ul>
-                            @foreach ($menus as $menu)
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul style="display: flex; justify-content: center; align-items: center;gap: 2rem">
+                        @foreach ($menus as $menu)
+                            <li
                                 @if($menu->url == 'shop')
-                                <li>
-                                    <a href="{{ url($menu->url) }}"
-                                       class="{{ Request::is($menu->url) ? 'active' : '' }}">
-                                        {{ $menu->menu_item }}
-                                    </a>
-                                    <ul class="dropdown">
-                                                                    @foreach ($categories as $categorie)
-                                                                        <li class="nav-item  custom-hover1">
-                                                                            <a href="#" class="nav-link">
-                                                                                {{ $categorie->name }}
-                                                                            </a>
-                                                                            @if($categorie->catalogues->isNotEmpty())
-                                                                            <ul class="dropdown2">
-                                                                                @forelse($categorie->catalogues as $catalogue)
-                                                                                    <li>
-                                                                                        <a href="#" >
-                                                                                            {{ $catalogue->name }}
-                                                                                        </a>
-                                                                                    </li>
-                                                                                @empty
-
-                                                                                @endforelse
-
-                                                                            </ul>
-                                                                            @endif
-                                                                        </li>
-                                                                    @endforeach
-
-                                    </ul>
-                                </li>
-                                @else
-                                    <li>
-                                        <a href="{{ url($menu->url) }}"
-                                           class="{{ Request::is($menu->url) ? 'active' : '' }}">
-                                            {{ $menu->menu_item }}
-                                        </a>
-                                    </li>
+                                    class="menu-shop"
                                 @endif
-                            @endforeach
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <ul class="header__right__widget">
-                            @auth
-                                {{-- edit profile --}}
-                                <li>
-                                    <a href="{{ route('profile.edit') }}" class="text-dark fs-5">
-                                        <i class="bi bi-person-badge"></i>
-                                    </a>
-                                </li>
-                                {{-- logout --}}
-                                <li>
-                                    <a href="#" class=" text-dark fs-6"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                          style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
-                            @else
-                                {{-- login --}}
-
-                                <li >
-                                    <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class=" text-dark fs-5"
-                                       onclick="showLoginModal()">
-                                        <i class="bi bi-person-badge"></i>
-                                    </a>
-                                </li>
-                            @endauth
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="{{ route('wishlist.index') }}"><span class="icon_heart_alt"></span>
-                                </a></li>
-                            <li><a href="{{ route('cart') }}"><span class="icon_bag_alt"></span>
-                                </a></li>
-                        </ul>
-                    </div>
-                </div>
+                            >
+                                <a href="{{ url($menu->url) }}"
+                                   class="{{ Request::is($menu->url) ? 'active' : '' }} active">
+                                    {{ $menu->menu_item }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </nav>
             </div>
-            <div class="canvas__open">
-                <i class="fa fa-bars"></i>
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <ul class="header__right__widget">
+                        @auth
+                            {{-- edit profile --}}
+                            <li>
+                                <a href="{{ route('profile.edit') }}" class="text-dark fs-5">
+                                    <i class="bi bi-person-badge"></i>
+                                </a>
+                            </li>
+                            {{-- logout --}}
+                            <li>
+                                <a href="#" class=" text-dark fs-6"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        @else
+                            {{-- login --}}
+
+                            <li>
+                                <a href="{{--  javascript:void(0);--}}{{ url('login') }}" class=" text-dark fs-5"
+                                   onclick="showLoginModal()">
+                                    <i class="bi bi-person-badge"></i>
+                                </a>
+                            </li>
+                        @endauth
+                        <li><span class="icon_search search-switch"></span></li>
+                        <li><a href="{{ route('wishlist.index') }}"><span class="icon_heart_alt"></span>
+                            </a></li>
+                        <li><a href="{{ route('cart') }}"><span class="icon_bag_alt"></span>
+                            </a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </header>
-
-    <!-- Search Popup -->
-    <div class="search-popup" id="searchPopup" style="display: none;">
-        <div class="search-popup__overlay" id="closeSearchPopup"></div>
-        <div class="search-popup__content">
-            <div class="search-popup__close" id="closeSearchPopupBtn">&times;</div>
-            <div class="search-popup__body">
-                <div id="searchResults"></div>
-            </div>
+        <div class="canvas__open">
+            <i class="fa fa-bars"></i>
         </div>
     </div>
+
+</header>
+
+<div class="menu">
+    @foreach ($categories as $category)
+        <div class="item">
+            <a href="#" class="title">{{$category->name}}</a>
+            <ul class="menu-group-item">
+                @foreach ($category->catalogues as $catalogue)
+                    <li class="menu-item">
+                        <a href="#" class="menu-item-link">
+                            {{$catalogue->name}}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endforeach
+    <div class="item" style="display: flex;gap: 1rem ">
+        <img width="203" height="274" src="https://media.canifa.com/mega_menu/item/mgmn3.webp" alt="">
+        <img width="203" height="274" src="https://media.canifa.com/mega_menu/item/mgmu1.webp" alt="">
+    </div>
+</div>
+
+<script>
+    let menuShop = document.querySelector('.menu-shop');
+    let menu = document.querySelector('.menu');
+    menuShop.onmouseover = function () {
+        menu.style.visibility = 'visible';
+    }
+    menu.onmouseover = function () {
+        menu.style.visibility = 'visible';
+    }
+    menu.onmouseout = function () {
+        menu.style.visibility = 'hidden';
+    }
+</script>
+
+<!-- Search Popup -->
+<div class="search-popup" id="searchPopup" style="display: none;">
+    <div class="search-popup__overlay" id="closeSearchPopup"></div>
+    <div class="search-popup__content">
+        <div class="search-popup__close" id="closeSearchPopupBtn">&times;</div>
+        <div class="search-popup__body">
+            <div id="searchResults"></div>
+        </div>
+    </div>
+</div>
 
 
 </body>

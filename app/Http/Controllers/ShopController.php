@@ -86,6 +86,6 @@ class ShopController extends Controller
         $colors = ProductColor::all();
         $products = Product::where('category_id', $id)->with('variants', 'images')->paginate(12);
 
-        return view('shop.index', compact('categories', 'sizes', 'colors', 'products'));
+        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products'));
     }
 }

@@ -35,7 +35,7 @@ class BannerController extends Controller
             'image' => 'required|image',
             'position' => 'required|integer',
             'status' => 'required|boolean',
-        ])->validate();
+        ]);
 
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();
@@ -65,7 +65,7 @@ class BannerController extends Controller
             'image' => 'nullable|image',
             'position' => 'required|integer',
             'status' => 'required|boolean',
-        ])->validate();
+        ]);
 
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();

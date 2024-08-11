@@ -36,6 +36,7 @@ use \App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoadContentController;
 use App\Http\Controllers\LocationController;
 use App\Http\Middleware\ShareProvinces;
+use App\Http\Controllers\Admin\BannerController;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
@@ -135,6 +136,14 @@ Route::prefix('admin')->group(function () {
     // Route::put('edit-category/{id}',[CategoryController::class, 'handleEdit'])->name('handleEdit-category');
     Route::put('edit-category/{id}', [CategoryController::class, 'update'])->name('update-category');
 
+    //banner
+    Route::get('show-banner', [BannerController::class, 'index'])->name('banner');
+    Route::get('create-banner', [BannerController::class, 'create'])->name('create-banner');
+    Route::get('edit-banner/{id}', [BannerController::class, 'edit'])->name('edit-banner');
+    Route::post('store-banner', [BannerController::class, 'store'])->name('store-banner');
+//    Route::get('edit-banner/{id}', [BannerController::class, 'edit'])->name('edit-banner');
+    Route::put('edit-banner/{id}', [BannerController::class, 'update'])->name('update-banner');
+    //end banner
 
     Route::get('show-color', [ColorController::class, 'index'])->name('color');
     Route::get('create-color', [ColorController::class, 'create'])->name('store-color');

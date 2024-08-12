@@ -95,44 +95,7 @@
 <!-- Js Plugins -->
 <!-- JS Plugins -->
 <script>
-    $(document).ready(function() {
-        // Show search popup when clicking on search icon
-        $('.search-switch').on('click', function() {
-            $('#searchPopup').fadeIn();
-        });
-
-        // Close search popup when clicking on close button or overlay
-        $('#closeSearchPopup, #closeSearchPopupBtn').on('click', function() {
-            $('#searchPopup').fadeOut();
-        });
-
-        // Handle form submission for search
-        $('#searchForm').on('submit', function(event) {
-            event.preventDefault();
-            var query = $('#searchInput').val();
-            if (query.trim() !== '') {
-                searchProducts(query);
-                // searchProducts(query);
-            }
-        });
-        // Function to perform AJAX search
-        function searchProducts(query) {
-            $.ajax({
-                url: '{{ route('product.search') }}',
-                type: 'GET',
-                data: {
-                    keyword: query
-                },
-                success: function(response) {
-                    $('#searchResults').html(response);
-                    $('#searchPopup').fadeIn();
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        }
-    });
+    
     document.addEventListener('DOMContentLoaded', function() {
         var searchInput = document.getElementById('searchInput');
         var searchForm = document.getElementById('searchForm');

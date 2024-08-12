@@ -121,7 +121,7 @@
                 <div class="col-12 my-3">
                     <div class="col d-flex justify-content-center">
                         <!-- Form tìm kiếm -->
-                        <form role="search" id="searchForm" action="{{ route('product.search') }}" method="GET"
+                        <form id="searchForm" action="{{ route('product.search') }}" method="GET"
                             class="search-form">
                             <!-- Input tìm kiếm -->
                             <input class="search-input" type="search" name="keyword" id="searchInput"

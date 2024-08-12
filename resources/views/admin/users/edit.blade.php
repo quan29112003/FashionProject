@@ -34,7 +34,7 @@
                         <div class="row gy-4">
                             <div class="col-md-4">
                                 <div>
-                                    <label for="nameUser" class="form-label">Name</label>
+                                    <label for="nameUser" class="form-label">Tên</label>
                                     <input type="text" class="form-control" name="nameUser" value="{{ $user->name_user }}" required>
                                     @error('nameUser')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div>
-                                    <label for="birthday" class="form-label">Birthday</label>
+                                    <label for="birthday" class="form-label">Ngày sinh</label>
                                     <input type="date" class="form-control" name="birthday" value="{{ $user->birthday ? \Carbon\Carbon::parse($user->birthday)->format('Y-m-d') : '' }}" required>
                                     @error('birthday')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div>
-                                    <label for="address" class="form-label">Address</label>
+                                    <label for="address" class="form-label">Địa chỉ</label>
                                     <input type="text" class="form-control" name="address" value="{{ $user->address }}">
                                     @error('address')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div>
-                                    <label for="password" class="form-label">Password</label>
+                                    <label for="password" class="form-label">Mật khẩu</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password" name="password" value="{{ $user->password }}">
                                         <div class="input-group-append">
@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div>
-                                    <label for="role" class="form-label">Role</label>
+                                    <label for="role" class="form-label">Vai trò</label>
                                     <select class="form-select" name="role">
                                         <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Khách Hàng</option>
                                         <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Nhân Viên</option>

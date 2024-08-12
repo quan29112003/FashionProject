@@ -37,14 +37,14 @@
                            <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Name</th>
-                                <th>Birthday</th>
-                                <th>Age</th>
+                                <th>Tên</th>
+                                <th>Ngày sinh</th>
+                                <th>Tuổi</th>
                                 <th>Email</th>
-                                <th>Address</th>
-                                <th>Password</th>
-                                <th>Role</th>
-                                <th>Status</th>
+                                <th>Địa chỉ</th>
+                                <th>Mật khẩu</th>
+                                <th>Vai trò</th>
+                                <th>Trạng thái</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -62,7 +62,7 @@
                                     <td>{{ $user->status }}</td>
                                     <td>
                                         @if ($user->status === 'Đang hoạt động')
-                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
                                             <form action="{{ route('admin.users.toggleLock', $user->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('POST')
@@ -78,7 +78,7 @@
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn khóa vĩnh viễn User này không ?');">
                                                 @csrf
                                                 @method('POST')
-                                                <button type="submit" class="btn btn-danger">Khóa vĩnh viễn</button> 
+                                                <button type="submit" class="btn btn-danger">Khóa vĩnh viễn</button>
                                             </form>
                                         @endif
                                     </td>

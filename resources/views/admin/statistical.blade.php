@@ -26,7 +26,7 @@
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountSingleDate">0</span>đ
                             </h4>
-                            <a href="" class="text-decoration-underline">View net earnings</a>
+
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <span class="avatar-title bg-success-subtle rounded fs-3">
@@ -133,7 +133,7 @@
         <div class="col-xl-8">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">những đơn đặt hàng gần đây</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">Đơn hàng theo trạng thái</h4>
                 </div><!-- end card header -->
                 <div class="card-header align-items-center d-flex">
                     <form id="filter-form">

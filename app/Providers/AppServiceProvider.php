@@ -40,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('menus', WebsiteMenu::all());
                 $view->with('categories', Category::all());
                 $view->with('CategoryGenders', CategoryGender::all());
+                $view->with('wishlists', Wishlist::where('user_id', Auth::id())
+                ->with(['product.variants.color', 'product.variants.size', 'product.images'])
+                ->get());
             }
         });
     }

@@ -58,7 +58,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->address }}</td>
                                     <td> ******* </td>
-                                    <td>{{ $user->role_description }}</td>
+                                    <td>{{ $user->role }}</td>
                                     <td>{{ $user->status }}</td>
                                     <td>
                                         @if ($user->status === 'Đang hoạt động')

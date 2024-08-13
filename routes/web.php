@@ -30,6 +30,7 @@ use App\Http\Controllers\{
     OrderControllerCli,
 };
 use App\Http\Middleware\CheckWishlist;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
@@ -205,8 +206,8 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
         Route::get('/products/{categoryId}', [VoucherController::class, 'getProductsByCategory']);
         Route::resource('comments', CommentController::class);
         Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
-        Route::post('/upload', [BlogController::class, 'upload'])->name('blogs.upload');
-        Route::resource('blogs', BlogController::class);
+        Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
+        Route::resource('blogs', AdminBlogController::class);
         Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     });
 });

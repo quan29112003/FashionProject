@@ -29,7 +29,6 @@ use App\Http\Controllers\{
     LocationController,
     OrderControllerCli,
 };
-use App\Http\Middleware\CheckWishlist;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(
@@ -50,7 +49,6 @@ Route::prefix('api')->group(function () {
     Route::get('wards/{districtId}', [LocationController::class, 'getWards']);
 });
 // xem lịch sử đơn hàng
-
 Route::get('/order-history', function () {
     return view('client.layouts.order-history');
 })->name('order.history');
@@ -81,7 +79,6 @@ Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('v
 //     Route::post('/process', [CheckoutController::class, 'processCheckout'])->name('process');
 //     Route::view('/', 'client.layouts.checkout')->name('checkout');
 // });
-
 Route::get('/checkout', function () {
     return view('client.layouts.checkout');
 })->name('checkout');

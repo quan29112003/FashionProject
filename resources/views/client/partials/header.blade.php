@@ -111,7 +111,7 @@
     <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
-    <header class="header ">
+    <header class="header sticky-top">
 
         <div class="p-2 header__desktop ">
 

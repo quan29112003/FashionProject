@@ -92,9 +92,35 @@
 </div>
 <!-- Search End -->
 
+<!-- Nút cuộn lên -->
+<button class="btn btn-primary scroll-to-top" id="scrollToTopBtn">
+    <span class="visually-hidden">Back to top</span>
+    <i class="bi bi-arrow-up"></i> <!-- Bootstrap Icons -->
+</button>
 <!-- Js Plugins -->
 <!-- JS Plugins -->
 <script>
+    function closeOffcanvas() {
+        document.getElementById('offcanvasExample').style.maxHeight = '0';
+    }
+    // Hiển thị nút cuộn lên khi cuộn xuống
+    window.addEventListener('scroll', function() {
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        if (window.scrollY > 300) { // Thay đổi giá trị này để điều chỉnh khi nào nút xuất hiện
+            scrollToTopBtn.style.display = 'block';
+        } else {
+            scrollToTopBtn.style.display = 'none';
+        }
+    });
+
+    // Cuộn lên đầu trang khi nhấp vào nút
+    document.getElementById('scrollToTopBtn').addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
     $(document).ready(function() {
         // Show search popup when clicking on search icon
         $('.search-switch').on('click', function() {
@@ -164,6 +190,7 @@
         // Gọi hàm loadContent() khi cần thiết
         loadContent();
     });
+
     function deleteWishlistItem(id) {
         $.ajax({
             url: '/wishlist/' + id,
@@ -235,8 +262,12 @@
         });
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

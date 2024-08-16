@@ -2,7 +2,18 @@
 <!-- Bao gồm header phần -->
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
+<style>
+    .carousel-item {
+        transition: transform 1s cubic-bezier(0.25, 0.8, 0.5, 1), opacity 1s ease-in-out;
+        opacity: 0;
+        transform: translateX(100%);
+    }
 
+    .carousel-item.active {
+        opacity: 1;
+        transform: translateX(0);
+    }
+</style>
 
 <!-- Bắt đầu phần danh mục -->
 <section>
@@ -25,29 +36,23 @@
                 <img src="{{ asset('theme-cli/img/banner/banner2.jpg') }}" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="{{ asset('theme-cli/img/banner/banner2.jpg') }}" class="d-block w-100" alt="...">
+                <img src="{{ asset('theme-cli/img/banner/banner1.jpg') }}" class="d-block w-100" alt="...">
             </div>
         </div>
 
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Trước</font>
-                </font>
-            </span>
+            <span class="visually-hidden">Trước</span>
         </button>
 
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">
-                <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Kế tiếp</font>
-                </font>
-            </span>
+            <span class="visually-hidden">Kế tiếp</span>
         </button>
     </div>
 </section>
+
+
 <!-- Kết thúc phần danh mục -->
 
 <!-- phần nam nữ -->

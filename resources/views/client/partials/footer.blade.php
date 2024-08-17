@@ -100,6 +100,75 @@
 <!-- Js Plugins -->
 <!-- JS Plugins -->
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy phần tử hiển thị tổng giá trị
+        const totalValueElement = document.getElementById('total-value');
+        const totalAmountInput = document.querySelector('input[name="total_amount"]');
+
+        // Chuyển đổi giá trị tổng thành số nguyên
+        let totalValue = parseInt(totalValueElement.textContent.replace('₫', '').replace(/,/g, ''), 10);
+
+        // Cập nhật giá trị trường ẩn total_amount
+        totalAmountInput.value = totalValue;
+
+        document.querySelectorAll('.btn-save').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Lấy giá trị voucher và loại giảm giá
+                const discountValue = parseFloat(this.dataset.discount);
+                const discountType = this.dataset.discountType;
+
+                // Tính toán giá trị cần giảm
+                let discountAmount;
+                if (discountType === 'discount') {
+                    discountAmount = discountValue; // Giả sử voucher là tiền tệ đồng
+                } else {
+                    discountAmount = totalValue * (discountValue / 100); // Tính theo phần trăm
+                    discountAmount = Math.round(discountAmount); // Làm tròn giá trị phần trăm
+                }
+
+                // Trừ giá trị voucher từ tổng giá trị
+                totalValue -= discountAmount;
+
+                // Đảm bảo tổng giá trị không âm
+                if (totalValue < 0) {
+                    totalValue = 0;
+                }
+
+                // Cập nhật tổng giá trị
+                totalValueElement.textContent = numberWithCommas(totalValue) + '₫';
+
+                // Cập nhật giá trị trường ẩn total_amount
+                totalAmountInput.value = totalValue;
+
+                // Hiển thị giá trị voucher
+                const voucherValueElement = document.getElementById('voucher-value');
+                const voucherDiscountElement = document.getElementById('voucher-discount');
+                voucherDiscountElement.textContent =
+                `Giảm ${numberWithCommas(discountAmount)}₫`;
+                voucherValueElement.style.display = 'block'; // Hiển thị dòng giá trị voucher
+            });
+        });
+
+        // Hàm để định dạng số với dấu phân cách
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+    });
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 'auto',
+        /* Hiển thị nhiều slide cùng lúc */
+        spaceBetween: 30,
+        /* Khoảng cách giữa các slide */
+        centeredSlides: true,
+        /* Bật vòng lặp để slide quay trở lại đầu */
+        speed: 600,
+        autoplay: {
+            delay: 3000,
+        },
+    });
+
     function closeOffcanvas() {
         document.getElementById('offcanvasExample').style.maxHeight = '0';
     }

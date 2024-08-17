@@ -13,11 +13,11 @@ use Illuminate\Http\Request;
 class VoucherController extends Controller
 {
     public function index()
-{
-    $vouchers = Voucher::with('category', 'products')->get();
-    return view('admin.vouchers.index', compact('vouchers'));
-}
-  
+    {
+        $vouchers = Voucher::with('category', 'products')->get();
+        return view('admin.vouchers.index', compact('vouchers'));
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -28,8 +28,16 @@ class VoucherController extends Controller
     {
         $request->validate([
             'code' => 'required|string|max:255|unique:vouchers',
-            'discount_type' => 'required|string',
-            'discount_value' => 'required|numeric',
+            'discount_type' => 'required|string|in:discount,discount%',
+            'discount_value' => ['required', 'numeric', function ($attribute, $value, $fail) use ($request) {
+                $discountType = $request->input('discount_type');
+
+                if ($discountType === 'discount' && ($value < 0 || $value > 999999)) {
+                    $fail('Giá trị giảm giá tiền phải nằm trong khoảng từ 0 đến 999999.');
+                } elseif ($discountType === 'discount%' && ($value < 0 || $value > 100)) {
+                    $fail('Giá trị giảm theo % phải nằm trong khoảng từ 0 đến 100.');
+                }
+            }],
             'expiry_date' => 'required|date',
             'min_purchase_amount' => 'nullable|numeric',
             'category_id' => 'nullable|exists:categories,id',

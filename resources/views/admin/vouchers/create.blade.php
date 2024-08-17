@@ -21,7 +21,6 @@
     </div>
     <form action="{{ route('admin.vouchers.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -33,8 +32,8 @@
                             <div class="row gy-4">
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="code" class="form-label">Code</label>
-                                        <input type="text" class="form-control" name="code" id="code" required>
+                                        <label for="code" class="form-label">Mã</label>
+                                        <input type="text" class="form-control" name="code" id="code" value="{{ old('code') }}">
                                         @error('code')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -42,11 +41,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="discount_type" class="form-label">Discount Type</label>
-                                        <select class="form-select" name="discount_type" required>
-                                            <option value="Giảm giá cho đồ thời trang">Giảm giá cho đồ thời trang</option>
-                                            <option value="Miễn phí vận chuyển">Miễn phí vận chuyển</option>
-                                            <option value="Discount">Discount</option>
+                                        <label for="discount_type" class="form-label">Loại giảm giá</label>
+                                        <select class="form-select" name="discount_type" id="discount_type">
+                                            <option value="discount" {{ old('discount_type') === 'discount' ? 'selected' : '' }}>Giảm giá tiền</option>
+                                            <option value="discount%" {{ old('discount_type') === 'discount%' ? 'selected' : '' }}>Giảm theo %</option>
                                         </select>
                                         @error('discount_type')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -54,10 +52,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div>
-                                        <label for="discount_value" class="form-label">Discount Value</label>
-                                        <input type="number" step="0.01" class="form-control" name="discount_value"
-                                            id="discount_value" required>
+                                    <div id="discount_value_container">
+                                        <label for="discount_value" class="form-label">Giá trị giảm giá</label>
+                                        <input type="number" step="0.01" class="form-control" name="discount_value" id="discount_value" value="{{ old('discount_value') }}">
                                         @error('discount_value')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -65,9 +62,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="expiry_date" class="form-label">Expiry Date</label>
-                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date"
-                                            required>
+                                        <label for="expiry_date" class="form-label">Ngày hết hạn</label>
+                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="{{ old('expiry_date') }}">
                                         @error('expiry_date')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -75,9 +71,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="min_purchase_amount" class="form-label">Min Purchase Amount</label>
-                                        <input type="number" step="0.01" class="form-control" name="min_purchase_amount"
-                                            id="min_purchase_amount">
+                                        <label for="min_purchase_amount" class="form-label">Số tiền tối thiểu để sử dụng</label>
+                                        <input type="number" step="0.01" class="form-control" name="min_purchase_amount" id="min_purchase_amount" value="{{ old('min_purchase_amount') }}">
                                         @error('min_purchase_amount')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -85,10 +80,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="category_id" class="form-label">Category</label>
+                                        <label for="category_id" class="form-label">Danh mục giảm giá</label>
                                         <select class="form-select" name="category_id">
+                                            <option value="">Chọn danh mục</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('category_id')
@@ -98,11 +94,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="applicable_products" class="form-label">Applicable Products</label>
-                                        <select class="form-select select2" name="applicable_products[]"
-                                            id="applicable_products" multiple>
+                                        <label for="applicable_products" class="form-label">Sản phẩm giảm giá</label>
+                                        <select class="form-select select2" name="applicable_products[]" id="applicable_products" multiple>
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->id }}">{{ $product->name_product }}</option>
+                                                <option value="{{ $product->id }}" {{ in_array($product->id, old('applicable_products', [])) ? 'selected' : '' }}>{{ $product->name_product }}</option>
                                             @endforeach
                                         </select>
                                         @error('applicable_products')
@@ -112,8 +107,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="max_usage" class="form-label">Max Usage</label>
-                                        <input type="number" class="form-control" name="max_usage" id="max_usage">
+                                        <label for="max_usage" class="form-label">Số lượng mã giảm giá</label>
+                                        <input type="number" class="form-control" name="max_usage" id="max_usage" value="{{ old('max_usage') }}">
                                         @error('max_usage')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -121,9 +116,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="distribution_channels" class="form-label">Distribution Channels</label>
-                                        <input type="text" class="form-control" name="distribution_channels"
-                                            id="distribution_channels">
+                                        <label for="distribution_channels" class="form-label">Kênh phân phối</label>
+                                        <input type="text" class="form-control" name="distribution_channels" id="distribution_channels" value="{{ old('distribution_channels') }}">
                                         @error('distribution_channels')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -147,7 +141,6 @@
             </div>
             <!--end col-->
         </div>
-
     </form>
     <<script>
         document.getElementById('category_id').addEventListener('change', function() {
@@ -170,4 +163,26 @@
             $('.select2').select2();
         });
     </script>
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const discountTypeSelect = document.getElementById('discount_type');
+            const discountValueInput = document.getElementById('discount_value');
+
+            function updateDiscountValueConstraints() {
+                const discountType = discountTypeSelect.value;
+                if (discountType === 'discount') {
+                    discountValueInput.min = '0'; // Thiết lập giá trị tối thiểu là 0
+                    discountValueInput.max = '999999'; // Thiết lập giá trị tối đa là 999999 (6 chữ số)
+                    discountValueInput.placeholder = 'Nhập số tiền giảm giá'; // Placeholder cho giảm giá tiền
+                } else if (discountType === 'discount%') {
+                    discountValueInput.min = '0'; // Thiết lập giá trị tối thiểu là 0
+                    discountValueInput.max = '100'; // Thiết lập giá trị tối đa là 100 (phần trăm)
+                    discountValueInput.placeholder = 'Nhập phần trăm giảm giá'; // Placeholder cho giảm theo %
+                }
+            }
+
+            discountTypeSelect.addEventListener('change', updateDiscountValueConstraints); // Thay đổi giới hạn khi chọn loại giảm giá
+            updateDiscountValueConstraints(); // Kiểm tra và cập nhật ngay khi tải trang
+        });
+    </script> --}}
 @endsection

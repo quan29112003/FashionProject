@@ -4110,22 +4110,18 @@ ol {
     border-color: #333f48;
 }
 
-/* Đặt chuyển tiếp cho offcanvas */
-.offcanvas {
+/* .offcanvas {
     transition: transform 0.3s;
 }
 
-/* Hiệu ứng khi offcanvas xuất hiện */
 .offcanvas.show {
     transform: translateX(0);
 }
 
-/* Hiệu ứng khi offcanvas bị ẩn */
 .offcanvas:not(.show) {
     transform: translateX(100%);
 }
 
-/* Overlay cho offcanvas */
 .offcanvas-backdrop {
     position: fixed;
     top: 0;
@@ -4133,20 +4129,16 @@ ol {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    /* Màu đen với độ mờ 50% */
     z-index: 10;
-    /* Đặt z-index thấp hơn so với offcanvas */
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 }
 
-/* Hiệu ứng khi overlay hiển thị */
 .offcanvas.show+.offcanvas-backdrop {
     opacity: 1;
     display: block;
 }
 
-/* Hiệu ứng khi overlay bị ẩn */
 .offcanvas:not(.show)+.offcanvas-backdrop {
     opacity: 0;
     display: none;
@@ -4160,11 +4152,9 @@ ol {
     bottom: 20px;
     right: 20px;
     display: none;
-    /* Ẩn nút khi chưa cuộn xuống */
     z-index: 1000;
 }
 
-/* Định nghĩa kiểu chung */
 .offcanvas {
     position: absolute;
     top: 0;
@@ -4188,7 +4178,7 @@ ol {
 
 .offcanvas-body {
     padding: 15px;
-}
+} */
 
 /* Kích hoạt khi hover vào menu item "Sản Phẩm" */
 .nav-item.has-offcanvas:hover + .offcanvas {
@@ -4210,3 +4200,117 @@ header {
     position: relative;
     z-index: 999;
 }
+
+/* css voucher */
+.voucher-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-bottom: 20px;
+    max-width: 600px;
+    width: 100%;
+    /* Chiều rộng đầy đủ trong khung chứa */
+}
+
+.voucher-content {
+    flex: 1;
+    padding: 0 15px;
+    border-right: 1px dashed #ddd;
+    color: #666;
+}
+
+.btn-save {
+    padding: 8px 16px;
+    background: #50b5a9;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+@media (max-width: 480px) {
+    .voucher-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .voucher-content {
+        border-right: none;
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn-save {
+        align-self: stretch;
+        text-align: center;
+        width: 100%;
+        /* Chiều rộng đầy đủ trong mobile */
+    }
+}
+
+/* .row {
+    overflow: hidden;
+    position: relative;
+} */
+.swiper-row{
+    width: 100%;
+    overflow: hidden;
+}
+.swiper-container {
+    width: 80%;
+    height: auto;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+}
+
+/* kết thúc voucher */
+
+.checkout__form__input1 {
+    display: flex;
+    align-items: center;
+}
+
+.checkout__form__input1 p {
+    margin-right: 10px;
+    /* Adjust spacing as needed */
+}
+
+.checkout__form__input1 label {
+    margin-right: 20px;
+    /* Adjust spacing between radio buttons as needed */
+    display: flex;
+    align-items: center;
+
+}
+
+.card {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: 1rem;
+}
+
+.text-reset {
+    --bs-text-opacity: 1;
+    color: inherit !important;
+}
+
+.modal fade {}

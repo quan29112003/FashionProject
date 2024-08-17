@@ -1,4 +1,11 @@
 @include('client.partials.header')
+<?php
+if (session('test_data')) {
+    echo '<pre>';
+    var_dump(session('test_data'));
+    echo '</pre>';
+}
+?>
 <!-- Bao gồm header phần -->
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
@@ -669,3 +676,100 @@
         });
     });
 </script>
+@if (session('success_order'))
+    <!-- Modal HTML -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 180%; left: -200px;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Order Successful</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="container">
+                            <!-- Title -->
+                            <div class="d-flex justify-content-between align-items-center py-3">
+                                <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order
+                                    #{{ session('success_order')->id }}</h2>
+                            </div>
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <!-- Details -->
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    @foreach (session('success_order')->items as $item)
+                                                        <tr>
+                                                            <td>
+                                                                <div class="d-flex mb-2">
+                                                                    <div class="flex-shrink-0">
+                                                                        <img src="{{ $item->thumbnail }}"
+                                                                            alt="" width="35"
+                                                                            class="img-fluid">
+                                                                    </div>
+                                                                    <div class="flex-lg-grow-1 ms-3">
+                                                                        <h6 class="small mb-0"><a href="#"
+                                                                                class="text-reset">{{ $item->name_product }}</a>
+                                                                        </h6>
+                                                                        <span class="small">Color:
+                                                                            {{ $item->color }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{ $item->quantity }}</td>
+                                                            <td class="text-end">
+                                                                {{ number_format($item->price, 0, ',', '.') }}₫</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr class="fw-bold">
+                                                        <td colspan="2">TOTAL</td>
+                                                        <td class="text-end">
+                                                            {{ number_format(session('success_order')->total_amount, 0, ',', '.') }}₫
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <!-- Shipping information -->
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <h3 class="h6">Shipping Information</h3>
+                                            <address>
+                                                <strong>{{ session('success_order')->name }}</strong><br>
+                                                {{ session('success_order')->address }}<br>
+                                                {{ session('success_order')->state }},
+                                                {{ session('success_order')->postcode }}<br>
+                                                <abbr title="Phone">P:</abbr> {{ session('success_order')->phone }}
+                                            </address>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to show modal -->
+    <script>
+        $(document).ready(function() {
+            $('#successModal').modal('show');
+        });
+    </script>
+@endif

@@ -104,6 +104,7 @@
         // Lấy phần tử hiển thị tổng giá trị
         const totalValueElement = document.getElementById('total-value');
         const totalAmountInput = document.querySelector('input[name="total_amount"]');
+        const saveButtons = document.querySelectorAll('.btn-save');
 
         // Chuyển đổi giá trị tổng thành số nguyên
         let totalValue = parseInt(totalValueElement.textContent.replace('₫', '').replace(/,/g, ''), 10);
@@ -111,15 +112,31 @@
         // Cập nhật giá trị trường ẩn total_amount
         totalAmountInput.value = totalValue;
 
-        document.querySelectorAll('.btn-save').forEach(button => {
+        function updateSaveButtonState() {
+            saveButtons.forEach(button => {
+                const minPurchaseAmount = parseFloat(button.dataset.minPurchase);
+                if (totalValue < minPurchaseAmount) {
+                    button.classList.add('disabled');
+                } else {
+                    button.classList.remove('disabled');
+                }
+            });
+        }
+
+        // Kiểm tra điều kiện ngay khi tải trang
+        updateSaveButtonState();
+
+        saveButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
 
-                // Lấy giá trị voucher và loại giảm giá
-                const discountValue = parseFloat(this.dataset.discount);
-                const discountType = this.dataset.discountType;
+                if (button.classList.contains('disabled')) {
+                    return; // Nếu nút bị khóa, không làm gì cả
+                }
 
-                // Tính toán giá trị cần giảm
+                const discountValue = parseFloat(button.dataset.discount);
+                const discountType = button.dataset.discountType;
+
                 let discountAmount;
                 if (discountType === 'discount') {
                     discountAmount = discountValue; // Giả sử voucher là tiền tệ đồng
@@ -128,26 +145,22 @@
                     discountAmount = Math.round(discountAmount); // Làm tròn giá trị phần trăm
                 }
 
-                // Trừ giá trị voucher từ tổng giá trị
                 totalValue -= discountAmount;
-
-                // Đảm bảo tổng giá trị không âm
                 if (totalValue < 0) {
                     totalValue = 0;
                 }
 
-                // Cập nhật tổng giá trị
                 totalValueElement.textContent = numberWithCommas(totalValue) + '₫';
-
-                // Cập nhật giá trị trường ẩn total_amount
                 totalAmountInput.value = totalValue;
 
-                // Hiển thị giá trị voucher
+                // Cập nhật trạng thái nút lưu
+                updateSaveButtonState();
+
                 const voucherValueElement = document.getElementById('voucher-value');
                 const voucherDiscountElement = document.getElementById('voucher-discount');
                 voucherDiscountElement.textContent =
                 `Giảm ${numberWithCommas(discountAmount)}₫`;
-                voucherValueElement.style.display = 'block'; // Hiển thị dòng giá trị voucher
+                voucherValueElement.style.display = 'block';
             });
         });
 

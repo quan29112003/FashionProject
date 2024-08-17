@@ -24,8 +24,6 @@
                 aria-label="Trình chiếu 1" aria-current="true"></button>
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Trình chiếu 2"
                 class=""></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Trình chiếu 2"
-                class=""></button>
         </div>
 
         <div class="carousel-inner">
@@ -34,9 +32,6 @@
             </div>
             <div class="carousel-item">
                 <img src="{{ asset('theme-cli/img/banner/banner2.jpg') }}" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('theme-cli/img/banner/banner1.jpg') }}" class="d-block w-100" alt="...">
             </div>
         </div>
 

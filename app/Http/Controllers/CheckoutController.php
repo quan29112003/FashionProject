@@ -61,7 +61,6 @@ class CheckoutController extends Controller
 
         $order->status_id = 2; // Chờ xác nhận
         $order->save();
-        dd($order);
         return redirect('/')->with('success', 'Đặt hàng thành công!');
     }
 

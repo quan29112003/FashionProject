@@ -4313,4 +4313,8 @@ header {
     color: inherit !important;
 }
 
-.modal fade {}
+.btn-save.disabled {
+    background-color: #ccc; /* Màu nền của nút khi bị khóa */
+    cursor: not-allowed; /* Con trỏ khi di chuột qua nút bị khóa */
+    pointer-events: none; /* Không cho phép nhấp chuột vào nút */
+}

@@ -49,19 +49,22 @@ class CheckoutController extends Controller
 
         $order = $this->createOrder($request, 1);
 
-        // Lưu order_id vào session để sử dụng sau
         session()->put('order_id', $order->id);
+
+        session()->put('success_order', $order);
 
         if ($request->payment_method === 'vnpay') {
             Log::info('Starting VNPAY payment process');
+            session()->put('order_id', $order->id);
             return $this->createVnpayPayment($request);
         }
 
-
         $order->status_id = 2; // Chờ xác nhận
         $order->save();
+
         return redirect('/')->with('success', 'Đặt hàng thành công!');
     }
+
 
 
 
@@ -149,6 +152,8 @@ class CheckoutController extends Controller
                 $order->payment_id = 2;
                 $order->save();
 
+                session()->put('success_order', $order);
+
                 return redirect('/')->with('success', 'Thanh toán thành công!');
             } else {
                 Log::error('VNPAY payment failed with response code: ' . $request->vnp_ResponseCode);
@@ -185,10 +190,12 @@ class CheckoutController extends Controller
             Log::info('Cart data before order creation: ', $cart);
 
             foreach ($cart as $item) {
-                // Kiểm tra và log nếu thiếu trường name_product
                 if (!isset($item['name']) || empty($item['name'])) {
                     Log::error('Missing name_product in cart item: ', $item);
-                    $item['name'] = 'Unnamed Product'; // Gán giá trị mặc định
+                    $item['name'] = 'Unnamed Product';
+                }
+                if (!isset($item['image']) || empty($item['image'])) {
+                    Log::warning('Missing thumbnail in cart item: ', $item);
                 }
 
                 try {

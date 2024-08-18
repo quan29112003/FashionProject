@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\{
     Admin\CategoryController,
     Admin\ProductController,
@@ -74,6 +75,10 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::view('/', 'client.layouts.cart')->name('cart');
     Route::get('/', [CartController::class, 'index'])->name('index');
 });
+Route::post('/clear-success-order-session', function () {
+    Session::forget('success_order');
+    return response()->json(['status' => 'Session cleared']);
+})->name('clear.success.order.session');
 // vnpay
 Route::get('/vnpay_return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay_return');
 // checkout
@@ -127,6 +132,7 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     });
     Route::post('/orders/{order}/cancel', [OrderControllerCli::class, 'cancel'])->name('orders.cancel');
 });
+
 // đăng nhập admin
 Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     // trong admin

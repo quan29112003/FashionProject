@@ -28,4 +28,10 @@ class OrderControllerCli extends Controller
 
         return redirect()->route('user.orders.history')->with('success', 'Đơn hàng đã được hủy.');
     }
+
+    public function showInvoice($id)
+    {
+        $order = Order::with('orderItems', 'status')->findOrFail($id);
+        return response()->json($order);
+    }
 }

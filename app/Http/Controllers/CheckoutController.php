@@ -149,7 +149,6 @@ class CheckoutController extends Controller
                 $order->payment_id = 2;
                 $order->save();
 
-                session()->put('test_data', 'Test Value');
                 return redirect('/')->with('success', 'Thanh toán thành công!');
             } else {
                 Log::error('VNPAY payment failed with response code: ' . $request->vnp_ResponseCode);

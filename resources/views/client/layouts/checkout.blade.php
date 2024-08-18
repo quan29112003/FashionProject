@@ -59,7 +59,11 @@
                                                         <p>HSD: {{ $voucher->expiry_date }}</p>
                                                     </div>
                                                     <div class="voucher-footer ps-2">
-                                                        <a href="#" class="btn-save" data-min-purchase="{{ $voucher->min_purchase_amount }}" data-discount="{{ $voucher->discount_value }}" data-discount-type="{{ $voucher->discount_type }}">Sử dụng</a>
+                                                        <a href="#" class="btn-save"
+                                                            data-min-purchase="{{ $voucher->min_purchase_amount }}"
+                                                            data-discount="{{ $voucher->discount_value }}"
+                                                            data-discount-type="{{ $voucher->discount_type }}">Sử
+                                                            dụng</a>
 
                                                     </div>
                                                 </div>
@@ -109,11 +113,18 @@
                         <h5>Your order</h5>
                         <div class="checkout__order__product">
                             <ul>
-                                <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
+                                <li>
+                                    <span class="top__text">Product</span>
+                                    <span class="top__text__right">Total</span>
                                 </li>
                                 @foreach (session('cart', []) as $item)
-                                    <li>{{ $item['name'] }}
-                                        <span>{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</span>
+                                    <li class="d-flex align-items-center d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('uploads/' . $item['image']) }}" alt="img product"
+                                                width="80px">
+                                            <p class="ms-2 fw-bold">{{ $item['name'] }}</p>
+                                        </div>
+                                        <span>{{ number_format($item['price'] * $item['quantity']) }}₫</span>
                                     </li>
                                 @endforeach
                             </ul>

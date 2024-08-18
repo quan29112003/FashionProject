@@ -214,7 +214,6 @@ class CheckoutController extends Controller
             DB::commit();
             session()->forget('cart');
             Log::info('Order created successfully: ', ['order_id' => $order->id]);
-
             return $order;
         } catch (\Exception $e) {
             DB::rollback();

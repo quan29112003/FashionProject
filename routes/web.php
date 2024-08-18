@@ -29,6 +29,7 @@ use App\Http\Controllers\{
     LocationController,
     OrderControllerCli,
 };
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 
 // Route trang chủ không yêu cầu đăng nhập
 Route::get(

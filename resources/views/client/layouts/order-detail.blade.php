@@ -87,7 +87,7 @@
                         @foreach ($orderItems as $item)
                             <tr>
                                 <td>
-                                    <img src="/uploads/{{ $item->thumbnail }}" alt="">
+                                    <img width="90" height="120" src="/uploads/{{ $item->thumbnail }}" alt="">
                                 </td>
                                 <td>{{ $item->name_product }}<br><small>{{ $item->product ? $item->product->name : 'No product' }}</small>
                                 </td>

@@ -64,6 +64,7 @@ Route::get('/order-detail', function () {
 Route::get('/order-detail2', function () {
     return view('client.layouts.order-detail2');
 })->name('order.detail2');
+Route::get('/orders/{id}/invoice', [OrderControllerCli::class, 'showInvoice'])->name('orders.invoice');
 
 // phần giỏ hàng
 Route::prefix('cart')->name('cart.')->group(function () {

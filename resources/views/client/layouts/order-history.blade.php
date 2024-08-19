@@ -176,7 +176,7 @@
             </div>
         @endforeach
     @endif
-    {{-- <!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -188,7 +188,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="invoiceDetails"></div>
+                    <div id="invoiceDetails">
+                        {{-- content --}}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
@@ -209,22 +211,19 @@
                     success: function(data) {
                         let invoiceHtml = `<div class="container-fluid">`;
 
-                        invoiceHtml += `<div class="container">`;
-                        invoiceHtml +=
-                            `<div class="d-flex justify-content-between align-items-center py-3">`;
-                        invoiceHtml +=
-                            `<h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Đơn hàng #${data.id}</h2>`;
-                        invoiceHtml += `</div>`;
+                        invoiceHtml += `<div class="row d-flex justify-content-between">`;
 
-                        // Order items
-                        invoiceHtml += `<div class="row"><div class="col-lg-8">`;
+                        invoiceHtml +=
+                            `<div class="col-lg-8 d-flex flex-column justify-content-between">`;
+
                         invoiceHtml += `<div class="card mb-4"><div class="card-body">`;
+                        invoiceHtml += `<h5 class="card-title">Sản phẩm</h5>`;
                         invoiceHtml += `<table class="table table-borderless"><tbody>`;
                         data.order_items.forEach(item => {
                             invoiceHtml += `<tr><td>`;
                             invoiceHtml += `<div class="d-flex mb-2">`;
                             invoiceHtml +=
-                                `<div class="flex-shrink-0"><img src="/uploads/${item.thumbnail}" alt="${item.name_product}" width="35" class="img-fluid"></div>`;
+                                `<div class="flex-shrink-0"><img src="/uploads/${item.thumbnail}" alt="${item.name_product}" width="50" class="img-fluid"></div>`;
                             invoiceHtml += `<div class="flex-lg-grow-1 ms-3">`;
                             invoiceHtml +=
                                 `<h6 class="small mb-0"><a href="#" class="text-reset">${item.name_product}</a></h6>`;
@@ -235,25 +234,35 @@
                             invoiceHtml +=
                                 `<td class="text-end">${new Intl.NumberFormat().format(item.price)}₫</td></tr>`;
                         });
-                        invoiceHtml += `</tbody></table></div></div></div>`;
+                        invoiceHtml += `</tbody></table></div></div>`;
 
-                        // Payment and address
-                        invoiceHtml +=
-                            `<div class="card mb-4"><div class="card-body"><div class="row">`;
-                        invoiceHtml +=
-                            `<div class="col-lg-6"><h3 class="h6">Phương thức thanh toán: </h3><p>`;
+                        invoiceHtml += `<div class="card mb-4"><div class="card-body">`;
+                        invoiceHtml += `<h5 class="card-title">Phương thức thanh toán</h5>`;
+                        invoiceHtml += `<p>`;
                         if (data.payment_id == 1) {
                             invoiceHtml += `Thanh toán khi nhận hàng (COD)`;
                         } else {
                             invoiceHtml += `Đã thanh toán qua tài khoản ngân hàng`;
                         }
                         invoiceHtml +=
-                            `<br>Total: ${new Intl.NumberFormat().format(data.total_amount)}₫</p></div>`;
+                            `<br>Total: ${new Intl.NumberFormat().format(data.total_amount)}₫</p>`;
+                        invoiceHtml += `</div></div>`;
+
+                        invoiceHtml += `</div>`;
+
                         invoiceHtml +=
-                            `<div class="col-lg-6"><h3 class="h6">Địa chỉ đặt hàng</h3><address>`;
-                        invoiceHtml +=
-                            `<strong>${data.name}</strong><br>Địa chỉ: ${data.address}<br>Số điện thoại: ${data.phone}</address></div>`;
-                        invoiceHtml += `</div></div></div></div></div>`;
+                            `<div class="col-lg-4 d-flex flex-column justify-content-between">`;
+                        invoiceHtml += `<div class="card mb-4 h-100"><div class="card-body">`;
+                        invoiceHtml += `<h5 class="card-title">Địa chỉ đặt hàng</h5>`;
+                        invoiceHtml += `<address>`;
+                        invoiceHtml += `<strong>${data.name}</strong><br>`;
+                        invoiceHtml += `Địa chỉ: ${data.address}<br>`;
+                        invoiceHtml += `Số điện thoại: ${data.phone}`;
+                        invoiceHtml += `</address>`;
+                        invoiceHtml += `</div></div>`;
+                        invoiceHtml += `</div>`;
+
+                        invoiceHtml += `</div>`;
 
                         $('#invoiceDetails').html(invoiceHtml);
                         $('#invoiceModal').modal('show');
@@ -263,8 +272,16 @@
                     }
                 });
             });
+
+            $('#invoiceModal').on('hidden.bs.modal', function() {
+                $('#invoiceDetails').html('');
+            });
+
+            $('.close, .btn-danger').on('click', function() {
+                $('#invoiceModal').modal('hide');
+            });
         });
-    </script> --}}
+    </script>
 
 </div>
 

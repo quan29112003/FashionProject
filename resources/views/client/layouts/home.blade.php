@@ -85,7 +85,7 @@
                                                         @if (session('success_order')->payment_id == 1)
                                                             Thanh toán khi nhận hàng (COD)
                                                         @elseif(session('success_order')->payment_id == 2)
-                                                            Đã thanh toán qua tài khoản ngân hàng
+                                                            Thanh toán qua tài khoản ngân hàng
                                                         @endif
                                                         <br>
                                                         Total:

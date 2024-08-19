@@ -86,7 +86,9 @@
                     <tbody>
                         @foreach ($orderItems as $item)
                             <tr>
-                                <td>{{ $item->quantity }}</td> <-- Ảnh -->
+                                <td>
+                                    <img src="/uploads/{{ $item->thumbnail }}" alt="">
+                                </td>
                                 <td>{{ $item->name_product }}<br><small>{{ $item->product ? $item->product->name : 'No product' }}</small>
                                 </td>
                                 <td>{{ number_format($item->price, 0, ',', '.') }}₫</td>

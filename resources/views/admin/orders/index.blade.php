@@ -198,7 +198,7 @@
                 ]
             });
     // Danh sách các trạng thái và payment
-    let statusOrder = ['Chờ xác nhận', 'Chờ lấy hàng', 'Đang giao', 'Đã giao', 'Đã hủy', 'Trả hàng'];
+    let statusOrder = ['Chờ xử lý', 'Chưa xác nhận', 'Xác nhận', 'Đang chuẩn bị hàng', 'Đang giao hàng', 'Đã giao hàng','Đã hoàn thành','Đã hủy'];
     let paymentStatus = ['Chưa thanh toán', 'Đã thanh toán'];
 
     $('.edit-item-btn').on('click', function() {

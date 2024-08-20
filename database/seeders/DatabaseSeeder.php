@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CategorySeeder::class,
+            // CatalogueSeeder::class,
+            // CategorySeeder::class,
             ProductSeeder::class,
             ProductImageSeeder::class,
             ProductColorSeeder::class,
@@ -30,7 +31,9 @@ class DatabaseSeeder extends Seeder
             ProductVariantSeeder::class,
             // UserSeeder::class,
             WebsiteMenusSeeder::class,
-            CategoryGenderSeeder::class
+            CategoryGenderSeeder::class,
+            StatusesTableSeeder::class,
+            PaymentsTableSeeder::class,
         ]);
 
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx" >
+<html lang="zxx">
 
 <head>
     <meta charset="UTF-8">
@@ -140,10 +140,10 @@
                 </div>
             </div>
 
-            <div class="row align-items-center">
+            <div class="row align-items-center position-relative">
                 <div class="col-xl-3 d-flex justify-content-between">
                     {{-- logo --}}
-                    <div style="width: 35%">
+                    <div style="width: 20%">
                         <a href="{{ url('/') }}">
                             <img src="{{ asset('theme-cli/img/1.png') }}" alt="Logo">
                         </a>
@@ -154,7 +154,8 @@
                             @foreach ($CategoryGenders as $CategoryGender)
                                 <li class="nav-item">
                                     <a class="nav-link fs-5 text-dark fw-bold custom-hover"
-                                        href="#">{{ $CategoryGender->name }}</a>
+                                        href="#">{{ $CategoryGender->name }}
+                                    </a>
                                 </li>
                             @endforeach
                         </ul>
@@ -164,12 +165,40 @@
                 <div class="col-xl-6">
                     <nav>
                         <ul class="nav justify-content-center">
+
                             @foreach ($menus as $menu)
-                                <li class="nav-item">
+                                <li
+                                    class="nav-item {{ strcasecmp($menu->menu_item, 'Sản phẩm') === 0 ? 'hover_submenu' : '' }}">
                                     <a href="{{ url($menu->url) }}"
                                         class="{{ Request::is($menu->url) ? 'active' : '' }} nav-link fs-6 text-dark custom-hover">
                                         {{ $menu->menu_item }}
                                     </a>
+                                    <div class="submenu container-fluid">
+                                        @if (strcasecmp($menu->menu_item, 'Sản Phẩm') === 0)
+                                            <div class="d-flex justify-content-center container py-3">
+                                                <ul class="nav">
+                                                    @foreach ($categories as $category)
+                                                        <li class="nav-item px-5 border-start">
+                                                            <p class="fw-bold">{{ $category->name }}</p>
+                                                            <ul class="nav flex-column">
+                                                                @foreach ($category->catalogues as $catalogue)
+                                                                    <li class="nav-item py-2">{{ $catalogue->name }}
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <div class="d-flex justify-content-center px-4 border-start">
+                                                    <div class=" mx-2">
+                                                        <img src="{{ asset('uploads/bannersubmenu.jpg') }}"
+                                                            class="rounded mx-auto d-block" alt="..."
+                                                            style="width: 10rem;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </li>
                             @endforeach
                         </ul>
@@ -281,27 +310,11 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row align-items-center">
-                {{-- category --}}
-                <div class="col">
-                    <nav>
-                        <ul class="nav justify-content-center">
-                            @foreach ($categories as $categorie)
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link fs-6 text-dark custom-hover">
-                                        {{ $categorie->name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </nav>
-                </div>
-            </div>
         </div>
         <div class="canvas__open">
             <i class="fa fa-bars"></i>
         </div>
+
     </header>
 
     <!-- Search Popup -->
@@ -315,7 +328,8 @@
         </div>
     </div>
     {{-- login, cart, wishlist --}}
-    <div class="offcanvas offcanvas-end" tabindex="-1" style="min-width: 35%" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" style="min-width: 35%" id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasRightLabel">sản phẩm yêu thích</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

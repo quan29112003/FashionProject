@@ -205,6 +205,7 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
         Route::post('comments/{id}/toggleVisibility', [CommentController::class, 'toggleVisibility'])->name('comments.toggleVisibility');
         Route::post('/upload', [AdminBlogController::class, 'upload'])->name('blogs.upload');
         Route::resource('blogs', AdminBlogController::class);
+        Route::post('blogs/{id}/toggle-status', [AdminBlogController::class, 'toggleStatus'])->name('blogs.toggleStatus');
         Route::delete('/wishlist/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     });
 });

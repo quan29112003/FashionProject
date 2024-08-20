@@ -34,9 +34,9 @@
                         <div class="row gy-4">
                             <div class="col-md-4">
                                 <div>
-                                    <label for="nameUser" class="form-label">Tên</label>
-                                    <input type="text" class="form-control" name="nameUser" value="{{ $user->name_user }}" required>
-                                    @error('nameUser')
+                                    <label for="name_user" class="form-label">Tên</label>
+                                    <input type="text" class="form-control" name="name_user" value="{{ $user->name_user }}" required>
+                                    @error('name_user')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>

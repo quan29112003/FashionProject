@@ -23,7 +23,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nameUser' => 'required|string|max:255',
+            'name_user' => 'required|string|max:255',
             'birthday' => 'nullable|date',
             'email' => 'required|email|unique:users',
             'address' => 'nullable|string|max:255',
@@ -32,7 +32,7 @@ class UserController extends Controller
         ]);
 
         $user = new User();
-        $user->nameUser = $request->nameUser;
+        $user->name_user = $request->name_user;
         $user->birthday = $request->birthday;
         $user->email = $request->email;
         $user->address = $request->address;
@@ -54,7 +54,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nameUser' => 'required|string|max:255',
+            'name_user' => 'required|string|max:255',
             'birthday' => 'nullable|date',
             'email' => 'required|email|unique:users,email,' . $id,
             'address' => 'nullable|string|max:255',
@@ -63,7 +63,7 @@ class UserController extends Controller
         ]);
 
         $user = User::find($id);
-        $user->nameUser = $request->nameUser;
+        $user->name_user = $request->name_user;
         $user->birthday = $request->birthday;
         $user->email = $request->email;
         $user->address = $request->address;

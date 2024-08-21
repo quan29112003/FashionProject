@@ -2,22 +2,11 @@
 <!-- Bao gồm header phần -->
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
-<style>
-    .carousel-item {
-        transition: transform 1s cubic-bezier(0.25, 0.8, 0.5, 1), opacity 1s ease-in-out;
-        opacity: 0;
-        transform: translateX(100%);
-    }
-
-    .carousel-item.active {
-        opacity: 1;
-        transform: translateX(0);
-    }
-</style>
 
 <!-- Bắt đầu phần danh mục -->
 <section>
-    <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel"
+        data-bs-interval="5000">
 
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
@@ -46,8 +35,6 @@
         </button>
     </div>
 </section>
-
-
 <!-- Kết thúc phần danh mục -->
 
 <!-- phần nam nữ -->
@@ -55,10 +42,16 @@
     <div class="d-flex justify-content-center mt-5">
         <div class="w-50">
             <div class="row">
-                <div class="col"><a href="#"><img src="{{ asset('theme-cli/img/nam.jpg') }}" class="rounded "
-                            alt=""></a></div>
-                <div class="col"><a href="#"><img src="{{ asset('theme-cli/img/nu.jpg') }}"
-                            class="rounded "></a></div>
+                @foreach ($CategoryGenders as $CategoryGender)
+                    <div class="col">
+                        <div class="position-relative">
+                            <img src="{{ asset('theme-cli/img/'. $CategoryGender->image) }}" class="img-fluid rounded" alt="Image">
+                            <div class="position-absolute top-50 start-50 translate-middle text-dark fs-4 fw-bold text-center p-2 bg-light bg-opacity-25 rounded">
+                                {{ $CategoryGender->name }}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -66,16 +59,20 @@
 <!-- kết thúc phần nam nữ -->
 
 <!-- Bắt đầu phần sản phẩm -->
-<div class="d-flex justify-content-center">
-    <section class="product spad">
-        <img src="{{ asset('theme-cli/img/banner/category1.jpg') }}" class="w-100 container mb-5" alt="...">
 
-        <div class="container">
-            <!-- Container cho sản phẩm -->
-            <div class="row">
-                <!-- Tiêu đề phần -->
+@foreach ($catalogues as $catalogue)
+    <div class="d-flex justify-content-center mt-5">
+        {{-- @dump($catalogue) --}}
+        <section class="product spad">
+            <img src="{{ asset('theme-cli/img/banner/' . $catalogue->image) }}" class="w-100 container mb-5"
+                alt="...">
+            {{-- <p>{{ $catalogue->id }}</p> --}}
+            <div class="container">
+                <!-- Container cho sản phẩm -->
+                <div class="row">
+                    <!-- Tiêu đề phần -->
 
-                <div class="col-lg-4 col-md-4">
+                    {{-- <div class="col-lg-4 col-md-4">
                     <div class="section-title">
                         <h4>Sản phẩm mới</h4>
                         <!-- Tiêu đề của phần sản phẩm -->
@@ -90,159 +87,162 @@
                             <li data-filter="{{ $category->id }}">{{ $category->name }}</li>
                         @endforeach
                     </ul>
-                </div>
+                </div> --}}
 
-                @php
-                    $productCount = 0;
-                @endphp
+                    @php
+                        $productCount = 0;
+                    @endphp
 
-                <div class="row property__gallery" id="product-gallery">
-                    <!-- Thư viện sản phẩm -->
-                    @foreach ($products as $product)
-                        <!-- Lặp qua các sản phẩm -->
-                        @php
-                            $colors = $variantProducts[$product->id]->pluck('color')->unique();
-                            $sizes = $variantProducts[$product->id]->pluck('size')->unique();
-                            $selectedColorId = $colors->first() ? $colors->first()->id : null;
-                        @endphp
-                        @foreach ($product->variants as $variant)
-                            <!-- Lặp qua các biến thể của mỗi sản phẩm -->
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix product-item @if ($productCount >= 8) d-none @endif"
-                                data-category="{{ $product->category->id }}">
-                                <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
-                                <div class="product__item">
+                    <div class="row property__gallery" id="product-gallery">
+                        <!-- Thư viện sản phẩm -->
+                        @foreach ($catalogue->products as $product)
+                            {{-- @dump($product) --}}
+                            <!-- Lặp qua các sản phẩm -->
+                            @php
+                                $colors = $variantProducts[$product->id]->pluck('color')->unique();
+                                $sizes = $variantProducts[$product->id]->pluck('size')->unique();
+                                $selectedColorId = $colors->first() ? $colors->first()->id : null;
+                            @endphp
+                            @foreach ($product->variants as $variant)
+                                <!-- Lặp qua các biến thể của mỗi sản phẩm -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 mix product-item @if ($productCount >= 8) d-none @endif"
+                                    data-category="{{ $product->category->id }}">
+                                    <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
+                                    <div class="product__item">
 
-                                    @if ($product->images->isNotEmpty())
-                                        <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
-                                        <div class="product__item__pic set-bg"
-                                            data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
-                                            <!-- Check if the product is new -->
-                                            @if ($newProducts->contains($product))
-                                                <div class="label new">New</div>
-                                            @endif
-                                            <!-- Check if the product is a good deal -->
-                                            @if ($product->is_good_deal)
-                                                <div class="label sale">Sale</div>
-                                            @endif
-                                            <!-- Check if the product is a hot trend -->
-                                            @if ($product->is_hot)
-                                                <div class="label sale">Hot Trend</div>
-                                            @endif
-                                            <a
-                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
-                                                <img src="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                    alt="img product">
-
-                                            </a>
-
-                                            <!-- Hình ảnh sản phẩm -->
-                                            <ul class="product__hover pd-hover" id="product-hv-{{ $product->id }}">
-                                                <!-- Các hành động khi hover -->
-
-                                                <li>
-                                                    <a href="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                        class="image-popup">
-                                                        <span class="arrow_expand"></span>
-                                                    </a>
-                                                </li>
-                                                <!-- Popup hình ảnh -->
-
-                                                <li>
-                                                    <form id="wishlist-form-{{ $product->id }}"
-                                                        action="{{ route('wishlist.add', $product->id) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                    </form>
-                                                    <a href="#" onclick="addToWishlist({{ $product->id }});">
-                                                        <span class="icon_heart_alt"></span>
-                                                    </a>
-                                                </li>
-                                                <!-- Thêm vào danh sách yêu thích -->
-
-                                                <li>
-                                                    <a onclick="handleQuickCard(event,{{ $product->id }})"
-                                                        href="#">
-                                                        <span class="icon_bag_alt">
-
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <!-- Thêm vào giỏ hàng -->
-
-                                            </ul>
-
-                                        </div>
-                                    @endif
-                                    <div class="product__item__text">
-                                        <!-- Chi tiết sản phẩm -->
-                                        <div class="swatch-attribute-options-{{ $product->id }}">
-                                            @foreach ($colors as $color)
-                                                <div onclick="getSizeByColor(event,{{ $color->id }},{{ $product->id }})"
-                                                    class="swatch-option color {{ $color->id == $selectedColorId ? 'selected' : '' }}"
-                                                    data-color-id="{{ $color->id }}"
-                                                    id="swichcolor-{{ $color->id }}-{{ $product->id }}"
-                                                    style="background-color: {{ $color->color_code }}"></div>
-                                            @endforeach
-                                        </div>
-                                        <h6><a
-                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">{{ $product->name_product }}</a>
-                                        </h6>
-
-                                        <!-- Tên sản phẩm -->
-                                        <div class="rating">
-                                            <!-- Đánh giá sản phẩm -->
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <!-- Lặp để hiển thị sao đánh giá dựa trên rating -->
-                                                @if ($i < $product->rating)
-                                                    <i class="fa fa-star"></i>
-                                                    <!-- Sao đầy -->
-                                                @else
-                                                    <i class="fa fa-star-o"></i>
-                                                    <!-- Sao rỗng -->
+                                        @if ($product->images->isNotEmpty())
+                                            <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
+                                            <div class="product__item__pic set-bg"
+                                                data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                                <!-- Check if the product is new -->
+                                                @if ($newProducts->contains($product))
+                                                    <div class="label new">New</div>
                                                 @endif
-                                            @endfor
-                                        </div>
-
-                                        @if ($variant)
-                                            <div class="product__price">
+                                                <!-- Check if the product is a good deal -->
                                                 @if ($product->is_good_deal)
-                                                    <h6 style="color: red; font-weight: bold;">
-                                                        {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
-                                                    <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
-                                                @else
-                                                    {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                    <div class="label sale">Sale</div>
                                                 @endif
+                                                <!-- Check if the product is a hot trend -->
+                                                @if ($product->is_hot)
+                                                    <div class="label sale">Hot Trend</div>
+                                                @endif
+                                                <a
+                                                    href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
+                                                    <img src="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                        alt="img product">
+
+                                                </a>
+
+                                                <!-- Hình ảnh sản phẩm -->
+                                                <ul class="product__hover pd-hover" id="product-hv-{{ $product->id }}">
+                                                    <!-- Các hành động khi hover -->
+
+                                                    <li>
+                                                        <a href="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                            class="image-popup">
+                                                            <span class="arrow_expand"></span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- Popup hình ảnh -->
+
+                                                    <li>
+                                                        <form id="wishlist-form-{{ $product->id }}"
+                                                            action="{{ route('wishlist.add', $product->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                        </form>
+                                                        <a href="#"
+                                                            onclick="addToWishlist({{ $product->id }});">
+                                                            <span class="icon_heart_alt"></span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- Thêm vào danh sách yêu thích -->
+
+                                                    <li>
+                                                        <a onclick="handleQuickCard(event,{{ $product->id }})"
+                                                            href="#">
+                                                            <span class="icon_bag_alt">
+
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <!-- Thêm vào giỏ hàng -->
+
+                                                </ul>
+
                                             </div>
-                                            <!-- Giá sản phẩm -->
-                                        @else
-                                            <div class="product__price">Giá chưa cập nhật</div>
-                                            <!-- Handle case where variant is null -->
                                         @endif
+                                        <div class="product__item__text">
+                                            <!-- Chi tiết sản phẩm -->
+                                            <div class="swatch-attribute-options-{{ $product->id }}">
+                                                @foreach ($colors as $color)
+                                                    <div onclick="getSizeByColor(event,{{ $color->id }},{{ $product->id }})"
+                                                        class="swatch-option color {{ $color->id == $selectedColorId ? 'selected' : '' }}"
+                                                        data-color-id="{{ $color->id }}"
+                                                        id="swichcolor-{{ $color->id }}-{{ $product->id }}"
+                                                        style="background-color: {{ $color->color_code }}"></div>
+                                                @endforeach
+                                            </div>
+                                            <h6><a
+                                                    href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">{{ $product->name_product }}</a>
+                                            </h6>
+
+                                            <!-- Tên sản phẩm -->
+                                            <div class="rating">
+                                                <!-- Đánh giá sản phẩm -->
+                                                @for ($i = 0; $i < 5; $i++)
+                                                    <!-- Lặp để hiển thị sao đánh giá dựa trên rating -->
+                                                    @if ($i < $product->rating)
+                                                        <i class="fa fa-star"></i>
+                                                        <!-- Sao đầy -->
+                                                    @else
+                                                        <i class="fa fa-star-o"></i>
+                                                        <!-- Sao rỗng -->
+                                                    @endif
+                                                @endfor
+                                            </div>
+
+                                            @if ($variant)
+                                                <div class="product__price">
+                                                    @if ($product->is_good_deal)
+                                                        <h6 style="color: red; font-weight: bold;">
+                                                            {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
+                                                        <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
+                                                    @else
+                                                        {{ number_format($variant->price, 0, ',', '.') }}đ
+                                                    @endif
+                                                </div>
+                                                <!-- Giá sản phẩm -->
+                                            @else
+                                                <div class="product__price">Giá chưa cập nhật</div>
+                                                <!-- Handle case where variant is null -->
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Tăng biến đếm sản phẩm -->
-                            @php
-                                $productCount++;
-                            @endphp
+                                <!-- Tăng biến đếm sản phẩm -->
+                                @php
+                                    $productCount++;
+                                @endphp
+                            @endforeach
                         @endforeach
-                    @endforeach
-                </div>
+                    </div>
 
-                <!-- Nút Xem Thêm -->
-                <div class="col-lg-12 text-center">
-                    <button id="load-more-btn"
-                        class="btn btn-primary @if ($productCount <= 8) d-none @endif">
-                        Xem thêm
-                    </button>
-                    <!-- Nút Xem Thêm, ẩn nếu số sản phẩm là 12 hoặc ít hơn -->
-                </div>
+                    <!-- Nút Xem Thêm -->
+                    <div class="col-lg-12 text-center">
+                        <button id="load-more-btn"
+                            class="btn btn-primary @if ($productCount <= 8) d-none @endif">
+                            Xem thêm
+                        </button>
+                        <!-- Nút Xem Thêm, ẩn nếu số sản phẩm là 12 hoặc ít hơn -->
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
+@endforeach
 <!-- Product Section End -->
 
 <!-- Banner Section Begin -->

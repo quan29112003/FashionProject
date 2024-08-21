@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('catalogues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('image')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('category_gender_id')->nullable();

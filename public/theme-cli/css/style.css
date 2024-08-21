@@ -142,7 +142,7 @@ ol {
 }
 
 .spad {
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
 }
 
 .text-white h1,
@@ -1110,8 +1110,8 @@ ol {
 -----------------------*/
 
 .product {
-    padding-top: 60px;
-    padding-bottom: 50px;
+    /* padding-top: 60px;
+    padding-bottom: 50px; */
 }
 
 .filter__controls {
@@ -4345,4 +4345,15 @@ header {
 .bg-shop
 {
     background-color: #CDC9C9;
+}
+
+.carousel-item {
+    transition: transform 1s cubic-bezier(0.25, 0.8, 0.5, 1), opacity 1s ease-in-out;
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.carousel-item.active {
+    opacity: 1;
+    transform: translateX(0);
 }

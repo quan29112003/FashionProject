@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('category_genders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('image')->nullable();
             $table->timestamps();
         });
     }

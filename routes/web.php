@@ -99,6 +99,10 @@ Route::name('user.orders.')->group(function () {
     Route::get('/my-order-history', [OrderControllerCli::class, 'index'])->name('history');
     Route::get('/my-order-detail/{order}', [OrderControllerCli::class, 'show'])->name('detail');
 });
+
+Route::view('/about-us', 'client.layouts.about-us')->name('about-us');
+
+
 // trang blog
 Route::view('/blog', 'client.layouts.blog')->name('blog');
 Route::view('/blog-detail', 'client.layouts.blog-detail')->name('blog-detail');

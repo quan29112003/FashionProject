@@ -226,8 +226,6 @@
             </div>
             <div class="modal-body">
 
-
-
                 <div class="container-fluid">
 
                     <div class="container">

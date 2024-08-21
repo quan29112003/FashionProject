@@ -3,7 +3,6 @@
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
 
-
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -286,16 +285,11 @@
 </div>
 <!-- Instagram End -->
 
-
-
-
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
 <!-- Footer Section End -->
 
 <!-- Include jQuery UI for slider -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
     $(function() {
@@ -383,7 +377,6 @@
         });
     });
 </script>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

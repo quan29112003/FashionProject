@@ -38,64 +38,6 @@
             </div><!-- end card -->
 
             <!-- card -->
-            {{-- <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Tổng đơn hàng</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <form id="statistics-form">
-                                @csrf
-                                <input type="date" class="form-control" name="date" id="date" required>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                    id="totalOrders">0</span></h4>
-                            <a href="" class="text-decoration-underline">View all orders</a>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <span class="avatar-title bg-info-subtle rounded fs-3">
-                                <i class="bx bx-shopping-bag text-info"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-            </div><!-- end card --> --}}
-
-            <!-- card -->
-            {{-- <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Khách hàng</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <form id="customer-statistics-form">
-                                @csrf
-                                <input type="date" class="form-control" name="date" id="date-customer" required>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                    id="totalCustomers">0</span> </h4>
-                            <a href="" class="text-decoration-underline">See details</a>
-                        </div>
-                        <div class="avatar-sm flex-shrink-0">
-                            <span class="avatar-title bg-warning-subtle rounded fs-3">
-                                <i class="bx bx-user-circle text-warning"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div><!-- end card body -->
-            </div><!-- end card --> --}}
-
-            <!-- card -->
             <div class="card card-animate">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -117,7 +59,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountDateRange">0</span>k </h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountDateRange">0</span>đ </h4>
 
                         </div>
                         <div class="avatar-sm flex-shrink-0">

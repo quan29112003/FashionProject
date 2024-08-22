@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <h5 class="text-success fs-14 mb-0">
-                                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
+
                                         </h5>
                                     </div>
                                 </div>
@@ -29,7 +29,7 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
                                                 data-target={{ $data->dayAmount }}>0</span>đ</h4>
-                                        <a href="" class="text-decoration-underline">View net earnings</a>
+
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-success-subtle rounded fs-3">
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <h5 class="text-danger fs-14 mb-0">
-                                            <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
+
                                         </h5>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
                                                 data-target={{ $data->dayOrder }}>0</span></h4>
-                                        <a href="{{ route('order') }}" class="text-decoration-underline">xem đơn hàng</a>
+
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-info-subtle rounded fs-3">
@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <h5 class="text-success fs-14 mb-0">
-                                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
+
                                         </h5>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                     <div>
                                         <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
                                                 data-target={{ $data->customer }}>0</span> </h4>
-                                        <a href="{{ route('admin.users.index') }}" class="text-decoration-underline">Xem người dùng</a>
+                                        {{-- <a href="{{ route('admin.users.index') }}" class="text-decoration-underline">Xem người dùng</a> --}}
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-warning-subtle rounded fs-3">
@@ -97,7 +97,7 @@
                     <div class="col-xl-8">
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">những đơn đặt hàng gần đây</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Đơn đặt hàng gần đây</h4>
                             </div><!-- end card header -->
 
                             <div class="card-body">

@@ -30,8 +30,7 @@
                     </div><!-- end card header -->
                     <div class="card-body">
                         <div class="live-preview">
-                            <div class="row gy-4">
-                                <div class="col-md-6">
+                                <div class="row gy-4">
                                     <div>
                                         <label for="title" class="form-label">Title</label>
                                         <input type="text" class="form-control" id="title" name="title" required>
@@ -40,7 +39,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="row gy-4">
                                     <div>
                                         <label for="content" class="form-label">Content</label>
                                         <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
@@ -49,12 +48,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
+                            <div class="row gy-4 mt-3">
                                 <div class="col-md-4">
                                     <div>
-                                    <label for="image" class="form-label">Image</label>
-                                    <input type="hidden" class="form-control" id="image" name="image">
-                                    @error('image')
+                                        <label for="image" class="form-label">Image</label>
+                                        <input type="hidden" class="form-control" id="image" name="image">
+                                        @error('image')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -66,42 +65,42 @@
                                     <button class="btn btn-primary" type="submit">Save</button>
                                 </div>
                             </div>
-                                <!--end col-->
-                            </div>
+                            <!--end col-->
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 @endsection
 @section('script-libs')
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace('content', {
-        filebrowserUploadUrl: "{{ route('admin.blogs.upload', ['_token' => csrf_token()]) }}",
-        filebrowserUploadMethod: 'form',
-        on: {
-            'fileUploadRequest': function(evt) {
-                var xhr = evt.data.fileLoader.xhr;
-                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-            },
-            'fileUploadResponse': function(evt) {
-                evt.stop();
-                var data = evt.data,
-                    xhr = data.fileLoader.xhr,
-                    response = JSON.parse(xhr.responseText);
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('content', {
+            filebrowserUploadUrl: "{{ route('admin.blogs.upload', ['_token' => csrf_token()]) }}",
+            filebrowserUploadMethod: 'form',
+            on: {
+                'fileUploadRequest': function(evt) {
+                    var xhr = evt.data.fileLoader.xhr;
+                    xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                },
+                'fileUploadResponse': function(evt) {
+                    evt.stop();
+                    var data = evt.data,
+                        xhr = data.fileLoader.xhr,
+                        response = JSON.parse(xhr.responseText);
 
-                if (response.url) {
-                    data.url = response.url;
-                    evt.data.fileLoader.onSuccess(data.url);
-                } else {
-                    evt.data.fileLoader.onError('File upload failed.');
+                    if (response.url) {
+                        data.url = response.url;
+                        evt.data.fileLoader.onSuccess(data.url);
+                    } else {
+                        evt.data.fileLoader.onError('File upload failed.');
+                    }
+
+                    // Update image input field
+                    document.getElementById('image').value = response.url.split('/').pop();
                 }
-
-                // Update image input field
-                document.getElementById('image').value = response.url.split('/').pop();
             }
-        }
-    });
-</script>
+        });
+    </script>
 @endsection

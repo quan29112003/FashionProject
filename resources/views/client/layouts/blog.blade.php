@@ -17,19 +17,21 @@
         <div class="container">
             <div class="row">
                 @foreach ($blogs as $blog)
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="blog__item">
-                            <div class="blog__item__pic set-bg" data-setbg="{{ asset('images/' . $blog->image) }}"></div>
-                            <div class="blog__item__text">
-                                <h6><a href="{{ route('blog-detail', $blog->id) }}">{{ $blog->title }}</a></h6>
-                                <ul>
-                                    <li>by <span>{{ $blog->author }}</span></li>
-                                    <li>{{ $blog->created_at->format('M d, Y') }}</li>
-                                </ul>
-                                <p>{!! Str::limit($blog->content, 100) !!}</p>
+                    @if($blog->status === 'public')
+                        <div class="col-lg-4 col-md-4 col-sm-6">
+                            <div class="blog__item">
+                                <div class="blog__item__pic set-bg" data-setbg="{{ asset('images/' . $blog->image) }}"></div>
+                                <div class="blog__item__text">
+                                    <h6><a href="{{ route('blog-detail', $blog->id) }}">{{ $blog->title }}</a></h6>
+                                    <ul>
+                                        <li>by <span>{{ $blog->author }}</span></li>
+                                        <li>{{ $blog->created_at->format('M d, Y') }}</li>
+                                    </ul>
+                                    <p>{!! Str::limit($blog->content, 100) !!}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
             </div>
             <div class="col-lg-12 text-center">
@@ -98,4 +100,3 @@
 
     <!-- Footer Section Begin -->
     @include('client.partials.footer')
-

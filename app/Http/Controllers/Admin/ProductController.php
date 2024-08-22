@@ -112,10 +112,10 @@ class ProductController extends Controller
             $thumbnailName = time() . '_' . $img->getClientOriginalName();
             $img->move(public_path('uploads'), $thumbnailName);
 
-            $dataProduct['is_active']  ??= 0;
-            $dataProduct['is_hot']  ??= 0;
-            $dataProduct['is_good_deal']  ??= 0;
-            $dataProduct['is_show_home']  ??= 0;
+            $dataProduct['is_active']  ??= 1;
+            $dataProduct['is_hot']  ??= 1;
+            $dataProduct['is_good_deal']  ??= 1;
+            $dataProduct['is_show_home']  ??= 1;
 
 
             $product = Product::query()->create([

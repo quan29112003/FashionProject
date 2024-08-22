@@ -59,14 +59,14 @@
                             </tr>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Category</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Loại</th>
                                 <th>Thumbnail</th>
                                 <th>Active</th>
                                 <th>Hot Deal</th>
                                 <th>Good Deal</th>
                                 <th>Show Home</th>
-                                <th>Views</th>
+                                <th>Lượt xem</th>
                                 <th>Created at</th>
                                 <th>Updated at</th>
                                 <th>Action</th>
@@ -110,15 +110,15 @@
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li><a href="{{ route('product-variant', $product->id) }}"
                                                         class="dropdown-item"><i
-                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i> View
-                                                        Variant</a></li>
+                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i> Xem chi tiết sản phẩm
+                                                        </a></li>
                                                 <li><a href="{{ route('image', $product->id) }}" class="dropdown-item"><i
-                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i> View
-                                                        Image</a></li>
+                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i> Xem ảnh sản phẩm
+                                                        </a></li>
                                                 <li><a href="{{ route('edit-product', $product->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a></li>
+                                                        Sửa</a></li>
                                             </ul>
                                         </div>
                                     </td>

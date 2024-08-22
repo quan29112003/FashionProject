@@ -44,23 +44,16 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="discount_type" class="form-label">Discount Type</label>
-                                        <select class="form-select" name="discount_type" required>
-                                            <option value="Giảm giá cho đồ thời trang"
-                                                {{ $voucher->discount_type == 'Giảm giá cho đồ thời trang' ? 'selected' : '' }}>
-                                                Giảm giá cho đồ thời trang</option>
-                                            <option value="Miễn phí vận chuyển"
-                                                {{ $voucher->discount_type == 'Miễn phí vận chuyển' ? 'selected' : '' }}>
-                                                Miễn phí vận chuyển</option>
-                                            <option value="Discount"
-                                                {{ $voucher->discount_type == 'Discount' ? 'selected' : '' }}>Discount
-                                            </option>
+                                        <label for="discount_type" class="form-label">Loại giảm giá</label>
+                                        <select class="form-select" name="discount_type" id="discount_type">
+                                            <option value="discount" {{ old('discount_type', $voucher->discount_type) === 'discount' ? 'selected' : '' }}>Giảm giá tiền</option>
+                                            <option value="discount%" {{ old('discount_type', $voucher->discount_type) === 'discount%' ? 'selected' : '' }}>Giảm theo %</option>
                                         </select>
                                         @error('discount_type')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div>                                
                                 <div class="col-md-4">
                                     <div>
                                         <label for="discount_value" class="form-label">Discount Value</label>

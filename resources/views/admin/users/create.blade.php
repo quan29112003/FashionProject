@@ -34,9 +34,9 @@
                             <div class="row gy-4">
                                 <div class="col-md-4">
                                     <div>
-                                        <label for="nameUser" class="form-label">Name</label>
-                                        <input type="text" class="form-control" name="nameUser" id="nameUser" required>
-                                        @error('nameUser')
+                                        <label for="name_user" class="form-label">Name</label>
+                                        <input type="text" class="form-control" name="name_user" id="name_user" required>
+                                        @error('name_user')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -72,7 +72,8 @@
                                     <div>
                                         <label for="password" class="form-label">Password</label>
                                         <div class="input-group">
-                                            <input type="password" class="form-control" id="password" name="password" required>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
                                                     <i class="fa fa-eye" id="togglePassword"></i>
@@ -115,11 +116,10 @@
             </div>
             <!--end col-->
         </div>
-
     </form>
 
     <script>
-        document.getElementById('togglePassword').addEventListener('click', function () {
+        document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);

@@ -15,5 +15,6 @@ class CategoryGenderSeeder extends Seeder
     {
         CategoryGender::create(['name' => 'Nam']);
         CategoryGender::create(['name' => 'Nữ']);
+        CategoryGender::create(['name' => 'Unisex']);
     }
 }

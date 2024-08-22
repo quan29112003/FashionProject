@@ -3,7 +3,6 @@
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
 
-
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -22,6 +21,18 @@
 <!-- Shop Section Begin -->
 <section class="shop spad">
     <div class="container">
+        <div class="row bg-shop mb-5 mt-2">
+            <div class="row px-5 py-3">
+                <div class="col-4 d-flex justify-content-start align-items-center">
+                    <p class="fs-2 fw-bold text-dark">Tất cả sản phẩm</p>
+                </div>
+                <div class="col-8 d-flex justify-content-end">
+                    <img src="{{ asset('uploads/bannersubmenu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                    <img src="{{ asset('uploads/bannersubmenu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                    <img src="{{ asset('uploads/bannersubmenu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                </div>
+            </div>
+        </div>
         <div class="row">
             <!-- Sidebar Begin -->
             <div class="col-lg-3 col-md-3">
@@ -128,7 +139,7 @@
             <!-- Products Section Begin -->
             <div class="col-lg-9 col-md-9">
                 <!-- Sorting Filter -->
-                <div class="shop__sorting">
+                <div class="w-25 mb-3">
                     <select id="sort-by" class="form-control">
                         <option value="newest">Newest to Oldest</option>
                         <option value="oldest">Oldest to Newest</option>
@@ -274,16 +285,11 @@
 </div>
 <!-- Instagram End -->
 
-
-
-
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
 <!-- Footer Section End -->
 
 <!-- Include jQuery UI for slider -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
     $(function() {
@@ -371,7 +377,6 @@
         });
     });
 </script>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

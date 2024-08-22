@@ -32,6 +32,47 @@
                     <h5>Billing detail</h5>
                     <div class="row">
                         <!-- Trường thông tin người mua -->
+                        <!-- Swiper -->
+                        <div class="swiper-row">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    @foreach ($vouchers as $voucher)
+                                        <div class="swiper-slide">
+                                            <div class="d-flex justify-content-center mt-5">
+                                                <div class="voucher-container ">
+                                                    <div class="voucher-header">
+                                                        <p class="fs-3 text-center">Voucher</p>
+                                                        @if ($voucher->discount_type == 'discount')
+                                                            <p class="fs-3 text-center">
+                                                                {{ number_format($voucher->discount_value) }}K
+                                                            </p>
+                                                        @else
+                                                            <p class="fs-3 text-center">
+                                                                {{ $voucher->discount_value }}%
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="voucher-content">
+                                                        <p>Giảm {{ number_format($voucher->discount_value) }}k cho đơn
+                                                            từ
+                                                            {{ number_format($voucher->min_purchase_amount) }}k</p>
+                                                        <p>HSD: {{ $voucher->expiry_date }}</p>
+                                                    </div>
+                                                    <div class="voucher-footer ps-2">
+                                                        <a href="#" class="btn-save"
+                                                            data-min-purchase="{{ $voucher->min_purchase_amount }}"
+                                                            data-discount="{{ $voucher->discount_value }}"
+                                                            data-discount-type="{{ $voucher->discount_type }}">Sử
+                                                            dụng</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Full Name <span>*</span></p>
@@ -64,10 +105,6 @@
                                     placeholder="Note about your order, e.g, special note for delivery"
                                     value="{{ old('note') }}">
                             </div>
-                            <div class="checkout__form__input">
-                                <p>Voucher Code</p>
-                                <input type="text" name="voucher_id" value="{{ old('voucher_id') }}">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,18 +113,26 @@
                         <h5>Your order</h5>
                         <div class="checkout__order__product">
                             <ul>
-                                <li><span class="top__text">Product</span> <span class="top__text__right">Total</span>
+                                <li>
+                                    <span class="top__text">Product</span>
+                                    <span class="top__text__right">Total</span>
                                 </li>
                                 @foreach (session('cart', []) as $item)
-                                    <li>{{ $item['name'] }}
-                                        <span>{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}₫</span>
+                                    <li class="d-flex align-items-center d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('uploads/' . $item['image']) }}" alt="img product"
+                                                width="80px">
+                                            <p class="ms-2 fw-bold">{{ $item['name'] }}</p>
+                                        </div>
+                                        <span>{{ number_format($item['price'] * $item['quantity']) }}₫</span>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
                         <div class="checkout__order__total">
                             <ul>
-                                <li>Total <span>{{ number_format($total, 0, ',', '.') }}₫</span></li>
+                                <li id="voucher-value">voucher <span id="voucher-discount">₫</span></li>
+                                <li>Total <span id="total-value">{{ number_format($total) }}₫</span></li>
                             </ul>
                         </div>
                         <input type="hidden" name="total_amount" value="{{ $total }}">
@@ -100,8 +145,6 @@
                                 <input type="radio" name="payment_method" value="vnpay"> VNPAY
                             </label>
                         </div>
-
-
                         <button type="submit" class="site-btn">Place order</button>
                     </div>
                 </div>
@@ -110,11 +153,6 @@
     </div>
 </section>
 <!-- Checkout Section End -->
-
-
-<script></script>
-
-
 <!-- Instagram Begin -->
 <div class="instagram">
     <div class="container-fluid">
@@ -175,50 +213,6 @@
 <!-- Footer Section Begin -->
 @include('client.partials.footer')
 
-<style>
-    .checkout__form__input1 {
-        display: flex;
-        align-items: center;
-    }
-
-    .checkout__form__input1 p {
-        margin-right: 10px;
-        /* Adjust spacing as needed */
-    }
-
-    .checkout__form__input1 label {
-        margin-right: 20px;
-        /* Adjust spacing between radio buttons as needed */
-        display: flex;
-        align-items: center;
-
-    }
-
-    .card {
-        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
-    }
-
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0 solid rgba(0, 0, 0, .125);
-        border-radius: 1rem;
-    }
-
-    .text-reset {
-        --bs-text-opacity: 1;
-        color: inherit !important;
-    }
-
-    .modal fade {}
-</style>
-
-
 <!-- Success Modal -->
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
     aria-hidden="true">
@@ -231,8 +225,6 @@
                 </button>
             </div>
             <div class="modal-body">
-
-
 
                 <div class="container-fluid">
 

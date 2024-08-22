@@ -80,7 +80,7 @@
                         @foreach ($catalogue->products as $product)
                             {{-- @dump($product) --}}
                             <!-- Lặp qua các sản phẩm -->
-                            @dump($product)
+                            {{-- @dump($product) --}}
                             @php
                                 $colors = $variantProducts[$product->id]->pluck('color')->unique();
                                 $sizes = $variantProducts[$product->id]->pluck('size')->unique();
@@ -209,6 +209,7 @@
                                 @php
                                     $productCount++;
                                 @endphp
+                                @break
                             @endforeach
                         @endforeach
                     </div>

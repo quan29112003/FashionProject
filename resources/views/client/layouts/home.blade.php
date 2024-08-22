@@ -71,24 +71,6 @@
                 <!-- Container cho sản phẩm -->
                 <div class="row">
                     <!-- Tiêu đề phần -->
-
-                    {{-- <div class="col-lg-4 col-md-4">
-                    <div class="section-title">
-                        <h4>Sản phẩm mới</h4>
-                        <!-- Tiêu đề của phần sản phẩm -->
-                    </div>
-                </div>
-
-                <div class="col-lg-8 col-md-8">
-                    <ul class="filter__controls">
-                        <!-- Category filter controls -->
-                        <li class="active" data-filter="*">Tất cả</li>
-                        @foreach ($categories as $category)
-                            <li data-filter="{{ $category->id }}">{{ $category->name }}</li>
-                        @endforeach
-                    </ul>
-                </div> --}}
-
                     @php
                         $productCount = 0;
                     @endphp
@@ -98,11 +80,13 @@
                         @foreach ($catalogue->products as $product)
                             {{-- @dump($product) --}}
                             <!-- Lặp qua các sản phẩm -->
+                            @dump($product)
                             @php
                                 $colors = $variantProducts[$product->id]->pluck('color')->unique();
                                 $sizes = $variantProducts[$product->id]->pluck('size')->unique();
                                 $selectedColorId = $colors->first() ? $colors->first()->id : null;
                             @endphp
+
                             @foreach ($product->variants as $variant)
                                 <!-- Lặp qua các biến thể của mỗi sản phẩm -->
                                 <div class="col-lg-3 col-md-4 col-sm-6 mix product-item @if ($productCount >= 8) d-none @endif"

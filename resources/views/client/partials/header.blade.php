@@ -11,23 +11,37 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/elegant-icons.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/jquery-ui.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/magnific-popup.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/slicknav.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('theme-cli/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('theme-cli/css/style.css') }}" type="text/css">
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.css">
+
+    <!-- CSS của Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- JS của Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </head>
 
 <body>
@@ -99,7 +113,7 @@
     <!-- Offcanvas Menu End -->
 
     <!-- Header Section Begin -->
-    <header class="header">
+    <header class="header ">
 
         <div class="p-2 header__desktop ">
 
@@ -126,10 +140,10 @@
                 </div>
             </div>
 
-            <div class="row align-items-center position-relative">
+            <div class="row align-items-center">
                 <div class="col-xl-3 d-flex justify-content-between">
                     {{-- logo --}}
-                    <div style="width: 20%">
+                    <div style="width: 35%">
                         <a href="{{ url('/') }}">
                             <img src="{{ asset('theme-cli/img/1.png') }}" alt="Logo">
                         </a>
@@ -140,8 +154,7 @@
                             @foreach ($CategoryGenders as $CategoryGender)
                                 <li class="nav-item">
                                     <a class="nav-link fs-5 text-dark fw-bold custom-hover"
-                                        href="#">{{ $CategoryGender->name }}
-                                    </a>
+                                        href="#">{{ $CategoryGender->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -151,40 +164,12 @@
                 <div class="col-xl-6">
                     <nav>
                         <ul class="nav justify-content-center">
-
                             @foreach ($menus as $menu)
-                                <li
-                                    class="nav-item {{ strcasecmp($menu->menu_item, 'Sản phẩm') === 0 ? 'hover_submenu' : '' }}">
+                                <li class="nav-item">
                                     <a href="{{ url($menu->url) }}"
                                         class="{{ Request::is($menu->url) ? 'active' : '' }} nav-link fs-6 text-dark custom-hover">
                                         {{ $menu->menu_item }}
                                     </a>
-                                    <div class="submenu container-fluid">
-                                        @if (strcasecmp($menu->menu_item, 'Sản Phẩm') === 0)
-                                            <div class="d-flex justify-content-center container py-3">
-                                                <ul class="nav">
-                                                    @foreach ($categories as $category)
-                                                        <li class="nav-item px-5 border-start">
-                                                            <p class="fw-bold">{{ $category->name }}</p>
-                                                            <ul class="nav flex-column">
-                                                                @foreach ($category->catalogues as $catalogue)
-                                                                    <li class="nav-item py-2">{{ $catalogue->name }}
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                                <div class="d-flex justify-content-center px-4 border-start">
-                                                    <div class=" mx-2">
-                                                        <img src="{{ asset('uploads/bannersubmenu.jpg') }}"
-                                                            class="rounded mx-auto d-block" alt="..."
-                                                            style="width: 10rem;">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
                                 </li>
                             @endforeach
                         </ul>
@@ -296,11 +281,27 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row align-items-center">
+                {{-- category --}}
+                <div class="col">
+                    <nav>
+                        <ul class="nav justify-content-center">
+                            @foreach ($categories as $categorie)
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link fs-6 text-dark custom-hover">
+                                        {{ $categorie->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
         <div class="canvas__open">
             <i class="fa fa-bars"></i>
         </div>
-
     </header>
 
     <!-- Search Popup -->
@@ -405,3 +406,7 @@
             <!-- Wishlist Section End -->
         </div>
     </div>
+
+</body>
+
+</html>

@@ -92,117 +92,10 @@
 </div>
 <!-- Search End -->
 
-<!-- Nút cuộn lên -->
-<button class="btn btn-primary scroll-to-top" id="scrollToTopBtn">
-    <span class="visually-hidden">Back to top</span>
-    <i class="bi bi-arrow-up"></i> <!-- Bootstrap Icons -->
-</button>
 <!-- Js Plugins -->
 <!-- JS Plugins -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Lấy phần tử hiển thị tổng giá trị
-        const totalValueElement = document.getElementById('total-value');
-        const totalAmountInput = document.querySelector('input[name="total_amount"]');
-        const saveButtons = document.querySelectorAll('.btn-save');
-
-        // Chuyển đổi giá trị tổng thành số nguyên
-        let totalValue = parseInt(totalValueElement.textContent.replace('₫', '').replace(/,/g, ''), 10);
-
-        // Cập nhật giá trị trường ẩn total_amount
-        totalAmountInput.value = totalValue;
-
-        function updateSaveButtonState() {
-            saveButtons.forEach(button => {
-                const minPurchaseAmount = parseFloat(button.dataset.minPurchase);
-                if (totalValue < minPurchaseAmount) {
-                    button.classList.add('disabled');
-                } else {
-                    button.classList.remove('disabled');
-                }
-            });
-        }
-
-        // Kiểm tra điều kiện ngay khi tải trang
-        updateSaveButtonState();
-
-        saveButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                if (button.classList.contains('disabled')) {
-                    return; // Nếu nút bị khóa, không làm gì cả
-                }
-
-                const discountValue = parseFloat(button.dataset.discount);
-                const discountType = button.dataset.discountType;
-
-                let discountAmount;
-                if (discountType === 'discount') {
-                    discountAmount = discountValue; // Giả sử voucher là tiền tệ đồng
-                } else {
-                    discountAmount = totalValue * (discountValue / 100); // Tính theo phần trăm
-                    discountAmount = Math.round(discountAmount); // Làm tròn giá trị phần trăm
-                }
-
-                totalValue -= discountAmount;
-                if (totalValue < 0) {
-                    totalValue = 0;
-                }
-
-                totalValueElement.textContent = numberWithCommas(totalValue) + '₫';
-                totalAmountInput.value = totalValue;
-
-                // Cập nhật trạng thái nút lưu
-                updateSaveButtonState();
-
-                const voucherValueElement = document.getElementById('voucher-value');
-                const voucherDiscountElement = document.getElementById('voucher-discount');
-                voucherDiscountElement.textContent =
-                `Giảm ${numberWithCommas(discountAmount)}₫`;
-                voucherValueElement.style.display = 'block';
-            });
-        });
-
-        // Hàm để định dạng số với dấu phân cách
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        }
-    });
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 'auto',
-        /* Hiển thị nhiều slide cùng lúc */
-        spaceBetween: 30,
-        /* Khoảng cách giữa các slide */
-        centeredSlides: true,
-        /* Bật vòng lặp để slide quay trở lại đầu */
-        speed: 600,
-        autoplay: {
-            delay: 3000,
-        },
-    });
-
-    function closeOffcanvas() {
-        document.getElementById('offcanvasExample').style.maxHeight = '0';
-    }
-    // Hiển thị nút cuộn lên khi cuộn xuống
-    window.addEventListener('scroll', function() {
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-        if (window.scrollY > 300) { // Thay đổi giá trị này để điều chỉnh khi nào nút xuất hiện
-            scrollToTopBtn.style.display = 'block';
-        } else {
-            scrollToTopBtn.style.display = 'none';
-        }
-    });
-
-    // Cuộn lên đầu trang khi nhấp vào nút
-    document.getElementById('scrollToTopBtn').addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
+    
     document.addEventListener('DOMContentLoaded', function() {
         var searchInput = document.getElementById('searchInput');
         var searchForm = document.getElementById('searchForm');
@@ -234,7 +127,6 @@
         // Gọi hàm loadContent() khi cần thiết
         loadContent();
     });
-
     function deleteWishlistItem(id) {
         $.ajax({
             url: '/wishlist/' + id,
@@ -306,19 +198,13 @@
         });
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{ asset('theme-cli/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/jquery.magnific-popup.min.js') }}"></script>
@@ -329,6 +215,7 @@
 <script src="{{ asset('theme-cli/js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/jquery.nicescroll.min.js') }}"></script>
 <script src="{{ asset('theme-cli/js/main.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
 </body>
 
 </html>

@@ -90,7 +90,7 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         if ($blog->image) {
-            unlink(public_path('images') . '/' . $blog->image);
+            unlink(public_path('images').'/'.$blog->image);
         }
         $blog->delete();
         return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted successfully.');
@@ -112,12 +112,5 @@ class BlogController extends Controller
 
         return response()->json(['url' => '']);
     }
-    public function toggleStatus($id)
-    {
-        $blog = Blog::findOrFail($id);
-        $blog->status = $blog->status === 'draft' ? 'public' : 'draft';
-        $blog->save();
-
-        return redirect()->route('admin.blogs.index')->with('success', 'Trạng thái của bài viết đã được thay đổi.');
-    }
 }
+

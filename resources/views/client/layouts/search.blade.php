@@ -193,6 +193,12 @@
     </div>
 </section>
 
+
+
+
+
+
+
 <!-- Services Section Begin -->
 <section class="services spad">
     <div class="container">
@@ -240,12 +246,17 @@
 </div>
 <!-- Instagram End -->
 
+
+
 <!-- Phần còn lại của template -->
 
 @include('client.partials.footer')
 <!-- Bao gồm template phần footer -->
 
 <!-- Include jQuery UI for slider -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script>
     $(function() {
         // Lấy giá trị min_price, max_price, colors và sizes từ các query parameter

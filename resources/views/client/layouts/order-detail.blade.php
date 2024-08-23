@@ -127,4 +127,7 @@
     </div>
 </div>
 
+
+
+
 @include('client.partials.footer')

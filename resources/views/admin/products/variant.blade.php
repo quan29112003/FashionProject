@@ -38,11 +38,11 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Màu</th>
-                            <th>Kích cỡ</th>
-                            <th>Số lượng</th>
-                            <th>Giá thường</th>
-                            <th>Giá khuyến mại</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Quantity</th>
+                            <th>Price Regular</th>
+                            <th>Price Sale</th>
                             <th>SKU</th>
                             <th>Active</th>
                             <th>Created at</th>
@@ -68,10 +68,14 @@
                                     <td>{{ $pr->created_at }}</td>
                                     <td>{{ $pr->updated_at }}</td>
                                     <td>
-
-                                                <a href="{{ route('edit-productVariant',$pr->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Sửa</a>
-
-
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-more-fill align-middle"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a href="{{ route('edit-productVariant',$pr->id) }}" class="dropdown-item edit-item-btn"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

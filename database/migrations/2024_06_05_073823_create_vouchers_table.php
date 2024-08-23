@@ -12,9 +12,9 @@ class CreateVouchersTable extends Migration
             $table->bigIncrements('id');
             $table->string('code')->unique();
             $table->string('discount_type');
-            $table->integer('discount_value');
+            $table->decimal('discount_value', 8, 2);
             $table->date('expiry_date');
-            $table->integer('min_purchase_amount')->nullable();
+            $table->decimal('min_purchase_amount', 8, 2)->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->integer('max_usage')->nullable();
             $table->integer('used_count')->default(0);

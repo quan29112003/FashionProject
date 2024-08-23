@@ -12,16 +12,9 @@ class Catalogue extends Model
         'name',
         'description',
         'category_id',
-        'image'
     ];
 
     public function category(){
         return $this->belongsTo(Category::class);
     }
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
-
 }

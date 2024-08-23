@@ -37,12 +37,13 @@
                             <tr>
 
                                 <th>ID</th>
-                                <th>Họ tên</th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
-                                <th>Tổng giá</th>
-                                <th>Trạng thái hóa đơn</th>
-                                <th>Trạng thái thanh toán</th>
+                                <th>Name Client</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                <th>Voucher ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -100,13 +101,14 @@
                                     <td>
                                         <span class="badge {{ $paymentClass }}">{{ $od->payment->name }}</span>
                                     </td>
+                                    <td>{{ $od->voucher_id }}</td>
                                     <td>
                                         <a href="{{ route('order-item', $od->id) }}" class="dropdown-item"><i
-                                                class="ri-eye-fill align-bottom me-2 text-muted"></i> Xem sản phẩm</a>
+                                                class="ri-eye-fill align-bottom me-2 text-muted"></i> View Products</a>
                                         <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
                                             data-id="{{ $od->id }}" data-status="{{ $od->status->id }}"
                                             data-payment="{{ $od->payment->id }}">
-                                            <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Sửa trạng thái
+                                            <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
                                         </a>
 
                                     </td>
@@ -191,14 +193,8 @@
         const statusOrder = @json($status->pluck('name'));
 
         $(document).ready(function() {
-
-            var table = $('#example').DataTable({
-                order: [
-                    [0, 'desc']
-                ]
-            });
     // Danh sách các trạng thái và payment
-    let statusOrder = ['Chờ xử lý', 'Chưa xác nhận', 'Xác nhận', 'Đang chuẩn bị hàng', 'Đang giao hàng', 'Đã giao hàng','Đã hoàn thành','Đã hủy'];
+    let statusOrder = ['Chờ xác nhận', 'Chờ lấy hàng', 'Đang giao', 'Đã giao', 'Đã hủy', 'Trả hàng'];
     let paymentStatus = ['Chưa thanh toán', 'Đã thanh toán'];
 
     $('.edit-item-btn').on('click', function() {

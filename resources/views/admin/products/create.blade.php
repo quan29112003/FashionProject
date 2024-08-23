@@ -12,7 +12,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Sản phẩm</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Product</h4>
                     </div>
                     <div class="card-body">
                         <div class="live-preview">
@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div>
-                                        <label for="basiInput" class="form-label">Tên sản phẩm</label>
+                                        <label for="basiInput" class="form-label">Name</label>
                                         <input type="text" class="form-control" name="name_product" id="basiInput">
                                         @error('name_product')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -28,10 +28,10 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <label for="basiInput" class="form-label">Loại</label>
+                                    <label for="basiInput" class="form-label">Category</label>
                                     <select class="form-select rounded-pill mb-3" name="category_id"
                                         aria-label="Default select example">
-                                        <option selected>Chọn loại</option>
+                                        <option selected>Select Category</option>
                                         @foreach ($category as $id => $name)
                                             <option value="{{ $id }}">{{ $name }}</option>
                                         @endforeach
@@ -76,7 +76,7 @@
                                     @endforeach
                                 </div>
                                 <div class="col-lg-12">
-                                    <h1>Mô tả</h1>
+                                    <h1>Description</h1>
                                     <textarea name="description" id="editor">
                                         <p>This is some sample content.</p>
                                     </textarea>
@@ -96,7 +96,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Biến thể sản phẩm</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Product Variant</h4>
                     </div>
 
                     @error('productVariant')
@@ -148,14 +148,14 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Thư viện</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Gallery</h4>
                         <button type="button" class="btn btn-primary" onclick="addImageGallery()">Thêm ảnh</button>
                     </div><!-- end card header -->
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4" id="gallery_list">
                                 <div class="col-md-4" id="gallery_default_item">
-                                    <label for="gallery_default" class="form-label">Ảnh sản phẩm</label>
+                                    <label for="gallery_default" class="form-label">Image</label>
                                     <div class="d-flex">
                                         <input type="file" class="form-control" name="product_images[]"
                                             id="gallery_default">
@@ -177,7 +177,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <button class="btn btn-primary" type="submit">Thêm sản phẩm</button>
+                        <button class="btn btn-primary" type="submit">Save</button>
                     </div><!-- end card header -->
                 </div>
             </div>

@@ -8,12 +8,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Sửa biến thể sản phẩm</h4>
+                <h4 class="mb-sm-0">Thêm mới Danh mục Sản phẩm</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Biến thể Sản phẩm</a></li>
-                        <li class="breadcrumb-item active">Sửa</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Danh mục Sản phẩm</a></li>
+                        <li class="breadcrumb-item active">Thêm mới</li>
                     </ol>
                 </div>
 
@@ -35,7 +35,7 @@
                             <div class="row gy-4">
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Màu</label>
+                                            <label for="name" class="form-label">Color</label>
                                             <select class="form-select rounded-pill mb-3" name="color_id" aria-label="Default select example">
                                                 <option value="{{ $pr->color->id }}">{{ $pr->color->color }}</option>
                                                 @foreach ($productColor as $pc )
@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Kích cỡ</label>
+                                            <label for="name" class="form-label">Size</label>
                                             <select class="form-select rounded-pill mb-3" name="size_id" aria-label="Default select example">
                                                 <option value="{{ $pr->size->id }}">{{ $pr->size->size }}</option>
                                                 @foreach ($productSize as $pz )
@@ -57,19 +57,19 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Số lượng</label>
+                                            <label for="name" class="form-label">Quantity</label>
                                             <input type="text" class="form-control" name="quantity" value="{{ $pr->quantity }}" id="name">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Giá thường</label>
+                                            <label for="name" class="form-label">Price Regular</label>
                                             <input type="text" class="form-control" name="price" value="{{ $pr->price }}" id="name">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <label for="name" class="form-label">Giá khuyến mãi</label>
+                                            <label for="name" class="form-label">Price Sale</label>
                                             <input type="text" class="form-control" name="price_sale" value="{{ $pr->price_sale }}" id="name">
                                         </div>
                                     </div>
@@ -94,7 +94,7 @@
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-header align-items-center d-flex">
-                                            <button class="btn btn-primary" type="submit">Sửa</button>
+                                            <button class="btn btn-primary" type="submit">Save</button>
                                         </div><!-- end card header -->
                                     </div>
                                 </div>

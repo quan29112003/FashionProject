@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('catalogue_id');
             $table->string('name_product');
             $table->text('description')->nullable();
             $table->text('thumbnail')->nullable();
@@ -24,7 +23,6 @@ return new class extends Migration
 
             // Thiết lập khóa ngoại
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('catalogue_id')->references('id')->on('catalogues')->onDelete('cascade');
         });
     }
 

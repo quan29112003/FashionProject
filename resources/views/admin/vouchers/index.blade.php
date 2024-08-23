@@ -32,25 +32,24 @@
                     <a href="{{ route('admin.vouchers.create') }}" class="btn btn-primary mb-3">Thêm mới</a>
                 </div>
                 <div class="card-body">
-                    <table id="vouchers-table"
-                        class="table table-bordered table-striped dt-responsive nowrap table-striped align-middle"
+                    <table id="vouchers-table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Mã</th>
-                                <th>Loại giảm giá</th>
-                                <th>Giá trị giảm giá</th>
-                                <th>Ngày hết hạn</th>
-                                <th>Số tiền tối thiểu</th>
-                                <th>Danh mục giảm giá</th>
-                                <th>Sản phẩm cụ thể áp dụng</th>
-                                <th>Số lượng</th>
-                                <th>Đã dùng</th>
-                                <th>Được phát hành</th>
-                                <th>Còn lại</th>
+                                <th>Code</th>
+                                <th>Discount Type</th>
+                                <th>Discount Value</th>
+                                <th>Expiry Date</th>
+                                <th>Min Purchase Amount</th>
+                                <th>Category</th>
+                                <th>Applicable Products</th>
+                                <th>Max Usage</th>
+                                <th>Used Count</th>
+                                <th>Created Count</th>
+                                <th>Remaining Count</th>
                                 <th>Distribution Channels</th>
-                                <th>Hành động</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,16 +57,11 @@
                                 <tr>
                                     <td>{{ $voucher->id }}</td>
                                     <td>{{ $voucher->code }}</td>
-                                    @if ($voucher->discount_type == 'discount')
-                                        <td>Giảm giá tiền</td>
-                                        <td>{{ number_format($voucher->discount_value) }}đ</td>
-                                    @else
-                                        <td>Giảm giá %</td>
-                                        <td>{{ $voucher->discount_value }}%</td>
-                                    @endif
+                                    <td>{{ $voucher->discount_type }}</td>
+                                    <td>{{ $voucher->discount_value }}</td>
                                     <td>{{ $voucher->expiry_date }}</td>
-                                    <td>{{ number_format($voucher->min_purchase_amount) }}đ</td>
-                                    <td>{{ $voucher->category->name ?? '' }}</td>
+                                    <td>{{ $voucher->min_purchase_amount }}</td>
+                                    <td>{{ $voucher->category->name }}</td>
                                     <td>{{ implode(', ', $voucher->products->pluck('name_product')->toArray()) }}</td>
                                     <td>{{ $voucher->max_usage }}</td>
                                     <td>{{ $voucher->used_count }}</td>

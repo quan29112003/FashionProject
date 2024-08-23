@@ -1,248 +1,410 @@
 @include('client.partials.header')
 <!-- Bao gồm header phần -->
+@if (session('success_order'))
+    <!-- Modal HTML -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Đặt hàng thành công</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="container">
+                            <!-- Title -->
+                            <div class="d-flex justify-content-between align-items-center py-3">
+                                <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Đơn hàng
+                                    #{{ session('success_order')->id }}</h2>
+                            </div>
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Details -->
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="mb-3 d-flex justify-content-between">
+                                                <div>
+                                                    <span
+                                                        class="me-3">{{ session('success_order')->created_at->format('d-m-Y') }}</span>
+                                                    <span class="me-3">#{{ session('success_order')->id }}</span>
+                                                    <span
+                                                        class="badge rounded-pill bg-info">{{ session('success_order')->status->name }}</span>
+                                                </div>
+                                            </div>
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    @foreach (session('success_order')->orderItems as $item)
+                                                        <tr>
+                                                            <td>
+                                                                <div class="d-flex mb-2">
+                                                                    <div class="flex-shrink-0">
+                                                                        <img src="/uploads/{{ $item->thumbnail }}"
+                                                                            alt="" width="35"
+                                                                            class="img-fluid">
+                                                                    </div>
+                                                                    <div class="flex-grow-1 ms-3">
+                                                                        <h6 class="small mb-0"><a href="#"
+                                                                                class="text-reset">Sản
+                                                                                phẩm: {{ $item->name_product }}</a>
+                                                                        </h6>
+                                                                        <span class="small">Màu:
+                                                                            {{ $item->color }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <h6>Số lượng: <br> {{ $item->quantity }}</h6>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ number_format($item->price, 0, ',', '.') }}₫</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="2">Tổng</td>
+                                                        <td class="text-end">
+                                                            {{ number_format(session('success_order')->total_amount, 0, ',', '.') }}₫
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- Payment -->
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h3 class="h6">Phương thức thanh toán: </h3>
+                                                    <p>
+                                                        @if (session('success_order')->payment_id == 1)
+                                                            Thanh toán khi nhận hàng (COD)
+                                                        @elseif(session('success_order')->payment_id == 2)
+                                                            Thanh toán qua tài khoản ngân hàng
+                                                        @endif
+                                                        <br>
+                                                        Total:
+                                                        {{ number_format(session('success_order')->total_amount, 0, ',', '.') }}₫
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h3 class="h6">Địa chỉ đặt hàng</h3>
+                                                    <address>
+                                                        <strong>{{ session('success_order')->name }}</strong><br>
+                                                        Địa chỉ: {{ session('success_order')->address }}<br>
+                                                        Số điện thoại: {{ session('success_order')->phone }}
+                                                    </address>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript để kích hoạt modal -->
+    <script>
+        $(document).ready(function() {
+            $('#successModal').modal('show');
+
+            $('.close, .btn-danger').on('click', function() {
+                $('#successModal').modal('hide');
+            });
+
+            $('#successModal').on('hidden.bs.modal', function() {
+                $.ajax({
+                    url: '{{ route('clear.success.order.session') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log("Session cleared");
+                    },
+                    error: function(error) {
+                        console.error("Error clearing session:", error);
+                    }
+                });
+            });
+        });
+    </script>
+@endif
+
+
+
+
+
+
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
 
+
 <!-- Bắt đầu phần danh mục -->
-<section>
-    <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-bs-ride="carousel"
-        data-bs-interval="5000">
-
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                aria-label="Trình chiếu 1" aria-current="true"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Trình chiếu 2"
-                class=""></button>
-        </div>
-
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{{ asset('theme-cli/img/banner/banner3.jpg') }}" class="d-block w-100" alt="...">
+<section class="categories">
+    <div class="container-fluid">
+        <!-- Container full-width -->
+        <div class="row">
+            <!-- Phần danh mục đầu tiên (item lớn) -->
+            <div class="col-lg-6 p-0">
+                <div class="categories__item categories__large__item set-bg"
+                    data-setbg="{{ asset('theme-cli/img/categories/category-1.jpg') }}">
+                    <!-- Item danh mục lớn với hình nền được đặt thông qua thuộc tính data -->
+                    <div class="categories__text">
+                        <!-- Nội dung văn bản của danh mục -->
+                        <h1>Thời trang nữ</h1>
+                        <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
+                            edolore magna aliquapendisse ultrices gravida.</p>
+                        <!-- Mô tả danh mục -->
+                        <a href="#">Mua ngay</a>
+                        <!-- Nút mua ngay -->
+                    </div>
+                </div>
             </div>
-            <div class="carousel-item">
-                <img src="{{ asset('theme-cli/img/banner/banner2.jpg') }}" class="d-block w-100" alt="...">
+            <!-- Phần danh mục nhỏ -->
+            <div class="col-lg-6">
+                <div class="row">
+                    <!-- Lặp lại cho từng item danh mục nhỏ -->
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg"
+                            data-setbg="{{ asset('theme-cli/img/categories/category-2.jpg') }}">
+                            <!-- Item danh mục nhỏ với hình nền -->
+                            <div class="categories__text">
+                                <!-- Nội dung văn bản của danh mục -->
+                                <h4>Thời trang nam</h4>
+                                <p>358 sản phẩm</p>
+                                <a href="#">Mua ngay</a>
+                                <!-- Nút mua ngay -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cấu trúc tương tự lặp lại cho các danh mục khác... -->
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg"
+                            data-setbg="{{ asset('theme-cli/img/categories/category-3.jpg') }}">
+                            <div class="categories__text">
+                                <h4>Thời trang trẻ em</h4>
+                                <p>273 sản phẩm</p>
+                                <a href="#">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Các danh mục khác... -->
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg"
+                            data-setbg="{{ asset('theme-cli/img/categories/category-4.jpg') }}">
+                            <div class="categories__text">
+                                <h4>Mỹ phẩm</h4>
+                                <p>159 sản phẩm</p>
+                                <a href="#">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+                        <div class="categories__item set-bg"
+                            data-setbg="{{ asset('theme-cli/img/categories/category-5.jpg') }}">
+                            <div class="categories__text">
+                                <h4>Phụ kiện</h4>
+                                <p>792 sản phẩm</p>
+                                <a href="#">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Kết thúc các item danh mục nhỏ -->
+                </div>
             </div>
         </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Trước</span>
-        </button>
-
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Kế tiếp</span>
-        </button>
     </div>
 </section>
 <!-- Kết thúc phần danh mục -->
 
-<!-- phần nam nữ -->
-<section>
-    <div class="d-flex justify-content-center mt-5">
-        <div class="w-50">
-            <div class="row">
-                @foreach ($CategoryGenders as $CategoryGender)
-                    <div class="col">
-                        <div class="position-relative">
-                            <img src="{{ asset('theme-cli/img/'. $CategoryGender->image) }}" class="img-fluid rounded" alt="Image">
-                            <div class="position-absolute top-50 start-50 translate-middle text-dark fs-4 fw-bold text-center p-2 bg-light bg-opacity-25 rounded">
-                                {{ $CategoryGender->name }}
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-<!-- kết thúc phần nam nữ -->
-
 <!-- Bắt đầu phần sản phẩm -->
+<section class="product spad">
 
-@foreach ($catalogues as $catalogue)
-    <div class="d-flex justify-content-center mt-5">
-        {{-- @dump($catalogue) --}}
-        <section class="product spad">
-            <img src="{{ asset('theme-cli/img/banner/' . $catalogue->image) }}" class="w-100 container mb-5"
-                alt="...">
-            {{-- <p>{{ $catalogue->id }}</p> --}}
-            <div class="container">
-                <!-- Container cho sản phẩm -->
-                <div class="row">
-                    <!-- Tiêu đề phần -->
+    <div class="container">
+        <!-- Container cho sản phẩm -->
+        <div class="row">
+            <!-- Tiêu đề phần -->
 
-                    {{-- <div class="col-lg-4 col-md-4">
-                    <div class="section-title">
-                        <h4>Sản phẩm mới</h4>
-                        <!-- Tiêu đề của phần sản phẩm -->
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="section-title">
+                    <h4>Sản phẩm mới</h4>
+                    <!-- Tiêu đề của phần sản phẩm -->
                 </div>
+            </div>
 
-                <div class="col-lg-8 col-md-8">
-                    <ul class="filter__controls">
-                        <!-- Category filter controls -->
-                        <li class="active" data-filter="*">Tất cả</li>
-                        @foreach ($categories as $category)
-                            <li data-filter="{{ $category->id }}">{{ $category->name }}</li>
-                        @endforeach
-                    </ul>
-                </div> --}}
+            <div class="col-lg-8 col-md-8">
+                <ul class="filter__controls">
+                    <!-- Category filter controls -->
+                    <li class="active" data-filter="*">Tất cả</li>
+                    @foreach ($categories as $category)
+                        <li data-filter="{{ $category->id }}">{{ $category->name }}</li>
+                    @endforeach
+                </ul>
+            </div>
 
+            @php
+                $productCount = 0;
+            @endphp
+
+            <div class="row property__gallery" id="product-gallery">
+                <!-- Thư viện sản phẩm -->
+                @foreach ($products as $product)
+                    <!-- Lặp qua các sản phẩm -->
                     @php
-                        $productCount = 0;
+                        $colors = $variantProducts[$product->id]->pluck('color')->unique();
+                        $sizes = $variantProducts[$product->id]->pluck('size')->unique();
+                        $selectedColorId = $colors->first() ? $colors->first()->id : null;
                     @endphp
+                    @foreach ($product->variants as $variant)
+                        <!-- Lặp qua các biến thể của mỗi sản phẩm -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 mix product-item @if ($productCount >= 8) d-none @endif"
+                            data-category="{{ $product->category->id }}">
+                            <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
+                            <div class="product__item">
 
-                    <div class="row property__gallery" id="product-gallery">
-                        <!-- Thư viện sản phẩm -->
-                        @foreach ($catalogue->products as $product)
-                            {{-- @dump($product) --}}
-                            <!-- Lặp qua các sản phẩm -->
-                            @php
-                                $colors = $variantProducts[$product->id]->pluck('color')->unique();
-                                $sizes = $variantProducts[$product->id]->pluck('size')->unique();
-                                $selectedColorId = $colors->first() ? $colors->first()->id : null;
-                            @endphp
-                            @foreach ($product->variants as $variant)
-                                <!-- Lặp qua các biến thể của mỗi sản phẩm -->
-                                <div class="col-lg-3 col-md-4 col-sm-6 mix product-item @if ($productCount >= 8) d-none @endif"
-                                    data-category="{{ $product->category->id }}">
-                                    <!-- Item sản phẩm với lớp điều kiện để giới hạn hiển thị -->
-                                    <div class="product__item">
-
-                                        @if ($product->images->isNotEmpty())
-                                            <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
-                                            <div class="product__item__pic set-bg"
-                                                data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
-                                                <!-- Check if the product is new -->
-                                                @if ($newProducts->contains($product))
-                                                    <div class="label new">New</div>
-                                                @endif
-                                                <!-- Check if the product is a good deal -->
-                                                @if ($product->is_good_deal)
-                                                    <div class="label sale">Sale</div>
-                                                @endif
-                                                <!-- Check if the product is a hot trend -->
-                                                @if ($product->is_hot)
-                                                    <div class="label sale">Hot Trend</div>
-                                                @endif
-                                                <a
-                                                    href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
-                                                    <img src="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                        alt="img product">
-
-                                                </a>
-
-                                                <!-- Hình ảnh sản phẩm -->
-                                                <ul class="product__hover pd-hover" id="product-hv-{{ $product->id }}">
-                                                    <!-- Các hành động khi hover -->
-
-                                                    <li>
-                                                        <a href="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                            class="image-popup">
-                                                            <span class="arrow_expand"></span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- Popup hình ảnh -->
-
-                                                    <li>
-                                                        <form id="wishlist-form-{{ $product->id }}"
-                                                            action="{{ route('wishlist.add', $product->id) }}"
-                                                            method="POST" style="display: none;">
-                                                            @csrf
-                                                        </form>
-                                                        <a href="#"
-                                                            onclick="addToWishlist({{ $product->id }});">
-                                                            <span class="icon_heart_alt"></span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- Thêm vào danh sách yêu thích -->
-
-                                                    <li>
-                                                        <a onclick="handleQuickCard(event,{{ $product->id }})"
-                                                            href="#">
-                                                            <span class="icon_bag_alt">
-
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    <!-- Thêm vào giỏ hàng -->
-
-                                                </ul>
-
-                                            </div>
+                                @if ($product->images->isNotEmpty())
+                                    <!-- Kiểm tra xem sản phẩm có hình ảnh hay không -->
+                                    <div class="product__item__pic set-bg"
+                                        data-setbg="{{ asset('uploads/' . $product->thumbnail) }}">
+                                        <!-- Check if the product is new -->
+                                        @if ($newProducts->contains($product))
+                                            <div class="label new">New</div>
                                         @endif
-                                        <div class="product__item__text">
-                                            <!-- Chi tiết sản phẩm -->
-                                            <div class="swatch-attribute-options-{{ $product->id }}">
-                                                @foreach ($colors as $color)
-                                                    <div onclick="getSizeByColor(event,{{ $color->id }},{{ $product->id }})"
-                                                        class="swatch-option color {{ $color->id == $selectedColorId ? 'selected' : '' }}"
-                                                        data-color-id="{{ $color->id }}"
-                                                        id="swichcolor-{{ $color->id }}-{{ $product->id }}"
-                                                        style="background-color: {{ $color->color_code }}"></div>
-                                                @endforeach
-                                            </div>
-                                            <h6><a
-                                                    href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">{{ $product->name_product }}</a>
-                                            </h6>
+                                        <!-- Check if the product is a good deal -->
+                                        @if ($product->is_good_deal)
+                                            <div class="label sale">Sale</div>
+                                        @endif
+                                        <!-- Check if the product is a hot trend -->
+                                        @if ($product->is_hot)
+                                            <div class="label sale">Hot Trend</div>
+                                        @endif
+                                        <a
+                                            href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
+                                            <img src="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                alt="img product">
 
-                                            <!-- Tên sản phẩm -->
-                                            <div class="rating">
-                                                <!-- Đánh giá sản phẩm -->
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    <!-- Lặp để hiển thị sao đánh giá dựa trên rating -->
-                                                    @if ($i < $product->rating)
-                                                        <i class="fa fa-star"></i>
-                                                        <!-- Sao đầy -->
-                                                    @else
-                                                        <i class="fa fa-star-o"></i>
-                                                        <!-- Sao rỗng -->
-                                                    @endif
-                                                @endfor
-                                            </div>
+                                        </a>
 
-                                            @if ($variant)
-                                                <div class="product__price">
-                                                    @if ($product->is_good_deal)
-                                                        <h6 style="color: red; font-weight: bold;">
-                                                            {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
-                                                        <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
-                                                    @else
-                                                        {{ number_format($variant->price, 0, ',', '.') }}đ
-                                                    @endif
-                                                </div>
-                                                <!-- Giá sản phẩm -->
+                                        <!-- Hình ảnh sản phẩm -->
+                                        <ul class="product__hover pd-hover" id="product-hv-{{ $product->id }}">
+                                            <!-- Các hành động khi hover -->
+
+                                            <li>
+                                                <a href="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                    class="image-popup">
+                                                    <span class="arrow_expand"></span>
+                                                </a>
+                                            </li>
+                                            <!-- Popup hình ảnh -->
+
+                                            <li>
+                                                <form id="wishlist-form-{{ $product->id }}"
+                                                    action="{{ route('wishlist.add', $product->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                <a href="#" onclick="addToWishlist({{ $product->id }});">
+                                                    <span class="icon_heart_alt"></span>
+                                                </a>
+                                            </li>
+                                            <!-- Thêm vào danh sách yêu thích -->
+
+                                            <li>
+                                                <a onclick="handleQuickCard(event,{{ $product->id }})"
+                                                    href="#">
+                                                    <span class="icon_bag_alt">
+
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <!-- Thêm vào giỏ hàng -->
+
+                                        </ul>
+
+                                    </div>
+                                @endif
+                                <div class="product__item__text">
+                                    <!-- Chi tiết sản phẩm -->
+                                    <div class="swatch-attribute-options-{{ $product->id }}">
+                                        @foreach ($colors as $color)
+                                            <div onclick="getSizeByColor(event,{{ $color->id }},{{ $product->id }})"
+                                                class="swatch-option color {{ $color->id == $selectedColorId ? 'selected' : '' }}"
+                                                data-color-id="{{ $color->id }}"
+                                                id="swichcolor-{{ $color->id }}-{{ $product->id }}"
+                                                style="background-color: {{ $color->color_code }}"></div>
+                                        @endforeach
+                                    </div>
+                                    <h6><a
+                                            href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">{{ $product->name_product }}</a>
+                                    </h6>
+
+                                    <!-- Tên sản phẩm -->
+                                    <div class="rating">
+                                        <!-- Đánh giá sản phẩm -->
+                                        @for ($i = 0; $i < 5; $i++)
+                                            <!-- Lặp để hiển thị sao đánh giá dựa trên rating -->
+                                            @if ($i < $product->rating)
+                                                <i class="fa fa-star"></i>
+                                                <!-- Sao đầy -->
                                             @else
-                                                <div class="product__price">Giá chưa cập nhật</div>
-                                                <!-- Handle case where variant is null -->
+                                                <i class="fa fa-star-o"></i>
+                                                <!-- Sao rỗng -->
+                                            @endif
+                                        @endfor
+                                    </div>
+
+                                    @if ($variant)
+                                        <div class="product__price">
+                                            @if ($product->is_good_deal)
+                                                <h6 style="color: red; font-weight: bold;">
+                                                    {{ number_format($variant->price, 0, ',', '.') }}đ</h6>
+                                                <span>{{ number_format($variant->price_sale, 0, ',', '.') }}đ</span>
+                                            @else
+                                                {{ number_format($variant->price, 0, ',', '.') }}đ
                                             @endif
                                         </div>
-                                    </div>
+                                        <!-- Giá sản phẩm -->
+                                    @else
+                                        <div class="product__price">Giá chưa cập nhật</div>
+                                        <!-- Handle case where variant is null -->
+                                    @endif
                                 </div>
+                            </div>
+                        </div>
 
-                                <!-- Tăng biến đếm sản phẩm -->
-                                @php
-                                    $productCount++;
-                                @endphp
-                            @endforeach
-                        @endforeach
-                    </div>
-
-                    <!-- Nút Xem Thêm -->
-                    <div class="col-lg-12 text-center">
-                        <button id="load-more-btn"
-                            class="btn btn-primary @if ($productCount <= 8) d-none @endif">
-                            Xem thêm
-                        </button>
-                        <!-- Nút Xem Thêm, ẩn nếu số sản phẩm là 12 hoặc ít hơn -->
-                    </div>
-
-                </div>
+                        <!-- Tăng biến đếm sản phẩm -->
+                        @php
+                            $productCount++;
+                        @endphp
+                    @endforeach
+                @endforeach
             </div>
-        </section>
-    </div>
-@endforeach
+
+
+            <!-- Nút Xem Thêm -->
+            <div class="col-lg-12 text-center">
+                <button id="load-more-btn" class="btn btn-primary @if ($productCount <= 8) d-none @endif">
+                    Xem thêm
+                </button>
+                <!-- Nút Xem Thêm, ẩn nếu số sản phẩm là 12 hoặc ít hơn -->
+            </div>
+
+        </div>
+
+</section>
 <!-- Product Section End -->
 
 <!-- Banner Section Begin -->
@@ -251,38 +413,27 @@
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">
                 <div class="banner__slider owl-carousel">
-                    @foreach ($hotTrendProducts as $product)
-                        @foreach ($product->variants as $variant)
-                            <div class="banner__item">
-                                <div class="banner__text">
-
-                                    <div class="trend__item">
-                                        <div class="trend__item__pic">
-                                            <a
-                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}"><img
-                                                    src="{{ asset('uploads/' . $product->images->first()->url) }}"
-                                                    alt="{{ $product->name_product }}"></a>
-                                        </div>
-                                        <div class="trend__item__text">
-                                            <a
-                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
-                                                <h6>{{ $product->name_product }}</h6>
-                                            </a>
-                                            <div class="rating">
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
-                                                @endfor
-                                            </div>
-                                            <div class="product__price">
-                                                ${{ number_format($variant->price, 0, ',', '.') }}
-                                            </div>
-                                            <!-- Giá sản phẩm -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endforeach
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>The Chloe Collection</span>
+                            <h1>The Project Jacket</h1>
+                            <a href="{{ route('shop') }}">Shop now</a>
+                        </div>
+                    </div>
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>The Chloe Collection</span>
+                            <h1>The Project Jacket</h1>
+                            <a href="{{ route('shop') }}">Shop now</a>
+                        </div>
+                    </div>
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>The Chloe Collection</span>
+                            <h1>The Project Jacket</h1>
+                            <a href="{{ route('shop') }}">Shop now</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -648,7 +799,10 @@
             toast.remove();
         });
     }
+</script>
 
+
+<script>
     $(document).ready(function() {
         $('.filter__controls li').click(function() {
             var filterValue = $(this).attr('data-filter');

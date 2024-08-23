@@ -13,7 +13,6 @@ return new class extends Migration
         $table->string('title');
         $table->text('content');
         $table->string('image')->nullable();
-        $table->string('status')->default('draft'); 
         $table->timestamps();
     });
 }

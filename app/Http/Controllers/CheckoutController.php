@@ -12,7 +12,6 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\Color;
-use App\Models\Voucher;
 
 class CheckoutController extends Controller
 {
@@ -23,9 +22,7 @@ class CheckoutController extends Controller
             return $sum + $item['price'] * $item['quantity'];
         }, 0);
 
-        $vouchers = Voucher::with('category', 'products')->get();
-
-        return view('client.layouts.checkout', compact('total', 'vouchers'));
+        return view('client.layouts.checkout', compact('total'));
     }
 
     public function processCheckout(Request $request)
@@ -39,6 +36,7 @@ class CheckoutController extends Controller
             'email' => 'required|email',
             'payment_method' => 'required',
         ]);
+
         session()->put('checkout_name', $request->name);
         session()->put('checkout_address', $request->address);
         session()->put('checkout_state', $request->state);
@@ -222,6 +220,7 @@ class CheckoutController extends Controller
             DB::commit();
             session()->forget('cart');
             Log::info('Order created successfully: ', ['order_id' => $order->id]);
+
             return $order;
         } catch (\Exception $e) {
             DB::rollback();

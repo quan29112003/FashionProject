@@ -12,6 +12,8 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\Color;
+use Illuminate\Support\Facades\Mail;
+
 
 class CheckoutController extends Controller
 {
@@ -49,8 +51,11 @@ class CheckoutController extends Controller
 
         $order = $this->createOrder($request, 1);
 
-        session()->put('order_id', $order->id);
+        if (!$order instanceof Order) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng.');
+        }
 
+        session()->put('order_id', $order->id);
         session()->put('success_order', $order);
 
         if ($request->payment_method === 'vnpay') {
@@ -59,14 +64,32 @@ class CheckoutController extends Controller
             return $this->createVnpayPayment($request);
         }
 
-        $order->status_id = 2; // Chờ xác nhận
+        Log::info('Before status_id update');
+        $order->status_id = 2;
         $order->save();
+        Log::info('After status_id update');
+
+        $this->sendOrderConfirmationEmail($order);
 
         return redirect('/')->with('success', 'Đặt hàng thành công!');
     }
 
+    private function sendOrderConfirmationEmail(Order $order)
+    {
+        if (is_null($order->user_id)) {
+            Log::info('Preparing to send email to ' . $order->email);
 
+            $order = $order->load('orderItems');
 
+            Mail::send('emails.order_confirmation', ['order' => $order], function ($message) use ($order) {
+                $message->to($order->email)
+                    ->subject('Order Confirmation')
+                    ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+            });
+
+            Log::info('Email sent to ' . $order->email);
+        }
+    }
 
     private function createVnpayPayment(Request $request)
     {
@@ -154,6 +177,8 @@ class CheckoutController extends Controller
 
                 session()->put('success_order', $order);
 
+                $this->sendOrderConfirmationEmail($order);
+
                 return redirect('/')->with('success', 'Thanh toán thành công!');
             } else {
                 Log::error('VNPAY payment failed with response code: ' . $request->vnp_ResponseCode);
@@ -165,14 +190,12 @@ class CheckoutController extends Controller
         }
     }
 
-
-
     private function createOrder($request, $paymentMethod, $totalAmount = null)
     {
         DB::beginTransaction();
         try {
             $order = Order::create([
-                'user_id' => auth()->user()->id,
+                'user_id' => auth()->check() ? auth()->user()->id : null,
                 'status_id' => 1,
                 'payment_id' => 1,
                 'total_amount' => $totalAmount ?? $request->total_amount,

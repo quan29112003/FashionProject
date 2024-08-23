@@ -45,8 +45,10 @@
                 @foreach ($CategoryGenders as $CategoryGender)
                     <div class="col">
                         <div class="position-relative">
-                            <img src="{{ asset('theme-cli/img/'. $CategoryGender->image) }}" class="img-fluid rounded" alt="Image">
-                            <div class="position-absolute top-50 start-50 translate-middle text-dark fs-4 fw-bold text-center p-2 bg-light bg-opacity-25 rounded">
+                            <img src="{{ asset('theme-cli/img/' . $CategoryGender->image) }}" class="img-fluid rounded"
+                                alt="Image">
+                            <div
+                                class="position-absolute top-50 start-50 translate-middle text-dark fs-4 fw-bold text-center p-2 bg-light bg-opacity-25 rounded">
                                 {{ $CategoryGender->name }}
                             </div>
                         </div>
@@ -240,25 +242,28 @@
                         @foreach ($product->variants as $variant)
                             <div class="banner__item">
                                 <div class="banner__text">
-
-                                    <div class="trend__item">
-                                        <div class="trend__item__pic">
+                                    <div class="d-flex justify-content-evenly align-items-center">
+                                        <div class="w-25">
                                             <a
-                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}"><img
-                                                    src="{{ asset('uploads/' . $product->images->first()->url) }}"
-                                                    alt="{{ $product->name_product }}"></a>
+                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
+                                                <img src="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                                    alt="{{ $product->name_product }}">
+                                            </a>
                                         </div>
-                                        <div class="trend__item__text">
+
+                                        <div class="">
                                             <a
                                                 href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
                                                 <h6>{{ $product->name_product }}</h6>
                                             </a>
+
                                             <div class="rating">
                                                 @for ($i = 0; $i < 5; $i++)
                                                     <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
                                                 @endfor
                                             </div>
-                                            <div class="product__price">
+
+                                            <div class="">
                                                 ${{ number_format($variant->price, 0, ',', '.') }}
                                             </div>
                                             <!-- Giá sản phẩm -->
@@ -423,7 +428,7 @@
                             <p>Sec</p>
                         </div>
                     </div>
-                    <a href="{{ route('shop') }}">Shop now</a>
+                    <a href="{{ route('shop.index') }}">Shop now</a>
                 </div>
             </div>
         </div>
@@ -470,7 +475,6 @@
 
 
 <!-- Phần còn lại của template -->
-
 @include('client.partials.footer')
 <!-- Bao gồm template phần footer -->
 

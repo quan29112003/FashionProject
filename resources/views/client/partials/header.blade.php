@@ -11,8 +11,10 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.css">
@@ -104,7 +106,6 @@
         <div class="p-2 header__desktop ">
 
             <div class="row align-items-center">
-
                 {{-- tìm kiếm --}}
                 <div class="col-12 my-3">
                     <div class="col d-flex justify-content-center">
@@ -137,10 +138,11 @@
                     {{-- categorygender --}}
                     <nav class="d-flex align-items-center">
                         <ul class="nav ">
-                            @foreach ($CategoryGenders as $CategoryGender)
+                            @foreach ($CategoryGenders as $categoryGender)
                                 <li class="nav-item">
                                     <a class="nav-link fs-5 text-dark fw-bold custom-hover"
-                                        href="#">{{ $CategoryGender->name }}
+                                        href="{{ route('shop.index', array_merge(request()->query(), ['categorygender' => $categoryGender->slug])) }}">
+                                        {{ $categoryGender->name }}
                                     </a>
                                 </li>
                             @endforeach
@@ -168,7 +170,8 @@
                                                             <p class="fw-bold">{{ $category->name }}</p>
                                                             <ul class="nav flex-column">
                                                                 @foreach ($category->catalogues as $catalogue)
-                                                                    <li class="nav-item py-2">{{ $catalogue->name }}
+                                                                    <li class="nav-item py-2">
+                                                                        <a href="{{ route('shop.index', array_merge(request()->query(), ['catalogue' => $catalogue->slug])) }}" class="fs-6 text-dark">{{ $catalogue->name }}</a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>

@@ -111,7 +111,8 @@ Route::view('/contact', 'client.layouts.contact')->name('contact');
 // chi tiết sản phẩn
 Route::get('/detail/{id}-{name}', [DetailController::class, 'showDetail'])->name('detail');
 Route::get('/getProductPrice', [DetailController::class, 'getProductPrice']);
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+// trang shop
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/category/{id}', [ShopController::class, 'showCategory'])->name('shop.category');
 // ??
 Route::post("get-size", [ProductVariantController::class, "getSize"])->name('getSizeProduct');

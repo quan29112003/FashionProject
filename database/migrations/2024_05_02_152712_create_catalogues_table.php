@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('image')->nullable();
+            $table->string('url')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('category_gender_id')->nullable();

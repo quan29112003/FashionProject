@@ -27,12 +27,13 @@
                     <p class="fs-2 fw-bold text-dark">Tất cả sản phẩm</p>
                 </div>
                 <div class="col-8 d-flex justify-content-end">
-                    <img src="{{ asset('uploads/bannersubmenu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
-                    <img src="{{ asset('uploads/bannersubmenu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
-                    <img src="{{ asset('uploads/bannersubmenu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                    <img src="{{ asset('theme-cli/img/nam.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                    <img src="{{ asset('theme-cli/img/nu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                    <img src="{{ asset('theme-cli/img/unisex.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
                 </div>
             </div>
         </div>
+
         <div class="row">
             <!-- Sidebar Begin -->
             <div class="col-lg-3 col-md-3">
@@ -112,14 +113,12 @@
                         </div>
                     </div>
 
-
                     <!-- Color Filter Section -->
                     <div class="sidebar__color">
                         <div class="section-title">
                             <h4>Shop by color</h4>
                         </div>
                         <div class="size__list color__list">
-
                             @foreach ($colors as $color)
                                 <label for="color-{{ $color->id }}">
                                     {{ $color->color }}

@@ -21,7 +21,7 @@ class HomeController extends Controller
                   ->has('variants')
                   ->orderBy('created_at', 'desc')
                   ->orderBy('is_good_deal', 'desc');
-        }])->whereNotNull('image')->get();
+        }])->get();
 
         $product_options = Product::with(['variants', 'images', 'category'])
             ->where('is_show_home', 1)

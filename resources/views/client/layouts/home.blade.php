@@ -1,6 +1,147 @@
 @include('client.partials.header')
 <!-- Bao gồm header phần -->
+@if (session('success_order'))
+    <!-- Modal HTML -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Đặt hàng thành công</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="container">
+                            <!-- Title -->
+                            <div class="d-flex justify-content-between align-items-center py-3">
+                                <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Đơn hàng
+                                    #{{ session('success_order')->id }}</h2>
+                            </div>
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Details -->
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="mb-3 d-flex justify-content-between">
+                                                <div>
+                                                    <span
+                                                        class="me-3">{{ session('success_order')->created_at->format('d-m-Y') }}</span>
+                                                    <span class="me-3">#{{ session('success_order')->id }}</span>
+                                                    <span
+                                                        class="badge rounded-pill bg-info">{{ session('success_order')->status->name }}</span>
+                                                </div>
+                                            </div>
+                                            <table class="table table-borderless">
+                                                <tbody>
+                                                    @foreach (session('success_order')->orderItems as $item)
+                                                        <tr>
+                                                            <td>
+                                                                <div class="d-flex mb-2">
+                                                                    <div class="flex-shrink-0">
+                                                                        <img src="/uploads/{{ $item->thumbnail }}"
+                                                                            alt="" width="35"
+                                                                            class="img-fluid">
+                                                                    </div>
+                                                                    <div class="flex-grow-1 ms-3">
+                                                                        <h6 class="small mb-0"><a href="#"
+                                                                                class="text-reset">Sản
+                                                                                phẩm: {{ $item->name_product }}</a>
+                                                                        </h6>
+                                                                        <span class="small">Màu:
+                                                                            {{ $item->color }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <h6>Số lượng: <br> {{ $item->quantity }}</h6>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                {{ number_format($item->price, 0, ',', '.') }}₫</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="2">Tổng</td>
+                                                        <td class="text-end">
+                                                            {{ number_format(session('success_order')->total_amount, 0, ',', '.') }}₫
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- Payment -->
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h3 class="h6">Phương thức thanh toán: </h3>
+                                                    <p>
+                                                        @if (session('success_order')->payment_id == 1)
+                                                            Thanh toán khi nhận hàng (COD)
+                                                        @elseif(session('success_order')->payment_id == 2)
+                                                            Thanh toán qua tài khoản ngân hàng
+                                                        @endif
+                                                        <br>
+                                                        Total:
+                                                        {{ number_format(session('success_order')->total_amount, 0, ',', '.') }}₫
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h3 class="h6">Địa chỉ đặt hàng</h3>
+                                                    <address>
+                                                        <strong>{{ session('success_order')->name }}</strong><br>
+                                                        Địa chỉ: {{ session('success_order')->address }}<br>
+                                                        Số điện thoại: {{ session('success_order')->phone }}
+                                                    </address>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- JavaScript để kích hoạt modal -->
+    <script>
+        $(document).ready(function() {
+            $('#successModal').modal('show');
+
+            $('.close, .btn-danger').on('click', function() {
+                $('#successModal').modal('hide');
+            });
+
+            $('#successModal').on('hidden.bs.modal', function() {
+                $.ajax({
+                    url: '{{ route('clear.success.order.session') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log("Session cleared");
+                    },
+                    error: function(error) {
+                        console.error("Error clearing session:", error);
+                    }
+                });
+            });
+        });
+    </script>
+@endif
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
 
 <!-- Bắt đầu phần danh mục -->

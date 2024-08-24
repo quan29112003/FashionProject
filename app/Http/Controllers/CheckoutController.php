@@ -85,7 +85,7 @@ class CheckoutController extends Controller
 
             Mail::send('emails.order_confirmation', ['order' => $order], function ($message) use ($order) {
                 $message->to($order->email)
-                    ->subject('Order Confirmation')
+                    ->subject('Xác nhận đơn hàng')
                     ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             });
 

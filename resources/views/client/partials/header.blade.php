@@ -149,7 +149,7 @@
                     </div>
                     {{-- categorygender --}}
                     <nav class="d-flex align-items-center">
-                        <ul class="nav ">
+                        <ul class="nav">
                             @foreach ($CategoryGenders as $categoryGender)
                                 <li class="nav-item">
                                     <a class="nav-link fs-5 text-dark fw-bold custom-hover"

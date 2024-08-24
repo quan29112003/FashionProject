@@ -32,6 +32,47 @@
                     <h5>Billing detail</h5>
                     <div class="row">
                         <!-- Trường thông tin người mua -->
+                        <!-- Swiper -->
+                        <div class="swiper-row">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    @foreach ($vouchers as $voucher)
+                                        <div class="swiper-slide">
+                                            <div class="d-flex justify-content-center mt-5">
+                                                <div class="voucher-container ">
+                                                    <div class="voucher-header">
+                                                        <p class="fs-3 text-center">Voucher</p>
+                                                        @if ($voucher->discount_type == 'discount')
+                                                            <p class="fs-3 text-center">
+                                                                {{ number_format($voucher->discount_value) }}K
+                                                            </p>
+                                                        @else
+                                                            <p class="fs-3 text-center">
+                                                                {{ $voucher->discount_value }}%
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="voucher-content">
+                                                        <p>Giảm {{ number_format($voucher->discount_value) }}k cho đơn
+                                                            từ
+                                                            {{ number_format($voucher->min_purchase_amount) }}k</p>
+                                                        <p>HSD: {{ $voucher->expiry_date }}</p>
+                                                    </div>
+                                                    <div class="voucher-footer ps-2">
+                                                        <a href="#" class="btn-save"
+                                                            data-min-purchase="{{ $voucher->min_purchase_amount }}"
+                                                            data-discount="{{ $voucher->discount_value }}"
+                                                            data-discount-type="{{ $voucher->discount_type }}">Sử
+                                                            dụng</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Full Name <span>*</span></p>

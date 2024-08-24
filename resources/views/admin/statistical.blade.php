@@ -24,7 +24,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountSingleDate">0</span>đ
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountSingleDate">0</span>
                             </h4>
                             <a href="" class="text-decoration-underline">View net earnings</a>
                         </div>
@@ -117,7 +117,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span id="totalAmountDateRange">0</span>k </h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountDateRange">0</span></h4>
 
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -322,7 +322,7 @@
                     date: date
                 },
                 success: function(response) {
-                    var formatter = new Intl.NumberFormat('en-US', {
+                    var formatter = new Intl.NumberFormat('vi-VN', {
                         style: 'currency',
                         currency: 'VND',
                         minimumFractionDigits: 0,
@@ -346,65 +346,131 @@
                     end_date: end_date
                 },
                 success: function(response) {
-                    $('#totalAmountDateRange').text(response.totalAmount);
+                    var formatter = new Intl.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    });
+                    $('#totalAmountDateRange').text(formatter.format(response.totalAmount));
                 }
             });
         }
     </script>
     <script>
+        // $(document).ready(function() {
+        //     var table = $('#example1').DataTable({
+        //         order: [
+        //             [0, 'desc']
+        //         ],
+        //         searching: false,
+        //         pageLength: 5,
+        //         lengthChange: false
+        //     });
+
+        //     $('#status_id, #payment_id').on('change', function() {
+        //         fetchOrders();
+        //     });
+
+        //     function fetchOrders() {
+        //         var status_id = $('#status_id').val();
+        //         var payment_id = $('#payment_id').val();
+
+        //         $.ajax({
+        //             url: '{{ route('orders.filter') }}',
+        //             method: 'GET',
+        //             data: {
+        //                 status_id: status_id,
+        //                 payment_id: payment_id
+        //             },
+        //             success: function(response) {
+        //                 var tbody = $('#example1 tbody');
+        //                 tbody.empty();
+
+        //                 response.forEach(function(order) {
+        //                     tbody.append(
+        //                         '<tr>' +
+        //                         '<td>' + order.total_amount + '</td>' +
+        //                         '<td>' + order.name + '</td>' +
+        //                         '<td>' + order.address + '</td>' +
+        //                         '<td>' + order.phone + '</td>' +
+        //                         '<td>' + order.email + '</td>' +
+        //                         '</tr>'
+        //                     );
+        //                 });
+
+        //                 // Tái khởi tạo DataTables sau khi cập nhật dữ liệu
+        //                 table.clear().rows.add(tbody.find('tr')).draw();
+        //             },
+        //             error: function() {
+        //                 alert('Failed to load orders.');
+        //             }
+        //         });
+        //     }
+
+        //     // Fetch orders initially on page load
+        //     fetchOrders();
+        // });
         $(document).ready(function() {
-            var table = $('#example1').DataTable({
-                order: [
-                    [0, 'desc']
-                ],
-                searching: false,
-                pageLength: 5,
-                lengthChange: false
-            });
+    var table = $('#example1').DataTable({
+        order: [
+            [0, 'desc']
+        ],
+        searching: false,
+        pageLength: 5,
+        lengthChange: false
+    });
 
-            $('#status_id, #payment_id').on('change', function() {
-                fetchOrders();
-            });
+    $('#status_id, #payment_id').on('change', function() {
+        fetchOrders();
+    });
 
-            function fetchOrders() {
-                var status_id = $('#status_id').val();
-                var payment_id = $('#payment_id').val();
+    function fetchOrders() {
+        var status_id = $('#status_id').val();
+        var payment_id = $('#payment_id').val();
 
-                $.ajax({
-                    url: '{{ route('orders.filter') }}',
-                    method: 'GET',
-                    data: {
-                        status_id: status_id,
-                        payment_id: payment_id
-                    },
-                    success: function(response) {
-                        var tbody = $('#example1 tbody');
-                        tbody.empty();
+        $.ajax({
+            url: '{{ route('orders.filter') }}',
+            method: 'GET',
+            data: {
+                status_id: status_id,
+                payment_id: payment_id
+            },
+            success: function(response) {
+                var tbody = $('#example1 tbody');
+                tbody.empty();
 
-                        response.forEach(function(order) {
-                            tbody.append(
-                                '<tr>' +
-                                '<td>' + order.total_amount + '</td>' +
-                                '<td>' + order.name + '</td>' +
-                                '<td>' + order.address + '</td>' +
-                                '<td>' + order.phone + '</td>' +
-                                '<td>' + order.email + '</td>' +
-                                '</tr>'
-                            );
-                        });
+                response.forEach(function(order) {
+                    // Format total_amount using toLocaleString
+                    var formattedAmount = parseFloat(order.total_amount).toLocaleString('vi-VN', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    });
 
-                        // Tái khởi tạo DataTables sau khi cập nhật dữ liệu
-                        table.clear().rows.add(tbody.find('tr')).draw();
-                    },
-                    error: function() {
-                        alert('Failed to load orders.');
-                    }
+                    tbody.append(
+                        '<tr>' +
+                        '<td>' + formattedAmount + 'đ' + '</td>' +
+                        '<td>' + order.name + '</td>' +
+                        '<td>' + order.address + '</td>' +
+                        '<td>' + order.phone + '</td>' +
+                        '<td>' + order.email + '</td>' +
+                        '</tr>'
+                    );
                 });
-            }
 
-            // Fetch orders initially on page load
-            fetchOrders();
+                // Reinitialize DataTables after updating data
+                table.clear().rows.add(tbody.find('tr')).draw();
+            },
+            error: function() {
+                alert('Failed to load orders.');
+            }
         });
+    }
+
+    // Fetch orders initially on page load
+    fetchOrders();
+});
+
     </script>
 
     <script>

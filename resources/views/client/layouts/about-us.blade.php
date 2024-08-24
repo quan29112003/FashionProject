@@ -43,7 +43,7 @@
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
-        <h1 style="color: white">About Us</h1>
+        <h1 style="color: white">Về chúng tôi</h1>
         <p style="color: white">Who we are</p>
     </div>
 </section>
@@ -53,14 +53,14 @@
     <div class="container text-center">
         <div class="row">
             <div class="col-md-6">
-                <h2>Our Vision</h2>
+                <h2>Tầm nhìn</h2>
                 <p>Mang đến niềm vui cho hàng triệu gia đình Việt.
 
 
                 </p>
             </div>
             <div class="col-md-6">
-                <h2>Our Mission</h2>
+                <h2>Sứ Mệnh</h2>
                 <p>FreshFusion hướng đến mục tiêu mang lại niềm vui mặc mới mỗi ngày cho hàng triệu người tiêu dùng
                     Việt. Chúng tôi tin rằng người dân Việt Nam cũng đang hướng đến một cuộc sống năng động, tích
                     cực hơn.</p>
@@ -72,34 +72,16 @@
 <!-- Who We Are Section -->
 <section class="who-we-are py-5">
     <div class="container text-center">
-        <h2>Who We Are</h2>
+        <h2>Chúng tôi là ?</h2>
         <p class="text-primary">Cảm ơn bạn đã là một phần trong câu chuyện của chúng tôi.</p>
         <p>Tại FreshFusion, chúng tôi tin rằng thời trang không chỉ là quần áo; đó là một cách để thể hiện cá
             tính của bạn và nắm lấy sự độc đáo của bạn. Hành trình của chúng tôi bắt đầu với một ý tưởng đơn giản:
             tạo ra những bộ trang phục chất lượng cao, sành điệu khiến bạn cảm thấy tự tin và thoải mái, bất kể cuộc
             sống đưa bạn đến đâu.</p>
-        <button class="btn btn-primary">View Our News</button>
+        <button style="border: 1px solid black" class="btn">View Our News</button>
     </div>
 </section>
 
-{{-- <!-- Brand Section -->
-    <section class="brands py-5">
-        <div class="container text-center">
-            <h3>The world’s premium design brands in one destination</h3>
-            <div class="row">
-                <div class="col">
-                    <img src="https://portotheme.com/html/molla/assets/images/brands/7.png" alt="Brand 1">
-                </div>
-                <div class="col">
-                    <img src="brand-logo-2.png" alt="Brand 2">
-                </div>
-                <div class="col">
-                    <img src="brand-logo-3.png" alt="Brand 3">
-                </div>
-                <!-- Add more brand logos as needed -->
-            </div>
-        </div>
-    </section> --}}
 
 <div class="container">
     <div class="row">

@@ -56,16 +56,16 @@
                                                 {{ $category->name }}
                                             </a>
                                         </div>
-                                        {{-- Uncomment to enable subcategories
+                                        
                                         <div id="category-{{ $category->id }}" class="collapse" data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
-                                                    @foreach ($category->subcategories as $subcategory)
+                                                    @foreach ($category->catalogues as $subcategory)
                                                         <li><a href="{{ route('shop.category', $subcategory->id) }}">{{ $subcategory->name }}</a></li>
                                                     @endforeach
                                                 </ul>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                 @endforeach
 

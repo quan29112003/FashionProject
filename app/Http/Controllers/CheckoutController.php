@@ -27,7 +27,7 @@ class CheckoutController extends Controller
         }, 0);
 
         $vouchers = Voucher::with('category', 'products')->get();
-        return view('client.layouts.checkout', compact('total'));
+        return view('client.layouts.checkout', compact('total','vouchers'));
     }
 
     public function processCheckout(Request $request)

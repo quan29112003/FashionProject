@@ -12,6 +12,8 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Size;
 use App\Models\Color;
+use App\Models\Voucher;
+
 use Illuminate\Support\Facades\Mail;
 
 
@@ -24,6 +26,7 @@ class CheckoutController extends Controller
             return $sum + $item['price'] * $item['quantity'];
         }, 0);
 
+        $vouchers = Voucher::with('category', 'products')->get();
         return view('client.layouts.checkout', compact('total'));
     }
 

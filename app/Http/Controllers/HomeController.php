@@ -4,6 +4,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalogue;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
@@ -14,7 +15,15 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['variants', 'images', 'category'])
+        $catalogues = Catalogue::with(['products.variants', 'products.images', 'products.category', 'products' => function($query) {
+            $query->where('is_show_home', 1)
+                  ->where('is_active', 1)
+                  ->has('variants')
+                  ->orderBy('created_at', 'desc')
+                  ->orderBy('is_good_deal', 'desc');
+        }])->whereNotNull('image')->get();
+
+        $product_options = Product::with(['variants', 'images', 'category'])
             ->where('is_show_home', 1)
             ->where('is_active', 1)
             ->has('variants')
@@ -22,16 +31,16 @@ class HomeController extends Controller
             ->orderBy('is_good_deal', 'desc')
             ->get();
 
-        $newProducts = $products->filter(function ($product) {
+        $newProducts = $product_options->filter(function ($product) {
             return $product->created_at->greaterThan(now()->subDays(5));
         });
 
         $variantProducts = collect();
-        foreach ($products as $product) {
+        foreach ($product_options as $product) {
             $variantProducts[$product->id] = $product->variants;
         }
 
-        $products->each(function ($product) {
+        $product_options->each(function ($product) {
             $product->variant = $product->variants()->orderBy('price')->first();
             $product->setRelation('variants', collect([$product->variant]));
         });
@@ -71,6 +80,6 @@ class HomeController extends Controller
 
         $categories = Category::all();
 
-        return view('client.layouts.home', compact('products', 'newProducts', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts', 'variantProducts', 'categories'));
+        return view('client.layouts.home', compact('product_options', 'newProducts', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts', 'variantProducts', 'categories', 'catalogues'));
     }
 }

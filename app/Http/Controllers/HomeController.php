@@ -4,7 +4,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Catalogue;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
@@ -13,38 +12,25 @@ use App\Models\ProductVariant;
 
 class HomeController extends Controller
 {
+
     public function index()
     {
-        $catalogues = Catalogue::with(['products.variants', 'products.images', 'products.category', 'products' => function($query) {
-            $query->where('is_show_home', 1)
-                  ->where('is_active', 1)
-                  ->has('variants')
-                  ->orderBy('created_at', 'desc')
-                  ->orderBy('is_good_deal', 'desc');
-        }])->whereNotNull('image')->get();
 
-        $product_options = Product::with(['variants', 'images', 'category'])
-            ->where('is_show_home', 1)
-            ->where('is_active', 1)
+        $products = Product::with(['variants', 'images', 'category'])
+            ->where('is_show_home', 1) // Chỉ lấy sản phẩm có is_show_home = 1
+            ->where('is_active', 1) // Chỉ lấy sản phẩm có is_active = 1
             ->has('variants')
-            ->orderBy('created_at', 'desc')
-            ->orderBy('is_good_deal', 'desc')
             ->get();
 
-        $newProducts = $product_options->filter(function ($product) {
-            return $product->created_at->greaterThan(now()->subDays(5));
-        });
-
-        $variantProducts = collect();
-        foreach ($product_options as $product) {
-            $variantProducts[$product->id] = $product->variants;
-        }
-
-        $product_options->each(function ($product) {
+        // Attach the first variant to each product
+        $products->each(function ($product) {
+            // Order variants by price and attach the first one (you can adjust the criteria)
             $product->variant = $product->variants()->orderBy('price')->first();
+            // Clear the variants collection to only include the selected one
             $product->setRelation('variants', collect([$product->variant]));
         });
 
+        // Fetch Hot Trend products
         $hotTrendProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_hot', 1)
             ->has('variants')
@@ -56,6 +42,7 @@ class HomeController extends Controller
             $product->setRelation('variants', collect([$product->variant]));
         });
 
+        // Fetch Best Seller products
         $bestSellerProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_good_deal', 1)
             ->has('variants')
@@ -67,6 +54,7 @@ class HomeController extends Controller
             $product->setRelation('variants', collect([$product->variant]));
         });
 
+        // Fetch Feature products
         $featureProducts = Product::with(['variants', 'images', 'category'])
             ->where('is_good_deal', 1)
             ->has('variants')
@@ -78,8 +66,8 @@ class HomeController extends Controller
             $product->setRelation('variants', collect([$product->variant]));
         });
 
-        $categories = Category::all();
 
-        return view('client.layouts.home', compact('product_options', 'newProducts', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts', 'variantProducts', 'categories', 'catalogues'));
+
+        return view('client.layouts.home', compact('products', 'hotTrendProducts', 'bestSellerProducts', 'featureProducts'));
     }
 }

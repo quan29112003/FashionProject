@@ -17,4 +17,9 @@ class Catalogue extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+    public function categoryGender()
+    {
+        return $this->belongsTo(CategoryGender::class);
+    }
+
 }

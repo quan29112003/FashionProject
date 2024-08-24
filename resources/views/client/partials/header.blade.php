@@ -12,9 +12,11 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+       
         rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+       
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -118,7 +120,6 @@
         <div class="p-2 header__desktop ">
 
             <div class="row align-items-center">
-
                 {{-- tìm kiếm --}}
                 <div class="col-12 my-3">
                     <div class="col d-flex justify-content-center">
@@ -151,10 +152,12 @@
                     {{-- categorygender --}}
                     <nav class="d-flex align-items-center">
                         <ul class="nav ">
-                            @foreach ($CategoryGenders as $CategoryGender)
+                            @foreach ($CategoryGenders as $categoryGender)
                                 <li class="nav-item">
                                     <a class="nav-link fs-5 text-dark fw-bold custom-hover"
-                                        href="#">{{ $CategoryGender->name }}</a>
+                                        href="{{ route('shop.index', array_merge(request()->query(), ['categorygender' => $categoryGender->slug])) }}">
+                                        {{ $categoryGender->name }}
+                                    </a>
                                 </li>
                             @endforeach
                         </ul>
@@ -170,6 +173,33 @@
                                         class="{{ Request::is($menu->url) ? 'active' : '' }} nav-link fs-6 text-dark custom-hover">
                                         {{ $menu->menu_item }}
                                     </a>
+                                    <div class="submenu container-fluid">
+                                        @if (strcasecmp($menu->menu_item, 'Sản Phẩm') === 0)
+                                            <div class="d-flex justify-content-center container py-3">
+                                                <ul class="nav">
+                                                    @foreach ($categories as $category)
+                                                        <li class="nav-item px-5 border-start">
+                                                            <p class="fw-bold">{{ $category->name }}</p>
+                                                            <ul class="nav flex-column">
+                                                                @foreach ($category->catalogues as $catalogue)
+                                                                    <li class="nav-item py-2">
+                                                                        <a href="{{ route('shop.index', array_merge(request()->query(), ['catalogue' => $catalogue->slug])) }}" class="fs-6 text-dark">{{ $catalogue->name }}</a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                <div class="d-flex justify-content-center px-4 border-start">
+                                                    <div class=" mx-2">
+                                                        <img src="{{ asset('uploads/bannersubmenu.jpg') }}"
+                                                            class="rounded mx-auto d-block" alt="..."
+                                                            style="width: 10rem;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </li>
                             @endforeach
                         </ul>

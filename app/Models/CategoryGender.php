@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryGender extends Model
 {
     use HasFactory;
+
+    public function catalogues()
+    {
+        return $this->hasMany(Catalogue::class);
+    }
 }

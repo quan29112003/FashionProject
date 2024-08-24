@@ -88,9 +88,9 @@
                                     <div>
                                         <label for="role" class="form-label">Role</label>
                                         <select class="form-select" name="role" id="role">
-                                            <option value="0">Khách hàng</option>
-                                            <option value="1">Nhân viên</option>
-                                            <option value="2">Admin</option>
+                                            <option value="Khách hàng">Khách hàng</option>
+                                            <option value="Nhân viên">Nhân viên</option>
+                                            <option value="Admin">Admin</option>
                                         </select>
                                         @error('role')
                                             <div class="alert alert-danger">{{ $message }}</div>

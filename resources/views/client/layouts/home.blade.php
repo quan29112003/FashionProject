@@ -173,52 +173,37 @@
                     </div>
                 </div>
             </div>
-            <!-- Phần danh mục nhỏ -->
-            <div class="col-lg-6">
-                <div class="row">
-                    <!-- Lặp lại cho từng item danh mục nhỏ -->
-                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-2.jpg') }}">
-                            <!-- Item danh mục nhỏ với hình nền -->
-                            <div class="categories__text">
-                                <!-- Nội dung văn bản của danh mục -->
-                                <h4>Thời trang nam</h4>
-                                <p>358 sản phẩm</p>
-                                <a href="#">Mua ngay</a>
-                                <!-- Nút mua ngay -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Cấu trúc tương tự lặp lại cho các danh mục khác... -->
-                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-3.jpg') }}">
-                            <div class="categories__text">
-                                <h4>Thời trang trẻ em</h4>
-                                <p>273 sản phẩm</p>
-                                <a href="#">Mua ngay</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Các danh mục khác... -->
-                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-4.jpg') }}">
-                            <div class="categories__text">
-                                <h4>Mỹ phẩm</h4>
-                                <p>159 sản phẩm</p>
-                                <a href="#">Mua ngay</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg"
-                            data-setbg="{{ asset('theme-cli/img/categories/category-5.jpg') }}">
-                            <div class="categories__text">
-                                <h4>Phụ kiện</h4>
-                                <p>792 sản phẩm</p>
-                                <a href="#">Mua ngay</a>
+            <div class="carousel-item">
+                <img src="{{ asset('theme-cli/img/banner/banner2.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Trước</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Kế tiếp</span>
+        </button>
+    </div>
+</section>
+<!-- Kết thúc phần danh mục -->
+
+<!-- phần nam nữ -->
+<section>
+    <div class="d-flex justify-content-center mt-5">
+        <div class="w-50">
+            <div class="row">
+                @foreach ($CategoryGenders as $CategoryGender)
+                    <div class="col">
+                        <div class="position-relative">
+                            <img src="{{ asset('theme-cli/img/' . $CategoryGender->image) }}" class="img-fluid rounded"
+                                alt="Image">
+                            <div
+                                class="position-absolute top-50 start-50 translate-middle text-dark fs-4 fw-bold text-center p-2 bg-light bg-opacity-25 rounded">
+                                {{ $CategoryGender->name }}
                             </div>
                         </div>
                     </div>
@@ -413,27 +398,41 @@
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">
                 <div class="banner__slider owl-carousel">
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="{{ route('shop') }}">Shop now</a>
-                        </div>
-                    </div>
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="{{ route('shop') }}">Shop now</a>
-                        </div>
-                    </div>
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="{{ route('shop') }}">Shop now</a>
-                        </div>
-                    </div>
+                    @foreach ($hotTrendProducts as $product)
+                        @foreach ($product->variants as $variant)
+                            <div class="banner__item">
+                                <div class="banner__text">
+                                    <div class="d-flex justify-content-evenly align-items-center">
+                                        <div class="w-25">
+                                            <a
+                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
+                                                <img src="{{ asset('uploads/' . $product->images->first()->url) }}"
+                                                    alt="{{ $product->name_product }}">
+                                            </a>
+                                        </div>
+
+                                        <div class="">
+                                            <a
+                                                href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">
+                                                <h6>{{ $product->name_product }}</h6>
+                                            </a>
+
+                                            <div class="rating">
+                                                @for ($i = 0; $i < 5; $i++)
+                                                    <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
+                                                @endfor
+                                            </div>
+
+                                            <div class="">
+                                                ${{ number_format($variant->price, 0, ',', '.') }}
+                                            </div>
+                                            <!-- Giá sản phẩm -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -589,7 +588,7 @@
                             <p>Sec</p>
                         </div>
                     </div>
-                    <a href="{{ route('shop') }}">Shop now</a>
+                    <a href="{{ route('shop.index') }}">Shop now</a>
                 </div>
             </div>
         </div>
@@ -636,7 +635,6 @@
 
 
 <!-- Phần còn lại của template -->
-
 @include('client.partials.footer')
 <!-- Bao gồm template phần footer -->
 

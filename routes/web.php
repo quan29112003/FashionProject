@@ -103,6 +103,9 @@ Route::view('/about-us', 'client.layouts.about-us')->name('about-us');
 
 Route::get('/getVariantId', [DetailController::class, 'getVariantId']);
 
+Route::get('/getVariantQuantity', [DetailController::class, 'getVariantQuantity']);
+
+
 // trang blog
 Route::view('/blog', 'client.layouts.blog')->name('blog');
 Route::view('/blog-detail', 'client.layouts.blog-detail')->name('blog-detail');

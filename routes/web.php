@@ -74,6 +74,8 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::view('/', 'client.layouts.cart')->name('cart');
     Route::get('/', [CartController::class, 'index'])->name('index');
 });
+Route::post('/get-variant-id', [DetailController::class, 'getVariantId'])->name('get-variant-id');
+
 Route::post('/clear-success-order-session', function () {
     Session::forget('success_order');
     return response()->json(['status' => 'Session cleared']);

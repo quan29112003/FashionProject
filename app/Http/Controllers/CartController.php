@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -31,6 +32,11 @@ class CartController extends Controller
 
         if (!$product || !$variant) {
             return response()->json(['success' => false, 'message' => 'Invalid product or variant']);
+        }
+
+        // Kiểm tra số lượng sản phẩm
+        if ($variant->quantity < $quantity) {
+            return response()->json(['success' => false, 'message' => 'Sản phẩm không đủ số lượng trong kho']);
         }
 
         // Lấy giỏ hàng từ session, nếu không tồn tại thì khởi tạo mảng rỗng
@@ -67,15 +73,19 @@ class CartController extends Controller
         return response()->json(['success' => true, 'message' => 'Product added to cart']);
     }
 
-
     public function updateQuantity(Request $request)
     {
-        Log::info('Received AJAX request', $request->all());  // Log the received request data
+        Log::info('Received AJAX request', $request->all()); // Log the received request data
 
         $productId = $request->input('product_id');
         $variantId = $request->input('variant_id');
         $quantity = $request->input('quantity');
         $cart = session()->get('cart', []);
+
+        $variant = ProductVariant::find($variantId);
+        if (!$variant || $variant->quantity < $quantity) {
+            return response()->json(['success' => false, 'message' => 'Sản phẩm không đủ số lượng trong kho']);
+        }
 
         $itemTotal = 0;
         $cartTotal = 0;
@@ -84,14 +94,14 @@ class CartController extends Controller
             if ($item['product_id'] == $productId && $item['variant_id'] == $variantId) {
                 $cart[$key]['quantity'] = $quantity;
                 $itemTotal = $cart[$key]['price'] * $cart[$key]['quantity'];
-                Log::info('Updated item', $cart[$key]);  // Log the updated item
+                Log::info('Updated item', $cart[$key]); // Log the updated item
             }
             $cartTotal += $cart[$key]['price'] * $cart[$key]['quantity'];
         }
 
         session()->put('cart', $cart);
 
-        Log::info('Updated cart', $cart);  // Log the updated cart
+        Log::info('Updated cart', $cart); // Log the updated cart
 
         return response()->json([
             'success' => true,
@@ -100,20 +110,11 @@ class CartController extends Controller
         ]);
     }
 
-
-
-
-
-
-
-
     public function removeFromCart(Request $request)
     {
-        // dd('Received request:', $request->all());
         $productId = $request->input('product_id');
         $variantId = $request->input('variant_id');
         $cart = session()->get('cart', []);
-
 
         foreach ($cart as $key => $item) {
             if ($item['product_id'] == $productId && $item['variant_id'] == $variantId) {
@@ -133,12 +134,6 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Product removed from cart');
     }
-
-
-
-
-
-
 
     public function clearCart()
     {

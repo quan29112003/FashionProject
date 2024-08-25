@@ -220,7 +220,6 @@ class CheckoutController extends Controller
                 }
 
                 try {
-                    // Sử dụng lockForUpdate để khóa hàng
                     $productVariant = ProductVariant::where('id', $item['variant_id'])
                         ->lockForUpdate()
                         ->first();

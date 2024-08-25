@@ -143,7 +143,6 @@
     $(document).ready(function() {
         console.log('Document is ready');
 
-        // Function to handle the quantity update
         function updateQuantity(element) {
             var productId = element.data('product-id');
             var variantId = element.data('variant-id');
@@ -186,7 +185,6 @@
             });
         }
 
-        // Handle click on plus and minus buttons
         $('.quantity').on('click', '.btn-number', function() {
             var type = $(this).attr('data-type');
             var input = $(this).closest('.quantity').find('.update-cart');
@@ -204,7 +202,6 @@
             }
         });
 
-        // Handle change event on quantity input
         $('.update-cart').change(function() {
             updateQuantity($(this));
         });

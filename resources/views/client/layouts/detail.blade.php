@@ -115,6 +115,7 @@
                         </div>
                         <button type="submit" id="add-to-cart-btn" class="site-btn" disabled>Add to cart</button>
                     </form>
+
                     <br>
 
                     <div class="product__details__widget">
@@ -314,7 +315,7 @@
                 if (hiddenProducts[i]) {
                     hiddenProducts[i].classList.remove('d-none');
                 } else {
-                    loadMoreBtn.style.display = 'none'; // Hide button when no more products to show
+                    loadMoreBtn.style.display = 'none';
                     break;
                 }
             }
@@ -356,16 +357,14 @@
             const selectedSize = document.querySelector('input[name="size__radio"]:checked');
 
             if (!selectedColor || !selectedSize) {
-                return; // If color and size are not selected, do nothing
+                return;
             }
 
             const colorId = selectedColor.value;
             const sizeId = selectedSize.value;
 
-            // Display loading indicator
             productPrice.innerHTML = 'Loading...';
 
-            // Fetch the product variant price
             fetch(`/getProductPrice?product_id=${productId}&color=${colorId}&size=${sizeId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -393,7 +392,6 @@
             radio.addEventListener('change', updatePrice);
         });
 
-        // Update price on initial load
         updatePrice();
     });
 </script>
@@ -413,14 +411,12 @@
             '<div class="toast-body">' + message + '</div>' +
             '</div>');
 
-        // Append toast to container and show it
         toastContainer.append(toast);
         var bootstrapToast = new bootstrap.Toast(toast[0], {
             delay: autoHideDelay
         });
         bootstrapToast.show();
 
-        // Remove toast after it's hidden
         toast.on('hidden.bs.toast', function() {
             toast.remove();
         });
@@ -448,6 +444,41 @@
     }
 </script>
 <script>
+    $(document).ready(function() {
+        function updateVariantInfo() {
+            var selectedColorId = $('input[name="color__radio"]:checked').val();
+            var selectedSizeId = $('input[name="size__radio"]:checked').val();
+            var productId = $('.product__details__text').data('product-id');
+
+            if (selectedColorId && selectedSizeId) {
+                $.ajax({
+                    url: '{{ route('get-variant-id') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: productId,
+                        color_id: selectedColorId,
+                        size_id: selectedSizeId
+                    },
+                    success: function(response) {
+                        if (response.variant_id) {
+                            $('#variant_id').val(response.variant_id);
+                            $('#add-to-cart-btn').prop('disabled', false);
+                        } else {
+                            $('#add-to-cart-btn').prop('disabled', true);
+                        }
+                    }
+                });
+            }
+        }
+
+        $('input[name="color__radio"], input[name="size__radio"]').on('change', function() {
+            updateVariantInfo();
+        });
+
+        updateVariantInfo();
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const colorRadios = document.querySelectorAll('input[name="color__radio"]');
         const sizeRadios = document.querySelectorAll('input[name="size__radio"]');
@@ -462,18 +493,16 @@
             const selectedSize = document.querySelector('input[name="size__radio"]:checked');
 
             if (!selectedColor || !selectedSize) {
-                addToCartBtn.disabled = true; // Nếu chưa chọn màu hoặc kích thước, vô hiệu hóa nút
+                addToCartBtn.disabled = true;
                 return;
             }
 
             const colorId = selectedColor.value;
             const sizeId = selectedSize.value;
 
-            // Cập nhật input ẩn với màu và kích thước đã chọn
             colorIdInput.value = colorId;
             sizeIdInput.value = sizeId;
 
-            // Gọi API để lấy variant tương ứng với màu và kích thước
             fetch(`/getVariantId?product_id=${productId}&color_id=${colorId}&size_id=${sizeId}`)
                 .then(response => response.json())
                 .then(data => {

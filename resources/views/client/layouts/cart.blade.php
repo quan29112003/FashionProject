@@ -195,7 +195,9 @@
                         input.val(currentVal - 1).trigger('change');
                     }
                 } else if (type == 'plus') {
+                    if (currentVal < 10) {
                     input.val(currentVal + 1).trigger('change');
+                    }
                 }
             } else {
                 input.val(1);
@@ -206,7 +208,9 @@
             updateQuantity($(this));
         });
     });
+
 </script>
+
 
 <!-- Instagram Begin -->
 <div class="instagram">

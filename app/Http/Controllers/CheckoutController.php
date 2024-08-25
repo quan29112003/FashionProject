@@ -8,14 +8,9 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Models\Product;
 use App\Models\ProductVariant;
-use App\Models\Size;
-use App\Models\Color;
 use App\Models\Voucher;
-
 use Illuminate\Support\Facades\Mail;
-
 
 class CheckoutController extends Controller
 {
@@ -27,7 +22,7 @@ class CheckoutController extends Controller
         }, 0);
 
         $vouchers = Voucher::with('category', 'products')->get();
-        return view('client.layouts.checkout', compact('total','vouchers'));
+        return view('client.layouts.checkout', compact('total', 'vouchers'));
     }
 
     public function processCheckout(Request $request)
@@ -225,21 +220,36 @@ class CheckoutController extends Controller
                 }
 
                 try {
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'product_id' => $item['product_id'],
-                        'name_product' => $item['name'],
-                        'thumbnail' => $item['image'] ?? '',
-                        'quantity' => $item['quantity'],
-                        'size' => $item['size'] ?? '',
-                        'color' => $item['color'] ?? '',
-                        'color_code' => $item['color_code'] ?? '',
-                        'price' => $item['price'],
-                    ]);
+                    // Sử dụng lockForUpdate để khóa hàng
+                    $productVariant = ProductVariant::where('id', $item['variant_id'])
+                        ->lockForUpdate()
+                        ->first();
+
+                    if ($productVariant) {
+                        if ($productVariant->quantity < $item['quantity']) {
+                            throw new \Exception('Số lượng sản phẩm không đủ.');
+                        }
+                        $productVariant->quantity -= $item['quantity'];
+                        $productVariant->save();
+
+                        OrderItem::create([
+                            'order_id' => $order->id,
+                            'product_id' => $item['product_id'],
+                            'name_product' => $item['name'],
+                            'thumbnail' => $item['image'] ?? '',
+                            'quantity' => $item['quantity'],
+                            'size' => $item['size'] ?? '',
+                            'color' => $item['color'] ?? '',
+                            'color_code' => $item['color_code'] ?? '',
+                            'price' => $item['price'],
+                        ]);
+                    } else {
+                        throw new \Exception('Không tìm thấy sản phẩm.');
+                    }
                 } catch (\Exception $e) {
-                    Log::error('Error inserting order item: ' . $e->getMessage());
+                    Log::error('Error inserting order item or updating product quantity: ' . $e->getMessage());
                     DB::rollback();
-                    return redirect()->back()->with('error', 'Error inserting order item.');
+                    return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
                 }
             }
 

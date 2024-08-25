@@ -3,7 +3,20 @@
 <!-- Bao gồm header phần -->
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
-
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
+                    <span>Search</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
 
 <section class="shop spad">
     <div class="container">

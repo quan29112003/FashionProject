@@ -106,23 +106,41 @@ class ShopController extends Controller
         }
 
         // Get products with their first variant based on some criteria
-        $products = $query->with(['variants' => function ($query) {
-            $query->orderBy('price'); // Assuming you want to order variants by price
-        }, 'images'])
+        // $products = $query->with(['variants' => function ($query) {
+        //     $query->orderBy('price'); // Assuming you want to order variants by price
+        // }, 'images'])
+        //     ->where('is_active', 1)
+        //     ->has('variants')
+        //     ->get()
+        //     ->map(function ($product) {
+        //         // Attach the first variant to the product (if exists)
+        //         $product->variant = $product->variants->first();
+        //         // Clear the variants collection to only include the selected one
+        //         $product->setRelation('variants', collect([$product->variant]));
+        //         return $product;
+        //     });
+
+        $products = $query->with(['variants', 'images', 'category'])
             ->where('is_active', 1)
             ->has('variants')
-            ->get()
-            ->map(function ($product) {
-                // Attach the first variant to the product (if exists)
-                $product->variant = $product->variants->first();
-                // Clear the variants collection to only include the selected one
-                $product->setRelation('variants', collect([$product->variant]));
-                return $product;
-            });
+            ->get();
+
+        $variantProducts = collect();
+        foreach ($products as $product) {
+            $variantProducts[$product->id] = $product->variants;
+        }
+
+        $products->each(function ($product) {
+            $product->variant = $product->variants()->orderBy('price')->first();
+            $product->setRelation('variants', collect([$product->variant]));
+        });
+        
         $newProducts = $products->filter(function ($product) {
             return $product->created_at->greaterThan(now()->subDays(5));
         });
-        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products', 'newProducts'));
+
+        
+        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products', 'newProducts','variantProducts'));
     }
 
     public function showCategory($id)

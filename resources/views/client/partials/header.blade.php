@@ -44,9 +44,9 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
-        <div class="offcanvas__logo">
+        <div class="offcanvas__logo" style="width: 30%">
             <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/1.png') }}" alt=""
-                    width="70%"></a>
+                    ></a>
         </div>
         <ul class="offcanvas__widget">
             <li><span class="icon_search search-switch"></span></li>
@@ -132,7 +132,7 @@
             <div class="row align-items-center position-relative">
                 <div class="col-xl-3 d-flex justify-content-between">
                     {{-- logo --}}
-                    <div style="width: 20%">
+                    <div style="width: 30%">
                         <a href="{{ url('/') }}">
                             <img src="{{ asset('theme-cli/img/1.png') }}" alt="Logo">
                         </a>

@@ -87,6 +87,7 @@ use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\ProductColor;
 use App\Models\ProductSize;
+use App\Models\Cart;
 
 class DetailController extends Controller
 {
@@ -136,12 +137,12 @@ class DetailController extends Controller
                 return $relatedProduct;
             });
 
-            $newProducts = $relatedProducts->filter(function ($product) {
-                return $product->created_at->greaterThan(now()->subDays(5));
-            });
+        $newProducts = $relatedProducts->filter(function ($product) {
+            return $product->created_at->greaterThan(now()->subDays(5));
+        });
 
         // Return the product detail view with the necessary data
-        return view('client.layouts.detail', compact('product','newProducts', 'variant', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
+        return view('client.layouts.detail', compact('product', 'newProducts', 'variant', 'price', 'price_sale', 'images', 'category', 'variants', 'colors', 'sizes', 'relatedProducts', 'selectedColorId', 'selectedSizeId'));
     }
 
     public function getProductPrice(Request $request)
@@ -161,4 +162,21 @@ class DetailController extends Controller
             return response()->json(['error' => 'Invalid variant selected.'], 404);
         }
     }
+    public function getVariantId(Request $request)
+{
+    $product_id = $request->input('product_id');
+    $color_id = $request->input('color_id');
+    $size_id = $request->input('size_id');
+
+    $variant = ProductVariant::where('product_id', $product_id)
+        ->where('color_id', $color_id)
+        ->where('size_id', $size_id)
+        ->first();
+
+    if ($variant) {
+        return response()->json(['variant_id' => $variant->id]);
+    } else {
+        return response()->json(['error' => 'Variant not found'], 404);
+    }
+}
 }

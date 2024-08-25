@@ -29,7 +29,8 @@
                 <div class="col-8 d-flex justify-content-end">
                     <img src="{{ asset('theme-cli/img/nam.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
                     <img src="{{ asset('theme-cli/img/nu.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
-                    <img src="{{ asset('theme-cli/img/unisex.jpg') }}" style="width: 10rem;" class="mx-3" alt="">
+                    <img src="{{ asset('theme-cli/img/unisex.jpg') }}" style="width: 10rem;" class="mx-3"
+                        alt="">
                 </div>
             </div>
         </div>
@@ -56,12 +57,15 @@
                                                 {{ $category->name }}
                                             </a>
                                         </div>
-                                        
-                                        <div id="category-{{ $category->id }}" class="collapse" data-parent="#accordionExample">
+
+                                        <div id="category-{{ $category->id }}" class="collapse"
+                                            data-parent="#accordionExample">
                                             <div class="card-body">
                                                 <ul>
                                                     @foreach ($category->catalogues as $subcategory)
-                                                        <li><a href="{{ route('shop.category', $subcategory->id) }}">{{ $subcategory->name }}</a></li>
+                                                        <li><a
+                                                                href="{{ route('shop.category', $subcategory->id) }}">{{ $subcategory->name }}</a>
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             </div>
@@ -153,6 +157,11 @@
                     @endphp
 
                     @foreach ($products as $product)
+                        @php
+                            $colors = $variantProducts[$product->id]->pluck('color')->unique();
+                            $sizes = $variantProducts[$product->id]->pluck('size')->unique();
+                            $selectedColorId = $colors->first() ? $colors->first()->id : null;
+                        @endphp
                         @foreach ($product->variants as $variant)
                             <div class="col-lg-4 col-md-6 product-item @if ($productCount >= 12) d-none @endif">
                                 <div class="product__item">
@@ -170,26 +179,54 @@
                                         @if ($product->is_hot)
                                             <div class="label sale">Hot Trend</div>
                                         @endif
-                                        <ul class="product__hover">
-                                            <li><a href="{{ asset('uploads/' . $product->thumbnail) }}"
-                                                    class="image-popup"><span class="arrow_expand"></span></a></li>
+                                        <ul class="product__hover pd-hover" id="product-hv-{{ $product->id }}">
+                                            <!-- Các hành động khi hover -->
+
+                                            <li>
+                                                <a href="{{ asset('uploads/' . $product->thumbnail) }}"
+                                                    class="image-popup">
+                                                    <span class="arrow_expand"></span>
+                                                </a>
+                                            </li>
+                                            <!-- Popup hình ảnh -->
+
                                             <li>
                                                 <form id="wishlist-form-{{ $product->id }}"
-                                                    action="{{ route('wishlist.add', $product->id) }}" method="POST"
-                                                    style="display: none;">
+                                                    action="{{ route('wishlist.add', $product->id) }}"
+                                                    method="POST" style="display: none;">
                                                     @csrf
                                                 </form>
-                                                <a href="#" onclick="addToWishlist({{ $product->id }});">
+                                                <a href="#"
+                                                    onclick="addToWishlist({{ $product->id }});">
                                                     <span class="icon_heart_alt"></span>
                                                 </a>
                                             </li>
                                             <!-- Thêm vào danh sách yêu thích -->
-                                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+
+                                            <li>
+                                                <a onclick="handleQuickCard(event,{{ $product->id }})"
+                                                    href="#">
+                                                    <span class="icon_bag_alt">
+
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <!-- Thêm vào giỏ hàng -->
+
                                         </ul>
 
                                     </div>
 
                                     <div class="product__item__text">
+                                        <div class="swatch-attribute-options-{{ $product->id }}">
+                                            @foreach ($colors as $color)
+                                                <div onclick="getSizeByColor(event,{{ $color->id }},{{ $product->id }})"
+                                                    class="swatch-option color {{ $color->id == $selectedColorId ? 'selected' : '' }}"
+                                                    data-color-id="{{ $color->id }}"
+                                                    id="swichcolor-{{ $color->id }}-{{ $product->id }}"
+                                                    style="background-color: {{ $color->color_code }}"></div>
+                                            @endforeach
+                                        </div>
                                         <h6><a
                                                 href="{{ route('detail', ['id' => $product->id, 'name' => str_replace(' ', '-', strtolower($product->name_product))]) }}">{{ $product->name_product }}</a>
                                         </h6>
@@ -443,5 +480,68 @@
                 }
             }
         });
+    }
+
+    function handleQuickCard(e, id, colorId = 0) {
+        e.preventDefault();
+        $(`.swatch-attribute-options-${id}`).children().each(function() {
+            if ($(this).hasClass("selected")) {
+                colorId = $(this).attr("data-color-id")
+            }
+        })
+
+        let htmlContent = '';
+        $.ajax({
+            url: "{{ route('getSizeProduct') }}",
+            method: "post",
+            data: {
+                _token: "{{ csrf_token() }}",
+                color_id: colorId,
+                product_id: id,
+            },
+            success: function(r) {
+                Object.entries(r.size).forEach(([k, e]) => {
+                    htmlContent += `<li>
+                        <a href="/cart/add?product_id=${id}&variant_id=${k}" class="quick-tocard">
+                            ${e.size}
+                            </a>
+                        </li>`;
+                });
+                $(`#product-hv-${id}`).html(htmlContent);
+                $(".quick-tocard").on("click", function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: $(this).attr("href"),
+                        method: "post",
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function() {
+                            location.href = "/cart";
+                        },
+                        error: function(e) {
+                            console.error(e)
+                        }
+                    })
+                })
+
+            },
+            error: function(e) {
+                console.error(e)
+            }
+        })
+
+    }
+
+    function getSizeByColor(e, colorId, productId) {
+        e.preventDefault();
+        const currentElement = $(`#swichcolor-${colorId}-${productId}`);
+        currentElement.parent().children().each(function() {
+            if ($(this).hasClass("selected")) {
+                $(this).removeClass("selected")
+            }
+        })
+        currentElement.addClass("selected")
+        handleQuickCard(e, productId)
     }
 </script>

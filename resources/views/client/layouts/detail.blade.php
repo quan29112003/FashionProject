@@ -1,5 +1,34 @@
 @include('client.partials.header')
 
+<style>
+    /* CSS cho nút bình thường */
+    .site-btn {
+        color: white;
+        /* Màu chữ */
+        border: none;
+        /* Không có viền */
+        padding: 10px 20px;
+        /* Khoảng cách nội dung */
+        cursor: pointer;
+        /* Con trỏ chuột */
+        transition: background-color 0.3s ease;
+        /* Hiệu ứng chuyển màu nền */
+    }
+
+    /* CSS cho nút khi bị vô hiệu hóa */
+    .site-btn:disabled,
+    .site-btn[disabled] {
+        background-color: #cccccc;
+        /* Màu nền khi vô hiệu hóa */
+        color: #666666;
+        /* Màu chữ khi vô hiệu hóa */
+        cursor: not-allowed;
+        /* Con trỏ chuột khi vô hiệu hóa */
+        opacity: 0.5;
+        /* Độ mờ khi vô hiệu hóa */
+    }
+</style>
+
 
 <div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;"></div>
 
@@ -43,7 +72,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text" data-product-id="{{ $product->id }}">
-                    <h3>{{ $product->name_product }} <span>Brand: {{ $product->brand }}</span></h3>
+                    <h3>{{ $product->name_product }} <span>Brand: {{ $product->catalogue_id }}</span></h3>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -56,7 +85,7 @@
                         <span>{{ number_format($price_sale, 0, ',', '.') }}₫</span>
                     </div>
                     <!-- Widget thêm vào giỏ hàng -->
-                    <div class="product__details__button">
+                    {{-- <div class="product__details__button">
                         <form id="add-to-cart-form" action="{{ route('cart.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -71,7 +100,23 @@
                             </div>
                             <button type="submit" class="site-btn">Add to cart</button>
                         </form>
-                    </div>
+                    </div> --}}
+                    <form id="add-to-cart-form" action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="variant_id" id="variant_id">
+                        <input type="hidden" name="color_id" id="color_id">
+                        <input type="hidden" name="size_id" id="size_id">
+                        <div class="quantity">
+                            <span>Quantity:</span>
+                            <div class="pro-qty">
+                                <input type="text" name="quantity" value="1">
+                            </div>
+                        </div>
+                        <button type="submit" id="add-to-cart-btn" class="site-btn" disabled>Add to cart</button>
+                    </form>
+                    <br>
+
                     <div class="product__details__widget">
                         <ul>
                             <li>
@@ -401,4 +446,60 @@
             }
         });
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const colorRadios = document.querySelectorAll('input[name="color__radio"]');
+        const sizeRadios = document.querySelectorAll('input[name="size__radio"]');
+        const variantIdInput = document.getElementById('variant_id');
+        const colorIdInput = document.getElementById('color_id');
+        const sizeIdInput = document.getElementById('size_id');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        const productId = document.querySelector('.product__details__text').dataset.productId;
+
+        function updateVariantId() {
+            const selectedColor = document.querySelector('input[name="color__radio"]:checked');
+            const selectedSize = document.querySelector('input[name="size__radio"]:checked');
+
+            if (!selectedColor || !selectedSize) {
+                addToCartBtn.disabled = true; // Nếu chưa chọn màu hoặc kích thước, vô hiệu hóa nút
+                return;
+            }
+
+            const colorId = selectedColor.value;
+            const sizeId = selectedSize.value;
+
+            // Cập nhật input ẩn với màu và kích thước đã chọn
+            colorIdInput.value = colorId;
+            sizeIdInput.value = sizeId;
+
+            // Gọi API để lấy variant tương ứng với màu và kích thước
+            fetch(`/getVariantId?product_id=${productId}&color_id=${colorId}&size_id=${sizeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.variant_id) {
+                        variantIdInput.value = data.variant_id;
+                        addToCartBtn.disabled = false; // Kích hoạt nút nếu tìm thấy variant
+                    } else {
+                        addToCartBtn.disabled = true; // Vô hiệu hóa nút nếu không tìm thấy variant
+                        // alert('Variant not found for the selected color and size.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching variant:', error);
+                    addToCartBtn.disabled = true; // Vô hiệu hóa nút khi có lỗi
+                });
+        }
+
+        colorRadios.forEach(radio => {
+            radio.addEventListener('change', updateVariantId);
+        });
+
+        sizeRadios.forEach(radio => {
+            radio.addEventListener('change', updateVariantId);
+        });
+
+        // Cập nhật variant_id khi trang tải xong
+        updateVariantId();
+    });
 </script>

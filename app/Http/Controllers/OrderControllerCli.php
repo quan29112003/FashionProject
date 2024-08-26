@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class OrderControllerCli extends Controller
 {
@@ -25,10 +29,26 @@ class OrderControllerCli extends Controller
     public function cancel(Order $order)
     {
         $this->authorize('update', $order);
+        DB::beginTransaction();
+        try {
+            foreach ($order->orderItems as $item) {
+                $productVariant = ProductVariant::find($item->variant_id);
 
-        $order->update(['status_id' => 8]);
+                if ($productVariant) {
+                    $productVariant->quantity += $item->quantity;
+                    $productVariant->save();
+                } else {
+                    Log::warning('Product variant not found for order item ID: ' . $item->id);
+                }
+            }
+            $order->update(['status_id' => 8]);
 
-        return redirect()->route('user.orders.history')->with('success', 'Đơn hàng đã được hủy.');
+            DB::commit();
+            return redirect()->route('user.orders.history')->with('success', 'Đơn hàng đã được hủy.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('user.orders.history')->with('error', 'Có lỗi xảy ra khi hủy đơn hàng, vui lòng thử lại.');
+        }
     }
 
     public function showInvoice($id)

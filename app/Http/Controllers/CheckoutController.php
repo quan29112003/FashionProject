@@ -224,7 +224,6 @@ class CheckoutController extends Controller
                     $productVariant = ProductVariant::where('id', $item['variant_id'])
                         ->lockForUpdate()
                         ->first();
-
                     if ($productVariant) {
                         if ($productVariant->quantity < $item['quantity']) {
                             throw new \Exception('Sản phẩm "' . $item['name'] . '" đã hết hàng.');
@@ -232,9 +231,11 @@ class CheckoutController extends Controller
                         $productVariant->quantity -= $item['quantity'];
                         $productVariant->save();
 
+
                         OrderItem::create([
                             'order_id' => $order->id,
                             'product_id' => $item['product_id'],
+                            'variant_id' => $productVariant->id,
                             'name_product' => $item['name'],
                             'thumbnail' => $item['image'] ?? '',
                             'quantity' => $item['quantity'],

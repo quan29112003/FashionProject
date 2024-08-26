@@ -17,11 +17,11 @@ class HomeController extends Controller
     {
         $catalogues = Catalogue::with(['products.variants', 'products.images', 'products.category', 'products' => function ($query) {
             $query->where('is_show_home', 1)
-                ->where('is_active', 1)
-                ->has('variants')
-                ->orderBy('created_at', 'desc')
-                ->orderBy('is_good_deal', 'desc');
-        }])->get();
+                  ->where('is_active', 1)
+                  ->has('variants')
+                  ->orderBy('created_at', 'desc')
+                  ->orderBy('is_good_deal', 'desc');
+        }])->whereNotNull('image')->get();
 
         $product_options = Product::with(['variants', 'images', 'category'])
             ->where('is_show_home', 1)

@@ -10,6 +10,7 @@ use App\Models\ProductSize;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\Category;
+use App\Models\Catalogue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -95,8 +96,9 @@ class ProductController extends Controller
         $category = Category::query()->pluck('name', 'id')->all();
         $product_color = ProductColor::query()->pluck('color', 'id');
         $product_size = ProductSize::query()->pluck('size', 'id');
+        $catalogue = Catalogue::query()->pluck('name','id');
 
-        return view('admin.products.create', compact('category', 'product_color', 'product_size'));
+        return view('admin.products.create', compact('category', 'product_color', 'product_size','catalogue'));
     }
 
     public function store(ProductRequest $request)
@@ -121,6 +123,7 @@ class ProductController extends Controller
             $product = Product::query()->create([
                 'name_product' => $dataProduct['name_product'],
                 'category_id' => $dataProduct['category_id'],
+                'catalogue_id' => $dataProduct['catalogue_id'],
                 'description' => $dataProduct['description'],
                 'thumbnail' => $thumbnailName,
                 "is_active" => $dataProduct['is_active'],

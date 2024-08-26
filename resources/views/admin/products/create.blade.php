@@ -18,7 +18,7 @@
                         <div class="live-preview">
 
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div>
                                         <label for="basiInput" class="form-label">Tên sản phẩm</label>
                                         <input type="text" class="form-control" name="name_product" id="basiInput">
@@ -27,7 +27,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <label for="basiInput" class="form-label">Loại</label>
                                     <select class="form-select rounded-pill mb-3" name="category_id"
                                         aria-label="Default select example">
@@ -40,7 +40,20 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
+                                    <label for="basiInput" class="form-label">Danh mục con</label>
+                                    <select class="form-select rounded-pill mb-3" name="catalogue_id"
+                                        aria-label="Default select example">
+                                        <option selected>Chọn danh mục con</option>
+                                        @foreach ($catalogue as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-3">
                                     <div>
                                         <label for="name" class="form-label">Thumbnail</label>
                                         <input type="file" class="form-control" name="thumbnail" id="thumbnail"

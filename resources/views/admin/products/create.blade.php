@@ -312,17 +312,17 @@
                                             <input type="text" class="form-control" name="productVariant[${index}]['size']" id="disabledInput" value="${variant.size.value}" hidden>
                                             <input type="text" class="form-control" name="productVariant[${index}]['color']" id="disabledInput" value="${variant.color.value}" hidden>
                                     <div class="col-xxl-3 col-md-6">
-                                        <label for="basiInput" class="form-label">Quantity</label>
+                                        <label for="basiInput" class="form-label">Số lượng</label>
                                         <input type="number" class="form-control" name="productVariant[${index}]['quantity']" id="basiInput" >
                                     </div>
 
                                     <div class="col-xxl-3 col-md-6">
-                                        <label for="basiInput" class="form-label">Price Regular</label>
+                                        <label for="basiInput" class="form-label">Giá thường</label>
                                         <input type="number" class="form-control" name="productVariant[${index}]['price']" id="basiInput" >
                                     </div>
 
                                     <div class="col-xxl-3 col-md-6">
-                                        <label for="basiInput" class="form-label">Price Sale</label>
+                                        <label for="basiInput" class="form-label">Giá Sale</label>
                                         <input type="number" class="form-control" name="productVariant[${index}]['price_sale']" id="basiInput" >
                                     </div>
 

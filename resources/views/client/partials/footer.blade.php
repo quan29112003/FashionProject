@@ -101,37 +101,49 @@
 <!-- JS Plugins -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lấy phần tử hiển thị tổng giá trị
         const totalValueElement = document.getElementById('total-value');
         const totalAmountInput = document.querySelector('input[name="total_amount"]');
         const saveButtons = document.querySelectorAll('.btn-save');
+        let appliedVoucherButton = null; // Lưu lại nút voucher đã được áp dụng
+        const originalTotalValue = parseInt(totalValueElement.textContent.replace('₫', '').replace(/,/g, ''),
+            10); // Lưu giá trị ban đầu
 
-        // Chuyển đổi giá trị tổng thành số nguyên
-        let totalValue = parseInt(totalValueElement.textContent.replace('₫', '').replace(/,/g, ''), 10);
+        let currentTotalValue = originalTotalValue; // Khởi tạo với giá trị ban đầu
 
-        // Cập nhật giá trị trường ẩn total_amount
-        totalAmountInput.value = totalValue;
+        totalAmountInput.value = currentTotalValue;
 
         function updateSaveButtonState() {
             saveButtons.forEach(button => {
                 const minPurchaseAmount = parseFloat(button.dataset.minPurchase);
-                if (totalValue < minPurchaseAmount) {
+
+                // Nút đã được chọn, luôn enable nó
+                if (button === appliedVoucherButton) {
+                    button.classList.remove('disabled');
+                }
+                // Disable nút nếu giá trị ban đầu nhỏ hơn số tiền mua tối thiểu
+                else if (originalTotalValue < minPurchaseAmount) {
                     button.classList.add('disabled');
-                } else {
+                }
+                // Enable các nút khác nếu không có điều kiện hạn chế
+                else {
                     button.classList.remove('disabled');
                 }
             });
         }
 
-        // Kiểm tra điều kiện ngay khi tải trang
-        updateSaveButtonState();
-
         saveButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
 
+                // Nếu nút đang disable thì không làm gì cả
                 if (button.classList.contains('disabled')) {
-                    return; // Nếu nút bị khóa, không làm gì cả
+                    return;
+                }
+
+                // Nếu đã có voucher đang được áp dụng và chọn một voucher khác
+                if (appliedVoucherButton && appliedVoucherButton !== button) {
+                    appliedVoucherButton.classList.remove(
+                    'disabled'); // Mở khóa nút voucher trước đó
                 }
 
                 const discountValue = parseFloat(button.dataset.discount);
@@ -139,36 +151,37 @@
 
                 let discountAmount;
                 if (discountType === 'discount') {
-                    discountAmount = discountValue; // Giả sử voucher là tiền tệ đồng
+                    discountAmount = discountValue;
                 } else {
-                    discountAmount = totalValue * (discountValue / 100); // Tính theo phần trăm
-                    discountAmount = Math.round(discountAmount); // Làm tròn giá trị phần trăm
+                    discountAmount = originalTotalValue * (discountValue / 100);
+                    discountAmount = Math.round(discountAmount);
                 }
 
-                totalValue -= discountAmount;
-                if (totalValue < 0) {
-                    totalValue = 0;
-                }
+                // Cập nhật lại giá trị tổng sau khi áp dụng giảm giá
+                currentTotalValue = originalTotalValue - discountAmount;
 
-                totalValueElement.textContent = numberWithCommas(totalValue) + '₫';
-                totalAmountInput.value = totalValue;
+                totalValueElement.textContent = numberWithCommas(currentTotalValue) + '₫';
+                totalAmountInput.value = currentTotalValue;
 
-                // Cập nhật trạng thái nút lưu
-                updateSaveButtonState();
+                appliedVoucherButton = button; // Lưu lại nút voucher hiện tại
+                updateSaveButtonState(); // Cập nhật lại trạng thái các nút khác
 
                 const voucherValueElement = document.getElementById('voucher-value');
                 const voucherDiscountElement = document.getElementById('voucher-discount');
                 voucherDiscountElement.textContent =
                 `Giảm ${numberWithCommas(discountAmount)}₫`;
                 voucherValueElement.style.display = 'block';
+
+                // Disable voucher hiện tại sau khi chọn
+                button.classList.add('disabled');
             });
         });
 
-        // Hàm để định dạng số với dấu phân cách
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
     });
+
     var swiper = new Swiper('.swiper-container', {
         slidesPerView: 'auto',
         /* Hiển thị nhiều slide cùng lúc */

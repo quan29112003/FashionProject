@@ -131,7 +131,7 @@
                         </div>
                         <div class="checkout__order__total">
                             <ul>
-                                <li id="voucher-value">voucher <span id="voucher-discount">₫</span></li>
+                                <li id="voucher-value" style="display: none;">voucher <span id="voucher-discount">₫</span></li>
                                 <li>Total <span id="total-value">{{ number_format($total) }}₫</span></li>
                             </ul>
                         </div>

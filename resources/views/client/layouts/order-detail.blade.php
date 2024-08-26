@@ -99,7 +99,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3" class="text-right">Subtotal</td>
+                            <td colspan="4" class="text-right">Subtotal</td>
                             <td>{{ number_format($order->total_amount, 0, ',', '.') }}₫</td>
                         </tr>
                     </tfoot>

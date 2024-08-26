@@ -37,7 +37,7 @@ class CheckoutController extends Controller
             'email' => 'required|email',
             'payment_method' => 'required',
         ]);
-        
+
         session()->put('checkout_name', $request->name);
         session()->put('checkout_address', $request->address);
         session()->put('checkout_state', $request->state);
@@ -227,7 +227,7 @@ class CheckoutController extends Controller
 
                     if ($productVariant) {
                         if ($productVariant->quantity < $item['quantity']) {
-                            throw new \Exception('Số lượng sản phẩm không đủ.');
+                            throw new \Exception('Sản phẩm "' . $item['name'] . '" đã hết hàng.');
                         }
                         $productVariant->quantity -= $item['quantity'];
                         $productVariant->save();
@@ -244,12 +244,12 @@ class CheckoutController extends Controller
                             'price' => $item['price'],
                         ]);
                     } else {
-                        throw new \Exception('Không tìm thấy sản phẩm.');
+                        throw new \Exception('Không tìm thấy sản phẩm "' . $item['name'] . '".');
                     }
                 } catch (\Exception $e) {
                     Log::error('Error inserting order item or updating product quantity: ' . $e->getMessage());
                     DB::rollback();
-                    return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại sau.');
+                    return redirect()->back()->with('error', $e->getMessage());
                 }
             }
 

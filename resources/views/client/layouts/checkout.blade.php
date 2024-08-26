@@ -1,6 +1,10 @@
 @include('client.partials.header')
 <!-- Header Section End -->
-
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">

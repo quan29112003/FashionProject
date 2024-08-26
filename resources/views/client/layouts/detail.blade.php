@@ -294,12 +294,12 @@
                     if (response.success) {
                         window.location.href = '{{ route('cart.index') }}';
                     } else {
-                        alert('Error adding product to cart.');
+                        alert('Sản phẩm đã hết hàng, vui lòng chọn màu/size khác.');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX error:', error);
-                    alert('Error adding product to cart.');
+                    alert('Sản phẩm đã hết hàng, vui lòng chọn màu/size khác.');
                 }
             });
         });

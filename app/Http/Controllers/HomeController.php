@@ -15,13 +15,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $catalogues = Catalogue::with(['products.variants', 'products.images', 'products.category', 'products' => function($query) {
+        $catalogues = Catalogue::with(['products.variants', 'products.images', 'products.category', 'products' => function ($query) {
             $query->where('is_show_home', 1)
-                  ->where('is_active', 1)
-                  ->has('variants')
-                  ->orderBy('created_at', 'desc')
-                  ->orderBy('is_good_deal', 'desc');
-        }])->whereNotNull('image')->get();
+                ->where('is_active', 1)
+                ->has('variants')
+                ->orderBy('created_at', 'desc')
+                ->orderBy('is_good_deal', 'desc');
+        }])->get();
 
         $product_options = Product::with(['variants', 'images', 'category'])
             ->where('is_show_home', 1)

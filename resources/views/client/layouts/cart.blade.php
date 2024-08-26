@@ -245,6 +245,22 @@
                             '₫');
                         $('#subtotal').text(cartTotalPrice.toLocaleString('vi-VN') + '₫');
                         $('#total').text(cartTotalPrice.toLocaleString('vi-VN') + '₫');
+
+                        if (quantity > 1) {
+                            $('tr[data-product-id="' + productId + '"][data-variant-id="' +
+                                variantId + '"] .btn-number[data-type="minus"]').prop(
+                                'disabled', false);
+                        }
+
+                        if (quantity >= maxQuantity) {
+                            $('tr[data-product-id="' + productId + '"][data-variant-id="' +
+                                variantId + '"] .btn-number[data-type="plus"]').prop('disabled',
+                                true);
+                        } else {
+                            $('tr[data-product-id="' + productId + '"][data-variant-id="' +
+                                variantId + '"] .btn-number[data-type="plus"]').prop('disabled',
+                                false);
+                        }
                     }
                 },
                 error: function(xhr, status, error) {
@@ -271,11 +287,30 @@
                         input.val(currentVal + 1).trigger('change');
                     }
                 }
+
+                setTimeout(function() {
+                    var updatedVal = parseInt(input.val());
+                    var minusBtn = $(input).closest('.quantity').find(
+                        '.btn-number[data-type="minus"]');
+                    var plusBtn = $(input).closest('.quantity').find(
+                        '.btn-number[data-type="plus"]');
+
+                    if (updatedVal > 1) {
+                        minusBtn.prop('disabled', false);
+                    } else {
+                        minusBtn.prop('disabled', true);
+                    }
+
+                    if (updatedVal >= maxQuantity) {
+                        plusBtn.prop('disabled', true);
+                    } else {
+                        plusBtn.prop('disabled', false);
+                    }
+                }, 100);
             } else {
                 input.val(1);
             }
         });
-
 
         $('.update-cart').change(function() {
             updateQuantity($(this));

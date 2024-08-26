@@ -139,7 +139,6 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     });
     Route::post('/orders/{order}/cancel', [OrderControllerCli::class, 'cancel'])->name('orders.cancel');
 });
-
 // đăng nhập admin
 Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     // trong admin

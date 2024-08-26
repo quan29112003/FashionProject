@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Catalogue;
 use App\Models\Category;
+use App\Models\CategoryGender;
 
 class CatalogueController extends Controller
 {
     public function index(){
         $category = Category::select('id', 'name')->get();
         $catalogues = Catalogue::with('category')->get();
+        $category_gender = CategoryGender::select('id','name')->get();
 
-        return view('admin.catalogues.index', compact('catalogues', 'category'));
+        return view('admin.catalogues.index', compact('catalogues', 'category','category_gender'));
     }
 
     public function store(Request $request){
@@ -31,12 +33,13 @@ class CatalogueController extends Controller
         $catalogue->name = $request->name;
         $catalogue->description = $request->description;
         $catalogue->category_id = $request->category_id;
+        $catalogue->category_gender_id = $request->category_gender_id;
         $catalogue->save();
 
         // Return a success response with the category
         return response()->json(['success' => true]);
     }
-    
+
     public function update(Request $request, $id)
     {
         $request->validate([

@@ -12,6 +12,7 @@ class Catalogue extends Model
         'name',
         'description',
         'category_id',
+        'category_gender_id',
         'image'
     ];
 

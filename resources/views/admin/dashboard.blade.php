@@ -128,31 +128,37 @@
                                                         <span class="text">{{ number_format($to->total_amount) }}đ</span>
                                                     </td>
                                                     @php
-                                                        $statusClass = '';
-                                                        switch ($to->status_name) {
-                                                            case 'Chờ xác nhận':
-                                                                $statusClass = 'bg-warning-subtle text-warning';
-                                                                break;
-                                                            case 'Chờ lấy hàng':
-                                                                $statusClass = 'bg-warning-subtle text-warning';
-                                                                break;
-                                                            case 'Đang giao':
-                                                                $statusClass = 'bg-info-subtle text-info';
-                                                                break;
-                                                            case 'Đã giao':
-                                                                $statusClass = 'bg-success-subtle text-success';
-                                                                break;
-                                                            case 'Đã hủy':
-                                                                $statusClass = 'bg-danger-subtle text-danger';
-                                                                break;
-                                                            case 'Trả hàng':
-                                                                $statusClass = 'bg-danger-subtle text-danger';
-                                                                break;
-                                                            default:
-                                                                $statusClass = 'bg-success-subtle text-success';
-                                                                break;
-                                                        }
-                                                    @endphp
+                                        $statusClass = '';
+                                        switch ($od->status->name) {
+                                            case 'Chờ xử lý':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Chưa xác nhận':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Xác nhận':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Đang chuẩn bị hàng':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Đang giao hàng':
+                                                $statusClass = 'bg-info-subtle text-info';
+                                                break;
+                                            case 'Đã giao hàng':
+                                                $statusClass = 'bg-success-subtle text-success';
+                                                break;
+                                            case 'Đã hoàn thành':
+                                                $statusClass = 'bg-success-subtle text-success';
+                                                break;
+                                            case 'Đã hủy':
+                                                $statusClass = 'bg-danger-subtle text-danger';
+                                                break;
+                                            default:
+                                                $statusClass = 'bg-success-subtle text-success';
+                                                break;
+                                        }
+                                    @endphp
                                                     <td>
                                                         <span
                                                             class="badge {{ $statusClass }}">{{ $to->status_name }}</span>

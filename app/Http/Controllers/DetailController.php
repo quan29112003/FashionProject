@@ -91,4 +91,21 @@ class DetailController extends Controller
             return response()->json(['error' => 'Variant not found'], 404);
         }
     }
+    public function getVariantQuantity(Request $request)
+    {
+        $productId = $request->query('product_id');
+        $colorId = $request->query('color');
+        $sizeId = $request->query('size');
+
+        $variant = ProductVariant::where('product_id', $productId)
+            ->where('color_id', $colorId)
+            ->where('size_id', $sizeId)
+            ->first();
+
+        if ($variant) {
+            return response()->json(['quantity' => $variant->quantity]);
+        } else {
+            return response()->json(['quantity' => 0], 404);
+        }
+    }
 }

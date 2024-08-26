@@ -140,7 +140,7 @@
                         <ul class="nav ">
                             @foreach ($CategoryGenders as $categoryGender)
                                 <li class="nav-item">
-                                    <a class="nav-link fs-5 text-dark fw-bold custom-hover" href="{{ route('shop.index', ['categoryGender' => $categoryGender->id]) }}">
+                                    <a class="nav-link fs-6 text-dark fw-bold custom-hover" href="{{ route('shop.index', ['categoryGender' => $categoryGender->id]) }}">
                                         {{ $categoryGender->name }}
                                     </a>
                                 </li>

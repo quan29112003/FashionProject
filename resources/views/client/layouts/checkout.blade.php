@@ -139,7 +139,7 @@
                         </div>
                         <input type="hidden" name="voucher_id" id="voucher-id">
                         <input type="hidden" name="total_amount" value="">
-                        <input type="hidden" name="total_amount" value="{{ $total }}">
+                        {{-- <input type="hidden" name="total_amount" value="{{ $total }}"> --}}
                         <div class="checkout__form__input1">
                             <p>Payment Method <span>*</span></p>
                             <label>

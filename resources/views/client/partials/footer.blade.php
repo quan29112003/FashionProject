@@ -126,6 +126,9 @@
             });
         }
 
+        // Gọi hàm updateSaveButtonState ngay sau khi DOM được tải
+        updateSaveButtonState();
+
         saveButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();

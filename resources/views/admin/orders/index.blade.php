@@ -57,22 +57,28 @@
                                     @php
                                         $statusClass = '';
                                         switch ($od->status->name) {
-                                            case 'Chờ xác nhận':
+                                            case 'Chờ xử lý':
                                                 $statusClass = 'bg-warning-subtle text-warning';
                                                 break;
-                                            case 'Chờ lấy hàng':
+                                            case 'Chưa xác nhận':
                                                 $statusClass = 'bg-warning-subtle text-warning';
                                                 break;
-                                            case 'Đang giao':
+                                            case 'Xác nhận':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Đang chuẩn bị hàng':
+                                                $statusClass = 'bg-warning-subtle text-warning';
+                                                break;
+                                            case 'Đang giao hàng':
                                                 $statusClass = 'bg-info-subtle text-info';
                                                 break;
-                                            case 'Đã giao':
+                                            case 'Đã giao hàng':
+                                                $statusClass = 'bg-success-subtle text-success';
+                                                break;
+                                            case 'Đã hoàn thành':
                                                 $statusClass = 'bg-success-subtle text-success';
                                                 break;
                                             case 'Đã hủy':
-                                                $statusClass = 'bg-danger-subtle text-danger';
-                                                break;
-                                            case 'Trả hàng':
                                                 $statusClass = 'bg-danger-subtle text-danger';
                                                 break;
                                             default:

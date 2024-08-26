@@ -70,6 +70,16 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="category_id" class="form-label">Gender</label>
+                                        <select class="form-select" name="category_gender_id" aria-label="Default select example"
+                                            required>
+                                            <option selected>Select Gender</option>
+                                            @foreach ($category_gender as $cg)
+                                                <option value="{{ $cg->id }}">{{ $cg->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -117,6 +127,15 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="editCatalogueCategory" class="form-label">Category</label>
+                                        <select class="form-select" id="editCatalogueCategory" name="category_id"
+                                            required>
+                                            @foreach ($category_gender as $ct)
+                                                <option value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -140,9 +159,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Category</th>
+                                <th>Tên</th>
+                                <th>Mô tả</th>
+                                <th>Loại sản phẩm</th>
+                                <th>Giới tính</th>
                                 <th>Created at</th>
                                 <th>Updated at</th>
                                 <th>Action</th>
@@ -156,13 +176,26 @@
                                     <td>{{ $cata->name }}</td>
                                     <td>{{ $cata->description }}</td>
                                     <td>{{ $cata->category->name }}</td>
+                                    <td>
+                                        @php
+                                            if($cata->category_gender_id == 1){
+                                                echo 'Nam';
+                                            } else if($cata->category_gender_id == 2){
+                                                echo 'Nữ';
+                                            } else{
+                                                echo 'Unisex';
+                                            }
+                                        @endphp
+                                        </td>
                                     <td>{{ $cata->created_at }}</td>
                                     <td>{{ $cata->updated_at }}</td>
                                     <td>
                                         <a href="javascript:void(0);" class="dropdown-item edit-item-btn"
                                             data-id="{{ $cata->id }}" data-name="{{ $cata->name }}"
                                             data-description="{{ $cata->description }}"
-                                            data-category-id="{{ $cata->category_id }}">
+                                            data-category-id="{{ $cata->category_id }}"
+                                            data-category-gender-id="{{ $cata->category_gender_id }}"
+                                            >
                                             <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
                                         </a>
                                     </td>
@@ -216,6 +249,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
+
     <script>
         new DataTable("#example", {
             order: [
@@ -257,11 +291,13 @@
                 let name = $(this).data('name');
                 let description = $(this).data('description');
                 let category_id = $(this).data('category-id');
+                let category_gender_id = $(this).data('category-gender-id');
 
                 $('#editCatalogueId').val(id);
                 $('#editCatalogueName').val(name);
                 $('#editCatalogueDescription').val(description);
                 $('#editCatalogueCategory').val(category_id);
+                $('#editCatalogueCategoryGender').val(category_gender_id);
                 $('#editItemForm').attr('action', 'edit-catalogues/' + id); // Adjust the URL as needed
                 $('#editItemModal').modal('show');
             });

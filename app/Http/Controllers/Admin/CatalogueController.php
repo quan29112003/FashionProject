@@ -36,6 +36,7 @@ class CatalogueController extends Controller
         // Return a success response with the category
         return response()->json(['success' => true]);
     }
+    
     public function update(Request $request, $id)
     {
         $request->validate([

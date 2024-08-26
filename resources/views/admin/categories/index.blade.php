@@ -23,23 +23,15 @@
     </div>
     <!-- end page title -->
 
-
-
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách</h5>
-
                     {{-- <a href="{{ route('store-category') }}" class="btn btn-primary mb-3">Thêm mới</a> --}}
                     <a href="javascript:void(0);" class="btn btn-primary mb-3" data-bs-toggle="modal"
                         data-bs-target="#addNewItemModal">Thêm mới</a>
                 </div>
-
-
-
-
                 <!-- Add New Item Modal Pop up-->
                 <div class="modal fade" id="addNewItemModal" tabindex="-1" aria-labelledby="addNewItemModalLabel"
                     aria-hidden="true">
@@ -126,13 +118,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
@@ -186,6 +171,120 @@
                             @endforeach
                         </tbody>
 
+                    </table>
+                </div>
+            </div>
+        </div><!--end col-->
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="card-title mb-0">Danh sách danh mục giới tính</h5>
+                    {{-- <a href="{{ route('store-category') }}" class="btn btn-primary mb-3">Thêm mới</a> --}}
+                    <a href="javascript:void(0);" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                        data-bs-target="#addNewGenderItemModal">Thêm mới</a>
+                </div>
+                <!-- Add New Item Modal Pop up-->
+                <div class="modal fade" id="addNewGenderItemModal" tabindex="-1" aria-labelledby="addNewItemGenderModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="addNewGenderItemModal" method="POST" action="{{ route('store-categoryGender') }}">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addNewItemGenderModalLabel">Thêm mới Danh mục giới tính</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="categoryGenderName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="categoryGenderName" name="name"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="descriptionName" class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="descriptionName" name="description">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Item Modal Pop up-->
+                <div class="modal fade" id="editItemGenderModal" tabindex="-1" aria-labelledby="editItemGenderModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="editItemGenderForm" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editItemGenderModalLabel">Chỉnh sửa Danh mục giới tính</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="editCategoryGenderId" name="id">
+                                    <div class="mb-3">
+                                        <label for="editName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="editName" name="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editDescription" class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="editDescription" name="description">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        style="width:100%">
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Created at</th>
+                                <th>Updated at</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($categoryGender as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->updated_at }}</td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="dropdown-item edit-item-btn-gender"
+                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                            data-description="{{ $item->description }}">
+                                            <i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -251,6 +350,30 @@
                 });
             });
 
+            $('#addNewItemFormGender').on('submit', function(e) {
+                e.preventDefault();
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#addNewGenderItemModal').modal('hide');
+                            location
+                                .reload(); // Reload the page to reflect new data, or you can append new data to the table directly
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        alert('An error occurred');
+                    }
+                });
+            });
+
             $('.edit-item-btn').on('click', function() {
                 let id = $(this).data('id');
                 let name = $(this).data('name');
@@ -265,6 +388,18 @@
                 $('#editItemModal').modal('show');
             });
 
+            $('.edit-item-btn-gender').on('click', function() {
+                let id = $(this).data('id');
+                let name = $(this).data('name');
+                let description = $(this).data('description');
+
+                $('#editCategoryGenderId').val(id);
+                $('#editName').val(name);
+                $('#editDescription').val(description);
+                $('#editItemGenderForm').attr('action', 'edit-categoryGender/' + id);
+                $('#editItemGenderModal').modal('show');
+            });
+
             $('#editItemForm').on('submit', function(e) {
                 e.preventDefault();
 
@@ -277,6 +412,29 @@
                     success: function(response) {
                         if (response.success) {
                             $('#editItemModal').modal('hide');
+                            location.reload(); // Reload the page to reflect updated data
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        alert('An error occurred');
+                    }
+                });
+            });
+
+            $('#editItemGenderForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editItemGenderModal').modal('hide');
                             location.reload(); // Reload the page to reflect updated data
                         } else {
                             alert('An error occurred');

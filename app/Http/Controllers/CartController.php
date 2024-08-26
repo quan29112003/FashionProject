@@ -17,8 +17,22 @@ class CartController extends Controller
             return $sum + $item['price'] * $item['quantity'];
         }, 0);
 
+        foreach ($cart as &$item) {
+            $variant = ProductVariant::find($item['variant_id']);
+            if ($variant) {
+                $item['in_stock'] = $variant->quantity >= $item['quantity'];
+                $item['max_quantity'] = $variant->quantity;
+            } else {
+                $item['in_stock'] = false;
+                $item['max_quantity'] = 0;
+            }
+        }
+
+        session()->put('cart', $cart);
+
         return view('client.layouts.cart', compact('cart', 'total'));
     }
+
 
     public function addToCart(Request $request)
     {

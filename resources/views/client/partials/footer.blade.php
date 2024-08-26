@@ -103,29 +103,24 @@
     document.addEventListener('DOMContentLoaded', function() {
         const totalValueElement = document.getElementById('total-value');
         const totalAmountInput = document.querySelector('input[name="total_amount"]');
+        const voucherIdInput = document.getElementById('voucher-id'); // Lấy input ẩn để lưu ID voucher
         const saveButtons = document.querySelectorAll('.btn-save');
-        let appliedVoucherButton = null; // Lưu lại nút voucher đã được áp dụng
+        let appliedVoucherButton = null;
         const originalTotalValue = parseInt(totalValueElement.textContent.replace('₫', '').replace(/,/g, ''),
-            10); // Lưu giá trị ban đầu
+            10);
 
-        let currentTotalValue = originalTotalValue; // Khởi tạo với giá trị ban đầu
-
+        let currentTotalValue = originalTotalValue;
         totalAmountInput.value = currentTotalValue;
 
         function updateSaveButtonState() {
             saveButtons.forEach(button => {
                 const minPurchaseAmount = parseFloat(button.dataset.minPurchase);
 
-                // Nút đã được chọn, luôn enable nó
                 if (button === appliedVoucherButton) {
                     button.classList.remove('disabled');
-                }
-                // Disable nút nếu giá trị ban đầu nhỏ hơn số tiền mua tối thiểu
-                else if (originalTotalValue < minPurchaseAmount) {
+                } else if (originalTotalValue < minPurchaseAmount) {
                     button.classList.add('disabled');
-                }
-                // Enable các nút khác nếu không có điều kiện hạn chế
-                else {
+                } else {
                     button.classList.remove('disabled');
                 }
             });
@@ -135,15 +130,12 @@
             button.addEventListener('click', function(event) {
                 event.preventDefault();
 
-                // Nếu nút đang disable thì không làm gì cả
                 if (button.classList.contains('disabled')) {
                     return;
                 }
 
-                // Nếu đã có voucher đang được áp dụng và chọn một voucher khác
                 if (appliedVoucherButton && appliedVoucherButton !== button) {
-                    appliedVoucherButton.classList.remove(
-                    'disabled'); // Mở khóa nút voucher trước đó
+                    appliedVoucherButton.classList.remove('disabled');
                 }
 
                 const discountValue = parseFloat(button.dataset.discount);
@@ -157,14 +149,13 @@
                     discountAmount = Math.round(discountAmount);
                 }
 
-                // Cập nhật lại giá trị tổng sau khi áp dụng giảm giá
                 currentTotalValue = originalTotalValue - discountAmount;
 
                 totalValueElement.textContent = numberWithCommas(currentTotalValue) + '₫';
                 totalAmountInput.value = currentTotalValue;
 
-                appliedVoucherButton = button; // Lưu lại nút voucher hiện tại
-                updateSaveButtonState(); // Cập nhật lại trạng thái các nút khác
+                appliedVoucherButton = button;
+                updateSaveButtonState();
 
                 const voucherValueElement = document.getElementById('voucher-value');
                 const voucherDiscountElement = document.getElementById('voucher-discount');
@@ -172,7 +163,9 @@
                 `Giảm ${numberWithCommas(discountAmount)}₫`;
                 voucherValueElement.style.display = 'block';
 
-                // Disable voucher hiện tại sau khi chọn
+                // Cập nhật giá trị của input ẩn với ID của voucher đã chọn
+                voucherIdInput.value = button.dataset.voucherId;
+
                 button.classList.add('disabled');
             });
         });

@@ -244,6 +244,11 @@
                         } else {
                             invoiceHtml += `Đã thanh toán qua tài khoản ngân hàng`;
                         }
+
+                        if (data.voucher) {
+                            invoiceHtml +=
+                                `<br>Giảm giá: ${new Intl.NumberFormat().format(data.voucher.discount_value)}${data.voucher.discount_type === 'percent' ? '%' : '₫'}`;
+                        }
                         invoiceHtml +=
                             `<br>Total: ${new Intl.NumberFormat().format(data.total_amount)}₫</p>`;
                         invoiceHtml += `</div></div>`;

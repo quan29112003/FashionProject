@@ -53,4 +53,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class, 'voucher_id');
+    }
 }

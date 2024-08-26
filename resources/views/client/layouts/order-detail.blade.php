@@ -87,7 +87,8 @@
                         @foreach ($orderItems as $item)
                             <tr>
                                 <td>
-                                    <img width="90" height="120" src="/uploads/{{ $item->thumbnail }}" alt="">
+                                    <img width="90" height="120" src="/uploads/{{ $item->thumbnail }}"
+                                        alt="">
                                 </td>
                                 <td>{{ $item->name_product }}<br><small>{{ $item->product ? $item->product->name : 'No product' }}</small>
                                 </td>
@@ -99,8 +100,14 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4" class="text-right">Subtotal</td>
-                            <td>{{ number_format($order->total_amount, 0, ',', '.') }}₫</td>
+                            @if ($voucher)
+                                <td colspan="4" class="text-right">Giảm giá:</td>
+                                <td class="text-right">{{ number_format($voucher->discount_value, 0, ',', '.') }}{{ $voucher->discount_type === 'percent' ? '%' : '₫' }}</td>
+                            @endif
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-right">Subtotal:</td>
+                            <td class="text-right">{{ number_format($order->total_amount, 0, ',', '.') }}₫</td>
                         </tr>
                     </tfoot>
                 </table>

@@ -62,7 +62,8 @@
                                                         <a href="#" class="btn-save"
                                                             data-min-purchase="{{ $voucher->min_purchase_amount }}"
                                                             data-discount="{{ $voucher->discount_value }}"
-                                                            data-discount-type="{{ $voucher->discount_type }}">Sử
+                                                            data-discount-type="{{ $voucher->discount_type }}"
+                                                            data-voucher-id="{{ $voucher->id }}">Sử
                                                             dụng</a>
 
                                                     </div>
@@ -131,10 +132,13 @@
                         </div>
                         <div class="checkout__order__total">
                             <ul>
-                                <li id="voucher-value" style="display: none;">voucher <span id="voucher-discount">₫</span></li>
+                                <li id="voucher-value" style="display: none;">voucher <span
+                                        id="voucher-discount">₫</span></li>
                                 <li>Total <span id="total-value">{{ number_format($total) }}₫</span></li>
                             </ul>
                         </div>
+                        <input type="hidden" name="voucher_id" id="voucher-id">
+                        <input type="hidden" name="total_amount" value="">
                         <input type="hidden" name="total_amount" value="{{ $total }}">
                         <div class="checkout__form__input1">
                             <p>Payment Method <span>*</span></p>

@@ -37,6 +37,7 @@ class CheckoutController extends Controller
             'email' => 'required|email',
             'payment_method' => 'required',
         ]);
+        
         session()->put('checkout_name', $request->name);
         session()->put('checkout_address', $request->address);
         session()->put('checkout_state', $request->state);

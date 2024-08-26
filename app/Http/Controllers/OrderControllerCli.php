@@ -16,8 +16,10 @@ class OrderControllerCli extends Controller
     public function show(Order $order)
     {
         $this->authorize('view', $order);
+        // Lấy voucher của order
+        $voucher = $order->voucher;
         $orderItems = $order->orderItems()->with('product.images')->get();
-        return view('client.layouts.order-detail', compact('order', 'orderItems'));
+        return view('client.layouts.order-detail', compact('order', 'orderItems', 'voucher'));
     }
 
     public function cancel(Order $order)
@@ -31,7 +33,7 @@ class OrderControllerCli extends Controller
 
     public function showInvoice($id)
     {
-        $order = Order::with('orderItems', 'status')->findOrFail($id);
+        $order = Order::with('orderItems', 'status', 'voucher')->findOrFail($id);
         return response()->json($order);
     }
 }

@@ -15,44 +15,29 @@ class ShopController extends Controller
 
     public function index(Request $request)
     {
-
         $categories = Category::all();
         $sizes = ProductSize::all();
         $colors = ProductColor::all();
-        $categoryGenders = CategoryGender::all(); // Giả sử bạn đã lấy các CategoryGender
-        $catalogues = Catalogue::all(); // Giả sử bạn đã lấy các Catalogues
 
         $query = Product::with('variants', 'images');
-
-        // Lọc theo category
+        // Lọc sản phẩm theo CategoryGender, Category hoặc Catalogue
         if ($request->has('category')) {
-            $category = Category::where('slug', $request->category)->first();
-            if ($category) {
-                $query->where('category_id', $category->id);
-                // dd($query);
-            }
-        }
-        // dd($request);
-        // Lọc theo categorygender
-        if ($request->has('categorygender')) {
-            $categoryGender = CategoryGender::where('slug', $request->categorygender)->first();
-            if ($categoryGender) {
-                // Lấy tất cả các catalogue thuộc về categorygender này
-                $catalogueIds = $categoryGender->catalogues->pluck('id');
-                // Lọc sản phẩm theo các catalogue
-                // dd($catalogueIds);
-                $query->whereIn('catalogue_id', $catalogueIds);
-                // dd($query);
-            }
+            $categoryId = $request->input('category');
+            $query->where('category_id', $categoryId);
         }
 
-        // Lọc theo catalogue
+        // Lọc sản phẩm theo Catalogue
         if ($request->has('catalogue')) {
-            $catalogue = Catalogue::where('slug', $request->catalogue)->first();
-            if ($catalogue) {
-                $query->where('catalogue_id', $catalogue->id);
-                // dd($query);
-            }
+            $catalogueId = $request->input('catalogue');
+            $query->where('catalogue_id', $catalogueId);
+        }
+
+        // Lọc sản phẩm theo CategoryGender qua mối quan hệ với bảng Catalogue
+        if ($request->has('categoryGender')) {
+            $categoryGenderId = $request->input('categoryGender');
+            $query->whereHas('catalogue', function ($q) use ($categoryGenderId) {
+                $q->where('category_gender_id', $categoryGenderId);
+            });
         }
 
         // Apply sorting
@@ -106,21 +91,9 @@ class ShopController extends Controller
         }
 
         // Get products with their first variant based on some criteria
-        // $products = $query->with(['variants' => function ($query) {
-        //     $query->orderBy('price'); // Assuming you want to order variants by price
-        // }, 'images'])
-        //     ->where('is_active', 1)
-        //     ->has('variants')
-        //     ->get()
-        //     ->map(function ($product) {
-        //         // Attach the first variant to the product (if exists)
-        //         $product->variant = $product->variants->first();
-        //         // Clear the variants collection to only include the selected one
-        //         $product->setRelation('variants', collect([$product->variant]));
-        //         return $product;
-        //     });
-
-        $products = $query->with(['variants', 'images', 'category'])
+        $products = $query->with(['variants' => function ($query) {
+            $query->orderBy('price'); // Assuming you want to order variants by price
+        }, 'images'])
             ->where('is_active', 1)
             ->has('variants')
             ->get();
@@ -134,13 +107,10 @@ class ShopController extends Controller
             $product->variant = $product->variants()->orderBy('price')->first();
             $product->setRelation('variants', collect([$product->variant]));
         });
-        
         $newProducts = $products->filter(function ($product) {
             return $product->created_at->greaterThan(now()->subDays(5));
         });
-
-        
-        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products', 'newProducts','variantProducts'));
+        return view('client.layouts.shop', compact('categories', 'sizes', 'colors', 'products', 'newProducts', 'variantProducts'));
     }
 
     public function showCategory($id)

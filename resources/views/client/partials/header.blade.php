@@ -45,8 +45,7 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
         <div class="offcanvas__logo" style="width: 30%">
-            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/1.png') }}" alt=""
-                    ></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('theme-cli/img/1.png') }}" alt=""></a>
         </div>
         <ul class="offcanvas__widget">
             <li><span class="icon_search search-switch"></span></li>
@@ -72,7 +71,6 @@
                         <a href="{{ route('order.history') }}" class="nav-link text-dark fs-5">
                             <span>Orders</span>
                         </a>
-
                     </li>
 
                     {{-- edit profile --}}
@@ -142,8 +140,7 @@
                         <ul class="nav ">
                             @foreach ($CategoryGenders as $categoryGender)
                                 <li class="nav-item">
-                                    <a class="nav-link fs-5 text-dark fw-bold custom-hover"
-                                        href="{{ route('shop.index', array_merge(request()->query(), ['categorygender' => $categoryGender->slug])) }}">
+                                    <a class="nav-link fs-5 text-dark fw-bold custom-hover" href="{{ route('shop.index', ['categoryGender' => $categoryGender->id]) }}">
                                         {{ $categoryGender->name }}
                                     </a>
                                 </li>
@@ -169,11 +166,14 @@
                                                 <ul class="nav">
                                                     @foreach ($categories as $category)
                                                         <li class="nav-item px-5 border-start">
-                                                            <p class="fw-bold">{{ $category->name }}</p>
+                                                            <a href="{{ route('shop.index', ['category' => $category->id]) }}" class="fs-6 text-dark">
+                                                                <p class="fw-bold">{{ $category->name }}</p>
+                                                            </a>
                                                             <ul class="nav flex-column">
                                                                 @foreach ($category->catalogues as $catalogue)
                                                                     <li class="nav-item py-2">
-                                                                        <a href="{{ route('shop.index', array_merge(request()->query(), ['catalogue' => $catalogue->slug])) }}" class="fs-6 text-dark">{{ $catalogue->name }}</a>
+                                                                        <a href="{{ route('shop.index', ['catalogue' => $catalogue->id]) }}"
+                                                                            class="fs-6 text-dark">{{ $catalogue->name }}</a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -305,7 +305,6 @@
         <div class="canvas__open">
             <i class="fa fa-bars"></i>
         </div>
-
     </header>
 
     <!-- Search Popup -->

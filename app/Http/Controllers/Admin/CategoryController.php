@@ -6,14 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Models\Catalogue;
+use App\Models\CategoryGender;
 
 class CategoryController extends Controller
 {
     //
     public function index(){
         $category = Category::all();
+        $categoryGender = CategoryGender::all();
+        $catalogue = Catalogue::all();
 
-        return view('admin.categories.index', compact('category'));
+        return view('admin.categories.index', compact('category', 'categoryGender', 'catalogue'));
     }
 
     public function create(){
@@ -41,6 +45,20 @@ class CategoryController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function storeGender(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'string|max:255',
+        ]);
+
+        $category = new CategoryGender();
+        $category->name = $request->name;
+        $category->save();
+
+        return response()->json(['success' => true]);
+    }
+
     // public function edit(Request $request,$id){
     //     $category = Category::where('id',$id)->first();
     //     return view('admin.categories.edit',compact('category'));
@@ -57,6 +75,20 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->is_active = $request->is_active;
+        $category->save();
+        return response()->json(['success' => true]);
+    }
+
+    public function updateGender(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'string|max:255',
+        ]);
+
+        $category = CategoryGender::findOrFail($id);
+        $category->name = $request->name;
+        $category->description = $request->description;
         $category->save();
         return response()->json(['success' => true]);
     }

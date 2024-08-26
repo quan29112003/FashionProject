@@ -108,12 +108,12 @@
                         <input type="hidden" name="color_id" id="color_id">
                         <input type="hidden" name="size_id" id="size_id">
                         <div class="quantity">
-                            <span>Quantity:</span>
+                            <span>Số lượng:</span>
                             <div class="pro-qty">
-                                <input type="text" name="quantity" value="1">
+                                <input type="text" name="quantity" value="1" readonly>
                             </div>
                         </div>
-                        <button type="submit" id="add-to-cart-btn" class="site-btn" disabled>Add to cart</button>
+                        <button type="submit" id="add-to-cart-btn" class="site-btn" disabled>Thêm vào giỏ</button>
                     </form>
 
                     <br>
@@ -121,16 +121,16 @@
                     <div class="product__details__widget">
                         <ul>
                             <li>
-                                <span>Availability:</span>
+                                <span>Có sẵn:</span>
                                 <div class="stock__checkbox">
-                                    {{ $variant->quantity }}
+                                    <p id="variant-quantity"> <span id="variant-quantity-value">Ơ</span></p>
                                 </div>
                             </li>
                             <li>
-                                <span>Category:</span> {{ $category }}
+                                <span>Danh mục:</span> {{ $category }}
                             </li>
                             <li>
-                                <span>Available color:</span>
+                                <span>Màu:</span>
                                 <div class="color__checkbox">
                                     @foreach ($colors as $color)
                                         <label for="color_{{ $color->id }}" class="color-label">
@@ -144,7 +144,7 @@
                                 </div>
                             </li>
                             <li>
-                                <span>Available size:</span>
+                                <span>Kích thước:</span>
                                 <div class="size__btn">
                                     @foreach ($sizes as $size)
                                         <label for="size_{{ $size->id }}" class="size-label">
@@ -157,8 +157,8 @@
                                 </div>
                             </li>
                             <li>
-                                <span>Promotions:</span>
-                                <p>Free shipping</p>
+                                <span>Khuyến mãi:</span>
+                                <p>Miễn phí vẫn chuyển</p>
                             </li>
                         </ul>
                     </div>
@@ -168,7 +168,7 @@
                 <div class="product__details__tab">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Mô tả</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
@@ -176,11 +176,9 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <h6>Description</h6>
                             <p>{{ $product->description }}</p>
                         </div>
                         <div class="tab-pane" id="tabs-2" role="tabpanel">
-                            <h6>Specification</h6>
                             <p>{{ $product->specification }}</p>
                         </div>
                     </div>
@@ -190,7 +188,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="related__title">
-                    <h5>RELATED PRODUCTS</h5>
+                    <h5>SẢN PHẨM LIÊN QUAN</h5>
                 </div>
             </div>
             @php
@@ -530,5 +528,82 @@
 
         // Cập nhật variant_id khi trang tải xong
         updateVariantId();
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const colorRadios = document.querySelectorAll('input[name="color__radio"]');
+        const sizeRadios = document.querySelectorAll('input[name="size__radio"]');
+        // const quantityInput = document.getElementById('quantity-input');
+        const variantQuantity = document.getElementById('variant-quantity-value');
+        const productDetails = document.querySelector('.product__details__text');
+        const productId = productDetails.dataset.productId;
+
+        function updateQuantity() {
+            const selectedColor = document.querySelector('input[name="color__radio"]:checked');
+            const selectedSize = document.querySelector('input[name="size__radio"]:checked');
+
+            if (!selectedColor || !selectedSize) {
+                return;
+            }
+
+            const colorId = selectedColor.value;
+            const sizeId = selectedSize.value;
+
+            fetch(`/getVariantQuantity?product_id=${productId}&color=${colorId}&size=${sizeId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Variant not available.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    variantQuantity.textContent = data.quantity;
+                    // quantityInput.max = data.quantity;
+                    // quantityInput.value = Math.min(quantityInput.value, data.quantity);
+                })
+                .catch(error => {
+                    console.error('Error fetching quantity:', error);
+                    variantQuantity.textContent = '0';
+                    // quantityInput.max = 10;
+                    // quantityInput.value = 1;
+                });
+        }
+
+        colorRadios.forEach(radio => {
+            radio.addEventListener('change', updateQuantity);
+        });
+
+        sizeRadios.forEach(radio => {
+            radio.addEventListener('change', updateQuantity);
+        });
+
+        // Gọi hàm updateQuantity() khi trang tải lần đầu
+        updateQuantity();
+    });
+    document.getElementById('quantity-input').addEventListener('input', function() {
+        const quantityInput = document.getElementById('quantity-input');
+        const maxQuantity = 10;
+
+        if (parseInt(quantityInput.value) > maxQuantity) {
+            quantityInput.value = maxQuantity;
+            showToast('You can only add a maximum of 10 items to the cart.', 'danger');
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInput = document.getElementById('quantity-input');
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+
+        function updateAddToCartButtonState() {
+            const quantity = parseInt(quantityInput.value, 10);
+            if (quantity <= 1) {
+                addToCartBtn.prop('disabled', false);
+            } else {
+                addToCartBtn.prop('disabled', true);
+            }
+        }
+
+        quantityInput.addEventListener('input', updateAddToCartButtonState);
+
+        // Kiểm tra trạng thái nút khi trang được tải xong
+        updateAddToCartButtonState();
     });
 </script>

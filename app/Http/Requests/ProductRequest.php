@@ -18,7 +18,8 @@ class ProductRequest extends FormRequest
     {
         return [
             'name_product' => 'required|string|max:255',
-            'category_id' => 'required|integer|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'catalogue_id' => 'required|exists:catalogues,id',
             'description' => 'required|string',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'productVariant' => 'required|array',
@@ -40,8 +41,10 @@ class ProductRequest extends FormRequest
             'name_product.string' => 'Tên sản phẩm phải là một chuỗi ký tự.',
             'name_product.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
             'category_id.required' => 'Danh mục sản phẩm là bắt buộc.',
-            'category_id.integer' => 'Danh mục sản phẩm phải là một số nguyên.',
             'category_id.exists' => 'Danh mục sản phẩm không tồn tại.',
+
+            'catalogue_id.required' => 'Danh mục con sản phẩm là bắt buộc.',
+            'catalogue_id.exists' => 'Danh mục sản phẩm không tồn tại.',
             'description.required' => 'Mô tả sản phẩm là bắt buộc.',
             'description.string' => 'Mô tả sản phẩm phải là một chuỗi ký tự.',
             'thumbnail.required' => 'Hình ảnh thumbnail là bắt buộc.',

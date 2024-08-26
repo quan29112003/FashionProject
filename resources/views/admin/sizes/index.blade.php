@@ -206,7 +206,7 @@
                         }
                     },
                     error: function(response) {
-                        alert('Phải nhập chữ in hoa hoặc số');
+                        alert('Trùng tên size hoặc chưa viết in hoa');
                     }
                 });
             });
@@ -239,7 +239,7 @@
                         }
                     },
                     error: function(response) {
-                        alert('Phải nhập chữ in hoa hoặc số');
+                        alert('Trùng tên size hoặc chưa viết in hoa');
                     }
                 });
             });

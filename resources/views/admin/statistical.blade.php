@@ -24,7 +24,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountSingleDate">0</span>đ
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountSingleDate">0</span>
                             </h4>
 
                         </div>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountDateRange">0</span>đ </h4>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span id="totalAmountDateRange">0</span> </h4>
 
                         </div>
                         <div class="avatar-sm flex-shrink-0">
@@ -264,7 +264,7 @@
                     date: date
                 },
                 success: function(response) {
-                    var formatter = new Intl.NumberFormat('en-US', {
+                    var formatter = new Intl.NumberFormat('vi-VN', {
                         style: 'currency',
                         currency: 'VND',
                         minimumFractionDigits: 0,
@@ -288,6 +288,12 @@
                     end_date: end_date
                 },
                 success: function(response) {
+                    var formatter = new Intl.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    });
                     $('#totalAmountDateRange').text(response.totalAmount);
                 }
             });
@@ -326,7 +332,7 @@
                         response.forEach(function(order) {
                             tbody.append(
                                 '<tr>' +
-                                '<td>' + order.total_amount + '</td>' +
+                                '<td>' + order.total_amount + '</td>' + 
                                 '<td>' + order.name + '</td>' +
                                 '<td>' + order.address + '</td>' +
                                 '<td>' + order.phone + '</td>' +

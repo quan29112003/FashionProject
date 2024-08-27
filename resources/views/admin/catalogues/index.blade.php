@@ -5,6 +5,19 @@
 @endsection
 
 @section('content')
+<style>
+    table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    /* Chỉ áp dụng cho cột "Địa chỉ" */
+    td:nth-child(3) {
+        white-space: nowrap;    /* Không cho phép văn bản xuống dòng */
+        overflow: hidden;       /* Ẩn phần tràn */
+        text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
+    }
+</style>
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -252,6 +265,7 @@
 
     <script>
         new DataTable("#example", {
+            responsive: false  /* Bật chế độ responsive */
             order: [
                 [0, 'desc']
             ]

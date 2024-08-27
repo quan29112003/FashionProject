@@ -141,8 +141,8 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="editCatalogueCategory" class="form-label">Category</label>
-                                        <select class="form-select" id="editCatalogueCategory" name="category_id"
+                                        <label for="editCatalogueCategory" class="form-label">Gender</label>
+                                        <select class="form-select" id="editCatalogueCategory" name="category_gender_id"
                                             required>
                                             @foreach ($category_gender as $ct)
                                                 <option value="{{ $ct->id }}">{{ $ct->name }}</option>

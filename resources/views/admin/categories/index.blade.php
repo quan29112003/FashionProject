@@ -177,16 +177,16 @@
         </div><!--end col-->
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h5 class="card-title mb-0">Danh sách danh mục giới tính</h5>
-                    {{-- <a href="{{ route('store-category') }}" class="btn btn-primary mb-3">Thêm mới</a> --}}
+                    <a href="{{ route('store-category') }}" class="btn btn-primary mb-3">Thêm mới</a>
                     <a href="javascript:void(0);" class="btn btn-primary mb-3" data-bs-toggle="modal"
                         data-bs-target="#addNewGenderItemModal">Thêm mới</a>
                 </div>
-                <!-- Add New Item Modal Pop up-->
+
                 <div class="modal fade" id="addNewGenderItemModal" tabindex="-1" aria-labelledby="addNewItemGenderModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -218,7 +218,6 @@
                     </div>
                 </div>
 
-                <!-- Edit Item Modal Pop up-->
                 <div class="modal fade" id="editItemGenderModal" tabindex="-1" aria-labelledby="editItemGenderModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -289,7 +288,7 @@
                 </div>
             </div>
         </div><!--end col-->
-    </div>
+    </div> --}}
 @endsection
 
 @section('style-libs')

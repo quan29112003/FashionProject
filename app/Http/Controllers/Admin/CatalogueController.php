@@ -54,6 +54,7 @@ class CatalogueController extends Controller
         $catalogue->name = $request->name;
         $catalogue->description = $request->description;
         $catalogue->category_id = $request->category_id;
+        $catalogue->category_gender_id = $request->category_gender_id;
         $catalogue->save();
 
         return response()->json(['success' => true]);

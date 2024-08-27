@@ -263,18 +263,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
 
-    <script>
+    {{-- <script>
         new DataTable("#example", {
             responsive: false  /* Bật chế độ responsive */
             order: [
                 [0, 'desc']
             ]
         });
-    </script>
+    </script> --}}
 
 
     <script>
         $(document).ready(function() {
+            var table = $('#example').DataTable({
+
+                order: [
+                    [0, 'desc']
+                ],
+                responsive: false
+            });
+
             $('#addNewItemForm').on('submit', function(e) {
                 e.preventDefault();
 

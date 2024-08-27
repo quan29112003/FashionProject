@@ -129,7 +129,7 @@
                                                     </td>
                                                     @php
                                         $statusClass = '';
-                                        switch ($od->status->name) {
+                                        switch ($to->status_name) {
                                             case 'Chờ xử lý':
                                                 $statusClass = 'bg-warning-subtle text-warning';
                                                 break;

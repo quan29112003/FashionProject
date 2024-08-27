@@ -176,7 +176,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <p>{{ $product->description }}</p>
+                            <p>{!! $product->description !!}</p>
                         </div>
                         <div class="tab-pane" id="tabs-2" role="tabpanel">
                             <p>{{ $product->specification }}</p>

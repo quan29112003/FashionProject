@@ -94,10 +94,10 @@ class ProductController extends Controller
     {
 
         $category = Category::query()->pluck('name', 'id')->all();
-        $product_color = ProductColor::query()->pluck('color', 'id');
+        $product_color = ProductColor::query()->pluck('color_code', 'id');
         $product_size = ProductSize::query()->pluck('size', 'id');
         $catalogue = Catalogue::query()->pluck('name','id');
-
+        // dd($product_color);
         return view('admin.products.create', compact('category', 'product_color', 'product_size','catalogue'));
     }
 

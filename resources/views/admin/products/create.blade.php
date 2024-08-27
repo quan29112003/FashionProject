@@ -125,11 +125,11 @@
 
                                     <select class="form-select" id="colorSelect" multiple
                                         aria-label="multiple select example">
-                                        @foreach ($product_color as $id => $color)
-                                            <option value="{{ $id }}">{{ $color }}</option>
+                                        @dump($product_color)
+                                        @foreach ($product_color as $id => $color_code)
+                                            <option value="{{ $id }}" style="background-color: {{ $color_code }};">{{ $color_code }}</option>
                                         @endforeach
                                     </select>
-
                                 </div>
 
                                 <div class="col-lg-6">

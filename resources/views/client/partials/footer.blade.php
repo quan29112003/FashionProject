@@ -70,8 +70,8 @@
                         <script>
                             document.write(new Date().getFullYear());
                         </script>
-                        All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i>
-                        by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        All rights reserved | This website is made with <i class="fa fa-heart" aria-hidden="true"></i>
+                        by <a href="#" target="_blank">FreshFusion</a>
                     </p>
                 </div>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -92,11 +92,11 @@
 </div>
 <!-- Search End -->
 
-<!-- Nút cuộn lên -->
+{{-- <!-- Nút cuộn lên -->
 <button class="btn btn-primary scroll-to-top" id="scrollToTopBtn">
     <span class="visually-hidden">Back to top</span>
     <i class="bi bi-arrow-up"></i> <!-- Bootstrap Icons -->
-</button>
+</button> --}}
 <!-- Js Plugins -->
 <!-- JS Plugins -->
 <script>

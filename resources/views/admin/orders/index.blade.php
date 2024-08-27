@@ -201,93 +201,161 @@
             var table = $('#example').DataTable({
                 order: [
                     [0, 'desc']
-                ]
+                ],
+                responsive: true
             });
-    // Danh sách các trạng thái và payment
-    let statusOrder = ['Chờ xử lý', 'Chưa xác nhận', 'Xác nhận', 'Đang chuẩn bị hàng', 'Đang giao hàng', 'Đã giao hàng','Đã hoàn thành','Đã hủy'];
-    let paymentStatus = ['Chưa thanh toán', 'Đã thanh toán'];
+            // Danh sách các trạng thái và payment
+            let statusOrder = ['Chờ xử lý', 'Chưa xác nhận', 'Xác nhận', 'Đang chuẩn bị hàng', 'Đang giao hàng',
+                'Đã giao hàng', 'Đã hoàn thành', 'Đã hủy'
+            ];
+            let paymentStatus = ['Chưa thanh toán', 'Đã thanh toán'];
+            // Function to bind edit button click event
+            function bindEditButtonClick() {
+                // $('.edit-item-btn').off('click').on('click', function() {
+                //     let id = $(this).data('id');
+                //     let statusId = $(this).data('status');
+                //     let paymentId = $(this).data('payment');
 
-    $('.edit-item-btn').on('click', function() {
-        let id = $(this).data('id');
-        let statusId = $(this).data('status');
-        let paymentId = $(this).data('payment');
+                //     $('#editOrderId').val(id);
+                //     $('#editOrderStatus').val(statusId);
+                //     $('#editOrderPayment').val(paymentId);
+                //     $('#editItemForm').attr('action', 'edit-order/' + id);
 
-        $('#editOrderId').val(id);
-        $('#editOrderStatus').val(statusId);
-        $('#editOrderPayment').val(paymentId);
-        $('#editOrderPayment').data('original-value', paymentId);  // Lưu giá trị gốc của payment
-        $('#editItemForm').attr('action', 'edit-order/' + id);
+                //     $('#editItemModal').modal('show');
+                // });
+                $('.edit-item-btn').on('click', function() {
+                    let id = $(this).data('id');
+                    let statusId = $(this).data('status');
+                    let paymentId = $(this).data('payment');
 
-        // Lấy tên trạng thái hiện tại từ ID
-        let currentStatus = statusOrder[statusId - 1];
-        let currentPayment = paymentStatus[paymentId - 1];
+                    $('#editOrderId').val(id);
+                    $('#editOrderStatus').val(statusId);
+                    $('#editOrderPayment').val(paymentId);
+                    $('#editOrderPayment').data('original-value', paymentId); // Lưu giá trị gốc của payment
+                    $('#editItemForm').attr('action', 'edit-order/' + id);
 
-        // Vô hiệu hóa các tùy chọn trạng thái trước trạng thái hiện tại
-        $('#editOrderStatus option').each(function() {
-            let optionText = $(this).text();
-            if (statusOrder.indexOf(optionText) < statusOrder.indexOf(currentStatus)) {
-                $(this).prop('disabled', true);
-            } else {
-                $(this).prop('disabled', false);
+                    // Lấy tên trạng thái hiện tại từ ID
+                    let currentStatus = statusOrder[statusId - 1];
+                    let currentPayment = paymentStatus[paymentId - 1];
+
+                    // Vô hiệu hóa các tùy chọn trạng thái trước trạng thái hiện tại
+                    $('#editOrderStatus option').each(function() {
+                        let optionText = $(this).text();
+                        if (statusOrder.indexOf(optionText) < statusOrder.indexOf(currentStatus)) {
+                            $(this).prop('disabled', true);
+                        } else {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+
+                    // Vô hiệu hóa các tùy chọn payment trước payment hiện tại
+                    $('#editOrderPayment option').each(function() {
+                        let optionText = $(this).text();
+                        if (paymentStatus.indexOf(optionText) < paymentStatus.indexOf(
+                                currentPayment)) {
+                            $(this).prop('disabled', true);
+                        } else {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+
+                    // Vô hiệu hóa dropdown payment nếu paymentId là giá trị cuối cùng
+                    if (paymentId == 2) {
+                        $('#editOrderPayment').prop('disabled', true).removeAttr('name');
+                    } else {
+                        $('#editOrderPayment').prop('disabled', false).attr('name', 'payment_id');
+                    }
+
+                    $('#editItemModal').modal('show');
+                });
             }
-        });
 
-        // Vô hiệu hóa các tùy chọn payment trước payment hiện tại
-        $('#editOrderPayment option').each(function() {
-            let optionText = $(this).text();
-            if (paymentStatus.indexOf(optionText) < paymentStatus.indexOf(currentPayment)) {
-                $(this).prop('disabled', true);
-            } else {
-                $(this).prop('disabled', false);
-            }
-        });
+            // Initial binding
+            bindEditButtonClick();
 
-        // Vô hiệu hóa dropdown payment nếu paymentId là giá trị cuối cùng
-        if (paymentId == 2) {
-            $('#editOrderPayment').prop('disabled', true).removeAttr('name');
-        } else {
-            $('#editOrderPayment').prop('disabled', false).attr('name', 'payment_id');
-        }
+            // Rebind event listeners after table draw (including after row expand/collapse)
+            table.on('draw.dt responsive-display', function() {
+                bindEditButtonClick();
+            });
 
-        $('#editItemModal').modal('show');
-    });
+            $('.edit-item-btn').on('click', function() {
+                let id = $(this).data('id');
+                let statusId = $(this).data('status');
+                let paymentId = $(this).data('payment');
 
-    $('#editItemForm').on('submit', function(e) {
-        e.preventDefault();
+                $('#editOrderId').val(id);
+                $('#editOrderStatus').val(statusId);
+                $('#editOrderPayment').val(paymentId);
+                $('#editOrderPayment').data('original-value', paymentId); // Lưu giá trị gốc của payment
+                $('#editItemForm').attr('action', 'edit-order/' + id);
 
-        // Kích hoạt lại tất cả các tùy chọn trạng thái và payment trước khi gửi form
-        $('#editOrderStatus option').prop('disabled', false);
-        $('#editOrderPayment option').prop('disabled', false);
+                // Lấy tên trạng thái hiện tại từ ID
+                let currentStatus = statusOrder[statusId - 1];
+                let currentPayment = paymentStatus[paymentId - 1];
 
-        // Kiểm tra giá trị của payment trước khi gửi form
-        let paymentSelect = $('#editOrderPayment');
-        if (paymentSelect.prop('disabled')) {
-            paymentSelect.removeAttr('name');
-        }
+                // Vô hiệu hóa các tùy chọn trạng thái trước trạng thái hiện tại
+                $('#editOrderStatus option').each(function() {
+                    let optionText = $(this).text();
+                    if (statusOrder.indexOf(optionText) < statusOrder.indexOf(currentStatus)) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
 
-        let formData = $(this).serialize();
+                // Vô hiệu hóa các tùy chọn payment trước payment hiện tại
+                $('#editOrderPayment option').each(function() {
+                    let optionText = $(this).text();
+                    if (paymentStatus.indexOf(optionText) < paymentStatus.indexOf(currentPayment)) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
 
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: formData,
-            success: function(response) {
-                if (response.success) {
-                    $('#editItemModal').modal('hide');
-                    location.reload();
+                // Vô hiệu hóa dropdown payment nếu paymentId là giá trị cuối cùng
+                if (paymentId == 2) {
+                    $('#editOrderPayment').prop('disabled', true).removeAttr('name');
                 } else {
-                    alert('An error occurred');
+                    $('#editOrderPayment').prop('disabled', false).attr('name', 'payment_id');
                 }
-            },
-            error: function(response) {
-                console.log(response.responseText);
-                alert('An error occurred');
-            }
+
+                $('#editItemModal').modal('show');
+            });
+
+            $('#editItemForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Kích hoạt lại tất cả các tùy chọn trạng thái và payment trước khi gửi form
+                $('#editOrderStatus option').prop('disabled', false);
+                $('#editOrderPayment option').prop('disabled', false);
+
+                // Kiểm tra giá trị của payment trước khi gửi form
+                let paymentSelect = $('#editOrderPayment');
+                if (paymentSelect.prop('disabled')) {
+                    paymentSelect.removeAttr('name');
+                }
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#editItemModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('An error occurred');
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response.responseText);
+                        alert('An error occurred');
+                    }
+                });
+            });
         });
-    });
-});
-
-
-
     </script>
 @endsection

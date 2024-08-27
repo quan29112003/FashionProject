@@ -119,7 +119,6 @@ class ProductController extends Controller
             $dataProduct['is_good_deal']  ??= 0;
             $dataProduct['is_show_home']  ??= 0;
 
-
             $product = Product::query()->create([
                 'name_product' => $dataProduct['name_product'],
                 'category_id' => $dataProduct['category_id'],

@@ -13,6 +13,11 @@ class Product extends Model
         'category_id',
         'name_product',
         'description',
+        'catalogue_id',
+        'is_active',
+        'is_hot',
+        'is_good_deal',
+        'is_show_home',
         'thumbnail',
         'quantity'
 
